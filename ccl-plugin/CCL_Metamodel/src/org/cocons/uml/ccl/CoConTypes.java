@@ -1,0 +1,15 @@
+package org.cocons.uml.ccl;
+
+/**
+ * Collection of constants describing cocon types.
+ * Creation date: (15.01.2002 16:56:39)
+ * @author: Fadi Chabarek
+ */
+public interface CoConTypes {
+
+	/**
+	 * Describing the SetToValueIn-Cocon-Type
+	 */
+	public static final String SET_TO_VALUE_IN_TYPE = "SetToValueIn";
+
+}
