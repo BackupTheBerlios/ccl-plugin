@@ -22,6 +22,7 @@ import org.cocons.uml.ccl.comparators.ComparatorFactory;
  */
 public class CrNotTheSameAs extends CrCoCon {
 
+
   // only for testing purpose
   MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
   static boolean gemacht = false;
