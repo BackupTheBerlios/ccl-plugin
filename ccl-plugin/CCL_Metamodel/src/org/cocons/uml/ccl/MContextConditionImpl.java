@@ -1204,4 +1204,14 @@ public class MContextConditionImpl extends MBaseImpl
     return "ContextCondition";
   }
 
+  public void updateConditionedModelElements(){
+
+  }
+
+  private transient Vector conditionedModelElements;
+
+  public Vector getConditionedModelElements(){
+    return conditionedModelElements;
+  }
+
 }
