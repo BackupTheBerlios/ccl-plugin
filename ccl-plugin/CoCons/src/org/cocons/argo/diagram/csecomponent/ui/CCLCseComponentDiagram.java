@@ -30,12 +30,24 @@ import org.cocons.uml.ccl.*;
 
 
 public class CCLCseComponentDiagram extends CCLDiagram{
- protected static Action _actionCseComponent =
-		new CmdCreateNode(MClassImpl.class, "CseComponent");
 
-   static protected int _CseComponentDiagramSerial=1;
+    protected static Action _actionCseComponent =
+		new CmdCreateNode(MClassImpl.class, "CseComponent");
+    
+    protected static Action _actionConnector =
+		new CmdCreateNode(MInterfaceImpl.class, "Connector");
+    
+    
+    protected static Action _actionDep =
+	new CmdSetMode(ModeCreatePolyEdge.class,
+		       "edgeClass", MDependencyImpl.class,
+		       "Dependency");
+    
+    
+    
+    static protected int _CseComponentDiagramSerial=1;
  
-public CCLCseComponentDiagram() {
+    public CCLCseComponentDiagram() {
 	try { setName("cse component diagram " + _CseComponentDiagramSerial++); }
 	catch (PropertyVetoException pve) { }
     }
@@ -54,7 +66,7 @@ public CCLCseComponentDiagram() {
 	setLayer(lay);
 	CseComponentDiagramRenderer rend = new CseComponentDiagramRenderer(); // singleton
 	lay.setGraphNodeRenderer(rend);
-	//lay.setGraphEdgeRenderer(rend);
+	lay.setGraphEdgeRenderer(rend);
     }
     
     /** initialize the toolbar for this diagram type */
@@ -67,6 +79,8 @@ public CCLCseComponentDiagram() {
 	_toolBar.addSeparator();
 		
         _toolBar.add(_actionCseComponent);
+        _toolBar.add(_actionConnector);
+        _toolBar.add(_actionDep);
 	_toolBar.addSeparator();
 	
         _toolBar.add(ActionManageContextPropertyTags.SINGLETON);

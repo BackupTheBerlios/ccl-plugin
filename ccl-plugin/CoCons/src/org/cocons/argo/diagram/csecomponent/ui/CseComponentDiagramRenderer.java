@@ -22,19 +22,21 @@ import org.argouml.uml.diagram.static_structure.ui.*;
 import org.cocons.uml.ccl.*;
 import org.cocons.argo.diagram.ui.*;
 
-public class CseComponentDiagramRenderer implements GraphNodeRenderer {
+public class CseComponentDiagramRenderer    
+    implements GraphNodeRenderer, GraphEdgeRenderer {
     
     /** Return a Fig that can be used to represent the given node */
     
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
 	
 	if (node instanceof MClass) return new FigCseComponent(gm, node);
+        if (node instanceof MInterface) return new FigConnector(gm,node);
 	if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
 	return null;
     }
     
      /** Return a Fig that can be used to represent the given edge */
-   /* public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge) {
+    public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge) {
 	if (edge instanceof MDependency) {
 	    
 	    MDependency dep = (MDependency) edge;
@@ -55,28 +57,10 @@ public class CseComponentDiagramRenderer implements GraphNodeRenderer {
 	    return depFig;
 	}
 	
-         if (edge instanceof MAssociation) {
-	     MAssociation asc = (MAssociation) edge;
-	     FigAssociation ascFig = new FigAssociation(asc);
-	     Collection connections = asc.getConnections();
-	     if (connections == null) System.out.println("null connections....");
-	     Object[] connArray = connections.toArray();
-	     MAssociationEnd fromEnd = (MAssociationEnd) connArray[0];
-	     MClassifier fromCls = (MClassifier) fromEnd.getType();
-	     MAssociationEnd toEnd = (MAssociationEnd) connArray[1];
-	     MClassifier toCls = (MClassifier) toEnd.getType();
-	     FigNode fromFN = (FigNode) lay.presentationFor(fromCls);
-	     FigNode toFN = (FigNode) lay.presentationFor(toCls);
-	     ascFig.setSourcePortFig(fromFN);
-	     ascFig.setSourceFigNode(fromFN);
-	     ascFig.setDestPortFig(toFN);
-	     ascFig.setDestFigNode(toFN);
-	     ascFig.getFig().setLayer(lay);
-	     return ascFig;
-	 }
+        
 	 return null;
     }
-    */
+   
     
     static final long serialVersionUID = 675407719309039112L;
     
