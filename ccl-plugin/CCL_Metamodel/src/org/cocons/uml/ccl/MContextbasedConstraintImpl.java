@@ -88,7 +88,25 @@ public class MContextbasedConstraintImpl
 	 *         return null if this CoCon hasn't been initialized yet.
 	 */
 	public Vector getTargetElements() {
-          return null;
+          if ((_targetSetIndirectElements!=null) && (_targetSetDirectElements!=null)) {
+            // return direct and indirect elements
+            Vector allElements = new Vector();
+            for (int i=0; i<_targetSetDirectElements.size(); i++) {
+              allElements.add(_targetSetDirectElements.elementAt(i));
+            }
+            for (int i=0; i<_targetSetIndirectElements.size(); i++) {
+              allElements.add(_targetSetIndirectElements.elementAt(i));
+            }
+            return allElements;
+          } else if (_targetSetIndirectElements!=null) {
+            //return only the indirect elements
+            return _targetSetIndirectElements;
+          } else if (_targetSetDirectElements!=null) {
+            //return only direct elements
+            return _targetSetDirectElements;
+          } else {
+            return null;
+          }
 	}
 
 	/**
