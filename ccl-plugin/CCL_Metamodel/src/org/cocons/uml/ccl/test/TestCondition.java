@@ -18,7 +18,7 @@ import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl;
 import ru.novosoft.uml.foundation.core.MClassImpl;
 
-/**
+import org.cocons.uml.ccl.CCLConstants;import org.cocons.uml.ccl.BaseClasses;/**
 * Tests the ConditionImpl class from org.cocons.uml.ccl. 
 */
 public class TestCondition extends junit.framework.TestCase {
@@ -128,6 +128,9 @@ public class TestCondition extends junit.framework.TestCase {
 
 		// build up a valid conditional tree
 		contextCondition.setLogicOperation(or);
+		contextCondition.setBaseClass(BaseClasses.ELEMENT);
+		contextCondition.setRange(CCLConstants.INDIRECT_RANGE_ALL);
+		
 		cond1.setComparison(equationComparison);
 		cond2.setComparison(equationComparison);
 
