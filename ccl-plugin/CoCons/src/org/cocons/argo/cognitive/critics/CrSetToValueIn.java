@@ -27,19 +27,7 @@ public class CrSetToValueIn extends CrCoCon {
 			"Das von einem SetToValueIn Cocon aufgestellte " + "kontextbasierendes Constraint wurde verletzt."); 
 	}
 
-	/**
-	 * Predicate showing weather this critic found a problem in the
-	 * argouml-model or not.
-	 * @return boolean true if a SetToValueIn-Contextbased Constraint is violated.
-	 */
-	public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
 
-		if (dm instanceof MContextbasedConstraint) {
-			MContextbasedConstraint cocon = (MContextbasedConstraint) dm;
-			return predicate(cocon);
-		}
-		return NO_PROBLEM;
-	}
 
 	/**
 	 * Checks weather the given Contextbased Constraint has the type SetToValueIn
@@ -48,7 +36,7 @@ public class CrSetToValueIn extends CrCoCon {
 	 * @return boolean true - if the given cocon is violated.
 	 * @param cocon org.cocons.uml.ccl.MContextbasedConstraint a SetToValueInCocon
 	 */
-	private boolean predicate(MContextbasedConstraint cocon) {
+	public boolean predicate(MContextbasedConstraint cocon) {
 
 		//the constraint is violated, if a model element of the target set
 		// is not in the scoped set.
