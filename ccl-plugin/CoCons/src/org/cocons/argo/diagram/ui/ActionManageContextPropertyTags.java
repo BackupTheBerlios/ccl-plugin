@@ -288,10 +288,25 @@ public class ActionManageContextPropertyTags extends UMLAction  {
     }
 
     // ----- Check methods for user inserts -----
+    /* first version
     private boolean checkTagName(String tagName) {
       for (int i = 0; i < tagName.length(); i++) {
         if (Character.isLetterOrDigit(tagName.charAt(i))||(tagName.charAt(i)=='_')||(tagName.charAt(i)=='-')) {
           if (((tagName.charAt(i)=='_')||(tagName.charAt(i)=='-'))&&(i == tagName.length()-1)) return(false);
+        }
+        else return(false);
+      }
+      return(true);
+    }
+    */
+    private boolean checkTagName(String tagName) {
+      if ((tagName.charAt(0)=='_')||(tagName.charAt(0)=='-')||(tagName.charAt(0)==' ')) return(false);
+      int stringLength = tagName.length();
+      if ((tagName.charAt(stringLength-1)=='_')||(tagName.charAt(stringLength-1)=='-')||(tagName.charAt(stringLength-1)==' ')) return(false);
+
+      for (int i = 0; i < stringLength; i++) {
+        if (Character.isLetterOrDigit(tagName.charAt(i))||(tagName.charAt(i)=='_')||(tagName.charAt(i)=='-')||(tagName.charAt(i)==' ')) {
+          // alles bestens
         }
         else return(false);
       }
@@ -515,10 +530,25 @@ public class ActionManageContextPropertyTags extends UMLAction  {
     }
 
     // ----- Check methods for user inserts -----
+    /* first version
     private boolean checkTagName(String tagName) {
       for (int i = 0; i < tagName.length(); i++) {
         if (Character.isLetterOrDigit(tagName.charAt(i))||(tagName.charAt(i)=='_')||(tagName.charAt(i)=='-')) {
           if (((tagName.charAt(i)=='_')||(tagName.charAt(i)=='-'))&&(i == tagName.length()-1)) return(false);
+        }
+        else return(false);
+      }
+      return(true);
+    }
+    */
+    private boolean checkTagName(String tagName) {
+      if ((tagName.charAt(0)=='_')||(tagName.charAt(0)=='-')||(tagName.charAt(0)==' ')) return(false);
+      int stringLength = tagName.length();
+      if ((tagName.charAt(stringLength-1)=='_')||(tagName.charAt(stringLength-1)=='-')||(tagName.charAt(stringLength-1)==' ')) return(false);
+
+      for (int i = 0; i < stringLength; i++) {
+        if (Character.isLetterOrDigit(tagName.charAt(i))||(tagName.charAt(i)=='_')||(tagName.charAt(i)=='-')||(tagName.charAt(i)==' ')) {
+          // alles bestens
         }
         else return(false);
       }
@@ -710,10 +740,10 @@ public class ActionManageContextPropertyTags extends UMLAction  {
     private String infoVCPL = "\n"+
     "  Okay, hier kurz etwas zu den Konventionen, die bei der Definition\n"+
     "  von Context Property Tags zu beachten sind, weil wir sie so festgelegt haben.\n"+
-    "  ( ... aus Zeitmangel haben wir den Ball erstmal flach gehalten ... )\n\n"+
+    "  \n"+
     "  Tag Name:\n"+
-    "  Gültige Zeichen für die Eingabe sind Buchstaben, Ziffern, \"_\" und \"-\".\n"+
-    "  Leerzeichen sind nicht zulässig. \n"+
+    "  Gültige Zeichen für die Eingabe sind Buchstaben, Ziffern, \"_\" und \"-\" und Leerzeichen.\n"+
+    "  Ein gültiger Tag-Name muss mit einem Buchstaben oder einer Ziffer beginnen und enden. \n"+
     "\n"+
     "  List Of Strings:\n"+
     "  Gültige Zeichen für die Definition eines validen Strings sind Buchstaben, Ziffern, \"_\" und \"-\".\n"+
