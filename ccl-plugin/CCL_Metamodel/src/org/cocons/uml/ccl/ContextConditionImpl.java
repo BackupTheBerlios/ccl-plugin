@@ -95,10 +95,12 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	  * @return boolean if every tree node is valid.
 	  */
 	public synchronized boolean isValid() {
-
-		// TODO: check if BaseClasses or CCLConstant define the range and the base class...
-
-		return false;
+		
+		boolean bcValid = isBaseClassValid();
+		boolean rValid = isRangeValid();
+		boolean valid = super.isValid();
+		
+		return isBaseClassValid() && isRangeValid() && super.isValid();
 	} 
 	
 	/**
@@ -109,4 +111,49 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	public void setRange(String new_range) {
 		_range = new_range;
 	}
-}
+/**
+ * Checks weather the context condition's base class is valid.
+ * Creation date: (08.02.2002 13:37:45)
+ * @return boolean true - if the base class is defined in BaseClasses.
+ * @see org.cocons.uml.ccl.BaseClasses
+ */
+private boolean isBaseClassValid() {
+
+	boolean valid = false;
+
+	if(this.getBaseClass() == null) {
+		return false;
+	}
+
+	String[] types = BaseClasses.getAllAvailableTypes();
+
+	for (int i = 0; i < types.length; i++){
+		valid = valid || types[i].compareToIgnoreCase(this.getBaseClass()) == 0;
+	}
+	
+	return valid;
+}/**
+ * Checks weather the context condition's range is valid.
+ * Creation date: (08.02.2002 13:37:45)
+ * @return boolean true - if the range is given through an (long) integer or one 
+ * of its defined keywords such as ALL.
+ * @see org.cocons.uml.ccl.CCLConstants
+ */
+private boolean isRangeValid() {
+
+	boolean valid = true;
+
+	if(getRange() == null) {
+		return false;
+	} 
+
+	try {
+		Long.parseLong(getRange());
+	} catch (NumberFormatException nfe) {
+		valid = false;
+	}
+
+	valid = valid || getRange().compareToIgnoreCase(CCLConstants.INDIRECT_RANGE_ALL) == 0;
+
+	return valid;
+}}

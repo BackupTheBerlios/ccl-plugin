@@ -11,24 +11,24 @@ import junit.framework.Test;
  * @author Philipp Schumacher, Fadi Chabarek
  * @version 1.0
  */
-
 public class AllTest {
 
-  /**
-   * Runs all test cases in this package.
-   */
-  public static void main(String[] args) {
-	junit.swingui.TestRunner.run(AllTest.class);
-  }  
+	/**
+	 * Runs all test cases in this package.
+	 */
+	public static void main(String[] args) {
+		junit.swingui.TestRunner.run(AllTest.class);
+	}
 
-  /**
-   * Returns a test suite containing all test cases of this package.
-   */
-  public static Test suite() {
-	TestSuite suite = new TestSuite();
-	suite.addTestSuite(TestComparison.class);
-	suite.addTestSuite(TestCondition.class);
-	return suite;
-  }  
+	/**
+	 * Returns a test suite containing all test cases of this package.
+	 */
+	public static Test suite() {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(TestComparison.class);
+		suite.addTestSuite(TestCondition.class);
+		suite.addTestSuite(TestContextCondition.class);
+		return suite;
+	}
 
 }
