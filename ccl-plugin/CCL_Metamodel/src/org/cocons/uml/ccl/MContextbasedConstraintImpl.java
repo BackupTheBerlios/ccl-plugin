@@ -41,7 +41,7 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
 		getMethod1(MContextbasedConstraintImpl.class, "addDetail", MAttribute.class);
 	private final static Method
 		_details_removeMethod = 
-		getMethod1(MModelElementImpl.class, "removeDetail", MAttribute.class);
+		getMethod1(MContextbasedConstraintImpl.class, "removeDetail", MAttribute.class);
 	
 	// data fields (Detail)
 	Collection _details       = Collections.EMPTY_LIST;
