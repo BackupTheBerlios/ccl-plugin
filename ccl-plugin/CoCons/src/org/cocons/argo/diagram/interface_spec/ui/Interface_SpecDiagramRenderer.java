@@ -41,8 +41,7 @@ public class Interface_SpecDiagramRenderer
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
 
         if (node instanceof MClass) {
-          System.out.println("Renderer: node "+((MClass)node).getStereotype());
-          return new FigClass(gm,node);//FigInterface_Spec(gm, node);//
+          return new FigInterface_Spec(gm,node);//FigClass(gm, node);
         }
         else if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
 

@@ -148,10 +148,15 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
     if (_nodes.contains(node)) return false;
     if ( node instanceof MClass ) {
       MClass nodeClass = (MClass)node;
-      System.out.println("type: "+nodeClass.getStereotype());
-      String stereotype = nodeClass.getStereotype().getName();
-      return ( stereotype.equals("interface spec") || stereotype.equals("type") ||
-            stereotype.equals("info type") );
+      MStereotype stereotype = nodeClass.getStereotype();
+      if ( stereotype == null ) {
+        stereotype = new MStereotypeImpl();
+        stereotype.setName("interface spec");
+        nodeClass.setStereotype(stereotype);
+      }
+      String stereotypeN = nodeClass.getStereotype().getName();
+      return ( stereotypeN.equals("interface spec") || stereotypeN.equals("type") ||
+            stereotypeN.equals("info type") );
     }
     else return false;
   }

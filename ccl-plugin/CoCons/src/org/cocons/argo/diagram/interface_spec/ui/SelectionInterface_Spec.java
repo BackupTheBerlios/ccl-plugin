@@ -23,7 +23,6 @@ import org.cocons.uml.ccl.*;
 public class SelectionInterface_Spec extends SelectionWButtons {
   ////////////////////////////////////////////////////////////////
   // constants
-  public static Icon inherit = ResourceLoader.lookupIconResource("Generalization");
   public static Icon assoc = ResourceLoader.lookupIconResource("Association");
   public static Icon compos = ResourceLoader.lookupIconResource("CompositeAggregation");
 
@@ -61,19 +60,9 @@ public class SelectionInterface_Spec extends SelectionWButtons {
     int cy = _content.getY();
     int cw = _content.getWidth();
     int ch = _content.getHeight();
-    int iw = inherit.getIconWidth();
-    int ih = inherit.getIconHeight();
     int aw = assoc.getIconWidth();
     int ah = assoc.getIconHeight();
-    if (hitAbove(cx + cw/2, cy, iw, ih, r)) {
-      h.index = 10;
-      h.instructions = "Add a superclass";
-    }
-    else if (hitBelow(cx + cw/2, cy + ch, iw, ih, r)) {
-      h.index = 11;
-      h.instructions = "Add a subclass";
-    }
-    else if (hitLeft(cx + cw, cy + ch/2, aw, ah, r)) {
+    if (hitLeft(cx + cw, cy + ch/2, aw, ah, r)) {
       h.index = 12;
       h.instructions = "Add an associated class";
     }
@@ -99,12 +88,6 @@ public class SelectionInterface_Spec extends SelectionWButtons {
     // The next two lines are necessary to get the GraphModel,
     // in the DeploymentDiagram there are no Generalizations
     Editor ce = Globals.curEditor();
-    GraphModel gm = ce.getGraphModel();
-
-    if (!(gm instanceof DeploymentDiagramGraphModel)) {
-      paintButtonAbove(inherit, g, cx + cw/2, cy, 10);
-      paintButtonBelow(inherit, g, cx + cw/2, cy + ch, 11);
-    }
     if (_useComposite) {
       paintButtonLeft(compos, g, cx + cw, cy + ch/2, 12);
       paintButtonRight(compos, g, cx, cy + ch/2, 13);
@@ -132,17 +115,6 @@ public class SelectionInterface_Spec extends SelectionWButtons {
     int bx = mX, by = mY;
     boolean reverse = false;
     switch (hand.index) {
-    case 10: //add superclass
-      edgeClass = ru.novosoft.uml.foundation.core.MGeneralizationImpl.class;
-      by = cy;
-      bx = cx + cw/2;
-      break;
-    case 11: //add subclass
-      edgeClass = ru.novosoft.uml.foundation.core.MGeneralizationImpl.class;
-      reverse = true;
-      by = cy + ch;
-      bx = cx + cw/2;
-      break;
     case 12: //add assoc
       edgeClass = ru.novosoft.uml.foundation.core.MAssociationImpl.class;
       by = cy + ch/2;
@@ -192,18 +164,7 @@ public class SelectionInterface_Spec extends SelectionWButtons {
 					 Math.max(0, fc.getY() - 200),
 					 fc.getWidth() + 400,
 					 fc.getHeight() + 400);
-    if (buttonCode == 10) {
-      newFC.setLocation(fc.getX(), Math.max(0, fc.getY() - 200));
-      outputRect.height = 200;
-      lay.bumpOffOtherNodesIn(newFC, outputRect, false, false);
-    }
-    else if (buttonCode == 11) {
-      newFC.setLocation(fc.getX(), fc.getY() + fc.getHeight() + 100);
-      outputRect.y = fc.getY() + fc.getHeight() + 100;
-      outputRect.height = 200;
-      lay.bumpOffOtherNodesIn(newFC, outputRect, false, false);
-    }
-    else if (buttonCode == 12) {
+   if (buttonCode == 12) {
       newFC.setLocation(fc.getX() + fc.getWidth() + 100, fc.getY());
       outputRect.x = fc.getX()+ fc.getWidth() + 100 ;
       outputRect.width = 200;
@@ -224,9 +185,7 @@ public class SelectionInterface_Spec extends SelectionWButtons {
     Point newFCCenter = newFC.center();
     edgeShape.addPoint(newFCCenter.x, newFCCenter.y);
     Object newEdge = null;
-    if (buttonCode == 10) newEdge = addSuperClass(mgm, cls, newNode);
-    else if (buttonCode == 11) newEdge = addSubClass(mgm, cls, newNode);
-    else if (buttonCode == 12) newEdge = addAssocClassRight(mgm, cls, newNode);
+    if (buttonCode == 12) newEdge = addAssocClassRight(mgm, cls, newNode);
     else if (buttonCode == 13) newEdge = addAssocClassLeft(mgm, cls, newNode);
     FigEdge fe = (FigEdge) lay.presentationFor(newEdge);
     edgeShape.setLineColor(Color.black);
@@ -236,15 +195,7 @@ public class SelectionInterface_Spec extends SelectionWButtons {
     ce.getSelectionManager().select(fc);
   }
 
-  public Object addSuperClass(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
-    return mgm.connect(cls, newCls, MGeneralizationImpl.class);
-  }
 
-  public Object addSubClass(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
-    return mgm.connect(newCls, cls, MGeneralizationImpl.class);
-  }
 
   public Object addAssocClassRight(MutableGraphModel mgm, MClass cls,
 			    MClass newCls) {
@@ -258,6 +209,12 @@ public class SelectionInterface_Spec extends SelectionWButtons {
 
   ////////////////////////////////////////////////////////////////
   // event handlers
+
+  public void paintButtonAbove(Icon i, Graphics g, int x, int y, int hi) {
+  }
+
+  public void paintButtonBelow(Icon i, Graphics g, int x, int y, int hi) {
+  }
 
 
   public void mouseEntered(MouseEvent me) {
