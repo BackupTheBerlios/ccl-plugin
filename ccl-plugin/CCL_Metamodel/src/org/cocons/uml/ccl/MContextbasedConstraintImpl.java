@@ -188,6 +188,7 @@ public class MContextbasedConstraintImpl
           } else {
             // all indirect associations are bound by OR
             _scopeSet = conditions;
+            _scopeSetIndirectElements = new Vector();
             for (int j=0; j<conditions.size(); j++) {
               ContextCondition condition = (ContextCondition)conditions.elementAt(j);
               // and get all model elements that belong to this condition
@@ -219,6 +220,7 @@ public class MContextbasedConstraintImpl
           } else {
             // all indirect associations are bound by OR
             _targetSet = conditions;
+            _targetSetIndirectElements = new Vector();
             for (int j=0; j<conditions.size(); j++) {
               ContextCondition condition = (ContextCondition)conditions.elementAt(j);
               // and get all model elements that belong to this condition

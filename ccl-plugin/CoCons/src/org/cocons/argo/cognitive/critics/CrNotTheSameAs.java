@@ -134,11 +134,11 @@ public class CrNotTheSameAs extends CrCoCon {
       Vector targetSet = cocon.getTargetElements();
       Vector scopeSet = cocon.getScopedElements();
       for (int t = 0; t < targetSet.size(); t++) {
-	if (!scopeSet.contains(targetSet.elementAt(t))) {
+	if (scopeSet.contains(targetSet.elementAt(t))) {
           // the constraint is violated
           MModelElement violationElement = (MModelElement)targetSet.elementAt(t);
           setDescription("The model element " + violationElement.getName() +
-            "is associated both in the target and scope set " +
+            " tis associated both in the target and scope set " +
             "of a NotTheSameAs Contextbased Constraint.");
 	  return PROBLEM_FOUND;
 	}
