@@ -2,7 +2,7 @@
 // File: CCLBusiness_TypeDiagram.java
 // Classes: CCLBusiness_TypeDiagram
 // Original Author: jgusulde@cs.tu-berlin.de
-// $Id: CCLBusiness_TypeDiagram.java,v 1.1 2001/10/31 14:19:31 jgusulde Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.2 2001/11/05 21:05:15 fchabar Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -22,6 +22,7 @@ import org.argouml.ui.*;
 import org.argouml.uml.ui.*;
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.uml.diagram.static_structure.*;
+import org.argouml.uml.diagram.static_structure.ui.ClassDiagramRenderer;
 
 import org.cocons.argo.diagram.ui.CCLDiagram;
 
