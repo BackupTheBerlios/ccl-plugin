@@ -214,14 +214,34 @@ public class VCPLTranslator {
         correctStrings.addElement(correctString);
       }
     }
+    // Duplikate entfernen
+    Vector noDublicatesCorrectStrings = new Vector();
+    deleteDuplicates(correctStrings,noDublicatesCorrectStrings);
     // leerzeichenbereinigte Strings wieder kommagetrennt zusammensetzen
     String formatedString = "";
-    for (int i = 0; i < correctStrings.size(); i++) {
-      formatedString = formatedString + "," + (String)correctStrings.elementAt(i);
+    for (int i = 0; i < noDublicatesCorrectStrings.size(); i++) {
+      formatedString = formatedString + "," + (String)noDublicatesCorrectStrings.elementAt(i);
     }
     // "Startkomma" entfernen
     formatedString = formatedString.substring(1);
     return("\"List Of Strings\" ["+formatedString+"]");
+  }
+
+  private void deleteDuplicates(Vector stringVector, Vector resultVector) {
+    for (int i = 0; i < stringVector.size(); i++) {
+      String test = (String)stringVector.elementAt(i);
+      if (!isStringInVector(test,resultVector,resultVector.size())) {
+        resultVector.addElement(test);
+      }
+    }
+  }
+  private boolean isStringInVector(String string, Vector stringVector, int vectorSize) {
+    for (int i = 0; i < vectorSize; i++) {
+      if (((String)stringVector.elementAt(i)).equals(string)) {
+        return(true);
+      }
+    }
+    return(false);
   }
 
   private String deleteSpaces(String string) {

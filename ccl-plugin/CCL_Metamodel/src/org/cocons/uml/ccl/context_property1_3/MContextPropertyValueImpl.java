@@ -58,6 +58,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         private Vector _stringDependencies;
 
         private int _valuesCount;
+        private int _changeCounter = 0;
         private boolean _valuesSelected = false;
 
         private Vector _definedIntegers;
@@ -255,6 +256,167 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
           }
 	}
 
+        public void refreshWhenValidValuesTypeWasChanged() {
+          _validValuesType = null;
+          _validStrings = null;
+          _stringDependencies = null;
+          _stringSelection = null;
+          _definedIntegers = null;
+          _intSelection = null;
+          _intDependencies = null;
+          _definedFloats = null;
+          _floatSelection = null;
+          _floatDependencies = null;
+          _valString_horizontal = "no values selected or defined ";
+          _valString_vertical = "\n> no values selected or defined \n";
+          _figureOrientation = false; // horizontal
+          _valueVisibility = true; // Values und Stereo werden in der Figure angezeigt
+          _valuesSelected = false;
+
+          try {
+            _validValuesType = ((MContextPropertyTagImpl)_contextTag).getValidValuesType();
+          }
+          catch (NullPointerException npe) {
+            _contextTag = null;
+            System.out.println("CP-Tag has no ValidValue-Definition!");
+            return;
+          }
+          if (_validValuesType.equals("List Of Strings")) {
+            _validStrings = ((MContextPropertyTagImpl)_contextTag).getValidStrings();
+            _valuesCount = _validStrings.size();
+            _stringSelection = new Vector();
+            _stringDependencies = new Vector();
+            for (int i = 0; i < _valuesCount; i++) {
+              _stringSelection.addElement(new Boolean(false));
+              String dependency = "";
+              _stringDependencies.addElement(dependency);
+            }
+          }
+          else if (_validValuesType.equals("Integer Number")) {
+            _definedIntegers = new Vector();
+            _intSelection = new Vector();
+            _intDependencies = new Vector();
+            addEmptyIntegerValue();
+          }
+          else if (_validValuesType.equals("Float Number")) {
+            _definedFloats = new Vector();
+            _floatSelection = new Vector();
+            _floatDependencies = new Vector();
+            addEmptyFloatValue();
+          }
+          else {
+            _contextTag = null;
+            System.out.println("CP-Tag has unknown ValidValue-Definition!");
+            return;
+          }
+        }
+
+        public void refreshWhenValidValuesDefinitionWasChanged() {
+          if (_validValuesType.equals("List Of Strings")) {
+            Vector validStringsBak = new Vector();
+            Vector stringSelBak =  new Vector();
+            Vector stringDepBak = new Vector();
+            for (int i = 0; i < _validStrings.size(); i++) {
+              String string = (String)_validStrings.elementAt(i);
+              validStringsBak.addElement(string);
+              Boolean bool = (Boolean)_stringSelection.elementAt(i);
+              stringSelBak.addElement(bool);
+              String dep = (String)_stringDependencies.elementAt(i);
+              stringDepBak.addElement(dep);
+            }
+            _validStrings = ((MContextPropertyTagImpl)_contextTag).getValidStrings();
+            _valuesCount = _validStrings.size();
+            _stringSelection = new Vector();
+            _stringDependencies = new Vector();
+            for (int i = 0; i < _valuesCount; i++) {
+              _stringSelection.addElement(new Boolean(false));
+              String dependency = "";
+              _stringDependencies.addElement(dependency);
+            }
+            // Elemente aus validStringsBak entfernen, die nicht mehr in _validStrings sind
+            for (int i = validStringsBak.size()-1; i >= 0; i--) {
+              String test = (String)validStringsBak.elementAt(i);
+              if (!isStringInVector(test,_validStrings,_validStrings.size())) {
+                validStringsBak.removeElementAt(i);
+                stringDepBak.removeElementAt(i);
+                stringSelBak.removeElementAt(i);
+              }
+            }
+            if (validStringsBak.size() > 0) {
+              // Dependencies und Selections kopieren
+              for (int i = validStringsBak.size()-1; i >= 0; i--) {
+                String tagString = (String)validStringsBak.elementAt(i);
+                Boolean select = (Boolean)stringSelBak.elementAt(i);
+                String depend = (String)stringDepBak.elementAt(i);
+                for (int j = 0; j < _validStrings.size(); j++) {
+                  if (tagString.equals((String)_validStrings.elementAt(j))) {
+                    _stringSelection.setElementAt(select,j);
+                    _stringDependencies.setElementAt(depend,j);
+                  }
+                }
+                validStringsBak.removeElementAt(i);
+                stringDepBak.removeElementAt(i);
+                stringSelBak.removeElementAt(i);
+              }
+            }
+            this.checkValueSelection_ListOfString();
+            _changeCounter = 1;
+          }
+          else if (_validValuesType.equals("Integer Number")) {
+            int[] intRange = ((MContextPropertyTagImpl)_contextTag).getIntegerRange();
+            _changeCounter = 0;
+            for (int i = _definedIntegers.size()-1; i >= 0 ; i--) {
+              if (!this.isEmptyIntegerValue(i)) {
+                int intValue = Integer.parseInt((String)_definedIntegers.elementAt(i));
+                if ((intValue < intRange[0])||(intValue > intRange[1])) {
+                  _definedIntegers.removeElementAt(i);
+                  _intSelection.removeElementAt(i);
+                  _intDependencies.removeElementAt(i);
+                  _valuesCount--;
+                  _changeCounter++;
+                }
+              }
+            }
+            this.cleanIntegerValues();
+          }
+          else if (_validValuesType.equals("Float Number")) {
+            float[] floatRange = ((MContextPropertyTagImpl)_contextTag).getFloatRange();
+            _changeCounter = 0;
+            for (int i = _definedFloats.size()-1; i >= 0 ; i--) {
+              if (!this.isEmptyFloatValue(i)) {
+                float floatValue = Float.parseFloat((String)_definedFloats.elementAt(i));
+                if ((floatValue < floatRange[0])||(floatValue > floatRange[1])) {
+                  _definedFloats.removeElementAt(i);
+                  _floatSelection.removeElementAt(i);
+                  _floatDependencies.removeElementAt(i);
+                  _valuesCount--;
+                  _changeCounter++;
+                }
+              }
+            }
+            this.cleanFloatValues();
+          }
+          else {
+            _contextTag = null;
+            System.out.println("CP-Tag has unknown ValidValue-Definition!");
+            return;
+          }
+        }
+
+        private boolean isStringInVector(String string, Vector stringVector, int vectorSize) {
+          for (int i = 0; i < vectorSize; i++) {
+            if (((String)stringVector.elementAt(i)).equals(string)) {
+              return(true);
+            }
+          }
+          return(false);
+        }
+
+        public boolean valueDefinitionWasChanged() {
+          if (_changeCounter > 0) return(true);
+          else return(false);
+        }
+
         // -------------- by hyshosha@gmx.de -----------------------
         private MModelElement _objectWithContextProperty = null;
         private FigContextProperty _myFigure;
@@ -335,6 +497,11 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 
         public void markFigure() {
           _myFigure.setColor(java.awt.Color.green);
+          _myFigure.damage();
+        }
+
+        public void markFigureOrange() {
+          _myFigure.setColor(java.awt.Color.orange);
           _myFigure.damage();
         }
 
@@ -662,14 +829,14 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         public void resetValueVisibility() {
           _valueVisibility = true;
         }
-	
+
 	//	public String getTag()
 	// { return super.getTag()+"X"; }
 	public void preSave()
 	{
 		_currentlySaving = true;
 		ensureUUIDAssigned();
-		
+
 // 		System.out.println("MY UUID : " + getUUID());
 // 		System.out.println("MY TAG : " + getContextPropertyTag().getUUID() );
 // 		xx("_validStrings"       , _validStrings        );
@@ -684,16 +851,16 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 
 		setTag(EMBEDDED_XML_IDENTIFIER);
 
-		EmbeddedContextPropertyValueCreator creator = 
+		EmbeddedContextPropertyValueCreator creator =
 			new EmbeddedContextPropertyValueCreator();
 
 		creator.setType( _validValuesType );
 		creator.setStereotype( getStereoString() );
-		if ( LIST_OF_STRINGS_ID.equals(_validValuesType) )			
+		if ( LIST_OF_STRINGS_ID.equals(_validValuesType) )
 			creator.setContent(  _validStrings.iterator(),
 										_stringSelection.iterator(),
 										_stringDependencies.iterator() );
-		else if( INTEGER_NUMBER_ID.equals(_validValuesType) )			
+		else if( INTEGER_NUMBER_ID.equals(_validValuesType) )
 			creator.setContent(  _definedIntegers.iterator(),
 										_intSelection.iterator(),
 										_intDependencies.iterator() );

@@ -13,6 +13,7 @@ import org.argouml.ui.ProjectBrowser;
 import org.argouml.ui.ArgoDiagram;
 import java.util.Enumeration;
 import ru.novosoft.uml.model_management.MModel;
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import org.argouml.uml.diagram.ProjectMemberDiagram;
 import org.argouml.uml.diagram.static_structure.ui.FigClass;
 import org.cocons.uml.ccl.context_property1_3.*;
@@ -63,6 +64,10 @@ public class ModelIterator {
 
   public Vector getAllContextPropertyTagNames() {
     return(getAllCPTagNames());
+  }
+
+  public void changeContextPropertyTagDefinition(String tagName, String oldValidValues, String newValidValues, String definition, String unit, int references) {
+    changeCPTagDefinition(tagName,oldValidValues,newValidValues,definition,unit,references);
   }
 
   public Vector getAllContextPropertyTagConstraints() {
@@ -236,7 +241,7 @@ public class ModelIterator {
 	private void dumbDelCPTag( String tagName )
 	{
       for (int i = _contextPropertyTagList.size()-1; i >= 0; i--)
-			if (((MContextPropertyTagImpl)_contextPropertyTagList.elementAt(i)).getTag().equals(tagName)) 
+			if (((MContextPropertyTagImpl)_contextPropertyTagList.elementAt(i)).getTag().equals(tagName))
 				_contextPropertyTagList.removeElementAt(i);
 	}
 
@@ -360,6 +365,101 @@ public class ModelIterator {
 
     }
   }
+
+  private void changeCPTagDefinition(String tagName, String oldValidValues, String newValidValues, String definition, String unit, int references) {
+    MessageContainer messCon = new MessageContainer();
+    VCPLTranslator translator = new VCPLTranslator();
+    boolean use_this;
+
+    Object detailsTarget;
+    CCLDiagram startDiagram = null;
+
+    ProjectBrowser pb = ProjectBrowser.TheInstance;
+    detailsTarget=pb.getDetailsTarget();
+
+    MContextPropertyTagImpl changedTag = null;
+    for (int i = _contextPropertyTagList.size()-1; i >=0 ; i--) {
+      if (((MContextPropertyTagImpl)_contextPropertyTagList.elementAt(i)).getTag().equals(tagName)) {
+        changedTag = (MContextPropertyTagImpl)_contextPropertyTagList.elementAt(i);
+      }
+    }
+
+    if (oldValidValues.equals(newValidValues)) {
+      use_this = false;
+      messCon.setMessage("tag def changed");
+    }
+    else {
+      use_this = true;
+      messCon.setMessage("valid values changed");
+    }
+    messCon.setString(tagName);
+    if (detailsTarget instanceof MContextPropertyValueImpl) {
+      messCon.setObject(detailsTarget);
+    }
+
+    if (newValidValues.equals("List Of Strings")) {
+      ((MConstraint)(changedTag.getConstraints().toArray())[0]).setBody(new MBooleanExpression(null,translator.getConstraintString_ListOfStrings(definition)));
+    }
+    else if (newValidValues.equals("Integer Number")) {
+      ((MConstraint)(changedTag.getConstraints().toArray())[0]).setBody(new MBooleanExpression(null,translator.getConstraintString_Integer(definition) + " | Unit: " + unit));
+    }
+    else if (newValidValues.equals("Float Number")) {
+      ((MConstraint)(changedTag.getConstraints().toArray())[0]).setBody(new MBooleanExpression(null,translator.getConstraintString_Float(definition) + " | Unit: " + unit));
+    }
+    else {}
+
+    if (references > 0) {
+      // die einzelnen CCL-Diagramme werden nacheinander durchsucht
+      Vector diagrams = pb.getProject().getDiagrams();
+      CCLDiagram diagram = null;
+      int count = 0;
+      for (int i = 0; i < diagrams.size(); i++) {
+        if ((diagrams.elementAt(i) instanceof CCLBusiness_TypeDiagram)||
+            (diagrams.elementAt(i) instanceof CCLInterface_SpecDiagram)||
+            (diagrams.elementAt(i) instanceof CCLComponent_SpecDiagram)) {
+          diagram = (CCLDiagram)diagrams.elementAt(i);
+          Vector diagramNodes = diagram.getNodes();
+          pb.navigateTo(diagram);
+          count++;
+          for (int j = 0; j < diagramNodes.size(); j++) {
+            if (diagramNodes.elementAt(j).equals(detailsTarget)) startDiagram = diagram;
+            if (diagramNodes.elementAt(j) instanceof MContextPropertyValueImpl) {
+              if (((MContextPropertyValueImpl)diagramNodes.elementAt(j)).getTag().equals(changedTag.getTag())) {
+                if (use_this) {
+                  ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).refreshWhenValidValuesTypeWasChanged();
+                  ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).actualizeFigure();
+                  ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).markFigureOrange();
+                }
+                else {
+                  ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).refreshWhenValidValuesDefinitionWasChanged();
+                  ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).actualizeFigure();
+                  if (((MContextPropertyValueImpl)diagramNodes.elementAt(j)).valueDefinitionWasChanged()) {
+                    ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).markFigureOrange();
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      notifyObservers(messCon);
+
+      if (detailsTarget != null) {
+        pb.navigateTo(startDiagram);
+        pb.select(detailsTarget);
+      }
+
+      if ((count > 1)&&(detailsTarget == null)) {
+        String message = "Context Property Tag \""+changedTag+"\" was changed.\nYou were kicked to \""+diagram.getName().toUpperCase()+"\" !";
+        JOptionPane.showMessageDialog(null,message,"Ready !",JOptionPane.INFORMATION_MESSAGE);
+      }
+      else {
+        String message = "Context Property Tag \""+changedTag+"\" was changed.";
+        JOptionPane.showMessageDialog(null,message,"Ready !",JOptionPane.INFORMATION_MESSAGE);
+      }
+    }
+  }
   //
   //////////////////////////////////////////////////////////////////////////////
 
@@ -466,7 +566,7 @@ public class ModelIterator {
 
 		String xml = name.substring( headlgt, name.length() );
 		Iterator newtags = EmbeddedContextPropertyTagDecoder.SINGLETON.decode( xml );
-		
+
 		if( newtags == null )
 			return false;
 

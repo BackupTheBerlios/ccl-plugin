@@ -72,7 +72,9 @@ public class ActionManageContextPropertyTags extends UMLAction  {
           tagNameChanger.show();
         }
         else if (selection2 == 1) {
-          JOptionPane.showMessageDialog(null,"This feature is currently not available.");
+          //JOptionPane.showMessageDialog(null,"This feature is currently not available.");
+          TagDefinitionChanger tagDefChanger = new TagDefinitionChanger();
+          tagDefChanger.show();
         }
         else {}
       }
@@ -580,7 +582,439 @@ public class ActionManageContextPropertyTags extends UMLAction  {
   // ===========================================================================
 
   // ----- Class TagDefinitionChanger -----
-  // ... needs more work
+  class TagDefinitionChanger {
+
+    private JDialog _dialog;
+    private JLabel _tagNameLabel;
+    private JLabel _validValuesLabel;
+    private JComboBox _tagNameBox;
+    private JComboBox _validValuesBox;
+    private JTextField _definitionTextField;
+    private JLabel _definitionLabel;
+    private boolean _listOfStrings;
+    private boolean _integerNumber;
+    private boolean _floatNumber;
+
+    private JDialog _dialog2;
+    private JTextField _unitTextField;
+    private String _unitForNumericValues;
+    private String _unitForNumericValuesOld;
+
+    private Vector _tagNameList = _modelIterator.getAllContextPropertyTagNames();
+    private Vector _constraintList = _modelIterator.getAllContextPropertyTagConstraints();
+    private int _tagListSize = _modelIterator.getCountContextPropertyTags();
+
+    private String _validValuesTypeOld;
+    private String _validValuesTypeNew;
+    private boolean _locked = false;
+
+    private ActionIdentifyContextProperty _ident = ActionIdentifyContextProperty.SINGLETON;
+
+    public TagDefinitionChanger() {
+      initLayout();
+    }
+
+    private void initLayout() {
+      JPanel buttonPanel = new JPanel();
+      JButton changeButton = new JButton("Change");
+      changeButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          changeTag();
+        }
+      });
+      JButton cancelButton = new JButton("Cancel");
+      cancelButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          finishDialog();
+        }
+      });
+
+      buttonPanel.add(changeButton,"West");
+      buttonPanel.add(cancelButton,"East");
+
+      JPanel definitionPanel = new JPanel();
+      definitionPanel.setLayout(new GridLayout(3,2));
+      _tagNameLabel = new JLabel("  Tag Name ............. :");
+      _validValuesLabel = new JLabel("  Valid Values ........ :");
+
+      Object[] definedTags = new Object[_tagListSize];
+      for (int i = 0; i < _tagListSize; i++) {
+        definedTags[i] = (String)_tagNameList.elementAt(i);
+      }
+      _tagNameBox = new JComboBox(definedTags);
+      _tagNameBox.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+          _locked = true; // actionPerformed() von _validValuesBox blockieren
+          _validValuesBox.setForeground(Color.black);
+          int selectedItem = _tagNameBox.getSelectedIndex();
+          _validValuesTypeOld = (String)_constraintList.elementAt(selectedItem);
+          if (_translator.validValueIsListOfStrings(_validValuesTypeOld)) {
+            _validValuesTypeOld = "List Of Strings";
+            _validValuesTypeNew = _validValuesTypeOld;
+            _validValuesBox.setSelectedItem("List Of Strings");
+            _listOfStrings = true;
+            _integerNumber = false;
+            _floatNumber = false;
+          }
+          else if (_translator.validValueIsIntegerNumber(_validValuesTypeOld)) {
+            _validValuesTypeOld = "Integer Number";
+            _validValuesTypeNew = _validValuesTypeOld;
+            _validValuesBox.setSelectedItem("Integer Number");
+            _listOfStrings = false;
+            _integerNumber = true;
+            _floatNumber = false;
+          }
+          else if (_translator.validValueIsFloatNumber(_validValuesTypeOld)) {
+            _validValuesTypeOld = "Float Number";
+            _validValuesTypeNew = _validValuesTypeOld;
+            _validValuesBox.setSelectedItem("Float Number");
+            _listOfStrings = false;
+            _integerNumber = false;
+            _floatNumber = true;
+          }
+          else { /* gibt's nicht */
+            _listOfStrings = false;
+            _integerNumber = false;
+            _floatNumber = false;
+          }
+
+          if (_listOfStrings) {
+            _definitionLabel.setText("  Allowed Strings ... :");
+            _definitionTextField.setText(getValidStrings((String)_constraintList.elementAt(selectedItem)));
+          }
+          else if (_integerNumber){
+            _definitionLabel.setText("  Range .... [from,to] :");
+            _definitionTextField.setText(getIntegerRange((String)_constraintList.elementAt(selectedItem)));
+          }
+          else if (_floatNumber){
+            _definitionLabel.setText("  Range .... [from,to] :");
+            _definitionTextField.setText(getFloatRange((String)_constraintList.elementAt(selectedItem)));
+          }
+          else { /* gibt's nicht */
+          }
+          _locked = false;
+        }
+      });
+
+      Object[] validValues = { "List Of Strings", "Integer Number", "Float Number" };
+      _validValuesBox = new JComboBox(validValues);
+      _validValuesTypeOld = (String)_constraintList.elementAt(0);
+      if (_translator.validValueIsListOfStrings(_validValuesTypeOld)) {
+        _validValuesTypeOld = "List Of Strings";
+        _validValuesTypeNew = _validValuesTypeOld;
+        _validValuesBox.setSelectedItem("List Of Strings");
+        _listOfStrings = true;
+        _integerNumber = false;
+        _floatNumber = false;
+      }
+      else if (_translator.validValueIsIntegerNumber(_validValuesTypeOld)) {
+        _validValuesTypeOld = "Integer Number";
+        _validValuesTypeNew = _validValuesTypeOld;
+        _validValuesBox.setSelectedItem("Integer Number");
+        _listOfStrings = false;
+        _integerNumber = true;
+        _floatNumber = false;
+      }
+      else if (_translator.validValueIsFloatNumber(_validValuesTypeOld)) {
+        _validValuesTypeOld = "Float Number";
+        _validValuesTypeNew = _validValuesTypeOld;
+        _validValuesBox.setSelectedItem("Float Number");
+        _listOfStrings = false;
+        _integerNumber = false;
+        _floatNumber = true;
+      }
+      else { /* gibt's nicht */
+        _listOfStrings = false;
+        _integerNumber = false;
+        _floatNumber = false;
+      }
+      _validValuesBox.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+          if (!_locked) {
+            _validValuesTypeNew = (String)_validValuesBox.getSelectedItem();
+            if (_validValuesTypeOld.equals(_validValuesTypeNew)) {
+              _validValuesBox.setForeground(Color.black);
+              int selectedTag = _tagNameBox.getSelectedIndex();
+              if (_listOfStrings) {
+                _definitionLabel.setText("  Allowed Strings ... :");
+                _definitionTextField.setText(getValidStrings((String)_constraintList.elementAt(selectedTag)));
+              }
+              else if (_integerNumber){
+                _definitionLabel.setText("  Range .... [from,to] :");
+                _definitionTextField.setText(getIntegerRange((String)_constraintList.elementAt(selectedTag)));
+              }
+              else if (_floatNumber){
+                _definitionLabel.setText("  Range .... [from,to] :");
+                _definitionTextField.setText(getFloatRange((String)_constraintList.elementAt(selectedTag)));
+              }
+              else { /* gibt's nicht */
+              }
+            }
+            else {
+              _validValuesBox.setForeground(Color.red);
+              if (_validValuesTypeNew.equals("List Of Strings")) {
+                _definitionLabel.setText("  Allowed Strings ... :");
+                _definitionTextField.setText("");
+              }
+              else if (_validValuesTypeNew.equals("Integer Number")) {
+                _definitionLabel.setText("  Range .... [from,to] :");
+                _definitionTextField.setText("[,]");
+              }
+              else if (_validValuesTypeNew.equals("Float Number")) {
+                _definitionLabel.setText("  Range .... [from,to] :");
+                _definitionTextField.setText("[,]");
+              }
+              else { /* gibt's nicht */ }
+            }
+          }
+        }
+      });
+
+      _definitionTextField = new JTextField(10);
+      if (_listOfStrings) {
+        _definitionLabel = new JLabel("  Allowed Strings ... :");
+        _definitionTextField.setText(getValidStrings((String)_constraintList.elementAt(0)));
+      }
+      else if (_integerNumber){
+        _definitionLabel = new JLabel("  Range .... [from,to] :");
+        _definitionTextField.setText(getIntegerRange((String)_constraintList.elementAt(0)));
+      }
+      else if (_floatNumber){
+        _definitionLabel = new JLabel("  Range .... [from,to] :");
+        _definitionTextField.setText(getFloatRange((String)_constraintList.elementAt(0)));
+      }
+      else { /* gibt's nicht */
+      }
+
+      definitionPanel.add(_tagNameLabel);
+      definitionPanel.add(_tagNameBox);
+      definitionPanel.add(_validValuesLabel);
+      definitionPanel.add(_validValuesBox);
+      definitionPanel.add(_definitionLabel);
+      definitionPanel.add(_definitionTextField);
+
+      JFrame parent = new JFrame();
+      _dialog = new JDialog(parent,"Change Context Property Tag",true);
+
+      _dialog.getContentPane().add(buttonPanel,"South");
+      _dialog.getContentPane().add(definitionPanel,"Center");
+
+      _dialog.setSize(220,130);
+//*nix friendly     _dialog.setResizable(false);
+      _dialog.setResizable(true);
+      Toolkit tk = Toolkit.getDefaultToolkit();
+      int screenWidth = tk.getScreenSize().width;
+      int screenHeight = tk.getScreenSize().height;
+      _dialog.setLocation((screenWidth-220)/2,(screenHeight-130)/2);
+    }
+
+    public void show() {
+      _dialog.show();
+    }
+
+    private void changeTag() {
+      if (_integerNumber||_floatNumber) {
+        _unitForNumericValuesOld = ((MContextPropertyTagImpl)_modelIterator.getContextPropertyTag((String)_tagNameBox.getSelectedItem())).getUnit().substring(1);
+      }
+      else {
+        _unitForNumericValuesOld = "N/A";
+      }
+      String definitionString = _definitionTextField.getText();
+      if (_validValuesTypeNew.equals("List Of Strings")) {
+        if ((definitionString == null)||(definitionString.equals(""))) {
+          JOptionPane.showMessageDialog(null,"You should define any allowed strings !","Oops",JOptionPane.WARNING_MESSAGE);
+          return;
+        }
+        if (!_translator.checkListOfStrings(definitionString)) {
+          JOptionPane.showMessageDialog(null,"False definition of List Of Strings !","Oops",JOptionPane.WARNING_MESSAGE);
+          return;
+        }
+        _unitForNumericValues = "N/A";
+      }
+      else if (_validValuesTypeNew.equals("Integer Number")) {
+        if (!_translator.checkIntegerNumberRange(definitionString)) {
+          JOptionPane.showMessageDialog(null,"False range definition for Integer Number !","Oops",JOptionPane.WARNING_MESSAGE);
+          return;
+        }
+        else {
+          getUnitDialog("Integer Number");
+        }
+      }
+      else if (_validValuesTypeNew.equals("Float Number")) {
+        if (!_translator.checkFloatNumberRange(definitionString)) {
+          JOptionPane.showMessageDialog(null,"False range definition for Float Number !","Oops",JOptionPane.WARNING_MESSAGE);
+          return;
+        }
+        else {
+          getUnitDialog("Float Number");
+        }
+      }
+      else { /* gibt's nicht */ }
+
+      if (_validValuesTypeOld.equals(_validValuesTypeNew)) {
+        // Test, ob sich überhaupt was geändert hat
+        if (_listOfStrings) {
+          Vector validStringsNew = _translator.getValidStrings(_translator.getConstraintString_ListOfStrings(definitionString));
+          Vector validStringsOld = _translator.getValidStrings(((MContextPropertyTagImpl)_modelIterator.getContextPropertyTag((String)_tagNameBox.getSelectedItem())).getConstraintBody());
+          if (validStringsEqual(validStringsOld,validStringsNew)) {
+            JOptionPane.showMessageDialog(null,"       Nothing was changed ...","Information",JOptionPane.INFORMATION_MESSAGE);
+            finishDialog();
+            return;
+          }
+        }
+        else if (_integerNumber) {
+          int[] intRangeNew = _translator.getIntegerRange(_translator.getConstraintString_Integer(definitionString));
+          int[] intRangeOld = _translator.getIntegerRange(((MContextPropertyTagImpl)_modelIterator.getContextPropertyTag((String)_tagNameBox.getSelectedItem())).getConstraintBody());
+          if ((intRangeNew[0]==intRangeOld[0])&&(intRangeNew[1]==intRangeOld[1])&&(_unitForNumericValuesOld.equals(_unitForNumericValues))) {
+            JOptionPane.showMessageDialog(null,"       Nothing was changed ...","Information",JOptionPane.INFORMATION_MESSAGE);
+            finishDialog();
+            return;
+          }
+        }
+        else if (_floatNumber) {
+          float[] floatRangeNew = _translator.getFloatRange(_translator.getConstraintString_Float(definitionString));
+          float[] floatRangeOld = _translator.getFloatRange(((MContextPropertyTagImpl)_modelIterator.getContextPropertyTag((String)_tagNameBox.getSelectedItem())).getConstraintBody());
+          if ((floatRangeNew[0]==floatRangeOld[0])&&(floatRangeNew[1]==floatRangeOld[1])&&(_unitForNumericValuesOld.equals(_unitForNumericValues))) {
+            JOptionPane.showMessageDialog(null,"       Nothing was changed ...","Information",JOptionPane.INFORMATION_MESSAGE);
+            finishDialog();
+            return;
+          }
+        }
+        else {}
+      }
+      else {} // es hat sich quasi alles geändert
+
+      // ---------
+      Vector cpTaggedValues = _modelIterator.getAllContextPropertyValues();
+      int targetCounter = 0;
+      for (int i = 0; i < cpTaggedValues.size(); i++) {
+        MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
+        if (cpTaggedValue.getContextPropertyTag().getTag().equals((String)_tagNameBox.getSelectedItem())) {
+          targetCounter++;
+        }
+      }
+
+      int selection = 0;
+      if (targetCounter > 0) {
+        Object[] options = { "Change","Cancel","Identify" };
+        selection = JOptionPane.showOptionDialog(null,"   "+targetCounter+" Context Properties reference\n   the Context Property Tag \""+((String)_tagNameBox.getSelectedItem())+"\"\n   that you want to change !","Information",JOptionPane.CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
+      }
+      else {
+        Object[] options = { "Change","Cancel" };
+        selection = JOptionPane.showOptionDialog(null,"Change Context Property Tag \""+((String)_tagNameBox.getSelectedItem())+"\" ?","Warning",JOptionPane.CANCEL_OPTION,JOptionPane.ERROR_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
+      }
+      if (selection == 1) {}
+      else if (selection == 0) {
+        _modelIterator.changeContextPropertyTagDefinition((String)_tagNameBox.getSelectedItem(),_validValuesTypeOld,_validValuesTypeNew,definitionString,_unitForNumericValues,targetCounter);
+      }
+      else {
+        // markieren
+        for (int i = 0; i < cpTaggedValues.size(); i++) {
+          MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
+          if (cpTaggedValue.getContextPropertyTag().getTag().equals((String)_tagNameBox.getSelectedItem())) cpTaggedValue.markFigure();
+          else cpTaggedValue.resetFigureColor();
+        }
+        _ident.setResetMode();
+      }
+      // -----------
+      finishDialog();
+    }
+
+    private void finishDialog() {
+      _dialog.dispose();
+    }
+
+    private String getValidStrings(String constraintString) {
+      Vector validStringsVector = _translator.getValidStrings(constraintString);
+      String validStrings = (String)validStringsVector.elementAt(0);
+      if (validStringsVector.size() > 1) {
+        for (int i = 1; i < validStringsVector.size(); i++) {
+          validStrings = validStrings + "," + (String)validStringsVector.elementAt(i);
+        }
+      }
+      return(validStrings);
+    }
+
+    private String getIntegerRange(String constraintString) {
+      int[] intRange = _translator.getIntegerRange(constraintString);
+      String lowerValue = "";
+      String upperValue = "";
+      if (Integer.MIN_VALUE < intRange[0]) lowerValue = Integer.toString(intRange[0]);
+      if (Integer.MAX_VALUE > intRange[1]) upperValue = Integer.toString(intRange[1]);
+      return("["+ lowerValue +","+ upperValue +"]");
+    }
+
+    private String getFloatRange(String constraintString) {
+      float[] floatRange = _translator.getFloatRange(constraintString);
+      String lowerValue = Float.toString(floatRange[0]);
+      String upperValue = Float.toString(floatRange[1]);
+      if (lowerValue.equals("-3.4028235E38")) lowerValue = "";
+      if (upperValue.equals("3.4028235E38")) upperValue = "";
+      return("["+ lowerValue +","+ upperValue +"]");
+    }
+
+    private boolean validStringsEqual(Vector oldVS, Vector newVS) {
+      int oldSize = oldVS.size();
+      int newSize = newVS.size();
+      boolean result = true;
+      if (oldSize != newSize) return(false);
+      else {
+        for (int i = 0; i < oldSize; i++) {
+          result = result && isStringInVector((String)oldVS.elementAt(i),newVS,newSize);
+        }
+        return(result);
+      }
+    }
+
+    private boolean isStringInVector(String string, Vector stringVector, int vectorSize) {
+      for (int i = 0; i < vectorSize; i++) {
+        if (((String)stringVector.elementAt(i)).equals(string)) {
+          return(true);
+        }
+      }
+      return(false);
+    }
+
+    private void getUnitDialog(String numberType) {
+      JFrame parent = new JFrame();
+      _dialog2 = new JDialog(parent,"Unit for "+numberType+" ?",true);
+      _unitTextField = new JTextField(20);
+      if (_unitForNumericValuesOld.equals("N/A")) _unitTextField.setText("");
+      else _unitTextField.setText(_unitForNumericValuesOld);
+      JLabel unitLabel = new JLabel("      Insert a unit or leave it blank...");
+      JButton okayButton = new JButton("Okay");
+      okayButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          if (_unitTextField.getText().equals("")) {
+            _unitForNumericValues = "N/A";
+            _dialog2.dispose();
+          }
+          else {
+            String test = _unitTextField.getText();
+            _unitForNumericValues = "";
+            for (int i = 0; i < test.length(); i++) {
+              if (test.charAt(i)=='|') _unitForNumericValues = _unitForNumericValues + "#";
+              else _unitForNumericValues = _unitForNumericValues + test.charAt(i);
+            }
+            _dialog2.dispose();
+          }
+        }
+      });
+      _dialog2.getContentPane().add(unitLabel,"North");
+      _dialog2.getContentPane().add(okayButton,"South");
+      _dialog2.getContentPane().add(_unitTextField,"Center");
+      _dialog2.setSize(200,90);
+//*nix friendly      _dialog2.setResizable(false);
+       _dialog.setResizable(true);
+      Toolkit tk = Toolkit.getDefaultToolkit();
+      int screenWidth = tk.getScreenSize().width;
+      int screenHeight = tk.getScreenSize().height;
+      _dialog2.setLocation((screenWidth-200)/2,(screenHeight-90)/2);
+      _dialog2.setVisible(false);
+      _dialog2.show();
+    }
+
+  }
   // ----- Class TagDefinitionChanger -----
   // ===========================================================================
 

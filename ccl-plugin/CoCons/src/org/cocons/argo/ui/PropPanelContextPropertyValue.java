@@ -390,6 +390,156 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
         }
       }
     }
+    else if (message.equals("valid values changed")) {
+      String changedTag = messCon.getString();
+      MContextPropertyValueImpl target = null;
+      if (messCon.getObject() != null) target = (MContextPropertyValueImpl)messCon.getObject();
+      if ((changedTag.equals((String)_nameBox.getSelectedItem()))&&(target != null)) {
+        _locked = true;
+        MContextPropertyTagImpl refTag = (MContextPropertyTagImpl)_modelIterator.getContextPropertyTag(messCon.getString());
+
+        _validValuesType = refTag.getValidValuesType();
+        //_stereoBox.setSelectedItem(target.getStereoString());
+
+        _valueTable.getModel().removeTableModelListener(getTableModelListener());
+        ((ValueTableModel)_valueTable.getModel()).removeAllRows();
+
+        if (_validValuesType.equals("List Of Strings")) {
+          _validStrings = refTag.getValidStrings();
+          _typeLabel.setText("\"List Of Strings\"   [ "+Integer.toString(_validStrings.size())+" defined strings ] )");
+          _unitLabel.setText("N/A )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(true);
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < _validStrings.size(); i++) {
+            tableModel.addTableRow((String)_validStrings.elementAt(i),target.getStringSelectionAt(i),target.getStringDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else if (_validValuesType.equals("Integer Number")) {
+          int[] range = refTag.getIntegerRange();
+          _lowerIntRange = range[0];
+          _upperIntRange = range[1];
+          _typeLabel.setText("\"Integer Number\""+"   Range : [ "+Integer.toString(_lowerIntRange)+" , "+Integer.toString(_upperIntRange)+" ] )");
+          _unitLabel.setText(refTag.getUnit()+" )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(false);
+          ((ValueTableModel)_valueTable.getModel()).isIntegerNumber(true);
+          target.cleanIntegerValues();
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < target.getValuesCount(); i++) {
+            tableModel.addTableRow((String)target.getIntegerValueAt(i),target.getIntegerSelectionAt(i),target.getIntegerDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else if (_validValuesType.equals("Float Number")) {
+          float[] range = refTag.getFloatRange();
+          _lowerFloatRange = range[0];
+          _upperFloatRange = range[1];
+          _typeLabel.setText("\"Float Number\""+"   Range : [ "+Float.toString(_lowerFloatRange)+" , "+Float.toString(_upperFloatRange)+" ] )");
+          _unitLabel.setText(refTag.getUnit()+" )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(false);
+          ((ValueTableModel)_valueTable.getModel()).isIntegerNumber(false);
+          target.cleanFloatValues();
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < target.getValuesCount(); i++) {
+            tableModel.addTableRow((String)target.getFloatValueAt(i),target.getFloatSelectionAt(i),target.getFloatDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else {}
+        _locked = false;
+      }
+    }
+    else if (message.equals("tag def changed")) {
+      String changedTag = messCon.getString();
+      MContextPropertyValueImpl target = null;
+      if (messCon.getObject() != null) target = (MContextPropertyValueImpl)messCon.getObject();
+      if ((changedTag.equals((String)_nameBox.getSelectedItem()))&&(target != null)) {
+        _locked = true;
+        MContextPropertyTagImpl refTag = (MContextPropertyTagImpl)_modelIterator.getContextPropertyTag(messCon.getString());
+
+        _validValuesType = refTag.getValidValuesType();
+        //_stereoBox.setSelectedItem(target.getStereoString());
+
+        if (_validValuesType.equals("List Of Strings")) {
+          _valueTable.getModel().removeTableModelListener(getTableModelListener());
+          ((ValueTableModel)_valueTable.getModel()).removeAllRows();
+
+          _validStrings = refTag.getValidStrings();
+          _typeLabel.setText("\"List Of Strings\"   [ "+Integer.toString(_validStrings.size())+" defined strings ] )");
+          _unitLabel.setText("N/A )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(true);
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < _validStrings.size(); i++) {
+            tableModel.addTableRow((String)_validStrings.elementAt(i),target.getStringSelectionAt(i),target.getStringDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else if (_validValuesType.equals("Integer Number")) {
+          int[] range = refTag.getIntegerRange();
+
+          if (!target.valueDefinitionWasChanged()) {
+            _lowerIntRange = range[0];
+            _upperIntRange = range[1];
+            _typeLabel.setText("\"Integer Number\""+"   Range : [ "+Integer.toString(_lowerIntRange)+" , "+Integer.toString(_upperIntRange)+" ] )");
+            _unitLabel.setText(refTag.getUnit()+" )");
+            _locked = false;
+            return;
+          }
+
+          _valueTable.getModel().removeTableModelListener(getTableModelListener());
+          ((ValueTableModel)_valueTable.getModel()).removeAllRows();
+
+          _lowerIntRange = range[0];
+          _upperIntRange = range[1];
+          _typeLabel.setText("\"Integer Number\""+"   Range : [ "+Integer.toString(_lowerIntRange)+" , "+Integer.toString(_upperIntRange)+" ] )");
+          _unitLabel.setText(refTag.getUnit()+" )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(false);
+          ((ValueTableModel)_valueTable.getModel()).isIntegerNumber(true);
+          target.cleanIntegerValues();
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < target.getValuesCount(); i++) {
+            tableModel.addTableRow((String)target.getIntegerValueAt(i),target.getIntegerSelectionAt(i),target.getIntegerDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else if (_validValuesType.equals("Float Number")) {
+          float[] range = refTag.getFloatRange();
+
+          if (!target.valueDefinitionWasChanged()) {
+            _lowerFloatRange = range[0];
+            _upperFloatRange = range[1];
+            _typeLabel.setText("\"Float Number\""+"   Range : [ "+Float.toString(_lowerFloatRange)+" , "+Float.toString(_upperFloatRange)+" ] )");
+            _unitLabel.setText(refTag.getUnit()+" )");
+            _locked = false;
+            return;
+          }
+
+          _valueTable.getModel().removeTableModelListener(getTableModelListener());
+          ((ValueTableModel)_valueTable.getModel()).removeAllRows();
+
+          _lowerFloatRange = range[0];
+          _upperFloatRange = range[1];
+          _typeLabel.setText("\"Float Number\""+"   Range : [ "+Float.toString(_lowerFloatRange)+" , "+Float.toString(_upperFloatRange)+" ] )");
+          _unitLabel.setText(refTag.getUnit()+" )");
+
+          ((ValueTableModel)_valueTable.getModel()).isListOfStrings(false);
+          ((ValueTableModel)_valueTable.getModel()).isIntegerNumber(false);
+          target.cleanFloatValues();
+          ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
+          for (int i = 0; i < target.getValuesCount(); i++) {
+            tableModel.addTableRow((String)target.getFloatValueAt(i),target.getFloatSelectionAt(i),target.getFloatDependencyAt(i));
+          }
+          _valueTable.getModel().addTableModelListener(getTableModelListener());
+        }
+        else {}
+        _locked = false;
+      }
+    }
     else if (message.equals("tag removed")) {
       _nameBox.removeItemAt(messCon.getInt());
     }
