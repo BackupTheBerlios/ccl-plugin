@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.7 2001/12/05 06:48:44 jgusulde Exp $
+// $Id: FigBusiness_Type.java,v 1.8 2001/12/17 10:58:42 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -114,7 +114,8 @@ public class FigBusiness_Type extends FigNodeModelElement {
     Vector popUpActions = super.getPopUpActions(me);
     JMenu addMenu = new JMenu("Add");
     addMenu.add(ActionAddAttribute.SINGLETON);
-    addMenu.add("CopyAsInfoType");
+    JMenu copyAsInfoMenu = CopyAsInfoMenu.getJMenu();
+    popUpActions.insertElementAt(copyAsInfoMenu, popUpActions.size() - 1);
     popUpActions.insertElementAt(addMenu, popUpActions.size() - 1);
     ContextViewPopUpMenu.getPopUpActions(popUpActions);
     return popUpActions;

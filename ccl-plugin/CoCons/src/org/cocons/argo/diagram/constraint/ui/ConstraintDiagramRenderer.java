@@ -24,7 +24,7 @@
 // File: UseCaseDiagramRenderer.java
 // Classes: UseCaseDiagramRenderer
 // Original Author: abonner@ics.uci.edu
-// $Id: ConstraintDiagramRenderer.java,v 1.1 2001/10/24 16:18:35 mskinner Exp $
+// $Id: ConstraintDiagramRenderer.java,v 1.2 2001/12/17 10:58:42 oetker Exp $
 
 package org.cocons.argo.diagram.constraint.ui;
 

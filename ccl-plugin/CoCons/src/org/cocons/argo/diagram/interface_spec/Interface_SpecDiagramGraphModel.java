@@ -150,13 +150,13 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       MClass nodeClass = (MClass)node;
       MStereotype stereotype = nodeClass.getStereotype();
       if ( stereotype == null ) {
-        stereotype = new MStereotypeImpl();
-        stereotype.setName("interface spec");
-        nodeClass.setStereotype(stereotype);
+	stereotype = new MStereotypeImpl();
+	stereotype.setName("interface spec");
+	nodeClass.setStereotype(stereotype);
       }
       String stereotypeN = nodeClass.getStereotype().getName();
       return ( stereotypeN.equals("interface spec") || stereotypeN.equals("type") ||
-            stereotypeN.equals("info type") );
+	    stereotypeN.equals("info type") );
     }
     else return false;
   }
@@ -164,17 +164,18 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 
   /** Add the given node to the graph, if valid. */
   public void addNode(Object node) {
-    //System.out.println("adding class node!!");
+    System.out.println("adding class node!!");
     if (!canAddNode(node) ) return;
+    System.out.println("adding class node (really)!!");
     _nodes.addElement(node);
 
     if (node instanceof MModelElement && ((MModelElement)node).getNamespace() == null) {
-        _model.addOwnedElement((MModelElement) node);
+	_model.addOwnedElement((MModelElement) node);
     }
 
     /*if (node instanceof MInterface){
     //System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
-        ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
+	((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
     }*/
 
     fireNodeAdded(node);
@@ -184,8 +185,8 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
     /** Remove the given node from the graph. */
   public void removeNode(Object node) {
      if (!_nodes.contains(node)) return;
-        _nodes.removeElement(node);
-        fireNodeRemoved(node);
+	_nodes.removeElement(node);
+	fireNodeRemoved(node);
     }
 
 
@@ -248,8 +249,8 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       ends.addAll(((MTaggedValue)node).getSupplierDependencies());
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
-         MDependency dep = (MDependency) iter.next();
-         if(canAddEdge(dep))  addEdge(dep);
+	 MDependency dep = (MDependency) iter.next();
+	 if(canAddEdge(dep))  addEdge(dep);
       }
     }
 
@@ -257,8 +258,8 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       Collection ends = ((MClass)node).getAssociationEnds();
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
-         MAssociationEnd ae = (MAssociationEnd) iter.next();
-         if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
+	 MAssociationEnd ae = (MAssociationEnd) iter.next();
+	 if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
       }
     }
 
@@ -285,15 +286,15 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 	 //    System.out.println("connecting: "+fromPort+toPort+edgeClass);
 
    if (edgeClass == MAssociationImpl.class) {
-        MClassifier m1 = (MClassifier) fromPort;
-        MClassifier m2 = (MClassifier) toPort;
+	MClassifier m1 = (MClassifier) fromPort;
+	MClassifier m2 = (MClassifier) toPort;
 		MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
- 	    addEdge(asc);
+	    addEdge(asc);
 		return asc;
 	 }
     else {
-        System.out.println("connect: Cannot make a "+ edgeClass.getName() +
-            " between a " + fromPort.getClass().getName() +
+	System.out.println("connect: Cannot make a "+ edgeClass.getName() +
+	    " between a " + fromPort.getClass().getName() +
 			   " and a " + toPort.getClass().getName());
 	     return null;
 	 }
@@ -313,13 +314,13 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       MModelElement me = eo.getModelElement();
 
       if (oldOwned.contains(eo)) {
-        //System.out.println("model removed " + me);
-        if (me instanceof MClass) removeNode(me);
-        if (me instanceof MTaggedValue) removeNode(me);
-        if (me instanceof MAssociation) removeEdge(me);
+	//System.out.println("model removed " + me);
+	if (me instanceof MClass) removeNode(me);
+	if (me instanceof MTaggedValue) removeNode(me);
+	if (me instanceof MAssociation) removeEdge(me);
       }
       else {
-        //System.out.println("model added " + me);
+	//System.out.println("model added " + me);
       }
     }
   }
