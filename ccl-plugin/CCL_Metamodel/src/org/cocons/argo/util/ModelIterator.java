@@ -318,7 +318,7 @@ public class ModelIterator {
             if (diagramNodes.elementAt(j).equals(detailsTarget)) startDiagram = diagram;
             if (diagramNodes.elementAt(j) instanceof MContextPropertyValueImpl) {
               if (((MContextPropertyValueImpl)diagramNodes.elementAt(j)).getTag().equals(oldTagName)) {
-                ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).setTag(newTagName);
+                ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).setCPTag(newTagName);
                 ((MContextPropertyValueImpl)diagramNodes.elementAt(j)).actualizeFigure();
               }
             }

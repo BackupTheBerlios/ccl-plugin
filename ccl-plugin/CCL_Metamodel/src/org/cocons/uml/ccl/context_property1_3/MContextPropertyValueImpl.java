@@ -7,7 +7,11 @@ import ru.novosoft.uml.foundation.core.MNamespace;
 
 import org.cocons.argo.diagram.ui.FigContextProperty;
 
+import org.argouml.ui.ProjectBrowser;
+
 import java.util.Vector;
+import java.util.Collection;
+import javax.swing.JOptionPane;
 
 /**
 * Wraps a MTaggedValue, but deprecates its set/getTag()-Method, so that a
@@ -26,6 +30,9 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 
 	// private MTaggedValueImpl _taggedValue; // ??? wozu ??? (hyshosha@gmx.de)
         private MContextPropertyTag _contextTag = null;
+
+        private String _tagStringBak;
+        private String _valStringBak;
 
         private String _validValuesType;
         private String _stereoString = "";
@@ -144,16 +151,64 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         private MModelElement _objectWithContextProperty = null;
         private FigContextProperty _myFigure;
 
+        /*
+        public MModelElement getNamespace() {
+          return(_objectWithContextProperty.getNamespace());
+        }
+        */
+
+        public void setCPTag(String tagString) {
+          _tagStringBak = tagString;
+          super.setTag(tagString);
+        }
+
+        public void setCPValue(String valString) {
+          _valStringBak = valString;
+          super.setValue(valString);
+        }
+
+        public void forceTagAndValueConsistency() {
+          if (!_objectWithContextProperty.isRemoved()) {
+            Collection col = _objectWithContextProperty.getTaggedValues();
+            ProjectBrowser pb = ProjectBrowser.TheInstance;
+            if (col.contains(this)) {
+              if ((getTag().equals(_tagStringBak))&&(getValue().equals(_valStringBak))) return;
+              else {
+                if  (!(getTag().equals(_tagStringBak))) {
+                  this.setTag(_tagStringBak);
+                  pb.getDetailsPane().updateUI();
+                  pb.getNavPane().forceUpdate();
+                }
+                if  (!(getValue().equals(_valStringBak))) {
+                  this.setValue(_valStringBak);
+                  pb.getDetailsPane().updateUI();
+                }
+                JOptionPane.showMessageDialog(null,"You tried to modify a Context Property.\nThis is not possible in the TaggedValues-Panel.\nUse instead the ContextProperty-PropertiesPanel !");
+              }
+            }
+            else {
+              this.setTag(_tagStringBak);
+              this.setValue(_valStringBak);
+              _objectWithContextProperty.addTaggedValue(this);
+              pb.getDetailsPane().updateUI();
+              pb.getNavPane().forceUpdate();
+              pb.getDetailsPane().selectTabNamed("Properties");
+              pb.getDetailsPane().selectTabNamed("TaggedValues");
+              pb.getNavPane().forceUpdate();
+              JOptionPane.showMessageDialog(null,"You tried to modify a Context Property.\nThis is not possible in the TaggedValues-Panel.\nUse instead the ContextProperty-PropertiesPanel !");
+            }
+          }
+          else {
+            // Let's work FigTerminator !
+          }
+        }
+
         public void removeMe() {
           _myFigure.destroyMe();
         }
 
         public void logicalRefByModelElement(MModelElement __arg) {
           _objectWithContextProperty = __arg;
-        }
-
-        public MNamespace getNamespace() {
-          return(_objectWithContextProperty.getNamespace());
         }
 
         public MModelElement getReferencedModelElement() {
