@@ -4,6 +4,8 @@ import org.argouml.application.api.ArgoModule;
 import java.util.Vector;
 import org.argouml.cognitive.critics.Agency;
 import org.cocons.argo.cognitive.critics.*;
+import org.cocons.argo.ui.*;
+import org.tigris.gef.util.*;
 
 /**
  * The module that loads the CoCons into ArgoUML.
@@ -13,11 +15,18 @@ import org.cocons.argo.cognitive.critics.*;
  */
 public class CCLModule implements ArgoModule {
 
+  private static String IMAGEDIR="/org/cocons/argo/Images";
+
   public CCLModule() {
   }
   public boolean initializeModule() {
     org.cocons.argo.cognitive.critics.Init criticInit = new org.cocons.argo.cognitive.critics.Init();
     criticInit.run();
+    ResourceLoader.addResourceLocation(IMAGEDIR);
+    org.cocons.argo.diagram.Init cclDiagInit = new org.cocons.argo.diagram.Init();
+    cclDiagInit.run();
+    org.cocons.argo.ui.Init cclInit = new org.cocons.argo.ui.Init();
+    cclInit.run();
     return true;
   }
   public boolean shutdownModule() {
