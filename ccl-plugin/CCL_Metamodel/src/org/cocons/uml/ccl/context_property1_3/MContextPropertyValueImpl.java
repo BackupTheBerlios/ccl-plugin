@@ -319,8 +319,8 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
                 _valString_vertical = _valString_vertical + (String)_validStrings.elementAt(i) + " \n> ";
               }
               else {
-                _valString_horizontal = _valString_horizontal + (String)_validStrings.elementAt(i)+" ["+ (String)_stringDependencies.elementAt(i)+"]" + ", ";
-                _valString_vertical = _valString_vertical + (String)_validStrings.elementAt(i)+" ["+ (String)_stringDependencies.elementAt(i)+"]" + " \n> ";
+                _valString_horizontal = _valString_horizontal + (String)_validStrings.elementAt(i)+" ("+ (String)_stringDependencies.elementAt(i)+")" + ", ";
+                _valString_vertical = _valString_vertical + (String)_validStrings.elementAt(i)+" ("+ (String)_stringDependencies.elementAt(i)+")" + " \n> ";
               }
             }
           }
@@ -384,8 +384,8 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
                 _valString_vertical = _valString_vertical + (String)_definedIntegers.elementAt(i) + " \n> ";
               }
               else {
-                _valString_horizontal = _valString_horizontal + (String)_definedIntegers.elementAt(i)+" ["+ (String)_intDependencies.elementAt(i)+"]" + ", ";
-                _valString_vertical = _valString_vertical + (String)_definedIntegers.elementAt(i)+" ["+ (String)_intDependencies.elementAt(i)+"]" + " \n> ";
+                _valString_horizontal = _valString_horizontal + (String)_definedIntegers.elementAt(i)+" ("+ (String)_intDependencies.elementAt(i)+")" + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedIntegers.elementAt(i)+" ("+ (String)_intDependencies.elementAt(i)+")" + " \n> ";
               }
             }
           }
@@ -478,8 +478,8 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
                 _valString_vertical = _valString_vertical + (String)_definedFloats.elementAt(i) + " \n> ";
               }
               else {
-                _valString_horizontal = _valString_horizontal + (String)_definedFloats.elementAt(i)+" ["+ (String)_floatDependencies.elementAt(i)+"]" + ", ";
-                _valString_vertical = _valString_vertical + (String)_definedFloats.elementAt(i)+" ["+ (String)_floatDependencies.elementAt(i)+"]" + " \n> ";
+                _valString_horizontal = _valString_horizontal + (String)_definedFloats.elementAt(i)+" ("+ (String)_floatDependencies.elementAt(i)+")" + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedFloats.elementAt(i)+" ("+ (String)_floatDependencies.elementAt(i)+")" + " \n> ";
               }
             }
           }
