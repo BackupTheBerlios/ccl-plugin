@@ -1,9 +1,9 @@
 package org.cocons.argo.critics;
 
- import org.argouml.cognitive.critics.Agency;
- import org.argouml.cognitive.critics.Critic;
+import org.argouml.cognitive.critics.Agency;
+import org.argouml.cognitive.critics.Critic;
 
-
+import ru.novosoft.uml.foundation.core.MModelElementImpl;
 
 /**
  * Title:        CoCons
