@@ -56,11 +56,11 @@ public class Init implements Runnable {
 
 	diagramMenu.add(new ActionCCLInterface_SpecDiagram());
 
-	diagramMenu.add(new ActionCCLComponent_SpecDiagram());
-
         diagramMenu.add(new ActionCCLAtomicInvocationPathDiagram());
-
-	//diagramMenu.add(new ActionCCLCseComponentDiagram());
+	
+	diagramMenu.add(new ActionCCLComponent_SpecDiagram());
+	
+	diagramMenu.add(new ActionCCLCseComponentDiagram());
 
     }
 
