@@ -32,6 +32,12 @@ import org.cocons.uml.ccl.util.ContextConditionFactory;
  */
 
 public class FigContextbasedConstraint extends FigNodeModelElement {
+  private String nameString;
+  private boolean updateCoconType;
+  private boolean updateTargetDirect;
+  private boolean updateScopeDirect;
+  private boolean updateTargetIndirect;
+  private boolean updateScopeIndirect;
 
   ////////////////////////////////////////////////////////////////
   // instance variables
@@ -65,6 +71,9 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     // constructors
 
     public FigContextbasedConstraint() {
+         nameString = "hallo";
+
+
         // Put this rectangle behind the rest, so it goes first
         _bigPort = new FigRect(5, 5, 40, 85, Color.gray, Color.gray);
         //_bigPort = new FigCircle(10, 10, 20, 30, Color.gray, Color.gray);
@@ -242,6 +251,27 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   protected void updateTargetText() {
       MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
       if (me == null) return;
+      String newNameString = me.getName();
+      System.out.println(nameString);
+      System.out.println(newNameString);
+      if (nameString != null){
+        if(nameString.equals(newNameString) ){
+          updateTargetDirect = false;
+          updateTargetIndirect = false;
+        }
+        else{
+          updateTargetDirect = true;
+          updateTargetIndirect = true;
+          nameString = newNameString;
+        }
+      }
+      else {
+        updateTargetDirect = true;
+        updateTargetIndirect = true;
+        nameString = me.getName();
+      }
+
+
       String cocons = me.getName();
       if (cocons == null || me.getName() == null || me.getName().length() == 0)
       {
@@ -269,6 +299,23 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     protected void updateCoConsTypeText() {
         MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
         if (me == null) return;
+
+              String newNameString = me.getName();
+      if (nameString != null){
+        if(nameString.equals(newNameString) ){
+          updateCoconType = false;
+        }
+        else{
+          updateCoconType = true;
+          nameString = newNameString;
+        }
+      }
+      else {
+        updateCoconType = true;
+        nameString = me.getName();
+      }
+
+
         String cocons = me.getName();
         if (cocons == null || me.getName() == null || me.getName().length() == 0)
         {
@@ -295,6 +342,28 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   protected void updateScopeText() {
       MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
       if (me == null) return;
+
+      String newNameString = me.getName();
+      if (nameString != null){
+        if(nameString.equals(newNameString) ){
+          updateScopeDirect = false;
+          updateScopeIndirect = false;
+        }
+        else{
+          updateScopeDirect = true;
+          updateScopeIndirect = true;
+          nameString = newNameString;
+        }
+      }
+      else {
+        updateScopeDirect = true;
+        updateScopeIndirect = true;
+        nameString = me.getName();
+      }
+
+
+
+
       String cocons = me.getName();
       if (cocons == null || me.getName() == null || me.getName().length() == 0)
       {
@@ -352,11 +421,12 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       MContextbasedConstraintImpl me = (MContextbasedConstraintImpl) getOwner();
       if (me == null) return;
 
+
       String coconString = _targetText.getText();
       coconString = coconString + " " + _coconstypeText.getText();
       coconString = coconString + " " + _scopeText.getText();
 
-      System.out.println(coconString);
+      //System.out.println(coconString);
 
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
 
@@ -386,7 +456,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
       if (ccf.isValid()){
         String coConType = ccf.getCoConType();
-        System.out.println(coConType);
+        //System.out.println(coConType);
 
         Vector targetDirectElements = new Vector();
         targetDirectElements = ccf.getTargetDirectAssoziations();
@@ -404,56 +474,32 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         scopeIndirectElements = ccf.getScopeIndirectAssoziations();
         System.out.println(scopeIndirectElements);
 
-        //System.out.println("vor setdirect: " + me.getTargetElements());
-        //me.setTargetSetDirectElements(targetDirectElements);
-        //System.out.println("nach setdirect: " + me.getTargetElements());
-
-        /*
-        if (me.getCoConType() != null){
-          if(! me.getCoConType().equals(coConType)){
-
-            me.setCoConType(coConType);
-          }
-
+        System.out.println("vor setdirect: " + me.getTargetElements());
+        if(updateTargetDirect){
+          updateTargetDirect = false;
+          me.setTargetSetDirectElements(targetDirectElements);
         }
-        else {
-        me.setCoConType(coConType);
+        System.out.println("nach setdirect: " + me.getTargetElements());
+
+        if(updateScopeDirect){
+          updateScopeDirect = false;
+          me.setScopeSetDirectElements(scopeDirectElements);
         }
 
-        if (me.getTargetElements() != null){
-          if(! me.getTargetElements().equals(targetDirectElements)){
-            me.setTargetSetDirectElements(targetDirectElements);
-          }
-        }
-        else {
-        me.setTargetSetDirectElements(targetDirectElements);
+        if(updateTargetIndirect){
+          updateTargetIndirect = false;
+          me.setTargetSetContextConditions(targetIndirectElements);
         }
 
-        if(me.getScopedElements()!= null){
-          if(! me.getScopedElements().equals(scopeDirectElements)){
-            me.setScopeSetDirectElements(scopeDirectElements);
-          }
-        }
-        else me.setScopeSetDirectElements(scopeDirectElements);
-
-
-        if (me.getTargetSetContextConditions()  != null){
-          if (! me.getTargetSetContextConditions().equals(ccf.getTargetIndirectAssoziations())){
-            me.setTargetSetContextConditions(ccf.getTargetIndirectAssoziations());
-          }
-        }
-        else{
-          me.setTargetSetContextConditions(ccf.getTargetIndirectAssoziations());
+        if(updateScopeIndirect){
+          updateScopeIndirect = false;
+          me.setScopeSetContextConditions(scopeIndirectElements);
         }
 
-        if(me.getScopeSetContextConditions() != null){
-          if(! me.getScopeSetContextConditions().equals(ccf.getScopeIndirectAssoziations())){
-             me.setScopeSetContextConditions(ccf.getScopeIndirectAssoziations());
-          }
+        if(updateCoconType){
+          updateCoconType = false;
+          me.setCoConType(coConType);
         }
-        else {
-          me.setScopeSetContextConditions(ccf.getScopeIndirectAssoziations());
-        }*/
       }
 
   }
