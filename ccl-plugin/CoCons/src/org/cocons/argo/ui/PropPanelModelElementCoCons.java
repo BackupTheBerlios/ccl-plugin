@@ -58,6 +58,7 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
 
     protected JTextField targetsetField;
     protected UMLTextField coconsField;
+    protected UMLTextField coconType;
     protected JTextField scopesetField;
     protected JTextField attributeField;
     protected JComboBox coconTypeList;
@@ -94,7 +95,8 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
         Class mclass = MContextbasedConstraintImpl.class;
 
         targetsetField = new JTextField();
-        coconsField = new UMLTextField(this,new UMLTextProperty(mclass,"coconstypeField","getName","setName"));
+        coconsField = new UMLTextField(this,new UMLTextProperty(mclass,"coconsField","getName","setName"));
+        coconType = new UMLTextField(this,new UMLTextProperty(mclass,"coconTypeField","getCoConType","setCoConType"));
         scopesetField = new JTextField();
         coconTypeList = new JComboBox();
         attributeField = new JTextField();
@@ -127,6 +129,7 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
                 cocons.remove("cocontype");
                 cocons.put("cocontype",("MUST BE " +newSelected));
                 coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
+                coconType.setText(""+cocons.get("cocontype"));
             }
         });
 
