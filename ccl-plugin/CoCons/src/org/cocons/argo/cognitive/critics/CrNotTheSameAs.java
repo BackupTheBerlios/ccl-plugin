@@ -58,13 +58,17 @@ public class CrNotTheSameAs extends CrCoCon {
 	  cocon.update();
 	  Vector targetSet = cocon.getTargetElements();
 	  Vector scopeSet = cocon.getScopedElements();
-	  for (int t = 0; t < targetSet.size(); t++) {
-	if (!scopeSet.contains(targetSet.elementAt(t))) {
-	  return PROBLEM_FOUND;
-	}
-	  }
+	  // check for null first!
+          if ((targetSet!=null) && (scopeSet!=null)) {
+            for (int t = 0; t < targetSet.size(); t++) {
+	      if (!scopeSet.contains(targetSet.elementAt(t))) {
+	        return PROBLEM_FOUND;
+	      }
+            }
+          }
 	}
 	return NO_PROBLEM;
+
   }
 
   protected boolean predicate(MContextbasedConstraint cocon) {
