@@ -17,7 +17,7 @@ import org.cocons.argo.diagram.business_type.ui.*;
 
 public class ActionCCLBusiness_TypeDiagram extends UMLAction {
   public ActionCCLBusiness_TypeDiagram() {
-    super("CCLBusiness_TypeDiagramm");
+    super("BusinessTypeDiagram");
   }
 
   public void actionPerformed(ActionEvent ae) {
@@ -36,4 +36,4 @@ public class ActionCCLBusiness_TypeDiagram extends UMLAction {
     Actions.updateAllEnabled();
     super.actionPerformed(ae);
   }
-} 
+}
