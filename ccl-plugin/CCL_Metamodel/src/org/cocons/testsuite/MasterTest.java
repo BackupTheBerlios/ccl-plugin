@@ -27,7 +27,12 @@ public class MasterTest extends TestCase {
     TestSuite suite=new TestSuite();
     suite.addTest(CclTest.suite());
     suite.addTest(UmlTest.suite());
-    suite.addTest(TestDesignCritic.suite());
+    suite.addTest(org.cocons.argo.cognitive.test.TestAllRecursively.suite());
     return suite;
   }
+
+  public static void main(String[] args) {
+    junit.swingui.TestRunner.run(MasterTest.class);
+  }
+
 }
