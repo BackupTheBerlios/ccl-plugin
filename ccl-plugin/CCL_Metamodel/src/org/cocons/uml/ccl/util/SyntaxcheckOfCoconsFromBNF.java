@@ -643,62 +643,70 @@ public class SyntaxcheckOfCoconsFromBNF {
         if ( urElementSelections.equals("") || urElementSelections == null) {
             return null;
         } else {
-            int maxIndex = 0;
-            StringTokenizer ind = new StringTokenizer(urElementSelections);
-            while (ind.hasMoreTokens()) {
-                String e = ind.nextToken();
-                if (e.equals("OR")) {
-                    maxIndex++;
-                } else {
-                    maxIndex = maxIndex;
-                }
-            }
-            String[] elements = new String [maxIndex+1];
-            for (int i = 0; i < maxIndex+1; i++) {
-                elements[i] = "";
-            }
-            int index = 0;
-            StringTokenizer st = new StringTokenizer(urElementSelections);
-            while (st.hasMoreTokens()) {
-                String e = st.nextToken();
-                if (!e.equals("OR")) {
-                    elements[index] = elements[index] + e + " ";
-                    index = index;
-                } else {
-                    index++;
-                }
-            }
-
-            Vector e = new Vector();
-            Vector ee = new Vector();
-            Vector elementselection = new Vector();
-            for (int i = 0; i < index+1; i++) {
-                e.addElement(elements[i]);
-            }
-            for (int i = 0; i < index+1; i++) {
-                if (isIndirect((e.get(i)).toString()) || isDirect((e.get(i)).toString())){
-                    ee.addElement(e.get(i));
-                }
-            }
-            int[] rere = new int[ee.size()];
-            for (int i = 0; i < ee.size()-1; i++) {
-                rere[i] = e.indexOf(ee.get(i+1)) - e.indexOf(ee.get(i));
-            }
-            for(int i= 0; i < ee.size(); i++) {
-                String temp1 = "";
-                if( rere[i] != 0) {
-                    String temp2 = "";
-                    for(int j = 0; j < rere[i]-1; j++){
-                        temp2 = temp2 + "OR " + (e.get(i+j+1)).toString();
+            int allcounter = stringCounter(urElementSelections,"ALL");
+            if (allcounter != 1) {
+                int maxIndex = 0;
+                StringTokenizer ind = new StringTokenizer(urElementSelections);
+                while (ind.hasMoreTokens()) {
+                    String e = ind.nextToken();
+                    if (e.equals("OR")) {
+                        maxIndex++;
+                    } else {
+                        maxIndex = maxIndex;
                     }
-                    temp1 = (ee.get(i)).toString() + temp2;
                 }
-                else {
-                    temp1 = (ee.get(i)).toString();
+                String[] elements = new String [maxIndex+1];
+                for (int i = 0; i < maxIndex+1; i++) {
+                    elements[i] = "";
                 }
-                elementselection.addElement(temp1);
+                int index = 0;
+                StringTokenizer st = new StringTokenizer(urElementSelections);
+                while (st.hasMoreTokens()) {
+                    String e = st.nextToken();
+                    if (!e.equals("OR")) {
+                        elements[index] = elements[index] + e + " ";
+                        index = index;
+                    } else {
+                        index++;
+                    }
+                }
+
+                Vector e = new Vector();
+                Vector ee = new Vector();
+                Vector elementselection = new Vector();
+                for (int i = 0; i < index+1; i++) {
+                    e.addElement(elements[i]);
+                }
+                for (int i = 0; i < index+1; i++) {
+                    if (isIndirect((e.get(i)).toString()) || isDirect((e.get(i)).toString())){
+                        ee.addElement(e.get(i));
+                    }
+                }
+                int[] rere = new int[ee.size()];
+                for (int i = 0; i < ee.size()-1; i++) {
+                    rere[i] = e.indexOf(ee.get(i+1)) - e.indexOf(ee.get(i));
+                }
+                for(int i= 0; i < ee.size(); i++) {
+                    String temp1 = "";
+                    if( rere[i] != 0) {
+                        String temp2 = "";
+                        for(int j = 0; j < rere[i]-1; j++){
+                            temp2 = temp2 + "OR " + (e.get(i+j+1)).toString();
+                        }
+                        temp1 = (ee.get(i)).toString() + temp2;
+                    }
+                    else {
+                        temp1 = (ee.get(i)).toString();
+                    }
+                    elementselection.addElement(temp1);
+                }
+                return elementselection;
             }
-            return elementselection;
+            else {
+                Vector elementselection = new Vector();
+                elementselection.addElement(urElementSelections);
+                return elementselection;
+            }
         }
     }
 
@@ -1347,6 +1355,22 @@ public class SyntaxcheckOfCoconsFromBNF {
             }
             return result;
         }
+    }
+    
+    
+    public String getTag(String inputSet) {
+        String tag = "";
+        Vector elements = new Vector();
+        StringTokenizer st = new StringTokenizer(inputSet);
+        while (st.hasMoreTokens()) {
+             elements.addElement(st.nextToken());
+        }
+        if (null != elements) {
+            if (0 < elements.size()) {
+                tag = (elements.get(0)).toString();
+            }
+        }
+        return tag;
     }
 
     /**
@@ -2569,7 +2593,7 @@ public class SyntaxcheckOfCoconsFromBNF {
     /*
      * main methode for test
      */
-	/*
+    /*
     public static void main(String args[]) {
         //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
         //String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5' AND 'n' = '3' ";
@@ -2595,7 +2619,7 @@ public class SyntaxcheckOfCoconsFromBNF {
         coconsBNF.printAllElementHashtable(coconsBNF.parserCoCons(convert2.finalConvert(cocons)));
         //System.out.println(coconsBNF.getFirstComparison("ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer'"));
    }
-	*/
+    */
 
 
 }
