@@ -31,6 +31,7 @@ import org.cocons.uml.ccl.ccldata.CoConSetConditionUnion;
 import org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem;
 import org.cocons.uml.ccl.ccldata.CoConSetItem;
 
+import org.cocons.uml.ccl.ccldata.types.IdType;
 import org.cocons.uml.ccl.ccldata.types.RestrictionType;
 import org.cocons.uml.ccl.ccldata.types.SetoperatorType;
 import org.cocons.uml.ccl.ccldata.types.SingleoperatorType;
@@ -52,6 +53,7 @@ public class Parser {
     cocon.setType(mcocon.getCoConType());
 //get all contextConditions of the TARGETSET
     CoConSet target = new CoConSet();
+    target.setId(IdType.TARGET);
     for (int i = 0; i < mcocon.getTargetSetContextConditions().size(); i++) {
       if (mcocon.getTargetSetContextConditions().elementAt(i) instanceof ContextCondition) {
         ContextCondition cc =
@@ -69,7 +71,28 @@ public class Parser {
         target.addCoConSetItem(setItem);
       }
     }
-
+//get all contextConditions of the SCOPESET
+    CoConSet scope = new CoConSet();
+    target.setId(IdType.SCOPE);
+    for (int i = 0; i < mcocon.getScopeSetContextConditions().size(); i++) {
+      if (mcocon.getScopeSetContextConditions().elementAt(i) instanceof ContextCondition) {
+        ContextCondition cc =
+          (ContextCondition)mcocon.getScopeSetContextConditions().elementAt(i);
+        CoConSetCondition setCondition = new CoConSetCondition();
+//range
+        setCondition.setRange(cc.getRange());
+//baseClass -- restriction
+        setCondition.addCoConSetConditionRestriction(getRestriction(cc.getBaseClass()));
+//fill in the conditions
+        CoConSetConditionChoice setChoice = getConditionChoice(cc);
+        setCondition.setCoConSetConditionChoice(setChoice);
+        CoConSetItem setItem = new CoConSetItem();
+        setItem.setCoConSetCondition(setCondition);
+        scope.addCoConSetItem(setItem);
+      }
+    }
+    cocon.addCoConSet(target);
+    cocon.addCoConSet(scope);
     return cocon;
   }
 
@@ -213,7 +236,7 @@ public class Parser {
   private static CoConSetConditionQuerySingleValue toQuerySingleValue(Comparison comp) {
     CoConSetConditionQuerySingleValue singleValue = new CoConSetConditionQuerySingleValue();
     singleValue.setProperty(comp.getTag());
-    singleValue.setValue(comp.getValue());
+    singleValue.setValue(comp.getValue().toString());
     if (comp.getComparator() instanceof Greater) {
       if (comp.isNegated()) {
         singleValue.setSingleoperator(SingleoperatorType.LOWEREQUAL);
@@ -238,7 +261,7 @@ public class Parser {
     CoConSetConditionQuerySet querySet = new CoConSetConditionQuerySet();
     querySet.setProperty(comp.getTag());
     CoConSetConditionQueryForSetValue value = new CoConSetConditionQueryForSetValue();
-    value.setValue(comp.getValue());
+    value.setValue(comp.getValue().toString());
     querySet.addCoConSetConditionQueryForSetValue(value);
     if(comp.getComparator() instanceof Contains) {
       if (comp.isNegated()) {
