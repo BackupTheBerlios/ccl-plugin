@@ -51,9 +51,9 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 		//The now possible range is All that's no restriction, so I don't need to check this.
 
 		// check base class
-		if (!BaseClasses.objectMatchsType(modelElement, this.getRange())) {
+		if (!BaseClasses.objectMatchsType(modelElement, this.getBaseClass())) {
 			return false;
-		};
+		}
 
 		return super.isCompliedWith(modelElement);
 	}
@@ -107,7 +107,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	public void setRange(String new_range) {
 		_range = new_range;
 	}
-	
+
 	/**
 	 * Checks weather the context condition's base class is valid.
 	 * Creation date: (08.02.2002 13:37:45)
@@ -129,12 +129,12 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 		}
 
 		return valid;
-	} 
-	
+	}
+
 	/**
 	* Checks weather the context condition's range is valid.
 	* Creation date: (08.02.2002 13:37:45)
-	* @return boolean true - if the range is given through an (long) integer or one 
+	* @return boolean true - if the range is given through an (long) integer or one
 	* of its defined keywords such as ALL.
 	* @see org.cocons.uml.ccl.CCLConstants
 	*/
