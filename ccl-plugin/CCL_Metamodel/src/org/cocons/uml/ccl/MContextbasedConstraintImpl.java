@@ -233,6 +233,17 @@ public class MContextbasedConstraintImpl
           }
 	}
 
+
+        /**
+         * Updates the CoCons, that means the scope and target set will be
+         * updated to be consistent with the current model.
+         */
+        public void update() {
+          setScopeSetContextConditions(_scopeSet);
+          setTargetSetContextConditions(_targetSet);
+
+        }
+
         /**
          * Sets the direct associated elements for the target set. Calling
          * this method with parameter null will reset the direct scope set.
@@ -411,7 +422,7 @@ public class MContextbasedConstraintImpl
 		CoConSetDirectReference thewarehouse = new CoConSetDirectReference();
 		thewarehouseitem.setCoConSetDirectReference( thewarehouse );
 		thewarehouse.setElement("warehouse");
-		
+
 		// ein item fuer
 		// all elements where (x < 18 and y > 15) or 'pw' contains 'eins'
 		CoConSetItem x18_y15_pweins_item = new CoConSetItem();
@@ -421,7 +432,7 @@ public class MContextbasedConstraintImpl
 
 		// "... all components ..."
 		x18_y15_pweins.setRange("all");
-		CoConSetConditionRestriction x18_y15_pweins_restr 
+		CoConSetConditionRestriction x18_y15_pweins_restr
 			= new CoConSetConditionRestriction();
 		x18_y15_pweins_restr.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.ELEMENTS);
 		x18_y15_pweins.
@@ -434,9 +445,9 @@ public class MContextbasedConstraintImpl
 		// "... or ..."
 		CoConSetConditionUnion x18_y15_pweins_union = new CoConSetConditionUnion();
 		x18_y15_pweins_choice.setCoConSetConditionUnion( x18_y15_pweins_union );
-		
+
 		// "x<18 and y>15"
-		CoConSetConditionUnionItem x18_y15_uitem = 
+		CoConSetConditionUnionItem x18_y15_uitem =
 			new CoConSetConditionUnionItem();
 		x18_y15_pweins_union.addCoConSetConditionUnionItem( x18_y15_uitem );
 
@@ -448,7 +459,7 @@ public class MContextbasedConstraintImpl
 			new CoConSetConditionIntersectionItem();
 		x18_y15_isec.addCoConSetConditionIntersectionItem( x18_item );
 
-		CoConSetConditionQuerySingleValue x18_query = 
+		CoConSetConditionQuerySingleValue x18_query =
 			new CoConSetConditionQuerySingleValue();
 		x18_item.setCoConSetConditionQuerySingleValue( x18_query );
 		x18_query.setProperty("x");
@@ -459,7 +470,7 @@ public class MContextbasedConstraintImpl
 			new CoConSetConditionIntersectionItem();
 		x18_y15_isec.addCoConSetConditionIntersectionItem( y15item );
 
-		CoConSetConditionQuerySingleValue y15query = 
+		CoConSetConditionQuerySingleValue y15query =
 			new CoConSetConditionQuerySingleValue();
 		y15item.setCoConSetConditionQuerySingleValue( y15query );
 		y15query.setProperty("y");
@@ -467,7 +478,7 @@ public class MContextbasedConstraintImpl
 		y15query.setValue("15");
 
 		// "pw contains eins"
-		CoConSetConditionUnionItem pweins_uitem = 
+		CoConSetConditionUnionItem pweins_uitem =
 			new CoConSetConditionUnionItem();
 		x18_y15_pweins_union.addCoConSetConditionUnionItem( pweins_uitem );
 
@@ -482,7 +493,7 @@ public class MContextbasedConstraintImpl
 		pweins_eins_val.setValue("eins");
 		pweins_query.addCoConSetConditionQueryForSetValue( pweins_eins_val );
 		//CoConSetConditionQuerySet pweins = new CoConSetConditionQuerySet();
-		
+
 
 
 
@@ -507,7 +518,7 @@ public class MContextbasedConstraintImpl
 
 		// "... all components ..."
 		all_z99_cond.setRange("all");
-		CoConSetConditionRestriction all_z99_cond_r 
+		CoConSetConditionRestriction all_z99_cond_r
 			= new CoConSetConditionRestriction();
 		all_z99_cond_r.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.COMPONENTS);
 		all_z99_cond.
@@ -517,7 +528,7 @@ public class MContextbasedConstraintImpl
 		CoConSetConditionChoice all_z99_cond_choice = new CoConSetConditionChoice();
 		all_z99_cond.setCoConSetConditionChoice( all_z99_cond_choice );
 
-		CoConSetConditionQuerySingleValue z99_query = 
+		CoConSetConditionQuerySingleValue z99_query =
 			new CoConSetConditionQuerySingleValue();
 		all_z99_cond_choice.setCoConSetConditionQuerySingleValue( z99_query );
 		z99_query.setProperty("z");
@@ -533,7 +544,7 @@ public class MContextbasedConstraintImpl
 
 		// "... all components ..."
 		all_z50_cond.setRange("all");
-		CoConSetConditionRestriction all_z50_cond_r 
+		CoConSetConditionRestriction all_z50_cond_r
 			= new CoConSetConditionRestriction();
 		all_z50_cond_r.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.COMPONENTS);
 		all_z50_cond.
@@ -543,7 +554,7 @@ public class MContextbasedConstraintImpl
 		CoConSetConditionChoice all_z50_cond_choice = new CoConSetConditionChoice();
 		all_z50_cond.setCoConSetConditionChoice( all_z50_cond_choice );
 
-		CoConSetConditionQuerySingleValue z50_query = 
+		CoConSetConditionQuerySingleValue z50_query =
 			new CoConSetConditionQuerySingleValue();
 		all_z50_cond_choice.setCoConSetConditionQuerySingleValue( z50_query );
 		z50_query.setProperty("z");
@@ -554,7 +565,7 @@ public class MContextbasedConstraintImpl
 
 
 
-		
+
 
 
 		// attrib
