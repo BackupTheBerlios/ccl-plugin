@@ -195,6 +195,8 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
         _toolBar.add(ActionManageContextPropertyTags.SINGLETON);
         _toolBar.add(ActionInfoContextPropertyTags.SINGLETON);
         _toolBar.add(ActionIdentifyContextProperty.SINGLETON);
+	_toolBar.add(ActionShowAllContextPropertyValues.SINGLETON);
+	_toolBar.add(ActionHideAllContextPropertyValues.SINGLETON);
         _toolBar.addSeparator();
         _toolBar.add(ActionAddContextProperty.SINGLETON);
         _toolBar.addSeparator();

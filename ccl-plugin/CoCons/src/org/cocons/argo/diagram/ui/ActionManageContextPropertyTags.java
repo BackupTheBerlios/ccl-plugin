@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import java.util.Vector;
+import java.util.Collection;
 
 import org.tigris.gef.util.ResourceLoader;
 
@@ -17,6 +18,8 @@ import org.cocons.uml.ccl.context_property1_3.*;
 import ru.novosoft.uml.foundation.core.MConstraint;
 import ru.novosoft.uml.foundation.core.MConstraintImpl;
 import ru.novosoft.uml.foundation.data_types.*;
+import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
+import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
  * Title:        CCL-Plugin for ArgoUML
@@ -194,7 +197,8 @@ public class ActionManageContextPropertyTags extends UMLAction  {
       _dialog.getContentPane().add(validValuesPanel,"Center");
 
       _dialog.setSize(220,135);
-      //dialog.setResizable(false);
+//*nix friendly     _dialog.setResizable(false);
+      _dialog.setResizable(true);
       Toolkit tk = Toolkit.getDefaultToolkit();
       int screenWidth = tk.getScreenSize().width;
       int screenHeight = tk.getScreenSize().height;
@@ -331,7 +335,8 @@ public class ActionManageContextPropertyTags extends UMLAction  {
       _dialog2.getContentPane().add(okayButton,"South");
       _dialog2.getContentPane().add(_unitTextField,"Center");
       _dialog2.setSize(200,90);
-      _dialog2.setResizable(false);
+//*nix friendly      _dialog2.setResizable(false);
+       _dialog.setResizable(true);
       Toolkit tk = Toolkit.getDefaultToolkit();
       int screenWidth = tk.getScreenSize().width;
       int screenHeight = tk.getScreenSize().height;
@@ -414,7 +419,8 @@ public class ActionManageContextPropertyTags extends UMLAction  {
       _dialog.getContentPane().add(newNamePanel,"Center");
       _dialog.getContentPane().add(buttonPanel,"South");
       _dialog.setSize(230,130);
-      //_dialog.setResizable(false);
+//*nix Friendly      _dialog.setResizable(false);
+      _dialog.setResizable(true);
       Toolkit tk = Toolkit.getDefaultToolkit();
       int screenWidth = tk.getScreenSize().width;
       int screenHeight = tk.getScreenSize().height;
@@ -456,31 +462,55 @@ public class ActionManageContextPropertyTags extends UMLAction  {
 
       Vector cpTaggedValues = _modelIterator.getAllContextPropertyValues();
       int targetCounter = 0;
+      int targetCounter2 = 0;
       for (int i = 0; i < cpTaggedValues.size(); i++) {
         MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
-        if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) targetCounter++;
+        if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) {
+          targetCounter++;
+          if (this.tagIsStandardTaggedValue(tagName,cpTaggedValue.getReferencedModelElement())) targetCounter2++;
+        }
       }
 
       int selection = 0;
-      if (targetCounter > 0) {
-        Object[] options = { "Change","Cancel","Identify" };
-        selection = JOptionPane.showOptionDialog(null,"   "+targetCounter+" Context Properties reference\n   the Context Property Tag \""+_choosenTag+"\"\n   that you want to change !","Information",JOptionPane.CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
-      }
-      else {
-        Object[] options = { "Change","Cancel" };
-        selection = JOptionPane.showOptionDialog(null,"Change Context Property Tag \""+_choosenTag+"\" ?","Warning",JOptionPane.CANCEL_OPTION,JOptionPane.ERROR_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
-      }
-      if (selection == 1) {}
-      else if (selection == 0) {
-        _modelIterator.changeContextPropertyTagName(_choosenTag,tagName,targetCounter);
-      }
-      else {
-        // markieren
-        for (int i = 0; i < cpTaggedValues.size(); i++) {
-          MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
-          if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) cpTaggedValue.markFigure();
+      if (targetCounter2 > 0) {
+        Object[] options = { "Identify","Cancel" };
+        selection = JOptionPane.showOptionDialog(null,"   "+targetCounter2+" Context Properties reference\n   model elements with a TaggedValue \""+tagName+"\" !\n   You should rename these TaggedValues first !","Information",JOptionPane.CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,_manageContextPropertyTagsIcon,options,"Identify");
+        if (selection == 0) {
+          // markieren
+          for (int i = 0; i < cpTaggedValues.size(); i++) {
+            MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
+            cpTaggedValue.resetFigureColor();
+            if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) {
+              if (this.tagIsStandardTaggedValue(tagName,cpTaggedValue.getReferencedModelElement())) cpTaggedValue.markFigure();
+            }
+          }
+          _ident.setResetMode();
         }
-        _ident.setResetMode();
+        else {}
+      }
+      else {
+        selection = 0;
+        if (targetCounter > 0) {
+          Object[] options = { "Change","Cancel","Identify" };
+          selection = JOptionPane.showOptionDialog(null,"   "+targetCounter+" Context Properties reference\n   the Context Property Tag \""+_choosenTag+"\"\n   that you want to change !","Information",JOptionPane.CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
+        }
+        else {
+          Object[] options = { "Change","Cancel" };
+          selection = JOptionPane.showOptionDialog(null,"Change Context Property Tag \""+_choosenTag+"\" ?","Warning",JOptionPane.CANCEL_OPTION,JOptionPane.ERROR_MESSAGE,_manageContextPropertyTagsIcon,options,"Cancel");
+        }
+        if (selection == 1) {}
+        else if (selection == 0) {
+          _modelIterator.changeContextPropertyTagName(_choosenTag,tagName,targetCounter);
+        }
+        else {
+          // markieren
+          for (int i = 0; i < cpTaggedValues.size(); i++) {
+            MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
+            if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) cpTaggedValue.markFigure();
+            else cpTaggedValue.resetFigureColor();
+          }
+          _ident.setResetMode();
+        }
       }
       finishDialog();
     }
@@ -494,6 +524,18 @@ public class ActionManageContextPropertyTags extends UMLAction  {
         else return(false);
       }
       return(true);
+    }
+
+    private boolean tagIsStandardTaggedValue(String selectedTag, MModelElement target) {
+      Collection col = target.getTaggedValues();
+      if (col != null) {
+        Object[] taggedValues = col.toArray();
+        for (int i = 0; i < taggedValues.length; i++) {
+          if (((MTaggedValue)taggedValues[i]).getTag().equals(selectedTag)) return(true);
+        }
+        return(false);
+      }
+      else return(false);
     }
 
     private boolean isNewTag(Vector tagNameList, int tagListSize, String tagName) {
@@ -568,7 +610,8 @@ public class ActionManageContextPropertyTags extends UMLAction  {
       _dialog.getContentPane().add(buttonPanel,"South");
       _dialog.getContentPane().add(namePanel,"North");
       _dialog.setSize(220,95);
-      //_dialog.setResizable(false);
+//*nix Friendly      _dialog.setResizable(false);
+      _dialog.setResizable(true);
       Toolkit tk = Toolkit.getDefaultToolkit();
       int screenWidth = tk.getScreenSize().width;
       int screenHeight = tk.getScreenSize().height;
@@ -602,6 +645,7 @@ public class ActionManageContextPropertyTags extends UMLAction  {
         for (int i = 0; i < cpTaggedValues.size(); i++) {
           MContextPropertyValueImpl cpTaggedValue = (MContextPropertyValueImpl)cpTaggedValues.elementAt(i);
           if (cpTaggedValue.getContextPropertyTag().getTag().equals(_choosenTag)) cpTaggedValue.markFigure();
+          else cpTaggedValue.resetFigureColor();
         }
         _ident.setResetMode();
       }

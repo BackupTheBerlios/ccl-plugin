@@ -312,6 +312,7 @@ public class FigContextProperty
       try {
         while(_online) {
           this.sleep(500);
+          _owner.forceTagAndValueConsistency();
           if (_figure.getFigEdges().size() == 0)  {
             // das referenzierte Modellobject wurde gelöscht
             _figure.kill();

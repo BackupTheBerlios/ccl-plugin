@@ -54,6 +54,10 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
   ActionIdentifyContextProperty _actIdentifyCP = ActionIdentifyContextProperty.SINGLETON;
   protected static ImageIcon _contextPropertyArrow1Icon = ResourceLoader.lookupIconResource("ContextPropertyArrow1");
   protected static ImageIcon _contextPropertyArrow2Icon = ResourceLoader.lookupIconResource("ContextPropertyArrow2");
+  protected static ImageIcon _contextPropertyArrow3Icon = ResourceLoader.lookupIconResource("ShowAllContextPropertyValues");
+  ActionShowAllContextPropertyValues _actAllValues = ActionShowAllContextPropertyValues.SINGLETON;
+  protected static ImageIcon _contextPropertyArrow4Icon = ResourceLoader.lookupIconResource("HideAllContextPropertyValues");
+  ActionHideAllContextPropertyValues _actNoValues = ActionHideAllContextPropertyValues.SINGLETON;
 
   private JComboBox _nameBox;
   private JComboBox _stereoBox;
@@ -76,11 +80,13 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
     new PropPanelButton(this,buttonPanel,_manageContextPropertyTagsIcon,localize("ManageContextPropertyTags"),"manageContPropTags",null);
     new PropPanelButton(this,buttonPanel,_infoContextPropertyTagsIcon,localize("InfoContextPropertyTags"),"infoContPropTags",null);
     new PropPanelButton(this,buttonPanel,_identifyContextPropertyTagsIcon,localize("IdentifyContextProperty"),"identifyContPropTags",null);
+    new PropPanelButton(this,buttonPanel,_contextPropertyArrow3Icon,localize("Show values in all figures"),"showAllFigureValues",null);
+    new PropPanelButton(this,buttonPanel,_contextPropertyArrow4Icon,localize("Hide values in all figures"),"hideAllFigureValues",null);
     new PropPanelButton(this,buttonPanel,_contextPropertyArrow1Icon,localize("Show / Hide values in the figure"),"showHideFigureValues",null);
-    new PropPanelButton(this,buttonPanel,_contextPropertyArrow2Icon,localize("Show values vertical or horizontal"),"verticalHorizontal",null);
+    new PropPanelButton(this,buttonPanel,_contextPropertyArrow2Icon,localize("Arrange values vertical or horizontal"),"verticalHorizontal",null);
     new PropPanelButton(this,buttonPanel,_navUpIcon,localize("Go up"),"navigateUp",null);
-    new PropPanelButton(this,buttonPanel,_navBackIcon,localize("Go back"),"navigateBackAction","isNavigateBackEnabled");
-    new PropPanelButton(this,buttonPanel,_navForwardIcon,localize("Go forward"),"navigateForwardAction","isNavigateForwardEnabled");
+    //new PropPanelButton(this,buttonPanel,_navBackIcon,localize("Go back"),"navigateBackAction","isNavigateBackEnabled");
+    //new PropPanelButton(this,buttonPanel,_navForwardIcon,localize("Go forward"),"navigateForwardAction","isNavigateForwardEnabled");
     new PropPanelButton(this,buttonPanel,_deleteIcon,localize("Delete ContextProperty"),"removeElement",null);
 
     addCaption("                       Tag Name     : ",1,0,0);
@@ -106,6 +112,13 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
                 _locked = false;
                 return;
               }
+              if (tagIsStandardTaggedValue(newTagName,target.getReferencedModelElement())) {
+                JOptionPane.showMessageDialog(null,"The model element \""+((MModelElement)target.getReferencedModelElement()).getName()+"\" has already\n a Tagged Value \""+newTagName+"\" !\nYou should rename this Tagged Value first !");
+                _locked = true;
+                _nameBox.setSelectedItem(bakTagName);
+                _locked = false;
+                return;
+              }
               target.resetFigureOrientation();
               target.resetValueVisibility();
               //
@@ -113,14 +126,14 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
               // 1) CPTag-Referenz aktualisieren
               target.setContextPropertyTag(refTag);
               // 2) CPValue entsprechend umbenennen (darauf horchen das NavPanel und das TaggedValuesPane)
-              target.setTag(newTagName);
+              target.setCPTag(newTagName);
               // 3) ... (Values)
               _valueTable.getModel().removeTableModelListener(getTableModelListener());
               ((ValueTableModel)_valueTable.getModel()).removeAllRows();
 
               _validValuesType = refTag.getValidValuesType();
               target.setValidValuesType(_validValuesType);
-              target.setValue("no values selected or defined");
+              target.setCPValue("no values selected or defined");
               target.setValueString_Horizontal("no values selected or defined ");
               target.setValueString_Vertical("\n> no values selected or defined \n");
               target.setStereoString("");
@@ -280,6 +293,8 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       ((MContextPropertyValueImpl)target).actualizeFigure();
     }
   }
+  public void showAllFigureValues() {_actAllValues.anonymActionPerformed();}
+  public void hideAllFigureValues() {_actNoValues.anonymActionPerformed();}
   public void removeElement() {
     Object target = getTarget();
     if(target instanceof MContextPropertyValueImpl) {
@@ -302,6 +317,18 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
         }
       }
       return(false);
+    }
+
+  private boolean tagIsStandardTaggedValue(String selectedTag, MModelElement target) {
+      Collection col = target.getTaggedValues();
+      if (col != null) {
+        Object[] taggedValues = col.toArray();
+        for (int i = 0; i < taggedValues.length; i++) {
+          if (((MTaggedValue)taggedValues[i]).getTag().equals(selectedTag)) return(true);
+        }
+        return(false);
+      }
+      else return(false);
     }
 
   public Object getReferencedModelElement() {
@@ -446,14 +473,14 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       if (changedCol == 1) {
         target.negateStringSelectionAt(changedRow);
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
       else if (changedCol == 2) {
         target.setStringDependencyAt(changedRow,(String)_valueTable.getModel().getValueAt(changedRow,2));
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
       else {}
     }
@@ -481,14 +508,14 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
         // Wert als Integer interpretierbar und innerhalb der Range ist !!!
         target.negateIntegerSelectionAt(changedRow);
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
       else if (changedCol == 2) {
         target.setIntegerDependencyAt(changedRow,(String)_valueTable.getModel().getValueAt(changedRow,2));
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
     }
     else if (_validValuesType.equals("Float Number")) {
@@ -515,14 +542,14 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
         // Wert als Float interpretierbar und innerhalb der Range ist !!!
         target.negateFloatSelectionAt(changedRow);
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
       else if (changedCol == 2) {
         target.setFloatDependencyAt(changedRow,(String)_valueTable.getModel().getValueAt(changedRow,2));
         target.actualizeFigure();
-        if (target.hasSelectedValues()) target.setValue(target.getValueString_Horizontal());
-        else target.setValue("no values selected or defined");
+        if (target.hasSelectedValues()) target.setCPValue(target.getValueString_Horizontal());
+        else target.setCPValue("no values selected or defined");
       }
     }
     else {}

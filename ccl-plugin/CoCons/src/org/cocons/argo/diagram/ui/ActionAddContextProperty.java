@@ -31,6 +31,7 @@ import org.tigris.gef.base.*;
 import org.tigris.gef.graph.*;
 import org.tigris.gef.presentation.*;
 import java.util.Vector;
+import java.util.Collection;
 import javax.swing.*;
 import org.cocons.argo.diagram.ui.FigContextProperty;
 import org.cocons.uml.ccl.context_property1_3.*;
@@ -75,6 +76,10 @@ public class ActionAddContextProperty extends UMLAction {
               JOptionPane.showMessageDialog(null,"The model element \""+((MModelElement)target).getName()+"\" has already\n a Context Property \""+choosenTag+"\" !");
               return;
             }
+            if (tagIsStandardTaggedValue(choosenTag,target)) {
+              JOptionPane.showMessageDialog(null,"The model element \""+((MModelElement)target).getName()+"\" has already\n a Tagged Value \""+choosenTag+"\" !\nYou should rename this Tagged Value first !");
+              return;
+            }
 
             if (!((target instanceof MClassifier)||(target instanceof MPackage))) return;
 
@@ -87,8 +92,8 @@ public class ActionAddContextProperty extends UMLAction {
             MContextPropertyTag referencedTag = _modelIterator.getContextPropertyTag(choosenTag);
             figureOwner.internalRefByContextPropertyTag(referencedTag);
             figureOwner.logicalRefByModelElement((MModelElement)target);
-            figureOwner.setTag(choosenTag);
-            figureOwner.setValue("no values defined or selected");
+            figureOwner.setCPTag(choosenTag);
+            figureOwner.setCPValue("no values selected or defined");
             ((MModelElement)target).addTaggedValue(figureOwner);
 
             FigContextProperty contextProperty = new FigContextProperty(gm,figureOwner);
@@ -162,6 +167,9 @@ public class ActionAddContextProperty extends UMLAction {
 	    }
             //super.actionPerformed(ae);
             pb.getNavPane().forceUpdate();
+            pb.getDetailsPane().updateUI();
+            pb.getDetailsPane().selectTabNamed("Properties");
+            pb.getDetailsPane().selectTabNamed("TaggedValues");
             contextProperty.startKiller();
             figureOwner.actualizeFigure();
           }
@@ -181,6 +189,18 @@ public class ActionAddContextProperty extends UMLAction {
         }
       }
       return(false);
+    }
+
+    private boolean tagIsStandardTaggedValue(String selectedTag, Object target) {
+      Collection col = ((MModelElement)target).getTaggedValues();
+      if (col != null) {
+        Object[] taggedValues = col.toArray();
+        for (int i = 0; i < taggedValues.length; i++) {
+          if (((MTaggedValue)taggedValues[i]).getTag().equals(selectedTag)) return(true);
+        }
+        return(false);
+      }
+      else return(false);
     }
 
     public boolean shouldBeEnabled() {
@@ -249,7 +269,8 @@ public class ActionAddContextProperty extends UMLAction {
 
 
       _dialog.setSize(220,95);
-      _dialog.setResizable(false);
+//*nix friendly      _dialog.setResizable(false);
+       _dialog.setResizable(true);
       Toolkit tk = Toolkit.getDefaultToolkit();
       int screenWidth = tk.getScreenSize().width;
       int screenHeight = tk.getScreenSize().height;
