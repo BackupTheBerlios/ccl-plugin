@@ -1,60 +1,69 @@
 package org.cocons.uml.ccl.context_property1_3;
 
-import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValueImpl;
+import ru.novosoft.uml.foundation.core.MModelElementImpl;
 
 import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
 
+import org.cocons.argo.util.ModelIterator;
+
+import java.util.Vector;
+
 /**
-* Wraps a MTaggedValue, but deprecats its get/setValue()-Method, so that a
+* //OLD Wraps a MTaggedValue, but deprecats its get/setValue()-Method, so that a
 * change from argouml's nsuml 1.3 to nsuml 1.4 is easily made.
-* Unfortunatly an Extension from MTaggedValueImpl is not possible, because
-* the methods to deprecate are final, thus shadowing won't work.
+* //OLD Unfortunatly an Extension from MTaggedValueImpl is not possible, because
+* //OLD the methods to deprecate are final, thus shadowing won't work.
 *
-* TO_DO: binary association with MContextPropertyValueImpl.
+* //OLD TO_DO: binary association with MContextPropertyValueImpl.
 *
 * Creation date: (21.12.2001 12:12:17)
 * @author: Fadi Chabarek, Stefan Tang, Philipp Schumacher.
 */
-public class MContextPropertyTagImpl extends MTaggedValueImpl implements MContextPropertyTag {
+public class MContextPropertyTagImpl extends MModelElementImpl implements MContextPropertyTag {
 
-	private MTaggedValue taggedValue;
-		private MContextPropertyValue contextValue;
+	
 
-	/**
-	 * MContextPropertyTag constructor comment.
-	 */
-	public MContextPropertyTagImpl() {
-		taggedValue = new MTaggedValueImpl();
-	}
-
-		public MContextPropertyValue getContextPropertyValue() {
-		  return contextValue;
-		}
-
-		public void internalRefByContextPropertyValue (MContextPropertyValue __arg){
-		  MContextPropertyValue __saved = contextValue;
-			if (contextValue != null) {
-			  contextValue.removeScopedTag(this);
+/**
+ * Forwarding to MModelElementImpl()
+ * Erstellungsdatum: (31.12.2001 04:04:31)
+ */
+public MContextPropertyTagImpl() {
+	super();	
+}
+/**
+ * This method deletes herself and all MContextPropertyValues beloging to this Tag.
+ * Erstellungsdatum: (31.12.2001 03:23:45)
+ */
+public void deleteMyself() {
+	//get all propertyValues belonging to this Tag
+	Vector values = new Vector();
+	ModelIterator iterator = new ModelIterator();
+	Vector allValues = iterator.getAllContextPropertyValues();
+	MContextPropertyValue aValue;
+	for (int i = 0; i < allValues.size(); i++) {
+		try{	
+			aValue = (MContextPropertyValue) allValues.elementAt(i);
+			if (aValue.getContextPropertyTag().equals(this)) {
+				// Hier muss der Value aus dem Project gelöscht werden	
 			}
-		  fireRefSet("propertyValue", __saved, __arg);
-		  contextValue = __arg;
-		}
-
-		public void internalUnrefByContextPropertyValue (MContextPropertyValue __arg) {
-		  fireRefSet("propertyValue", contextValue, null);
-		  contextValue = null;
-		}
-
-		public void removeScopedValue(MContextPropertyValue __arg){
-		  //remove the value...
-		}
-
-	/**
-	* Sets the value for this context based property tag.
-	* Creation date: (21.12.2001 18:18:34)
-	* @param contextValue MContextPropertyValue The related context based property value.
-	*/
-	public void setContextPropertyValue(MContextPropertyValue contextValue) {
-		this.contextValue = contextValue;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
+	// Hier muss der Tag aus dem Project gelöscht werden
+}
+/**
+ * Compares the argument with herself.
+ * Return true if both are the same.
+ * Erstellungsdatum: (31.12.2001 03:37:04)
+ * @return boolean
+ * @param __arg org.omg.CORBA.Object
+ */
+public boolean equals(Object __arg) {
+	// Hier sollte dann ContextPropertyGruppe
+	// eine vernüftige Vergleichsmethode implementieren
+	// diese is notwendig, um alle propValues ausfindig
+	// zu machen, die zu diesem Tag gehören
+	return false;
+}
 }

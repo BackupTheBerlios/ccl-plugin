@@ -24,7 +24,9 @@ public interface MContextPropertyValue extends MTaggedValue {
 	 */
   void internalRefByContextPropertyTag (MContextPropertyTag __arg);  
 
-  void internalUnrefByContextPropertyTag (MContextPropertyTag __arg);  
+/**
+ * This method removed the tag, that the value is belonging to.
+ */
 
-  void removeScopedTag(MContextPropertyTag __arg);  
+void removeScopedTag();
 }

@@ -18,49 +18,40 @@ import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
 */
 public class MContextPropertyValueImpl extends MTaggedValueImpl implements MContextPropertyValue {
 
-	private MTaggedValue taggedValue;
-		private MContextPropertyTag contextTag = null;
+	private MTaggedValue _taggedValue;
+		private MContextPropertyTag _contextTag = null;
 
 	/**
 	 * MContextPropertyTag constructor comment.
 	 */
 	public MContextPropertyValueImpl() {
-		taggedValue = new MTaggedValueImpl();
+		_taggedValue = new MTaggedValueImpl();
 	}
-
 	/**
 	* Returns the related tag for this context based value.
 	* Creation date: (21.12.2001 18:18:06)
 	* @return MContextPropertyTag The related context property tag.
 	*/
 	public MContextPropertyTag getContextPropertyTag() {
-		return contextTag;
+		return _contextTag;
 	}
-
 		public void internalRefByContextPropertyTag (MContextPropertyTag __arg){
-		  MContextPropertyTag __saved = contextTag;
-			if (contextTag != null) {
-			  contextTag.removeScopedValue(this);
-			}
+		  MContextPropertyTag __saved = _contextTag;
+			/*if (contextTag != null) {
+			  contextTag.removeScopedValue(this);  // nicht mehr, da die Beziehung nicht mehr bidirektional ist
+			}*/
 		  fireRefSet("propertyTag", __saved, __arg);
-		  contextTag = __arg;
+		  _contextTag = __arg;
 		}
-
-		public void internalUnrefByContextPropertyTag (MContextPropertyTag __arg) {
-		  fireRefSet("propertyTag", contextTag, null);
-		  contextTag = null;
+		public void removeScopedTag(){
+			_contextTag = null;
 		}
-
-		public void removeScopedTag(MContextPropertyTag __arg){
-		  //remove the tag...
-		}
-
 	/**
 	* Sets the tag for this context based property value.
 	* Creation date: (21.12.2001 18:18:34)
 	* @param contextTag MContextPropertyTag The related context based property tag.
 	*/
-	public void setContextPropertyTag(MContextPropertyTag contextTag) {
-		this.contextTag = contextTag;
+	public void setContextPropertyTag(MContextPropertyTag _contextTag) {
+		this._contextTag = _contextTag;
 	}
 }
