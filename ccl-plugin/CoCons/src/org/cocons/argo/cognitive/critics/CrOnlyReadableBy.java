@@ -4,6 +4,9 @@ import org.argouml.uml.cognitive.critics.CrUML;
 import org.argouml.cognitive.Designer;
 import org.cocons.uml.ccl.MContextbasedConstraintImpl;
 import org.cocons.uml.ccl.MContextCondition;
+import java.util.Vector;
+import org.argouml.ui.ProjectBrowser;
+import org.argouml.kernel.Project;
 
 /**
  * Title: UnReadableBy CoCon
@@ -32,8 +35,6 @@ public class CrOnlyReadableBy extends CrCoCon {
 
   /**
    * This method checks the OnlyReadableBy Constraint.
-   * Looks up all
-   *
    * @return <code>true</code> if this critic is to be applied, <code>
    *         false </code> otherwise.
    */
@@ -42,15 +43,24 @@ public class CrOnlyReadableBy extends CrCoCon {
     if (!(dm instanceof MContextbasedConstraintImpl)) {
       return NO_PROBLEM;
     }
-    //get ContextBasedConstraint and Sets
+
+    //get ContextBasedConstraint and check if the type is correct
     MContextbasedConstraintImpl CoCon = (MContextbasedConstraintImpl)dm;
-    MContextCondition constraintSet = CoCon.getConstrainedSet();
-    MContextCondition scopeSet = CoCon.getScopeSet();
+    if (CoCon.getCoConType()!=MContextbasedConstraintImpl.TYPE_ONLY_READABLE_BY) {
+      return NO_PROBLEM;
+    }
 
-    //looks up all model elements in the constraint set
+    //get ConstrainedElements
+  //  MContextCondition constrainedCondition = CoCon.getConstrainedSet();
+  //  Vector constrainedElements = CoCon.getConstrainedModelElements();
+    //getScopedElements
+  //  MContextCondition scopedCondition = CoCon.getScopeSet();
+  //  Vector scopedElements = CoCon.getScopedModelElements();
+
+    //look up all associations and check if any constraint is violated
+    Project project = ProjectBrowser.TheInstance.getProject();
 
 
-
-  return true;
+    return true;
   }
 }
