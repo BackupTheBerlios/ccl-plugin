@@ -131,8 +131,8 @@ public class ActionIdentifyContextProperty  extends UMLAction  {
             for (int i = 0; i < _modelIterator.getCountContextPropertyTags(); i++) {
               _nameBox.addItem(tagNames.elementAt(i));
             }
-            _nameBox.setBackground(Color.yellow);
-            _nameBox.setForeground(Color.black);
+            //_nameBox.setBackground(Color.yellow);
+            //_nameBox.setForeground(Color.black);
             _tagMode = true;
           }
           else if ((_modeBox.getSelectedIndex()==1)&&(_tagMode)) {
@@ -142,8 +142,8 @@ public class ActionIdentifyContextProperty  extends UMLAction  {
             _nameBox.addItem("Quality");
             _nameBox.addItem("Implement");
             _nameBox.addItem("Configure");
-            _nameBox.setBackground(Color.white);
-            _nameBox.setForeground(Color.red);
+            //_nameBox.setBackground(Color.white);
+            //_nameBox.setForeground(Color.red);
             _tagMode = false;
           }
           else {}
@@ -156,7 +156,8 @@ public class ActionIdentifyContextProperty  extends UMLAction  {
       JPanel namePanel = new JPanel();
       _nameLabel = new JLabel(" Tag Name :");
       _nameBox = new JComboBox();
-      _nameBox.setBackground(Color.yellow);
+      //_nameBox.setBackground(Color.yellow);
+      _nameBox.setBackground(Color.white);
       Vector tagNames = _modelIterator.getAllContextPropertyTagNames();
       for (int i = 0; i < _modelIterator.getCountContextPropertyTags(); i++) {
         _nameBox.addItem(tagNames.elementAt(i));
