@@ -194,6 +194,7 @@ public class MContextbasedConstraintImpl
               ModelIterator ite = new ModelIterator();
 	      Vector modelElements = ite.getAllModelElements();
               for (int i = 0; i < modelElements.size(); i++) {
+                if (!(modelElements.elementAt(i) instanceof MModelElement)) continue;
 	        MModelElement element = (MModelElement) modelElements.elementAt(i);
                 if (condition.isCompliedWith(element)) {
                   _scopeSetIndirectElements.addElement(element);
@@ -224,6 +225,7 @@ public class MContextbasedConstraintImpl
               ModelIterator ite = new ModelIterator();
 	      Vector modelElements = ite.getAllModelElements();
               for (int i = 0; i < modelElements.size(); i++) {
+                if (!(modelElements.elementAt(i) instanceof MModelElement)) continue;
 	        MModelElement element = (MModelElement) modelElements.elementAt(i);
                 if (condition.isCompliedWith(element)) {
                   _targetSetIndirectElements.addElement(element);
