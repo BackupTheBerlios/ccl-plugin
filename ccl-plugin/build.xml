@@ -362,7 +362,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
     <copy file="${manifest}" tofile="${build.dest}/${manifest}" filtering="on" overwrite="on" />
     <jar jarfile="${build.dir}/${name}.jar"
          basedir="${build.dest}"
-         includes="org/**"
+         includes="*/**"
          excludes="*.txt,*.bat,*.xml,*.sh,${manifest}"
          manifest="${build.dest}/${manifest}"/>
     <copy todir="${build.dir}">

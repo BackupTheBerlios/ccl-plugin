@@ -1,5 +1,5 @@
 
-// $Id: Business_TypeDiagramRenderer.java,v 1.3 2001/11/13 11:36:05 oetker Exp $
+// $Id: Business_TypeDiagramRenderer.java,v 1.4 2001/11/13 16:25:58 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -46,6 +46,10 @@ public class Business_TypeDiagramRenderer
             FigClass figC = new FigClass(gm, node);
             figC.setOperationVisible(false);
             return figC;
+        }
+        else if (node instanceof MBusiness_Type) {
+            FigBusiness_Type figB = new FigBusiness_Type(gm, node);
+            return figB;
         }
         else if (node instanceof MPackage) return new FigPackage(gm, node);         
         else if (node instanceof MContextPropertyTag) return new FigContextProperty(gm, node);

@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.2 2001/11/13 11:36:05 oetker Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.3 2001/11/13 16:25:58 oetker Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -60,6 +60,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public Vector getPorts(Object nodeOrEdge) {
     Vector res = new Vector();  //wasteful!
     if (nodeOrEdge instanceof MClass) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MBusiness_Type) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MPackage) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MContextPropertyTag) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MAssociation) res.addElement(nodeOrEdge);
@@ -81,6 +82,18 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     if (port instanceof MClass) {
       MClass cls = (MClass) port;
       Collection ends = cls.getAssociationEnds();
+      if (ends == null) return res; // empty Vector
+      //java.util.Enumeration endEnum = ends.elements();
+      Iterator iter = ends.iterator();
+      while (iter.hasNext()) {
+		  MAssociationEnd ae = (MAssociationEnd) iter.next();
+		  res.add(ae.getAssociation());
+      }
+    }
+    
+    if (port instanceof MBusiness_Type) {
+      MBusiness_Type bt = (MBusiness_Type) port;
+      Collection ends = bt.getAssociationEnds();
       if (ends == null) return res; // empty Vector
       //java.util.Enumeration endEnum = ends.elements();
       Iterator iter = ends.iterator();
@@ -191,7 +204,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public boolean canAddNode(Object node) {
     if (_nodes.contains(node)) return false;
     return ( (node instanceof MClass) || (node instanceof MPackage) || 
-            (node instanceof MContextPropertyTag) );
+            (node instanceof MContextPropertyTag) || (node instanceof MBusiness_Type));
   }
 
 
@@ -252,7 +265,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
-    if ( !( end0 instanceof MClass && end1 instanceof MClass) ) return false;
+    if ( !(( end0 instanceof MClass && end1 instanceof MClass) ||
+	   ( end0 instanceof MBusiness_Type && end1 instanceof MBusiness_Type))  ) return false;
     return true;
   }
 
@@ -286,6 +300,15 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     
     if ( node instanceof MClass ) {
       Collection ends = ((MClass)node).getAssociationEnds();
+      Iterator iter = ends.iterator();
+      while (iter.hasNext()) {
+         MAssociationEnd ae = (MAssociationEnd) iter.next();
+         if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
+      }
+    }
+    
+    if ( node instanceof MBusiness_Type ) {
+      Collection ends = ((MBusiness_Type)node).getAssociationEnds();
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
          MAssociationEnd ae = (MAssociationEnd) iter.next();
@@ -328,6 +351,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
    * kind of edge to be determined by the ports. */
   public boolean canConnect(Object fromP, Object toP) { 
     if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
+    else if ( (fromP instanceof MBusiness_Type) && (toP instanceof MBusiness_Type) ) return true;
     else return false; 
   }
  
@@ -390,6 +414,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       if (oldOwned.contains(eo)) {
         //System.out.println("model removed " + me);
         if (me instanceof MClass) removeNode(me);
+        if (me instanceof MBusiness_Type) removeNode(me);
         if (me instanceof MPackage) removeNode(me);
         if (me instanceof MContextPropertyTag) removeNode(me);
         if (me instanceof MAssociation) removeEdge(me);

@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.2 2001/11/07 11:38:00 jgusulde Exp $
+// $Id: FigBusiness_Type.java,v 1.3 2001/11/13 16:25:58 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -65,12 +65,12 @@ public class FigBusiness_Type extends FigNodeModelElement {
     _stereo.setLineWidth(1);
     _stereo.setEditable(false);
     _stereo.setHeight(18);
-    _stereo.setDisplayed(false);
+    _stereo.setDisplayed(true);
 
     _stereoLineBlinder = new FigRect(10, 15, 2, 60, Color.white, Color.white);
     _stereoLineBlinder.setLineWidth(2);
     //_stereoLineBlinder.setFilled(true);
-    _stereoLineBlinder.setDisplayed(false);
+    _stereoLineBlinder.setDisplayed(true);
 
     addFig(_bigPort);
     addFig(_stereo);
@@ -85,6 +85,13 @@ public class FigBusiness_Type extends FigNodeModelElement {
   public FigBusiness_Type(GraphModel gm, Object node) {
     this();
     setOwner(node);
+    MStereotype stereo = ((MModelElement) node).getStereotype();
+    if (stereo == null){
+	stereo = new MStereotypeImpl();
+	((MModelElement) node).setStereotype(stereo);
+    }
+    ((MModelElement) node).getStereotype().setName("type");
+    
     if (node instanceof MClassifier && (((MClassifier)node).getName() != null))
 	_name.setText(((MModelElement)node).getName());
   }

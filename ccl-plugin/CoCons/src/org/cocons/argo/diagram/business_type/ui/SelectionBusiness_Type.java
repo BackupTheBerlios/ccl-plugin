@@ -2,7 +2,7 @@
 // File: SelectionBusiness_Type.java
 // Classes: SelectionClass
 // Original Author: jgusulde@cs.tu-berlin.de
-// $Id: SelectionBusiness_Type.java,v 1.1 2001/11/06 21:17:09 jgusulde Exp $
+// $Id: SelectionBusiness_Type.java,v 1.2 2001/11/13 16:25:58 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -21,6 +21,7 @@ import org.tigris.gef.util.*;
 
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.uml.diagram.deployment.*;
+import org.cocons.uml.ccl.*;
 
 public class SelectionBusiness_Type extends SelectionWButtons {
   ////////////////////////////////////////////////////////////////
@@ -130,7 +131,7 @@ public class SelectionBusiness_Type extends SelectionWButtons {
     Dimension minSize = _content.getMinimumSize();
     int minWidth = minSize.width, minHeight = minSize.height;
     Class edgeClass = null;
-    Class nodeClass = ru.novosoft.uml.foundation.core.MClassImpl.class;
+    Class nodeClass = MBusiness_TypeImpl.class;
     int bx = mX, by = mY;
     boolean reverse = false;
     switch (hand.index) {
@@ -174,9 +175,9 @@ public class SelectionBusiness_Type extends SelectionWButtons {
 // needs a lot of work
   public void buttonClicked(int buttonCode) {
     super.buttonClicked(buttonCode);
-    MClass newNode = new MClassImpl();
+    MBusiness_Type newNode = new MBusiness_TypeImpl();
     FigBusiness_Type fc = (FigBusiness_Type) _content;
-    MClass cls = (MClass) fc.getOwner();
+    MBusiness_Type cls = (MBusiness_Type) fc.getOwner();
 
     Editor ce = Globals.curEditor();
     GraphModel gm = ce.getGraphModel();
@@ -229,7 +230,6 @@ public class SelectionBusiness_Type extends SelectionWButtons {
     else if (buttonCode == 11) newEdge = addSubClass(mgm, cls, newNode);
     else if (buttonCode == 12) newEdge = addAssocClassRight(mgm, cls, newNode);
     else if (buttonCode == 13) newEdge = addAssocClassLeft(mgm, cls, newNode);
-
     FigEdge fe = (FigEdge) lay.presentationFor(newEdge);
     edgeShape.setLineColor(Color.black);
     edgeShape.setFilled(false);
@@ -238,23 +238,23 @@ public class SelectionBusiness_Type extends SelectionWButtons {
     ce.getSelectionManager().select(fc);
   }
 
-  public Object addSuperClass(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
+  public Object addSuperClass(MutableGraphModel mgm, MBusiness_Type cls,
+			    MBusiness_Type newCls) {
     return mgm.connect(cls, newCls, MGeneralizationImpl.class);
   }
 
-  public Object addSubClass(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
+  public Object addSubClass(MutableGraphModel mgm, MBusiness_Type cls,
+			    MBusiness_Type newCls) {
     return mgm.connect(newCls, cls, MGeneralizationImpl.class);
   }
 
-  public Object addAssocClassRight(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
+  public Object addAssocClassRight(MutableGraphModel mgm, MBusiness_Type cls,
+			    MBusiness_Type newCls) {
     return mgm.connect(cls, newCls, MAssociationImpl.class);
   }
 
-  public Object addAssocClassLeft(MutableGraphModel mgm, MClass cls,
-			    MClass newCls) {
+  public Object addAssocClassLeft(MutableGraphModel mgm, MBusiness_Type cls,
+			    MBusiness_Type newCls) {
     return mgm.connect(newCls, cls, MAssociationImpl.class);
   }
 
