@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 import org.exolab.castor.xml.*;
-
+import org.cocons.uml.ccl.context_property1_3.*;
 //use the XML pretty-printing classes from Apache's SAX implementation.
 //see below for further comments
 import org.apache.xml.serialize.XMLSerializer;
@@ -20,6 +20,10 @@ import de.fhg.isst.ComponentML.*;
 
 public class ComponentSpecWriter
 {
+
+
+	static public String CONTEXT_PROPERTY_DESCRIPTION
+		= "ContextPropertyTag";
 
    ////////////////////////////////////////////////////////////////
    // Variables
@@ -110,13 +114,32 @@ public class ComponentSpecWriter
    protected void buildProperties( ComponentSpec cs )
    {
       // example stuff - active because they're required fields
+		Properties props = new Properties();
+		cs.setProperties( props );
+		//		System.out.println("TV");
+		Iterator it = _component.getTaggedValues().iterator();
+		while( it.hasNext() )
+			{
+				Object o = it.next();
+				//				System.out.println("  " + o.getClass() );
 
-       Properties ps = new Properties();
-       cs.setProperties(ps);
-       Property p = new Property();
-       ps.addProperty(p);
-       p.setKey("age");
-       p.addValue("42");
+				if( o instanceof MContextPropertyValue )
+					{
+						MContextPropertyValue pv = (MContextPropertyValue)o;
+
+						Property prop=new Property();
+						props.addProperty( prop );
+
+						prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
+						prop.setKey( pv.getTag() );
+						prop.addValue( pv.getValue() );
+// 						MContextPropertyValue pv = (MContextPropertyValue)o;
+// 						MContextPropertyTag t = pv.getContextPropertyTag();
+// 						System.out.println("  ++ " + t.getTag() );
+// 						System.out.println("  -- " + pv.getTag() );
+// 						System.out.println("     " + pv.getValue() );
+					}
+			}
    }
 
 
