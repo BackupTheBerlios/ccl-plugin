@@ -21,7 +21,7 @@ public class PropPanelContextbasedConstraint extends PropPanelModelElementCoCons
 
   public PropPanelContextbasedConstraint() {
 
-    super("ContextbasedConstraint",_contextbasedConstraintIcon, 4);
+    super("ContextbasedConstraint",_contextbasedConstraintIcon, 5);
 
     addCaption("TargetSet:",1,0,0);
     addField(targetsetField,2,1,0);
@@ -32,8 +32,11 @@ public class PropPanelContextbasedConstraint extends PropPanelModelElementCoCons
     addCaption("ScopeSet:",3,0,0);
     addField(scopesetField,4,1,0);
 
-    addField(coconstypeField ,5,1,0);
-    coconstypeField.setVisible(false);
+    addCaption("Attribute:",4,0,0);
+    addField(attributeField,5,1,0);
+
+    addField(coconsField ,6,1,0);
+    coconsField.setVisible(false);
 
 
 
