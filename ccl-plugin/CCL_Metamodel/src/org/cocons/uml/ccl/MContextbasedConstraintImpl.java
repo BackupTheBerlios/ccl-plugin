@@ -345,12 +345,6 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
     return "ContextbasedConstraint";
   }
 
-  public Vector getScopedModelElements() {
-    return this.getScopeSet().getConditionedModelElements();
-  }
-  public Vector getConstrainedModelElements() {
-    return this.getConstrainedSet().getConditionedModelElements();
-  }
   public void updateScopedModelElements() {}
   public void updateConstrainedModelElements() {}
 
