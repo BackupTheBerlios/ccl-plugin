@@ -153,7 +153,7 @@ public class CreateCallMenu {
 	    mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
 	    mCallAction.setOperation(oper);
 	    ms.setDispatchAction(mCallAction);
-		src.getNamespace().addOwnedElement(oper);
+		//src.getNamespace().addOwnedElement(oper);
 
 	    srcFig.damage();
 	    dstFig.damage();

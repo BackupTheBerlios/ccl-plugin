@@ -43,11 +43,13 @@ public class CreateAtomicPathMenu {
           for(Iterator it = inter.getAssociationEnds().iterator();it.hasNext();){
             MAssociationEnd mae = (MAssociationEnd) it.next();
             mc = (MClassifier)mae.getOppositeEnd().getType();
+			/*
             if(Globals.curEditor().getGraphModel().getNodes().contains(mc)){
               break;
             }else{
               mc = null;
             }
+			*/
           }
           if(mc==null || !(mc instanceof MClass) ||
                   !mc.getStereotype().getName().equals("comp spec")){

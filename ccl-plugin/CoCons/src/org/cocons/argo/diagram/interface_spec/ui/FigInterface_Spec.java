@@ -28,6 +28,7 @@ import org.argouml.uml.diagram.static_structure.ui.*;
 
 import org.cocons.argo.diagram.business_type.ui.KnownBusinessTypes;
 import org.cocons.argo.diagram.ui.ContextViewPopUpMenu;
+import org.cocons.argo.diagram.component_spec.ui.CreateAtomicPathMenu;
 
 public class FigInterface_Spec extends FigInterface {
 
@@ -158,5 +159,11 @@ public class FigInterface_Spec extends FigInterface {
     if (_stereoLineBlinder != null && _stereoLineBlinder.isDisplayed()) {
       _stereoLineBlinder.setBounds(x + 1, _stereo.getY() + _stereo.getHeight() -2, maxW - 2, 4 );
     }
+  }
+
+  public Vector getPopUpActions(MouseEvent me) {
+	Vector popUpActions = super.getPopUpActions(me);
+	popUpActions.add(CreateAtomicPathMenu.getJMenu());
+	return popUpActions;
   }
 }
