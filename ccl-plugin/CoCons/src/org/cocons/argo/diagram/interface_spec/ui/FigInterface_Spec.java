@@ -26,6 +26,9 @@ import org.argouml.uml.diagram.ui.*;
 import org.argouml.ui.*;
 import org.argouml.uml.diagram.static_structure.ui.*;
 
+import org.cocons.argo.diagram.business_type.ui.KnownBusinessTypes;
+import org.cocons.argo.diagram.ui.ContextViewPopUpMenu;
+
 public class FigInterface_Spec extends FigClass {
 
 
@@ -62,6 +65,21 @@ public class FigInterface_Spec extends FigClass {
 	  ((MModelElement) node).setStereotype(stereo);
     }*/
     //((MModelElement) node).getStereotype().setName("interface spec");
+  }
+
+  public Vector getPopUpActions(MouseEvent me) {
+
+    Vector popUpActions = super.getPopUpActions(me);
+    ContextViewPopUpMenu.getPopUpActions(popUpActions);
+    Object owner = this.getOwner();
+    System.err.println("StereoType name: "+((MClass)owner).getStereotype().getName());
+    if (owner instanceof MClass &&
+        ((MClass)owner).getStereotype().getName().equals("info type")) {
+        System.err.println("BTmenu...");
+        popUpActions.add(KnownBusinessTypes.getJMenu());
+    }
+
+    return popUpActions;
   }
 
   ////////////////////////////////////////////////////////////////

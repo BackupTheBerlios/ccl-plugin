@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.7 2001/11/25 20:10:29 shicathy Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.8 2001/12/07 16:23:58 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -16,7 +16,7 @@ import org.tigris.gef.graph.*;
 
 import org.argouml.uml.MMUtil;
 import org.cocons.uml.ccl.*;
-
+import org.cocons.argo.diagram.business_type.ui.*;
 /** This class defines a bridge between the UML meta-model
  *  representation of the design and the GraphModel interface used by
  *  GEF.  This class handles only UML Class digrams.  */
@@ -205,6 +205,10 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
         _model.addOwnedElement((MModelElement) node);
     }
 
+    if (node instanceof MClass) {
+      KnownBusinessTypes.add((MClass)node);
+    }
+
     /*if (node instanceof MInterface){
     //System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
         ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
@@ -218,6 +222,11 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public void removeNode(Object node) {
      if (!_nodes.contains(node)) return;
         _nodes.removeElement(node);
+
+     if (node instanceof MClass) {
+       KnownBusinessTypes.remove((MClass)node);
+     }
+
         fireNodeRemoved(node);
     }
 
