@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.3 2001/11/13 16:25:58 oetker Exp $
+// $Id: FigBusiness_Type.java,v 1.4 2001/11/15 23:31:44 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -28,7 +28,7 @@ import org.argouml.uml.generator.*;
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.ui.*;
 
-/** Class to display graphics for a UML Class in a diagram. */
+import org.cocons.uml.ccl.MBusiness_Type;
 
 public class FigBusiness_Type extends FigNodeModelElement {
 
@@ -44,14 +44,10 @@ public class FigBusiness_Type extends FigNodeModelElement {
   // constructors
 
   public FigBusiness_Type() {
-    //_bigPort = new FigRect(10, 10, 90, 60, Color.cyan, Color.cyan);
     _bigPort = new FigRect(10, 10, 90, 30, Color.cyan, Color.cyan);
 
     _name.setLineWidth(1);
     _name.setFilled(true);
-
-//     _stereo.setLineWidth(0);
-//     _stereo.setFilled(false);
 
     _attr = new FigText(10, 30, 90, 21, true);
     _attr.setFilled(true);
@@ -69,7 +65,6 @@ public class FigBusiness_Type extends FigNodeModelElement {
 
     _stereoLineBlinder = new FigRect(10, 15, 2, 60, Color.white, Color.white);
     _stereoLineBlinder.setLineWidth(2);
-    //_stereoLineBlinder.setFilled(true);
     _stereoLineBlinder.setDisplayed(true);
 
     addFig(_bigPort);
@@ -91,7 +86,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
 	((MModelElement) node).setStereotype(stereo);
     }
     ((MModelElement) node).getStereotype().setName("type");
-    
+
     if (node instanceof MClassifier && (((MClassifier)node).getName() != null))
 	_name.setText(((MModelElement)node).getName());
   }
@@ -118,32 +113,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
     Vector popUpActions = super.getPopUpActions(me);
     JMenu addMenu = new JMenu("Add");
     addMenu.add(ActionAddAttribute.SINGLETON);
-    // addMenu.add(ActionAddOperation.SINGLETON);
-    // addMenu.add(ActionAddNote.SINGLETON);
-    popUpActions.insertElementAt(addMenu,
-				 popUpActions.size() - 1);
-/* changed from jgusulde on 11.06.2001
-   no Show PopupMenu for Business_Types
-    JMenu showMenu = new JMenu("Show");
-
-
-    if(_attr.isDisplayed() && _oper.isDisplayed())
-      showMenu.add(ActionCompartmentDisplay.HideAllCompartments);
-    else if(!_attr.isDisplayed() && !_oper.isDisplayed())
-      showMenu.add(ActionCompartmentDisplay.ShowAllCompartments);
-
-
-    if (_attr.isDisplayed())
-      showMenu.add(ActionCompartmentDisplay.HideAttrCompartment);
-    else
-      showMenu.add(ActionCompartmentDisplay.ShowAttrCompartment);
-    if (_oper.isDisplayed())
-      showMenu.add(ActionCompartmentDisplay.HideOperCompartment);
-    else
-      showMenu.add(ActionCompartmentDisplay.ShowOperCompartment);
-
-    popUpActions.insertElementAt(showMenu, popUpActions.size() - 1);
-*/
+    popUpActions.insertElementAt(addMenu, popUpActions.size() - 1);
     return popUpActions;
   }
 
@@ -153,15 +123,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
     bindPort(onlyPort, _bigPort);
   }
 
-  // no operations for Business_Types public FigText getOperationFig() { return _oper; }
   public FigText getAttributeFig() { return _attr; }
-
-  /**
-   * Returns the status of the operation field.
-   * @return true if the operations are visible, false otherwise
-   */
-  // created by Eric Lefevre 13 Mar 1999
- //  public boolean isOperationVisible() { return _oper.isDisplayed(); }
 
   /**
    * Returns the status of the attribute field.
@@ -191,65 +153,28 @@ public class FigBusiness_Type extends FigNodeModelElement {
     }
   }
 
-  // created by Eric Lefevre 13 Mar 1999
-  /*public void setOperationVisible(boolean isVisible) {
-    Rectangle rect = getBounds();
-    if ( _oper.isDisplayed() ) {
-      if ( !isVisible ) {
-        damage();
-        int h = _oper.getBounds().height;
-        _oper.setDisplayed(false);
-        setBounds(rect.x, rect.y, rect.width, rect.height - h -1);
-      }
-    }
-    else {
-      if ( isVisible ) {
-        int h = _oper.getBounds().height;
-        _oper.setDisplayed(true);
-        setBounds(rect.x, rect.y, rect.width, rect.height + h);
-        damage();
-      }
-    }
-  }
-   */
   // modified by Eric Lefevre 13 Mar 1999
   public Dimension getMinimumSize() {
     Dimension nameMin = _name.getMinimumSize();
-    Dimension attrMin;
-    if ( _attr.isDisplayed() )
-      attrMin = _attr.getMinimumSize();
-    else
-      attrMin = new Dimension();
-    Dimension operMin;
-    /*if ( _oper.isDisplayed() )
-      operMin = _oper.getMinimumSize();
-    else
-      operMin = new Dimension();
-    */
     int h = nameMin.height;
     int w = nameMin.width;
-    if ( _attr.isDisplayed() ) {
+    if (_attr.isDisplayed()){
+      Dimension attrMin =_attr.getMinimumSize();
       h += attrMin.height;
       w = Math.max(w, attrMin.width);
     }
-    /*
-    if ( _oper.isDisplayed() ) {
-      h += operMin.height;
-      w = Math.max(w, operMin.width);
-    }*/
-    //    if ( int w = Math.max(Math.max(nameMin.width, attrMin.width), operMin.width);
-    return new Dimension(w, h);
+    return new Dimension(w,h);
   }
 
-    public void setFillColor(Color lColor) {
-	super.setFillColor(lColor);
-	_stereoLineBlinder.setLineColor(lColor);
-    }
+  public void setFillColor(Color lColor) {
+    super.setFillColor(lColor);
+    _stereoLineBlinder.setLineColor(lColor);
+  }
 
-    public void setLineColor(Color lColor) {
-	super.setLineColor(lColor);
-	_stereoLineBlinder.setLineColor(_stereoLineBlinder.getFillColor());
-    }
+  public void setLineColor(Color lColor) {
+    super.setLineColor(lColor);
+    _stereoLineBlinder.setLineColor(_stereoLineBlinder.getFillColor());
+  }
 
   public void translate(int dx, int dy) {
     super.translate(dx, dy);
@@ -258,15 +183,6 @@ public class FigBusiness_Type extends FigNodeModelElement {
     if (sel instanceof SelectionBusiness_Type)
       ((SelectionBusiness_Type)sel).hideButtons();
   }
-
-//   public void setLineColor(Color c) {
-//       //super.setLineColor(c);
-//      _stereo.setFilled(false);
-//      _stereo.setLineWidth(0);
-//      _name.setFilled(false);
-//      _name.setLineWidth(0);
-//   }
-
 
   ////////////////////////////////////////////////////////////////
   // user interaction methods
@@ -304,7 +220,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
     // the ImplementationLocation will be set for the owning MClass
     if (encloser != null && (encloser.getOwner() instanceof MComponentImpl)) {
       MComponent component = (MComponent) encloser.getOwner();
-      MClass cl = (MClass) getOwner();
+      MBusiness_Type cl = (MBusiness_Type) getOwner();
       resident.setImplementationLocation(component);
       resident.setResident(cl);
     }
@@ -328,10 +244,6 @@ public class FigBusiness_Type extends FigNodeModelElement {
       String s = ft.getText();
       ParserDisplay.SINGLETON.parseAttributeCompartment(cls, s);
     }
-    /*if (ft == _oper) {
-      String s = ft.getText();
-      ParserDisplay.SINGLETON.parseOperationCompartment(cls, s);
-    }*/
   }
 
   protected void modelChanged() {
@@ -351,23 +263,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
 	      attrStr += "\n";
       }
     }
-/*
-    Collection behs = MMUtil.SINGLETON.getOperations(cls);
-    behs.removeAll(strs);
-    String operStr = "";
-    if (behs != null) {
-	Iterator iter = behs.iterator();
-      while (iter.hasNext()) {
-	    MBehavioralFeature bf = (MBehavioralFeature) iter.next();
-	    // bf.addMElementListener(this);
-	    operStr += Notation.generate(this, bf);
-	    if (iter.hasNext())
-	      operStr += "\n";
-      }
-    }
-*/
     _attr.setText(attrStr);
-//    _oper.setText(operStr);
 
     if (cls.isAbstract()) _name.setFont(ITALIC_LABEL_FONT);
     else _name.setFont(LABEL_FONT);
@@ -397,8 +293,6 @@ public class FigBusiness_Type extends FigNodeModelElement {
     }
     else {
 	Rectangle oldBounds = getBounds();
-	// String stereoStr = stereo.getName();
-	// _stereo.setText("<<" + stereoStr + ">>");
 	_stereo.setText(Notation.generateStereotype(this, stereo));
 	if (!_stereo.isDisplayed()) {
 	    _stereoLineBlinder.setDisplayed(true);
