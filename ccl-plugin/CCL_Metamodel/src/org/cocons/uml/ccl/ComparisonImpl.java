@@ -38,34 +38,7 @@ public class ComparisonImpl implements Comparison {
 		this.setNegated(false);
 	}
 
-	/**
-	 * Checks whether the given value lies within this comparison. A comparison without value or tag
-	 * or comparison operation is no restrictivness so the preposition would be true
-	 * and thus the comparison covers the element value, also if this comparison is negated.
-	 * Creation date: (26.12.2001 14:20:30)
-	 * @return boolean true, if the elementValue compared to the contained values is satisfactory.
-	 * The case that this comparison is negated is considered.
-	 * @param elementValue MContextPropertyValue a tagged value contained by a ccl word.
-	 */
-	public boolean covers(MContextPropertyValue elementValue) {
 
-		boolean covers = true;
-
-		if (elementValue == null || elementValue.getContextPropertyTag() == null
-			|| elementValue.getValue() == null) {
-			return false;
-		}
-
-		// to avoid nullpointerexceptions...
-		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
-			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
-			covers = covers && this.getComparator().compare(elementValue.getValue(), (String)this.getValue());
-			if (this.isNegated()) {
-				covers = !covers;
-			}
-		}
-		return covers;
-	}
 
 	/**
 	 * Returns the tag (variable) from this condition.
@@ -144,6 +117,41 @@ public class ComparisonImpl implements Comparison {
 		_negated = newNegated;
 	}
 	/**
+	 * Checks whether the given value lies within this comparison. A comparison without value or tag
+	 * or comparison operation is no restrictivness so the preposition would be true
+	 * and thus the comparison covers the element value, also if this comparison is negated.
+	 * Creation date: (26.12.2001 14:20:30)
+	 * @return boolean true, if an model element's taggedValue compared to the contained values is satisfactory.
+	 * The case that this comparison is negated is considered.
+	 * @param modelElement MModelElement a model element with tagged value(s).
+	 */
+	public boolean covers(MModelElement modelElement) {
+
+		boolean covers = true;
+
+		if (modelElement == null || modelElement.getTaggedValues() == null) {
+			return false;
+		}
+
+		MContextPropertyValue elementValue = null;
+		
+		Object[] taggedValues = modelElement.getTaggedValues().toArray();
+				for (int i = 0; i < taggedValues.length; i++) {
+					if (taggedValues[i] instanceof MContextPropertyValue) {
+						elementValue = (MContextPropertyValue) taggedValues[i];			
+					}
+				}
+		
+		// to avoid nullpointerexceptions...
+		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
+			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
+			covers = covers && this.getComparator().compare(elementValue.getValue(), (String)this.getValue());
+			if (this.isNegated()) {
+				covers = !covers;
+			}
+		}
+		return covers;
+	}	/**
 	* Returns the tagged value (constant) from this condition.
 	*/
 	public Object getValue() {

@@ -4,7 +4,7 @@ import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
 import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
- * A ComparisonImpl is an implementation of the interface comparison.
+ * A ValueComparison is an implementation of the interface comparison.
  * A Comparison has a tag as variable, a value as a constant value and
  * a comparator to compare the variable with that value.
  * Creation date: (26.12.2001 14:20:30)
@@ -35,16 +35,12 @@ public class ValueComparison implements Comparison {
 		this.setNegated(false);
 	}
 
-
-
 	/**
-	 * Returns the tag (variable) from this condition.
+	 * Returns the tag (variable) from this comparison.
 	 */
 	public String getTag() {
 		return this._tag;
 	}
-
-
 
 	/**
 	 * Sets the tag (variable) of this comparison.
@@ -113,44 +109,48 @@ public class ValueComparison implements Comparison {
 	public void setNegated(boolean newNegated) {
 		_negated = newNegated;
 	}
+	
 	/**
 	 * Checks whether the given value lies within this comparison. A comparison without value or tag
 	 * or comparison operation is no restrictivness so the preposition would be true
 	 * and thus the comparison covers the element value, also if this comparison is negated.
 	 * Creation date: (26.12.2001 14:20:30)
-	 * @return boolean true, if the elementValue compared to the contained values is satisfactory.
+	 * @return boolean true, if an model element's taggedValue compared to the contained values is satisfactory.
 	 * The case that this comparison is negated is considered.
-	 * @param modelElement MModelElement a model element with tagged value contained by a ccl word.
+	 * @param modelElement MModelElement a model element with tagged value(s).
 	 */
 	public boolean covers(MModelElement modelElement) {
 
 		boolean covers = true;
 
-		if (modelElement == null) {
+		if (modelElement == null || modelElement.getTaggedValues() == null) {
 			return false;
 		}
 
 		MContextPropertyValue elementValue = null;
-		
+
 		Object[] taggedValues = modelElement.getTaggedValues().toArray();
-				for (int i = 0; i < taggedValues.length; i++) {
-					if (taggedValues[i] instanceof MContextPropertyValue) {
-						elementValue = (MContextPropertyValue) taggedValues[i];			
-					}
-				}
-		
+		for (int i = 0; i < taggedValues.length; i++) {
+			if (taggedValues[i] instanceof MContextPropertyValue) {
+				elementValue = (MContextPropertyValue) taggedValues[i];
+			}
+		}
+
 		// to avoid nullpointerexceptions...
 		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
 			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
-			covers = covers && this.getComparator().compare(elementValue.getValue(), (String)this.getValue());
+			covers = covers && this.getComparator().compare(elementValue.getValue(), (String) this.getValue());
 			if (this.isNegated()) {
 				covers = !covers;
 			}
 		}
 		return covers;
-	}	/**
-	* Returns the tagged value (constant) from this condition.
+	}
+	
+	/**
+	* Returns the tagged value (constant) from this comparison.
 	*/
 	public Object getValue() {
 		return this._value;
-	}}
+	}
+}
