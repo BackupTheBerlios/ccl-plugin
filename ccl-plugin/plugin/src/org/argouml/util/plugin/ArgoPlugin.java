@@ -1,5 +1,7 @@
 package org.argouml.util.plugin;
 
+import java.util.*;
+
 /**
  * Application-specific interface to plugins. All ArgoUML plugins must
  * implement this interface.
@@ -15,4 +17,13 @@ public interface ArgoPlugin {
  * initialization, for example, creating new menu items.
  */
   public void init();
+
+/**
+ * These post-load actions will be executed by the argo application
+ * in a background thread <I>after</I> all the application's
+ * post-load actions are executed.
+ *
+ * @returns vector of post-load actions implementing Runnable
+ */
+  public Vector getPostLoadActions();
 }
