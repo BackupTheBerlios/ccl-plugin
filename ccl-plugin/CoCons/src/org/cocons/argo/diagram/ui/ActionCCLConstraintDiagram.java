@@ -17,7 +17,7 @@ import org.cocons.argo.diagram.constraint.ui.*;
 
 public class ActionCCLConstraintDiagram extends UMLAction {
   public ActionCCLConstraintDiagram() {
-    super("ConstraintDiagram");
+    super("CCL Diagram");
   }
 
   public void actionPerformed(ActionEvent ae) {
