@@ -188,7 +188,8 @@ public class Parser {
   /**
    * creates a ConditionChoice from a ContextCondition by steping through the whole tree
    */
-  private static CoConSetConditionChoice getConditionChoice(ContextCondition cc) {
+  private static CoConSetConditionChoice getConditionChoice(ContextCondition ccond) {
+    ConditionImpl cc = (ConditionImpl) ccond;
     CoConSetConditionChoice choice = new CoConSetConditionChoice();
 // if the tree is only one leaf
     if(cc.isLeaf()) {
@@ -256,7 +257,8 @@ public class Parser {
   /**
    * evaluates a condition if the logic operation for this node is OR
    */
-  private static CoConSetConditionUnionItem calculateUnion(Condition c) {
+  private static CoConSetConditionUnionItem calculateUnion(Condition cond) {
+    ConditionImpl c = (ConditionImpl) cond;
     CoConSetConditionUnionItem unionItem = new CoConSetConditionUnionItem();
 //if this node/conditon is a leaf
     if(c.isLeaf()) {
@@ -289,7 +291,8 @@ public class Parser {
   /**
    * evaluates a condition if the logic operation for this node is AND
    */
-  private static CoConSetConditionIntersectionItem calculateIntersection (Condition c) {
+  private static CoConSetConditionIntersectionItem calculateIntersection (Condition cond) {
+    ConditionImpl c = (ConditionImpl) cond;
     CoConSetConditionIntersectionItem intersectionItem = new CoConSetConditionIntersectionItem();
 //if this node/conditon is a leaf
     if(c.isLeaf()) {

@@ -6,7 +6,7 @@ import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
 * A conditional tree containing childs related via a logic operation (as node) xor
-* a boudary (as leaf) that model elements must fit in to comply this condition.
+* a comparison (as leaf) that model elements must fit in to comply this condition.
 * @see javax.swing.tree.TreeNode
 * Creation date: (20.12.2001 23:47:18)
 * @author: Fadi Chabarek, Stefan Tang, Philipp Schumacher.
@@ -19,8 +19,6 @@ public interface Condition extends TreeNode {
 	* @return org.cocons.uml.ccl.LogicOperation the logic operation.
 	*/
 	public LogicOperation getLogicOperation();
-
-
 
 	/**
 	* Checks if this condition is complied with a given model element.
@@ -35,18 +33,11 @@ public interface Condition extends TreeNode {
 	* @return boolean true - if the tree is valid.
 	*/
 	boolean isValid();
+    
 	/**
 	 * Returns a comparison setting up the domain of this condition.
 	 * Creation date: (21.12.2001 00:46:17)
 	 * @return comparison the comparison for this condition .
 	 */
 	public Comparison getComparison();
-        /**
-         * Returns the first Child of this Condition
-         */
-        public Condition getFirstChild();
-        /**
-         * Returns the second Child of this Condition
-         */
-        public Condition getSecondChild();
-        }
+}
