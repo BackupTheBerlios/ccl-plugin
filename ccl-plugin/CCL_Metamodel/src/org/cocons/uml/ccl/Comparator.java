@@ -13,4 +13,11 @@ public interface Comparator {
 	 * @return boolean if the objects compared to each other are satisfactory.
 	 */
 	boolean compare(Object value1, Object value2);
+    
+	/**
+	 * Returns the negated string representation of this comparator.
+	 * Creation date: (12.02.2002 15:32:04)
+	 * @return java.lang.String the negated string represantation.
+	 */
+	String toNegatedString();
 }
