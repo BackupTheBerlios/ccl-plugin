@@ -1,6 +1,6 @@
 package org.cocons.uml.ccl.util;
 
-import org.cocons.uml.ccl.MContextCondition;
+import org.cocons.uml.ccl.ContextCondition;
 import org.cocons.uml.ccl.ccldata.CoConSetData;
 
 /**
@@ -15,9 +15,9 @@ public class XMLDataToContextConditionParserImpl implements XMLDataToContextCond
   public XMLDataToContextConditionParserImpl() {
   }
 
-  public MContextCondition generateContextCondition(CoConSetData set) {
+  public ContextCondition generateContextCondition(CoConSetData set) {
     /**@todo: Implement this org.cocons.uml.ccl.util.XMLDataToContextConditionParser method*/
-	  
+
     return null;
   }
 
