@@ -35,6 +35,7 @@ import java.lang.*;
 */
 public class SyntaxcheckOfCoconsFromBNF {
 
+    ConvertCoconsToSyntaxCheck convert = new ConvertCoconsToSyntaxCheck();
     private String _cocons;
 
     public String[] coconTypeName = { "InaccessibleBy",
@@ -59,14 +60,15 @@ public class SyntaxcheckOfCoconsFromBNF {
                                     };
 
     public String[] condition = {"EQUALS",
-                                  "CONTAINS",
-                                  "DOES NOT CONTAIN",
-                                  "=",
-                                  "!=",
-                                  "<",
-                                  ">",
-                                  "<=",
-                                  ">="};
+                                 "CONTAINS",
+                                 "DOES NOT CONTAIN",
+                                 "=",
+                                 "!=",
+                                 "<",
+                                 ">",
+                                 "<=",
+                                 ">="
+                                 };
     public String[] keys = {"Context-Based Constraints"
                             ,"TargetSet"
                             ,"CoConsType"
@@ -165,7 +167,7 @@ public class SyntaxcheckOfCoconsFromBNF {
         }
         int i = 0;
         while (i < elements.size() -1) {
-            if(!((elements.get(i)).toString()).equals("WHERE")) {
+            if( !((elements.get(i)).toString()).equals("WHERE") || !((elements.get(i)).toString()).equals("where")) {
                 exited = false;
             }
             else {
@@ -192,7 +194,7 @@ public class SyntaxcheckOfCoconsFromBNF {
         }
         int i = 0;
         while (i < elements.size() -1) {
-            if(!((elements.get(i)).toString()).equals("WITH")) {
+            if(!((elements.get(i)).toString()).equals("WITH") || !((elements.get(i)).toString()).equals("with")) {
                 exited = false;
             }
             else {
@@ -2107,13 +2109,15 @@ public class SyntaxcheckOfCoconsFromBNF {
     */
     public boolean isValid (String cocons){
         //System.out.println("SyntaxChecker: " + cocons);
+
+        String _cocons = convert.finalConvert(cocons);
         boolean valid = false;
         boolean ts = true;
-        if ( getTargetSet(cocons) == null || getTargetSet(cocons).equals("")) {
+        if ( getTargetSet(_cocons) == null || getTargetSet(_cocons).equals("")) {
             ts = false;
         }
         boolean ss = true;
-        if ( getScopeSet(cocons) == null || getScopeSet(cocons).equals("")) {
+        if ( getScopeSet(_cocons) == null || getScopeSet(_cocons).equals("")) {
             ss = false;
         }
         if(ts && ss) {
@@ -2121,10 +2125,10 @@ public class SyntaxcheckOfCoconsFromBNF {
             for (int i = 0; i < level.length; i++) {
                 level[i] = false;
             }
-            level[0] = checkLevel0(cocons);
-            level[1] = checkLevel1(cocons);
+            level[0] = checkLevel0(_cocons);
+            level[1] = checkLevel1(_cocons);
             if (level[0] && level[1]) {
-              if(checkLevel2(getTargetSets(cocons)) && checkLevel2(getScopeSets(cocons))) {
+              if(checkLevel2(getTargetSets(_cocons)) && checkLevel2(getScopeSets(_cocons))) {
                   level[2] = true;
               }
               else {
@@ -2132,7 +2136,7 @@ public class SyntaxcheckOfCoconsFromBNF {
               }
             }
             if (level[0] && level[1]) {
-              if(checkLevel3(getTargetSets(cocons)) && checkLevel3(getScopeSets(cocons))) {
+              if(checkLevel3(getTargetSets(_cocons)) && checkLevel3(getScopeSets(_cocons))) {
                   level[3] = true;
               }
               else {
@@ -2140,7 +2144,7 @@ public class SyntaxcheckOfCoconsFromBNF {
               }
             }
             if (level[3]) {
-              if(checkLevel4(getTargetSets(cocons)) && checkLevel4(getScopeSets(cocons))) {
+              if(checkLevel4(getTargetSets(_cocons)) && checkLevel4(getScopeSets(_cocons))) {
                   level[4] = true;
               }
               else {
@@ -2149,17 +2153,17 @@ public class SyntaxcheckOfCoconsFromBNF {
             }
 
             if (level[2] && level[4]) {
-              if(checkLevel5(getTargetSets(cocons)) && checkLevel5(getScopeSets(cocons))) {
+              if(checkLevel5(getTargetSets(_cocons)) && checkLevel5(getScopeSets(_cocons))) {
                   level[5] = true;
               }
               else {
                   level[5] = false;
               }
             }
-            level[6] = checkLevel6(cocons);
-            level[7] = checkClip (cocons);
-            level[8] = checkMarkValue (cocons);
-            level[9] = checkLevel9(cocons);
+            level[6] = checkLevel6(_cocons);
+            level[7] = checkClip (_cocons);
+            level[8] = checkMarkValue (_cocons);
+            level[9] = checkLevel9(_cocons);
             if(level[0] && level[1] && level[2] && level[3] && level[4] && level[5] && level[6] && level[7] && level[8] && level[9]) {
                 valid = true;
             }
@@ -2565,17 +2569,17 @@ public class SyntaxcheckOfCoconsFromBNF {
     /*
      * main methode for test
      */
-/*
+    /*
     public static void main(String args[]) {
-        //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UNREADABLEBY THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
-        String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse' WITH 'PRIORITY' = '5' AND 'n' = '3' ";
-        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Controlling'";
-        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ";
-        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y' = 'x') OR 'dfgss' = 'wwwww'";
-        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y' = 'x')";
-        //String cocons ="THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse'";
-        //String cocons ="THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse' OR THE component 'Datawarehouse'";
-        //String cocons ="MUST BE UNWRITEABLEBY THE component 'Systemcheck'";
+        //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
+        //String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5' AND 'n' = '3' ";
+        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Controlling'";
+        //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ";
+        String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y' = 'x') or 'dfgss' = 'wwwww'";
+        //String cocons ="all COMPONENTS where 'Personal Data' equals 'Yes' MUST BE UnreadableBy All COMPONENTS Where ('Personal Data' EQUALS 'Yes' and 'y' = 'x')";
+        //String cocons ="THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse'";
+        //String cocons =" the component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' OR THE component 'Datawarehouse'";
+        //String cocons ="MUST BE UnreadableBy THE component 'Systemcheck'";
 
         SyntaxcheckOfCoconsFromBNF coconsBNF = new SyntaxcheckOfCoconsFromBNF();
         //coconsBNF.printNoEmptyElementHashtable(coconsBNF.parserCoCons(cocons));
@@ -2585,9 +2589,11 @@ public class SyntaxcheckOfCoconsFromBNF {
         //checklevel1
         System.out.println("###### final ######"+ coconsBNF.isValid(cocons));
         System.out.println("-------------------------------------------------");
+        ConvertCoconsToSyntaxCheck convert2 = new ConvertCoconsToSyntaxCheck();
+        System.out.println("###### final2 ######"+ coconsBNF.isValid(convert2.finalConvert(cocons)));
         //System.out.println(coconsBNF.getFirstComparison("ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer'"));
    }
-*/
+   */
 
 
 }
