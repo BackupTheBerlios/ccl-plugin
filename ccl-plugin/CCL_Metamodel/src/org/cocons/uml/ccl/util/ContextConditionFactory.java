@@ -108,8 +108,10 @@ public class ContextConditionFactory{
     int comparisonType;
     String tag;
     String value;
-    //comparisonType = syntaxChecker.getComparisonType(conditionString);
-    comparisonType = 0;
+    comparisonType = syntaxChecker.getComparisonType(conditionString);
+    if (comparisonType == 0){
+      return null;
+    }
     tag = syntaxChecker.getContextPropertyName(conditionString);
     value = syntaxChecker.getValue(conditionString);
 

@@ -1080,6 +1080,26 @@ public class SyntaxcheckOfCoconsFromBNF {
     }
 
     /**
+     * @methode: getComparisonType
+     * @param: String of a simple Comparison
+     * @return int
+     * @author: rolf exner
+     */
+     public int getComparisonType(String contextQuery){
+      String comparator = getCondition(contextQuery);
+      if (comparator.toString().equals("=")||comparator.toString().equals("EQUALS")){
+        return org.cocons.uml.ccl.comparators.ComparatorFactory.EQUAL;
+      }
+      if (comparator.toString().equals("<")||comparator.toString().equals("LESS")){
+        return org.cocons.uml.ccl.comparators.ComparatorFactory.LESS;
+      }
+      if (comparator.toString().equals("CONTAINS")){
+        return org.cocons.uml.ccl.comparators.ComparatorFactory.CONTAINS;
+      }
+      return 0;
+     }
+
+    /**
     * @methode: getValue
     * @param contextQuery from ElementSelection Indirect (targetset or scopeset) java.lang.String
     * @return values java.lang.String.
