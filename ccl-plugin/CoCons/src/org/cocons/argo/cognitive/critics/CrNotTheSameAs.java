@@ -27,7 +27,7 @@ public class CrNotTheSameAs extends CrCoCon {
   MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
   static boolean gemacht = false;
 
-  private void setUpCoCon() {
+ /* private void setUpCoCon() {
     ComparisonImpl sComp = new ComparisonImpl();
     ComparatorFactory cf = new ComparatorFactoryImpl();
     ContextConditionImpl targetSet = new ContextConditionImpl();
@@ -68,7 +68,7 @@ public class CrNotTheSameAs extends CrCoCon {
     Vector scopeSetConditions = new Vector();
     scopeSetConditions.addElement(scopeSet);
     cocon.setScopeSetContextConditions(scopeSetConditions);
-  }
+  }*/
 
   /**
    * Constructs this Critic.
@@ -90,9 +90,9 @@ public class CrNotTheSameAs extends CrCoCon {
    */
   public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
     // this is only for testing purpose, uses hardcoded cocon
-    return predicate(cocon);
+    //return predicate(cocon);
 
-    /*
+
     //check if the given object is a context based constraint
     if (!(dm instanceof MContextbasedConstraintImpl)) {
       return NO_PROBLEM;
@@ -110,7 +110,7 @@ public class CrNotTheSameAs extends CrCoCon {
       }
     }
     return NO_PROBLEM;
-    */
+
   }
 
   /**
@@ -123,10 +123,11 @@ public class CrNotTheSameAs extends CrCoCon {
   private boolean predicate(MContextbasedConstraint cocon) {
 
     // testing only
-    if (!gemacht) {
+   /* if (!gemacht) {
       setUpCoCon();
       gemacht = true;
-    }
+    }*/
+
     cocon.update();
 
 
