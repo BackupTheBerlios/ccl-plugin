@@ -15,14 +15,21 @@ import ru.novosoft.uml.foundation.core.MClassImpl;
  */
 
 public class Init implements Runnable {
-
-  public Init() {
-  }
-  public void run() {
-    // add property pages
-    ProjectBrowser pb = ProjectBrowser.TheInstance;
-    pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
-    pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
-    pb.getDetailsPane().addToPropTab(MTaggedValueImpl.class, new PropPanelContextPropertyTag());
-  }
+    
+    public Init() {
+    }
+    public void run() {
+	// add property pages
+	
+	ProjectBrowser pb = ProjectBrowser.TheInstance;
+	pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
+	pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
+	pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelBusiness_Type());
+	pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelComponent_Spec());
+    }
 }
+
+
+
+
+
