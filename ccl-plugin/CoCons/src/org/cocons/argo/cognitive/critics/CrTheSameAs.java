@@ -1,15 +1,17 @@
 package org.cocons.argo.cognitive.critics;
 
-import java.util.Collection;
 import org.cocons.uml.ccl.MContextbasedConstraint;
+import org.cocons.uml.ccl.CoConTypes; 
+
+import java.util.Collection;
 
 /**
- * Critic, that checks 'TheSameAs' Cocons.<br>
- * See further informations at our
- * <a href="http://www.cocons.org/publications/CCL_technical_report.pdf">technical report</a>.<br>
- * Creation date: (03.03.2002 14:52:13)
- * @author: Fadi Chabarek
- */
+* Critic, that checks 'TheSameAs' Cocons.<br>
+* See further informations at our
+* <a href="http://www.cocons.org/publications/CCL_technical_report.pdf">technical report</a>.<br>
+* Creation date: (03.03.2002 14:52:13)
+* @author: Fadi Chabarek
+*/
 public class CrTheSameAs extends CrCoCon {
 
 	/**
@@ -24,7 +26,7 @@ public class CrTheSameAs extends CrCoCon {
 				+ "to all elements in the target and to all elements in the scope set. If two "
 				+ "context conditions are used to specify both the target and the scope set,"
 				+ "than the target context condition must also apply to the scope context"
-				+ "condition and vice versa.");
+				+ "condition and vice versa."); 
 	}
 	/**
 	 * Checks weather a cocon contains in its target set the same elements
@@ -35,13 +37,15 @@ public class CrTheSameAs extends CrCoCon {
 	 */
 	public boolean predicate(MContextbasedConstraint cocon) {
 
-		Collection targetSet = cocon.getTargetElements();
-		Collection scopeSet = cocon.getScopedElements();
+		if (cocon.getCoConType().equals(CoConTypes.THE_SAME_AS)) {
+			Collection targetSet = cocon.getTargetElements();
+			Collection scopeSet = cocon.getScopedElements();
 
-		if (targetSet.containsAll(scopeSet) && scopeSet.containsAll(targetSet)) {
-			return NO_PROBLEM;
+			if (!(targetSet.containsAll(scopeSet) && scopeSet.containsAll(targetSet))) {
+				return PROBLEM_FOUND;
+			}
 		}
 
-		return PROBLEM_FOUND;
+		return NO_PROBLEM;
 	}
 }
