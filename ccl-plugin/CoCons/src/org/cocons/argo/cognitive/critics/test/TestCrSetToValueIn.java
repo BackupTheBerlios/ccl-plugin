@@ -182,9 +182,13 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 		scopeSet.setBaseClass(BaseClasses.ELEMENT);
 		scopeSet.setComparison(sComp);
 
-		cocon.setTargetSetContextCondition(targetSet);
+                Vector targetSetConditions = new Vector();
+                targetSetConditions.addElement(targetSet);
+		cocon.setTargetSetContextConditions(targetSetConditions);
 		cocon.setCoConType(CoConTypes.SET_TO_VALUE_IN_TYPE);
-		cocon.setScopeSetContextCondition(scopeSet);
+                Vector scopeSetConditions = new Vector();
+                scopeSetConditions.addElement(scopeSet);
+		cocon.setScopeSetContextConditions(scopeSetConditions);
 	}
 
 	/**
