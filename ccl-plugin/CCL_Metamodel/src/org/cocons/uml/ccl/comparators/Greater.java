@@ -15,27 +15,31 @@ public class Greater implements org.cocons.uml.ccl.Comparator {
 	}
 
 	/**
+		 * Returns a String that represents the value of this object.
+		 * @return a string representation of the receiver
+		 */
+	public String toString() {
+		return "GREATER THEN";
+	}
+	/**
 	 * Compares to Strings if the first one is greater than the other.
 	 * Creation date: (09.02.2002 15:34:37)
 	 * @param value1 the first value.
 	 * @param value2 the second value.
 	 * @return boolean true if the first value is greater than the second and both are unequal null.
 	 */
-	public boolean compare(String value1, String value2) {
-		try {
+	public boolean compare(Object value1, Object value2) {
 
-			return value1.compareToIgnoreCase(value2) > 0;
+		if (value1 instanceof String && value2 instanceof String) {
+			try {
 
-		} catch (NullPointerException npe) {
+				return ((String) value1).compareToIgnoreCase((String) value2) > 0;
+
+			} catch (NullPointerException npe) {
+				return false;
+			}
+		} else {
 			return false;
 		}
-	}
-    
-	/**
-		 * Returns a String that represents the value of this object.
-		 * @return a string representation of the receiver
-		 */
-	public String toString() {
-		return "GREATER THEN";
 	}
 }

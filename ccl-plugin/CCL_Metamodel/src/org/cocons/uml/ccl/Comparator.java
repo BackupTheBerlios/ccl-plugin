@@ -6,10 +6,10 @@ package org.cocons.uml.ccl;
  * @author: Fadi Chabarek
  */
 public interface Comparator {
+
 /**
  * Compares to Strings.
  * Creation date: (26.12.2001 13:43:46)
  * @return boolean if the strings compared to each other are satisfactory.
  */
-boolean compare(String value1, String value2);
-}
+boolean compare(Object value1, Object value2);}
