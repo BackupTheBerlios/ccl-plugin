@@ -457,8 +457,9 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       //THE VALUES OF THE COCON ARE READ FROM THE COCONFACTORY
 
       if (ccf.isValid()){
-        String coConType = ccf.getCoConType();
-        //System.out.println(coConType);
+        System.out.println("Wir sind drin...");
+        /*String coConType = ccf.getCoConType();
+        System.out.println(coConType);
 
         Vector targetDirectElements = new Vector();
         targetDirectElements = ccf.getTargetDirectAssoziations();
@@ -467,11 +468,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         Vector scopeDirectElements = new Vector();
         scopeDirectElements = ccf.getScopeDirectAssoziations();
         System.out.println(scopeDirectElements);
-
+  */
         Vector targetIndirectElements = new Vector();
         targetIndirectElements = ccf.getTargetIndirectAssoziations();
         System.out.println(targetIndirectElements);
-
+/*
         Vector scopeIndirectElements = new Vector();
         scopeIndirectElements = ccf.getScopeIndirectAssoziations();
         System.out.println(scopeIndirectElements);
@@ -501,7 +502,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         if(updateCoconType){
           updateCoconType = false;
           me.setCoConType(coConType);
-        }
+        }*/
       }
 
   }
