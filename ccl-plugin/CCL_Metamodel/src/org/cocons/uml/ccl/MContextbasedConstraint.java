@@ -1,6 +1,7 @@
 package org.cocons.uml.ccl;
 
 import java.util.Vector;
+import org.cocons.uml.ccl.ccldata.CoConData;
 import ru.novosoft.uml.foundation.core.MConstraint;
 
 /**
@@ -36,20 +37,27 @@ public interface MContextbasedConstraint extends MConstraint {
 	 */
 	public String getCoConType();
 
-	/**
-	 * Returns the CCL String that defines this CoCon in XML syntax.
-	 *
-	 * @return the CCL String in XML notation.
-	 */
-	public String getXMLCCLString();
+  /**
+   * Sets the CCL data object that defines the functionality of this CoCon.
+   *
+   * @param xmlCCL the CCL data object.
+   */
+  public void setXMLCCL(CoConData xmlCCL);
+
+  /**
+   * Returns the CCL data object that defines this CoCon.
+   *
+   * @return the CCL data object.
+   */
+  public CoConData getXMLCCL();
 
 	/**
 	 * Returns the scope' context condition.
 	 * Creation date: (15.01.2002 14:38:23)
 	 * @return org.cocons.uml.ccl.ContextCondition the scope's context condition.
 	 */
-	ContextCondition getScopeContextCondition(); 
-    
+	ContextCondition getScopeContextCondition();
+
 	/**
 	* Returns the target context condition.
 	* Creation date: (15.01.2002 14:37:44)

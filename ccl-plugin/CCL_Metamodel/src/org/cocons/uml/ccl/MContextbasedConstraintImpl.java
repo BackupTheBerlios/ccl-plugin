@@ -7,7 +7,6 @@ import ru.novosoft.uml.foundation.core.*;
 import org.cocons.uml.ccl.ccldata.*;
 import org.cocons.uml.ccl.util.*;
 import org.cocons.argo.util.ModelIterator;
-import org.cocons.uml.ccl.xml.CCLXMLParserImpl;
 
 /**
  * The implementation of a Contextbased Constraint (CoCon).
@@ -21,10 +20,10 @@ public class MContextbasedConstraintImpl
 	extends MConstraintImpl
 	implements MContextbasedConstraint {
 
-	/**
-	 * Contains the CCL String in XML notation.
-	 */
-	private String _xmlCCL;
+  /**
+   * Contains the CCL String in java object code.
+   */
+  private CoConData _xmlCCL;
 
 	/**
 	 * The type of this CoCon.
@@ -135,25 +134,22 @@ public class MContextbasedConstraintImpl
 		return _coconType;
 	}
 
-	/**
-	 * Sets the CCL String that defines the functionality of this CoCon. The
-	 * String that is given must be in XML CCL syntax.
-	 *
-	 * @param xmlCCL the CCL String in XML notation.
-	 */
-	public void setXMLCCLString(String xmlCCL) {
-		_xmlCCL = xmlCCL;
-		updateSets();
-	}
+  /**
+   * Sets the CCL String that defines the functionality of this CoCon. The
+   * String that is given must be in XML CCL syntax.
+   *
+   * @param xmlCCL the CCL String in XML notation.
+   */
+  public void setXMLCCL(CoConData xmlCCL) {
+    _xmlCCL = xmlCCL;
+    updateSets();
+  }
 
 	/**
 	 * Updates the TargetSet and ScopeSet
 	 */
 	private void updateSets() {
-		// parse into XML Data
-		CCLXMLParserImpl cclXmlParser = new CCLXMLParserImpl();
-		parsedCoCon = null; //cclXmlParser.
-		_coconType = parsedCoCon.getType();
+                _coconType = _xmlCCL.getType();
 
 		ModelIterator ite = new ModelIterator();
 		Vector modelElements = ite.getAllModelElements();
@@ -213,14 +209,14 @@ public class MContextbasedConstraintImpl
 
 	}
 
-	/**
-	 * Returns the CCL String that defines this CoCon in XML syntax.
-	 *
-	 * @return the CCL String in XML notation.
-	 */
-	public String getXMLCCLString() {
-		return _xmlCCL;
-	}
+  /**
+   * Returns the CCL Object that defines this CoCon.
+   *
+   * @return the CCL-XML Data Object.
+   */
+  public CoConData getXMLCCL() {
+    return _xmlCCL;
+  }
 
 	/**
 	 * Returns the scope' context condition.
@@ -239,22 +235,22 @@ public class MContextbasedConstraintImpl
 	public ContextCondition getTargetContextCondition() {
 		return _targetSet;
 	}
-    
+
 	/**
 	 * Sets the type of this Contextbased Constraint.
 	 */
 	public void setCoConType(String coConType) {
 		_coconType = coConType;
-	} 
-    
+	}
+
 	/**
 	* Sets the scope' context condition.
 	* Creation date: (15.01.2002 14:38:23)
 	*/
 	public void setScopeContextCondition(ContextCondition condition) {
 		_scopeSet = condition;
-	} 
-    
+	}
+
 	/**
 	* Sets the target context condition.
 	* Creation date: (15.01.2002 14:37:44)
