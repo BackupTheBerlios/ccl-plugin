@@ -35,121 +35,115 @@ import org.cocons.argo.diagram.ui.ContextViewPopUpMenu;
 /** Class to display graphics for a UML Class in a diagram. */
 
 public class FigCseComponent extends FigNodeModelElement {
-    
+
     Fig _Export;
     Fig _Body;
     Fig _Import;
     FigText _word_Body;
-    
+    FigText _word_Import;
+    FigText _word_Export;
+
     ////////////////////////////////////////////////////////////////
     // constructors
-    
+
     public FigCseComponent() {
+
+
+	_Import= new FigImport();  //(0,0,120,40)
+	
+	_Body   =new FigBody(null);//(0,0,120,80);
+	_Body.translate(0,40);
         
-        
-        _Import= new FigImport();  //(0,0,120,40)
-       
-        _Body   =new FigBody(null);//(0,0,120,80);
-        _Body.translate(0,40);
-        
-        _word_Body= new FigText(60,60,16,15,Color.black,"TimesRoman",18);
-        
-        _word_Body.setText("BODY");
-        
-        _word_Body.setFilled(false);
-        
-        
-        
-        _word_Body.setEditable(false);
-        
-        _word_Body.setLineWidth(0);
-        
-        _word_Body.setWidth(21);
-        
-        
-       _Export  =new FigExport(null);
+        _name.setBounds(60,110,0,0);
+	_name.setTextFilled(false);
+	_name.setFilled(false);
+	_name.setLineWidth(0);
+	_name.setExpandOnly(false);
+
+	_word_Body= new FigText(60,60,16,15,Color.black,"TimesRoman",18);
+	_word_Body.setText("BODY");
+	_word_Body.setFilled(false);
+	_word_Body.setEditable(false);
+	_word_Body.setLineWidth(0);
+	_word_Body.setWidth(21);
+
+	
+       _Export  =new FigExport();//null
        _Export.translate(0,100);
-       
-   
-        _name.setBounds(60,30,45,15);
-        _name.setTextFilled(false);
-        _name.setFilled(false);
-        _name.setLineWidth(0);
-        
-        addFig(_Import);
-        addFig(_Body);
-        addFig(_word_Body);
-        addFig(_Export);
+      
+	addFig(_Import);
 	addFig(_name);
-    }
-       
-    
+	addFig(_Body);
+	addFig(_word_Body);
+	addFig(_Export);
+	 }
+
+
     public FigCseComponent(GraphModel gm, Object node) {
-        this();
-        setOwner(node);
+	this();
+	setOwner(node);
     }
-    
-    public String placeString() { return "new csecomponent"; }
-    
+
+    public String placeString() { return "new component"; }
+
     public Object clone() {
-        FigCseComponent figClone = (FigCseComponent) super.clone();
-       Vector v = figClone.getFigs();
-       figClone._Import = (FigRect) v.elementAt(0);
-       figClone._Body = (FigRect) v.elementAt(1);
-       figClone._Export=(FigRect)v.elementAt(2);
-        figClone._name = (FigText) v.elementAt(0);
-        return figClone;
+	FigCseComponent figClone = (FigCseComponent) super.clone();
+	Vector v = figClone.getFigs();
+	figClone._Import = (FigRect) v.elementAt(0);
+	figClone._Body = (FigRect) v.elementAt(1);
+	figClone._Export=(FigRect)v.elementAt(2);
+	figClone._Export=(FigText)v.elementAt(3);
+
+	return figClone;
     }
-    
+
     ////////////////////////////////////////////////////////////////
     // Fig accessors
-    
-    
+
+
     public Selection makeSelection() {
-        return null ; //new SelectionMoveClarifiers(this);
+	return null ; //new SelectionMoveClarifiers(this);
     }
     public boolean isResizable() { return false; }
-    
+
     public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        JMenu addMenu = new JMenu("Add");
-         
-        addMenu.add(ActionAddNote.SINGLETON);
-       
-        popUpActions.insertElementAt(addMenu,popUpActions.size() - 1);
-      
-        ContextViewPopUpMenu.getPopUpActions(popUpActions);
-        return popUpActions;
+	Vector popUpActions = super.getPopUpActions(me);
+	JMenu addMenu = new JMenu("Add");
+
+	addMenu.add(ActionAddNote.SINGLETON);
+
+	popUpActions.insertElementAt(addMenu,popUpActions.size() - 1);
+
+	ContextViewPopUpMenu.getPopUpActions(popUpActions);
+	return popUpActions;
     }
-    
+
     public void setOwner(Object node) {
-        super.setOwner(node);
-        bindPort(node, _bigPort);        
-     
+	super.setOwner(node);
+	bindPort(node, _bigPort);
+
     }
-    
-    
+
+
     public void setLineColor(Color col) { _Body.setLineColor(col); }
     public Color getLineColor() { return _Body.getLineColor(); }
-    
+
     public void setFillColor(Color col) { _Body.setFillColor(col); }
     public Color getFillColor() { return _Body.getFillColor(); }
-    
+
     public void setFilled(boolean f) { }
     public boolean getFilled() { return true; }
-    
+
     public void setLineWidth(int w) { _Body.setLineWidth(w); }
     public int getLineWidth() { return _Body.getLineWidth(); }
-    
-   
+
+
     public Dimension getMinimumSize() {
     Dimension nameDim = _name.getMinimumSize();
     int w = nameDim.width;
     int h = nameDim.height + 65;
     return new Dimension(w, h);
     }
-         
-    class NewClass {}
     static final long serialVersionUID = 4928213949795787107L;
 
 }/* end class FigCseComponent */
@@ -164,4 +158,3 @@ public class FigCseComponent extends FigNodeModelElement {
 
 
 
- 

@@ -33,6 +33,8 @@ import org.argouml.ui.*;
 
 
 public class FigBody extends FigGroup{    
+   
+    
     MClass _owner;
     FigBody(){
         this(null);
