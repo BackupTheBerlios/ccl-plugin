@@ -5,6 +5,8 @@ import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
  * A ComparisonImpl is an implementation of the interface comparison.
+ * A Comparison has a tag as variable, a value as a constant value and
+ * a comparator to compare the variable with that value.
  * Creation date: (26.12.2001 14:20:30)
  * @author: Fadi Chabarek
  */
@@ -21,18 +23,25 @@ public class ComparisonImpl implements Comparison {
 	private String _value;
 
 	/**
+	 * Weather this comparison is negated.
+	 */
+	private boolean _negated;
+
+	/**
 	 * Constructs a comparison implementation.
 	 */
 	public ComparisonImpl() {
 		super();
+		this.setNegated(false);
 	}
 
 	/**
 	 * Checks whether the given value lies within this comparison. A comparison without value or tag
 	 * or comparison operation is no restrictivness so the preposition would be true
-	 * and thus the comparison covers the element value.
+	 * and thus the comparison covers the element value, also if this comparison is negated.
 	 * Creation date: (26.12.2001 14:20:30)
 	 * @return boolean true, if the elementValue compared to the contained values is satisfactory.
+	 * The case that this comparison is negated is considered.
 	 * @param elementValue MContextPropertyValue a tagged value contained by a ccl word.
 	 */
 	public boolean covers(MContextPropertyValue elementValue) {
@@ -47,6 +56,9 @@ public class ComparisonImpl implements Comparison {
 		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
 			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
 			covers = covers && this.getComparator().compare(this.getValue(), elementValue.getValue());
+			if (this.isNegated()) {
+				covers = !covers;
+			}
 		}
 		return covers;
 	}
@@ -95,7 +107,8 @@ public class ComparisonImpl implements Comparison {
 	/**
 	 * The comparison's comparison between other tags and its own.
 	 */
-	private Comparator _comparator; 
+	private Comparator _comparator;
+
 	/**
 	* Returns a Comparison this comparison uses to compare values with its own.
 	* Creation date: (26.12.2001 14:20:30)
@@ -112,5 +125,23 @@ public class ComparisonImpl implements Comparison {
 	 */
 	public void setComparator(Comparator newComparator) {
 		_comparator = newComparator;
+	}
+
+	/**
+	* Shows if this comparison is negated.
+	* Creation date: (09.02.2002 16:02:55)
+	* @return boolean true if the comparison is negated.
+	*/
+	public boolean isNegated() {
+		return _negated;
+	}
+
+	/**
+	* Sets this comparison as negated or not.
+	* Creation date: (09.02.2002 16:02:44)
+	* @param newNegated boolean if this comparison should be negated or not.
+	*/
+	public void setNegated(boolean newNegated) {
+		_negated = newNegated;
 	}
 }

@@ -96,10 +96,6 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	  */
 	public synchronized boolean isValid() {
 
-		boolean bcValid = isBaseClassValid();
-		boolean rValid = isRangeValid();
-		boolean valid = super.isValid();
-
 		return isBaseClassValid() && isRangeValid() && super.isValid();
 	}
 

@@ -2,17 +2,16 @@ package org.cocons.uml.ccl;
 
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
 
-
 import java.util.Vector;
 
 import ru.novosoft.uml.foundation.core.MModelElement;
+
 /**
 * A conditional tree node.
 * Creation date: (21.12.2001 20:39:49)
 * @author: Fadi Chabarek, Stefan Tang, Philipp Schumacher.
 */
 public class ConditionImpl implements Condition {
-
 
 	/**
 	 * The comparison this condition.
@@ -45,8 +44,6 @@ public class ConditionImpl implements Condition {
 	*/
 	private Condition _secondChild = null;
 
-
-
 	/**
 	 * Constructs a ConditionImpl.
 	 */
@@ -70,24 +67,29 @@ public class ConditionImpl implements Condition {
 
 		boolean comply = false;
 
-		if (this.isLeaf()) {
-			Object[] taggedValues = modelElement.getTaggedValues().toArray();
-			for (int i = 0; i < taggedValues.length; i++) {
-				if (taggedValues[i] instanceof MContextPropertyValue) {
-					// now we have one of our yellow pinups.
-					// Lets see if it's in our comparison!?!
-					comply = this.getComparison().covers((MContextPropertyValue) taggedValues[i]);
+		try {
+			if (this.isLeaf()) {
+				Object[] taggedValues = modelElement.getTaggedValues().toArray();
+				for (int i = 0; i < taggedValues.length; i++) {
+					if (taggedValues[i] instanceof MContextPropertyValue) {
+						// now we have one of our yellow pinups.
+						// Lets see if it's in our comparison!?!
+						comply = this.getComparison().covers((MContextPropertyValue) taggedValues[i]);
 
+					}
 				}
+
+			} else {
+				// Step recursivly down the conditionial tree relating the children with our logical operation.
+				comply = 
+					this.getLogicOperation().apply(
+						getFirstChild().isCompliedWith(modelElement), 
+						getSecondChild().isCompliedWith(modelElement)); 
+
 			}
-
-		} else {
-			// Step recursivly down the conditionial tree relating the children with our logical operation.
-			comply =
-				this.getLogicOperation().apply(
-					getFirstChild().isCompliedWith(modelElement),
-					getSecondChild().isCompliedWith(modelElement));
-
+		} catch (NullPointerException npe) {
+			// if that's the case the model element or this tree isn't valid
+			return false;
 		}
 
 		return comply;
@@ -149,7 +151,7 @@ public class ConditionImpl implements Condition {
 	public int getChildCount() {
 
 		int childCount = 2;
-		if(this.isLeaf()) {
+		if (this.isLeaf()) {
 			childCount = 0;
 		}
 		return childCount;
@@ -223,37 +225,44 @@ public class ConditionImpl implements Condition {
 		 */
 	public synchronized boolean isValid() {
 
-		// if this node has been visited before, a circle must exist.
-		if (this._isMarked) {
-			// so we collect the mark and return false.
-			this._isMarked = false;
-			return false;
-		} else {
-			//recursivly down -> mark is set
-			this._isMarked = true;
-		}
-
 		boolean valid = false;
 
-		boolean ex1stChild = this.getFirstChild() != null;
-		boolean ex2ndChild = this.getSecondChild() != null;
-		boolean exComparison = this.getComparison() != null;
+		try {
 
-		if (ex1stChild && ex2ndChild && !exComparison) {
-			// if condition is a valid node.
-			valid = this.getFirstChild().isValid() && this.getSecondChild().isValid();
-
-		} else
-			if (!ex1stChild && !ex2ndChild && exComparison) {
-				//if condition is a valid leaf.
-				valid = true;
-
+			// if this node has been visited before, a circle must exist.
+			if (this._isMarked) {
+				// so we collect the mark and return false.
+				this._isMarked = false;
+				return false;
 			} else {
-				valid = false;
+				//recursivly down -> mark is set
+				this._isMarked = true;
 			}
 
-		// recursivly up, we don't need the mark anymore.
-		this._isMarked = false;
+			boolean ex1stChild = this.getFirstChild() != null;
+			boolean ex2ndChild = this.getSecondChild() != null;
+			boolean exComparison = this.getComparison() != null;
+
+			if (ex1stChild && ex2ndChild && !exComparison) {
+				// if condition is a valid node.
+				valid = this.getFirstChild().isValid() && this.getSecondChild().isValid();
+
+			} else
+				if (!ex1stChild && !ex2ndChild && exComparison) {
+					//if condition is a valid leaf.
+					valid = true;
+
+				} else {
+					valid = false;
+				}
+
+			// recursivly up, we don't need the mark anymore.
+			this._isMarked = false;
+
+		} catch (NullPointerException npe) {
+			// if that's the case, the tree can't be valid ;)
+			return false;
+		}
 
 		return valid;
 	}

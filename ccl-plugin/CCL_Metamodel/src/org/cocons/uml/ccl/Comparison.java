@@ -25,10 +25,17 @@ public interface Comparison {
 	 */
 	boolean covers(MContextPropertyValue elementValue);
 
-
 	/**
 	 * Returns a Comparator this comparison uses to compare values with its own.
 	 * Creation date: (26.12.2001 13:35:24)
 	 * @return org.cocons.uml.ccl.Comparison the comparison.
 	 */
-	public Comparator getComparator();}
+	public Comparator getComparator(); 
+    
+	/**
+	* Shows if this comparison is negated.
+	* Creation date: (09.02.2002 16:00:49)
+	* @return boolean true if the comparison is negated.
+	*/
+	boolean isNegated();
+}
