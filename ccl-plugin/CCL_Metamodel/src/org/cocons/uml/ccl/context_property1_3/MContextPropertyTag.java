@@ -12,12 +12,10 @@ public interface MContextPropertyTag extends ru.novosoft.uml.foundation.core.MMo
  * Erstellungsdatum: (31.12.2001 03:40:23)
  */
 void deleteMyself();
+
 /**
- * Compares the argument with herself.
- * Return true if both are the same.
- * Erstellungsdatum: (31.12.2001 03:34:04)
- * @return boolean
- * @param __arg org.omg.CORBA.Object
+ * Insert the method's description here.
+ * Creation date: (22.01.2002 16:02:10)
+ * @return java.lang.String
  */
-boolean equals(Object __arg);
-}
+String getTag();}

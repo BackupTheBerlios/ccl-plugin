@@ -43,9 +43,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 		  fireRefSet("propertyTag", __saved, __arg);
 		  _contextTag = __arg;
 		}
-		public void removeScopedTag(){
-			_contextTag = null;
-		}
+
 	/**
 	* Sets the tag for this context based property value.
 	* Creation date: (21.12.2001 18:18:34)
@@ -54,4 +52,6 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	public void setContextPropertyTag(MContextPropertyTag _contextTag) {
 		this._contextTag = _contextTag;
 	}
-}
+		public void removeContextPropertyTag(){
+			_contextTag = null;
+		}}

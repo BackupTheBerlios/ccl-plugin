@@ -22,11 +22,11 @@ public interface MContextPropertyValue extends MTaggedValue {
 	 * Creation date: (21.12.2001 18:23:32)
 	 * @param MContextPropertyTag The context based property tag.
 	 */
-  void internalRefByContextPropertyTag (MContextPropertyTag __arg);  
+  void internalRefByContextPropertyTag (MContextPropertyTag __arg);    
+
 
 /**
  * This method removed the tag, that the value is belonging to.
  */
 
-void removeScopedTag();
-}
+void removeContextPropertyTag();}

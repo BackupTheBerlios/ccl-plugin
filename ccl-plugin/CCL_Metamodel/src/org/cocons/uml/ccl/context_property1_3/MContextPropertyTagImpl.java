@@ -53,17 +53,29 @@ public void deleteMyself() {
 	// Hier muss der Tag aus dem Project gelöscht werden
 }
 /**
- * Compares the argument with herself.
- * Return true if both are the same.
+ * Tests weather the parameter is equal to this object.
  * Erstellungsdatum: (31.12.2001 03:37:04)
- * @return boolean
- * @param __arg org.omg.CORBA.Object
+ * @return boolean true - if both are equal.
+ * @param Object the parameter.
  */
 public boolean equals(Object __arg) {
-	// Hier sollte dann ContextPropertyGruppe
-	// eine vernüftige Vergleichsmethode implementieren
-	// diese is notwendig, um alle propValues ausfindig
-	// zu machen, die zu diesem Tag gehören
+	if(__arg instanceof MContextPropertyTag) {
+		return ((MContextPropertyTag)__arg).getTag() == this.getTag();
+	}
 	return false;
 }
-}
+	private java.lang.String tag;/**
+ * Returns the tag of this context property tag.
+ * Creation date: (22.01.2002 16:02:37)
+ * @return java.lang.String the tag.
+ */
+public java.lang.String getTag() {
+	return tag;
+}/**
+ * Sets the tag of this context property tag.
+ * Creation date: (22.01.2002 16:02:37)
+ * @param newTag java.lang.String the tag.
+ */
+public void setTag(java.lang.String newTag) {
+	tag = newTag;
+}}
