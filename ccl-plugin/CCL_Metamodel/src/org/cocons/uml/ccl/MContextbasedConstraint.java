@@ -1,7 +1,7 @@
 package org.cocons.uml.ccl;
 
 import java.util.Vector;
-import org.cocons.uml.ccl.ccldata.CoConData;
+
 import ru.novosoft.uml.foundation.core.MConstraint;
 
 /**
@@ -72,43 +72,43 @@ public interface MContextbasedConstraint extends MConstraint {
 	*/
 	public ContextCondition getTargetSetContextCondition();
 
-        /**
-         * Sets the direct associated elements for the target set.
-         *
-         * @param directElements the vector that contains the direct
-         *        elements for the target set. Each element is a String,
-         *        the name of the direct associated element.
-         */
-        public void setTargetSetDirectElements(Vector directElements);
+		/**
+		 * Sets the direct associated elements for the target set.
+		 *
+		 * @param directElements the vector that contains the direct
+		 *        elements for the target set. Each element is a String,
+		 *        the name of the direct associated element.
+		 */
+		public void setTargetSetDirectElements(Vector directElements);
 
-        /**
-         * Sets the direct associated elements for the scope set.
-         *
-         * @param directElements the vector that contains the direct
-         *        elements for the scope set. Each element is a String,
-         *        the name of the direct associated element.
-         */
-        public void setScopeSetDirectElements(Vector directElements);
+		/**
+		 * Sets the direct associated elements for the scope set.
+		 *
+		 * @param directElements the vector that contains the direct
+		 *        elements for the scope set. Each element is a String,
+		 *        the name of the direct associated element.
+		 */
+		public void setScopeSetDirectElements(Vector directElements);
 
-        /**
-         * Returns the complete CCL String that defines this CoCon.
-         *
-         * @return the CCL String that defines this CoCon, returns null
-         *         if the CoCon hasn't been initialized yet.
-         */
-        public String toString();
+		/**
+		 * Returns the complete CCL String that defines this CoCon.
+		 *
+		 * @return the CCL String that defines this CoCon, returns null
+		 *         if the CoCon hasn't been initialized yet.
+		 */
+		public String toString();
 
-        /**
-         * Returns the part of the CCL String that defines the target set.
-         *
-         * @return the CCL String that defines the target set.
-         */
-        public String getTargetSetCCLString();
+		/**
+		 * Returns the part of the CCL String that defines the target set.
+		 *
+		 * @return the CCL String that defines the target set.
+		 */
+		public String getTargetSetCCLString();
 
-        /**
-         * Returns the part of the CCL String that defines the scope set.
-         *
-         * @return the CCL String that defines the scope set.
-         */
-        public String getScopeSetCCLString();
+		/**
+		 * Returns the part of the CCL String that defines the scope set.
+		 *
+		 * @return the CCL String that defines the scope set.
+		 */
+		public String getScopeSetCCLString();
 }
