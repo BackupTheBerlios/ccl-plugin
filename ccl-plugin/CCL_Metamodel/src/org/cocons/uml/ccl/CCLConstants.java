@@ -13,19 +13,19 @@ public interface CCLConstants {
 	 * Constant describing the name of the sterotype a buisness type
 	 * can assume.
 	 */
-	public static final String TYPE = "<<type>>";
+	public static final String TYPE = "type";
 
 	/**
 	 * Another Constant describing the name of the sterotype a buisness type
 	 * can assume.
 	 */
-	public static final String INFO_TYPE = "<<info type>>";
+	public static final String INFO_TYPE = "info type";
 
 	/**
 	 * Constant describing the name of the sterotype a component
 	 * can assume.
 	 */
-	public static final String COMP_SPEC = "<<comp spec>>";
+	public static final String COMP_SPEC = "comp spec";
 
 	/**
 	 * Constant describing the range for direct binding from
@@ -39,5 +39,7 @@ public interface CCLConstants {
 	 * range 'all'.
 	 */
 	public static final String INDIRECT_RANGE_ALL = "ALL";
+	
+
 	
 }
