@@ -1,6 +1,7 @@
 package org.cocons.uml.ccl;
 
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
+
 import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
@@ -113,8 +114,8 @@ public class ValueComparison implements Comparison {
 	/**
 	 * Checks whether the given value lies within this comparison. 
 	 * Creation date: (26.12.2001 14:20:30)
-	 * @return boolean true, if an model element's taggedValue compared to the contained values is satisfactory.
-	 * The case that this comparison is negated is considered.
+	 * @return boolean true, if an model element's taggedValue compared to the contained 
+	 * values is satisfactory. The case that this comparison is negated is considered.
 	 * @param modelElement MModelElement a model element with tagged value(s).
 	 */
 	public boolean covers(MModelElement modelElement) {
@@ -140,10 +141,13 @@ public class ValueComparison implements Comparison {
 			if (taggedValues[i] instanceof MContextPropertyValue) {
 				elementValue = (MContextPropertyValue) taggedValues[i];
 
-				// if the tag is equal, the element is only covered if all compared values are satisfactory.
+				// if the tag is equal, the element is only covered if all compared 
+				// values are satisfactory.
 				if (this.getTag().equals(elementValue.getContextPropertyTag().getTag())) {
 					tagExisted = true;
-					covers = covers && this.getComparator().compare(elementValue.getValue(), (String) this.getValue());
+					covers = 
+						covers && 
+						this.getComparator().compare(elementValue.getValue(), (String) this.getValue());
 				}
 			}
 

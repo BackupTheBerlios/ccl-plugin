@@ -43,8 +43,9 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	 * Checks if the conditional is complied with a given model element
 	 * and if the base class and the range fits.
 	 * Creation date: (02.01.2002 23:05:28)
-	 * @return boolean true if the model element complies this context condition.
-	 * @param modelElement ru.novosoft.uml.foundation.core.MModelElement
+	 * @return boolean true if the model element complies this context condition 
+	 * and range + base class fit.
+	 * @param modelElement MModelElement a possibly compling model element
 	 */
 	public boolean isCompliedWith(MModelElement modelElement) {
 
@@ -90,7 +91,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	  * Checks recursivly if this conditional tree is valid. A valid part (condition)
 	  * must have a comparison xor two childs and must be a tree (i.e. has no circles).
 	  * Additional the range and the base class must be defined via CCLConstants or
-	  * BaseClasses.
+	  * BaseClasses in this context condition.
 	  * Creation date: (23.12.2001 11:43:56)
 	  * @return boolean if every tree node is valid.
 	  */
@@ -136,7 +137,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	* Creation date: (08.02.2002 13:37:45)
 	* @return boolean true - if the range is given through an (long) integer or one
 	* of its defined keywords such as ALL.
-	* @see org.cocons.uml.ccl.CCLConstants
+	* @see org.cocons.uml.ccl.CCLConstants 
 	*/
 	private boolean isRangeValid() {
 

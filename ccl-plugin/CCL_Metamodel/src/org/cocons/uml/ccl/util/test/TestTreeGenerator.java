@@ -14,8 +14,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 	 * A ConditionalTreeGenerator.
 	 */
 	private org.cocons.uml.ccl.util.ConditionalTreeGenerator treeGenerator;
-	
-	
+
 	/**
 	 * Constructs this test.
 	 * @param name java.lang.String
@@ -23,7 +22,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 	public TestTreeGenerator(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * Starts this test.
 	 * Creation date: (28.12.2001 17:55:46)
@@ -32,7 +31,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 	public static void main(String[] args) {
 		junit.swingui.TestRunner.run(TestTreeGenerator.class);
 	}
-	
+
 	/**
 	 * Sets this test up.
 	 * Creation date: (28.12.2001 17:50:47)
@@ -40,7 +39,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 	public void setUp() {
 		treeGenerator = new ConditionalTreeGenerator();
 	}
-	
+
 	/**
 	 * Tests the generation of an conditional tree.
 	 * Creation date: (28.12.2001 17:51:29)
@@ -54,7 +53,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 		}
 
 		Condition tree = treeGenerator.generateConditionalTree(100);
-		
+
 		assertTrue("Generated Tree should have been valid", tree.isValid());
 	}
 }

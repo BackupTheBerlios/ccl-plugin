@@ -5,7 +5,8 @@ import java.util.Vector;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
 
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;/**
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue; 
+/**
 * A SetComparison is an implementation of the interface comparison.
 * A Comparison has a tag as variable, and a set of values as constant values 
 * and a comparator to compare the variable with that value.
@@ -15,7 +16,7 @@ import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;/**
 public class SetComparison implements Comparison {
 
 	/**
-	 * the set of values to be compared.
+	 * The set of values to be compared.
 	 */
 	private java.util.Vector _values;
 
@@ -25,17 +26,17 @@ public class SetComparison implements Comparison {
 	private String _tag;
 
 	/**
-	 * if this comparison is negated.
+	 * If this comparison is negated.
 	 */
 	private boolean _negated;
 
 	/**
-	 * a comparator to compare the contained values.
+	 * A comparator to compare the contained values.
 	 */
-	private Comparator _comparator; 
+	private Comparator _comparator;
 
 	/**
-	 * SetComparison constructor comment.
+	 * Constructs a comparison over sets.
 	 */
 	public SetComparison() {
 		super();
@@ -46,10 +47,10 @@ public class SetComparison implements Comparison {
 	}
 
 	/**
-	 * Checks whether the given model element is covered by this comparison.
+	 * Checks via the comparator whether the given model element is covered by this comparison.
 	 * Creation date: (11.02.2002 21:17:12)
-	 * @return boolean true, if the model element and its elementValues compared to 
-	 * the values of this comparison is satisfactory.
+	 * @return boolean true, if the model element and its elementValues that fit (at least one),
+	 * match the comparison's tag compared to the values of this comparison are satisfactory. 
 	 * @param modelElement MModelElement a modelElement.
 	 */
 	public boolean covers(ru.novosoft.uml.foundation.core.MModelElement modelElement) {
@@ -70,9 +71,8 @@ public class SetComparison implements Comparison {
 		MContextPropertyValue elementValue = null;
 
 		// the assambled element values
-		Vector eValues = new Vector(); 
+		Vector eValues = new Vector();
 
-		
 		Object[] taggedValues = modelElement.getTaggedValues().toArray();
 		for (int i = 0; i < taggedValues.length; i++) {
 
@@ -80,11 +80,11 @@ public class SetComparison implements Comparison {
 				elementValue = (MContextPropertyValue) taggedValues[i];
 
 				String tag = elementValue.getContextPropertyTag().getTag();
-				
+
 				// if the tag is equal, the element is only covered if all compared values are satisfactory.
 				if (this.getTag().equals(elementValue.getContextPropertyTag().getTag())) {
 					tagExisted = true;
-					
+
 					// assamble the values.
 					eValues.addElement(elementValue.getValue());
 				}
@@ -161,7 +161,7 @@ public class SetComparison implements Comparison {
 	public void setValue(Vector newValues) {
 		_values = newValues;
 	}
-	
+
 	/**
 	* Sets the contained comparator.
 	* Creation date: (11.02.2002 22:04:11)

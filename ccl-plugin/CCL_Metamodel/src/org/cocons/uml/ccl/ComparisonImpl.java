@@ -38,16 +38,12 @@ public class ComparisonImpl implements Comparison {
 		this.setNegated(false);
 	}
 
-
-
 	/**
 	 * Returns the tag (variable) from this condition.
 	 */
 	public String getTag() {
 		return this._tag;
 	}
-
-
 
 	/**
 	 * Sets the tag (variable) of this comparison.
@@ -116,6 +112,7 @@ public class ComparisonImpl implements Comparison {
 	public void setNegated(boolean newNegated) {
 		_negated = newNegated;
 	}
+	
 	/**
 	 * Checks whether the given value lies within this comparison. A comparison without value or tag
 	 * or comparison operation is no restrictivness so the preposition would be true
@@ -163,9 +160,12 @@ public class ComparisonImpl implements Comparison {
 
 		// only if a matching tag existed the model element can be covered.
 		return covers && tagExisted;
-	}	/**
+	} 
+	
+	/**
 	* Returns the tagged value (constant) from this condition.
 	*/
 	public Object getValue() {
 		return this._value;
-	}}
+	}
+}

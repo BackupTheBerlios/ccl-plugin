@@ -3,7 +3,7 @@ package org.cocons.uml.ccl.comparators;
 import org.cocons.uml.ccl.Comparator;
 
 import java.util.Collection;
- 
+
 /**
 * If a String contains another string or a collection contains the
 * elements of the other collection
@@ -28,7 +28,7 @@ public class Contains implements Comparator {
 
 		return "CONTAIN";
 	}
-	
+
 	/**
 	 * Compares to Strings if the first contains the second or if the first collection
 	 * contains the elements of the second.

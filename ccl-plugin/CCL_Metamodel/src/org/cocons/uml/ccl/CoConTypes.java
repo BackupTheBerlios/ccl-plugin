@@ -12,13 +12,16 @@ public interface CoConTypes {
 	 */
 	public static final String SET_TO_VALUE_IN_TYPE = "SetToValueIn";
 
-        /**
-         * Describing the NotAllowedToExistIn CoCon type.
-         */
-        public static final String NOT_ALLOWED_TO_EXIST_IN = "NotAllowedToExistIn";
+	/**
+	 * Describing the NotAllowedToExistIn CoCon type.
+	 */
+	public static final String NOT_ALLOWED_TO_EXIST_IN = "NotAllowedToExistIn";
 
-        /**
-         * Describing the NotTheSameAs CoCon type.
-         */
-        public static final String NOT_THE_SAME_AS_TYPE = "NotTheSameAs";
+	/**
+	 * Describing the NotTheSameAs CoCon type.
+	 */
+	public static final String NOT_THE_SAME_AS_TYPE = "NotTheSameAs";
+
+
+
 }

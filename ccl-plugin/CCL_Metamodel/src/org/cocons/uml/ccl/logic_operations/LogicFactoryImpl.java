@@ -26,23 +26,24 @@ public class LogicFactoryImpl implements LogicFactory {
 					lo = new Or();
 					break;
 				}
-			case AND: {
+			case AND :
+				{
 					lo = new And();
 					break;
-			}
+				}
 
 		}
 
 		return lo;
 	}
-   
+
 	/**
 	 * Constructs a logic Factory.
 	 * Creation date: (26.12.2001 15:54:41)
 	 */
 	public LogicFactoryImpl() {
-	} 
-	
+	}
+
 	/**
 	* Returns all avaiable types of logic operations.
 	* Creation date: (26.12.2001 17:03:14)
@@ -54,20 +55,21 @@ public class LogicFactoryImpl implements LogicFactory {
 
 		return types;
 	}
-/**
- * Returns all available types of logic operations.
- * Creation date: (28.12.2001 17:08:12)
- * @return org.cocons.uml.ccl.LogicOperation[]
- */
-public LogicOperation[] produceAllAvailableLogicOperations() {
-	
-	int[] availableTypes = getAvailableTypes();
-	LogicOperation[] operations = new LogicOperation[availableTypes.length];
-	
-	
-	for (int i = 0; i < availableTypes.length; i++){
-		operations[i] = this.produceLogicOperationWithType(availableTypes[i]);	
+
+	/**
+	 * Returns all available types of logic operations.
+	 * Creation date: (28.12.2001 17:08:12)
+	 * @return org.cocons.uml.ccl.LogicOperation[]
+	 */
+	public LogicOperation[] produceAllAvailableLogicOperations() {
+
+		int[] availableTypes = getAvailableTypes();
+		LogicOperation[] operations = new LogicOperation[availableTypes.length];
+
+		for (int i = 0; i < availableTypes.length; i++) {
+			operations[i] = this.produceLogicOperationWithType(availableTypes[i]);
+		}
+
+		return operations;
 	}
-	
-	return operations;
-}}
+}

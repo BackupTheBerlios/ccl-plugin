@@ -6,7 +6,7 @@ package org.cocons.uml.ccl;
  * @author: Fadi Chabarek
  */
 public interface LogicOperation {
-	
+
 	/**
 	 * Applys the logic operation.
 	 * Creation date: (21.12.2001 01:33:34)

@@ -1,17 +1,21 @@
 package org.cocons.uml.ccl.util;
 
 import org.cocons.uml.ccl.*;
-
+import org.cocons.uml.ccl.comparators.*;
 import org.cocons.uml.ccl.logic_operations.*;
 
-import org.cocons.uml.ccl.comparators.*;
+/**
+ * Generates conditional trees and parts of it.
+ */
 public class ConditionalTreeGenerator {
+	
 	/**
 	 * ConditionalTreeGenerator constructor comment.
 	 */
 	public ConditionalTreeGenerator() {
 		super();
 	}
+	
 	/**
 	 * Fills a conditional tree with boundaries and logic operations, assuming
 	 * that the tree consists of ConditionImpls and is valid. This is a classic
@@ -32,6 +36,7 @@ public class ConditionalTreeGenerator {
 
 		return tree;
 	}
+	
 	/**
 	 * Generates a random Comparison with tag length 10.
 	 * Creation date: (28.12.2001 18:34:30)
@@ -47,6 +52,7 @@ public class ConditionalTreeGenerator {
 
 		return Comparison;
 	}
+	
 	/**
 	 * Generates a random Comparison.
 	 * Creation date: (28.12.2001 18:34:30)
@@ -62,6 +68,7 @@ public class ConditionalTreeGenerator {
 
 		return Comparison;
 	}
+	
 	/**
 	 * Generates a random Comparator.
 	 * Creation date: (28.12.2001 18:41:15)
@@ -76,6 +83,7 @@ public class ConditionalTreeGenerator {
 		return Comparators[comIndex];
 
 	}
+	
 	/**
 	 * Generates a limited 'random' conditional Tree. 
 	 * Creation date: (28.12.2001 16:10:57)
@@ -125,6 +133,7 @@ public class ConditionalTreeGenerator {
 
 		return fillTreeWithOperations(tree);
 	}
+	
 	/**
 	 * Generates a random logic operation.
 	 * Creation date: (28.12.2001 18:41:37)
@@ -137,6 +146,7 @@ public class ConditionalTreeGenerator {
 
 		return los[new Double(Math.random() * los.length).intValue()];
 	}
+	
 	/**
 	 * Generates a String containing random letter.
 	 * Creation date: (28.12.2001 20:23:21)

@@ -7,7 +7,7 @@ import java.util.Vector;
 import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
-* A conditional tree node.
+* A binary conditional tree node.
 * Creation date: (21.12.2001 20:39:49)
 * @author: Fadi Chabarek, Stefan Tang, Philipp Schumacher.
 */
@@ -114,7 +114,7 @@ public class ConditionImpl implements Condition {
 	}
 
 	/**
-	 * Returns the children of the reciever as an Enumeration.
+	 * Returns the children of the receiver as an Enumeration.
 	 */
 	public java.util.Enumeration children() {
 		Vector children = new Vector();
@@ -236,11 +236,11 @@ public class ConditionImpl implements Condition {
 	}
 
 	/**
-		 * Checks recursivly if this conditional tree is valid. A valid part (condition)
-		 * must have a comparison xor two childs and must be a tree (i.e. has no circles).
-		 * Creation date: (23.12.2001 11:43:56)
-		 * @return boolean if every tree node is valid.
-		 */
+	 * Checks recursivly if this conditional tree is valid. A valid part (condition)
+	 * must have a comparison xor two childs and must be a tree (i.e. has no circles).
+	 * Creation date: (23.12.2001 11:43:56)
+	 * @return boolean if every tree node is valid.
+	 */
 	public synchronized boolean isValid() {
 
 		boolean valid = false;
@@ -317,9 +317,11 @@ public class ConditionImpl implements Condition {
 	}
 
 	/**
-	 * Insert the method's description here.
+	 * Sets the parent of this conditional tree implementation.
+	 * Setting the parent doesn't change the evaluating methods
+	 * (e.g. isValid() or isCompliedWith(...).
 	 * Creation date: (21.12.2001 21:29:07)
-	 * @param newParent org.cocons.uml.ccl.Condition
+	 * @param newParent org.cocons.uml.ccl.Condition the parent.
 	 */
 	public void setParent(Condition newParent) {
 		_parent = newParent;
@@ -338,9 +340,9 @@ public class ConditionImpl implements Condition {
 	}
 
 	/**
-		 * Returns a String that represents the value of this object.
-		 * @return a string representation of the receiver
-		 */
+	 * Returns a String that represents the value of this object.
+	 * @return a string representation of the receiver
+	 */
 	public String toString() {
 
 		String condition = "";

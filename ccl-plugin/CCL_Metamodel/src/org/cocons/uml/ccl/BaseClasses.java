@@ -5,6 +5,11 @@ import ru.novosoft.uml.foundation.core.MInterface;
 import ru.novosoft.uml.foundation.core.MClass;
 
 import ru.novosoft.uml.foundation.core.MModelElement;
+/**
+ * Contains the possible base classes to observe by contextbased
+ * constraint and context condition respectivly and provides 
+ * evaluating methods for them.
+ */
 public class BaseClasses {
 
 	/**
@@ -61,7 +66,7 @@ public class BaseClasses {
 
 		return types;
 	}
-    
+	
 	/**
 	* Checks weather the given model element matchs the given base class type.
 	* Creation date: (07.02.2002 18:35:41)

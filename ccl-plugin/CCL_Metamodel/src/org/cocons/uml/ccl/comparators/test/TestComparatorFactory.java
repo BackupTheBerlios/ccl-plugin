@@ -85,7 +85,7 @@ public class TestComparatorFactory extends junit.framework.TestCase {
 		}
 
 	}
-    
+
 	/**
 	 * Tests the contains comparator.
 	 * Creation date: (28.12.2001 22:05:41)

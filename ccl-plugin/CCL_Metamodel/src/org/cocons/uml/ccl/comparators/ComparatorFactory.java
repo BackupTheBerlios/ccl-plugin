@@ -47,5 +47,5 @@ public interface ComparatorFactory {
 	* @return org.cocons.uml.ccl.Comparator[] all avaiable comparators.
 	*/
 	Comparator[] produceAllAvailableComparators();
-    
+
 }

@@ -297,7 +297,7 @@ public class TestComparison extends junit.framework.TestCase {
 			!comparison.covers(cl)); 
 
 	}
-	
+
 	/**
 	 * Tests the set comparison.
 	 * Creation date: (12.02.2002 11:57:06)

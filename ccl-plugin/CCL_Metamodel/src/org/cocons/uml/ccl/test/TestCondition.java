@@ -1,6 +1,5 @@
 package org.cocons.uml.ccl.test;
 
-
 import org.cocons.uml.ccl.logic_operations.LogicFactoryImpl;
 import org.cocons.uml.ccl.logic_operations.LogicFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
@@ -8,17 +7,21 @@ import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.Condition;
 import org.cocons.uml.ccl.ConditionImpl;
 import org.cocons.uml.ccl.ContextConditionImpl;
-
-import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
-
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
+import org.cocons.uml.ccl.CCLConstants;
+import org.cocons.uml.ccl.ValueComparison;
+import org.cocons.uml.ccl.BaseClasses; 
+
+import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
 
 import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl;
 import ru.novosoft.uml.foundation.core.MClassImpl;
 
-import org.cocons.uml.ccl.CCLConstants;import org.cocons.uml.ccl.ValueComparison;import org.cocons.uml.ccl.BaseClasses;/**
+
+
+/**
 * Tests the ConditionImpl class from org.cocons.uml.ccl. 
 */
 public class TestCondition extends junit.framework.TestCase {
@@ -130,7 +133,7 @@ public class TestCondition extends junit.framework.TestCase {
 		contextCondition.setLogicOperation(or);
 		contextCondition.setBaseClass(BaseClasses.ELEMENT);
 		contextCondition.setRange(CCLConstants.INDIRECT_RANGE_ALL);
-		
+
 		cond1.setComparison(equationComparison);
 		cond2.setComparison(equationComparison);
 
@@ -148,7 +151,7 @@ public class TestCondition extends junit.framework.TestCase {
 		tag.addConstraint(con);
 
 		tag.setTag(cond1.getComparison().getTag());
-		value.setValue((String)cond1.getComparison().getValue());
+		value.setValue((String) cond1.getComparison().getValue());
 		value.setContextPropertyTag(tag);
 
 		MClassImpl modelElement = new MClassImpl();

@@ -15,12 +15,13 @@ public class Greater implements org.cocons.uml.ccl.Comparator {
 	}
 
 	/**
-		 * Returns a String that represents the value of this object.
-		 * @return a string representation of the receiver
-		 */
+	 * Returns a String that represents the value of this object.
+	 * @return a string representation of the receiver
+	 */
 	public String toString() {
 		return "GREATER THEN";
 	}
+    
 	/**
 	 * Compares to Strings if the first one is greater than the other.
 	 * Creation date: (09.02.2002 15:34:37)

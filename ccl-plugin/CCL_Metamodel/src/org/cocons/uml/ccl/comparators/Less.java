@@ -21,6 +21,7 @@ public class Less implements org.cocons.uml.ccl.Comparator {
 	public String toString() {
 		return "LESS THEN";
 	}
+    
 	/**
 	 * Compares to Strings if one is less then the other.
 	 * Creation date: (28.12.2001 01:46:14)

@@ -1,14 +1,15 @@
 package org.cocons.uml.ccl;
 
-import org.cocons.uml.ccl.context_property1_3.*;
 
-import ru.novosoft.uml.foundation.data_types.MMultiplicity;
-import ru.novosoft.uml.MBase;
+
+
+
 
 import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
- * A Comparison comparing owned tagged values with model elements.
+ * A Comparison comparing model element's 
+ * owned tagged values with the tag and the values of its own.
  */
 public interface Comparison {
 
@@ -34,7 +35,7 @@ public interface Comparison {
 	/**
 	 * Checks whether the given model element is covered by this comparison.
 	 * Creation date: (21.12.2001 00:36:03)
-	 * @return boolean true, if the model element and its elementValues compared to 
+	 * @return boolean true, if the model element and its elementValue(s) compared to 
 	 * the values of this comparison is satisfactory.
 	 * @param elementValue MModelElement a modelElement.
 	 */

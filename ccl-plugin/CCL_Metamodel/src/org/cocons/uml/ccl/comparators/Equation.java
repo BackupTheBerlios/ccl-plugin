@@ -1,6 +1,6 @@
 package org.cocons.uml.ccl.comparators;
 
-import java.util.Collection; 
+import java.util.Collection;
 
 /**
 * An equation (=) for strings or for all elements of a collection
@@ -53,7 +53,7 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 
 		return equals;
 	}
-    
+
 	/**
 	 * Compares two strings case insensitivly if they are  equal or two collections if
 	 * all of their elements are equal.
