@@ -1,0 +1,1203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <xs:element name="component-spec">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-spec element is the root element of a
+    component spec. It contains
+    - an optional description of the component
+    - identification of the component
+    - a specification of exported entities
+    - an optional specification of types and services required by the 
+      component
+    - an optional specification of the component configuration
+    - an optional specification of bindings between interfaces and 
+      realizations
+    - an optional specification of runtime requirements
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element ref="global-section"/>
+    <xs:element ref="export-section"/>
+    <xs:element minOccurs="0" ref="import-section"/>
+    <xs:element minOccurs="0" ref="configuration-section"/>
+    <xs:element minOccurs="0" ref="binding-section"/>
+    <xs:element minOccurs="0" ref="runtime-environment"/>
+    <xs:element ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="binding">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The binding element describes a binding of a component-spec 
+    with its implementation.
+    Used in: binding-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="component-name" type="QualifiedNameType"/>
+    <xs:element name="component-impl-name" type="QualifiedNameType"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="binding-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The binding-section element describes the binding of component-specs with
+    their implementation.
+    Used in: component-application.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" minOccurs="1" ref="binding"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="business-export">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The business-export element specifies a collection  methods
+    exported by the specified component.
+    Used in: export-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="export-scope" type="ExportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="business-expose">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The business-expose element specifies a collection of business 
+    methods imported from the given and exported by the specified 
+    component.
+    If the rename-as attribute of the method-name element is specified the 
+    method is imported and re-exported with the name given there.
+    Used in: connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="import-scope" type="ImportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="business-import">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The business-import element specifies a collection of business methods 
+    a component imports from a given component.
+    If the rename-as attribute of the method-name element is specified the 
+    method is imported with the name given there.
+    Used in: import-section, connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="import-scope" type="ImportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="component-category">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-category elemend declares the component type.
+    Components could either be message-oriented, service-oriented 
+    or type-declaring. 
+
+    If that element is not specified a stateful
+    service-oriented component will be assumed.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:choice>
+    <xs:element ref="message-oriented"/>
+    <xs:element ref="service-oriented"/>
+    <xs:element ref="type-declaring"/>
+   </xs:choice>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="component-spec-ref" type="ReferenceType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-spec-ref element describes a reference to a possibly 
+    remote component-spec described by an URL element. Specified
+    properties will be compared to given ones in the referenced spec.
+    Used in: component, connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+ </xs:element>
+
+ <xs:element name="composed-components">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The composed-components element contains a collection of specs
+    composed components.
+    Used in: configuration-section. 
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+<!--   <xs:sequence> -->
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+     <xs:element ref="connector-spec"/>
+     <xs:element ref="connector-spec-ref"/>
+    </xs:choice>
+<!--   </xs:sequence> -->
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="configuration-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The configuration-section element specifies how other components are 
+    used in aggregation oder composition.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" ref="used-components"/>
+    <xs:element minOccurs="0" ref="composed-components"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="connector-spec">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The connector-spec element specifies a component and the entities imported 
+    from a component.
+    Used in: configuration-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element ref="component-spec-ref"/>
+    <xs:element minOccurs="0" ref="lifecycle-import"/>
+    <xs:choice>
+     <xs:sequence>
+      <xs:element minOccurs="0" ref="import"/>
+      <xs:element minOccurs="0" ref="expose"/>
+     </xs:sequence>
+     <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="2" ref="business-import"/>
+      <xs:element minOccurs="0" maxOccurs="2" ref="business-expose"/>
+      <xs:element minOccurs="0" ref="type-import"/>
+      <xs:element minOccurs="0" ref="type-expose"/>
+     </xs:sequence>
+    </xs:choice>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="connector-spec-ref">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The connector-spec-ref element describes a reference to a possibly 
+    remote connector-spec described by an URL element. Specified
+    properties will be compared to given ones in the referenced spec.
+    Used in: composed-components, used-components.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="URL" type="URLType"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="constraints">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The constraint element describes a constraint holding for all values 
+    of a property element.
+    Used in: property.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="property"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="exception-type-ref" type="TypeNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The exception-type-ref element specifies a reference of a type of an 
+    exception.
+    Used in: raised-exceptions.
+   </xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="export-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The export-section element specifies a collection of exports.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="1" minOccurs="0" ref="lifecycle-export"/>
+    <xs:choice>
+     <xs:element maxOccurs="unbounded" ref="facade"/>
+     <xs:sequence>
+      <xs:element minOccurs="0" ref="business-export"/>
+      <xs:element minOccurs="0" ref="type-export"/>
+     </xs:sequence>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="expose">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The expose element describes imports from and exposes to given facades.
+    Used in: connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="2" minOccurs="0" ref="business-expose"/>
+    <xs:element minOccurs="0" ref="type-expose"/>
+   </xs:sequence>
+   <xs:attribute name="from" type="FacadeNameType" use="required"/>
+   <xs:attribute name="to" type="FacadeNameType" use="required"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="external-resources">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The external-resources element describes a collection of external 
+    resources needed by the specified component to work properly.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="resource"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="facade">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The facade element describes an individual component facade.
+    Used in: export-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="facade-name" type="FacadeNameType"/>
+    <xs:element minOccurs="0" maxOccurs="3" ref="business-export"/>
+    <xs:element minOccurs="0" ref="type-export"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="global-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-identifier element specifies a unique name of the 
+    component and maybe more needful things.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="component-name" type="QualifiedNameType"/>
+    <xs:element ref="component-category"/>
+    <xs:element ref="type-context" minOccurs="0" maxOccurs="1"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ 
+ <xs:element name="import">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The import element specifies an import from a facade given by a 
+    facade-name.
+    Used in: connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="2" minOccurs="0" ref="business-import"/>
+    <xs:element minOccurs="0" ref="type-import"/>
+   </xs:sequence>
+   <xs:attribute name="from" type="FacadeNameType" use="required"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="import-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The import-section element specifies a collection types and 
+    business-functions the component wanted to import.
+    A concrete binding of imported items and components exporting items 
+    is specified in the cofiguration section.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element minOccurs="0" ref="type-import"/>
+    <xs:element minOccurs="0" ref="business-import"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="lifecycle-export">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The lifecycle-export element specifies a collection of
+    lifecycle-methods  exported from the specified component.
+    Used in: export-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="export-scope" type="ExportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="lifecycle-import">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The lifecycle-import element specifies a collection of lifecycle 
+    methods imported from the given component.
+    Used in: connector-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="import-scope" type="ImportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="message-oriented">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The empty message-oriented element characterizes the specified 
+    component as a message-oriented component.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType></xs:complexType>
+ </xs:element>
+
+ <xs:element name="method">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The method element describes an exported exposed or imported method.
+    Used in: business-expose, business-export, lifecycle-export,
+             lifecycle-import.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element ref="method-name"/>
+    <xs:element minOccurs="0" ref="method-parameters"/>
+    <xs:element minOccurs="0" ref="method-return-type-ref"/>
+    <xs:element minOccurs="0" ref="raised-exceptions"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="method-name">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The method-name element specifies the name of a method.
+    Specifying the rename-as attribute the method-name could be changed.
+    Used in: method.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="MethodNameType">
+     <xs:attribute name="rename-as" type="MethodNameType"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="method-parameter">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The method-parameter element specifies a method parameter.
+    The type attribute specifies whether the parameter 
+    is an  input, an output or an in/out parameter. The parameter-attr 
+    element must be one of the following four:   
+    Use in method-parameters.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element name="parameter-name" type="ParameterNameType"/>
+    <xs:element name="parameter-type-ref" type="ParameterTypeRefType"/>
+   </xs:sequence>
+   <xs:attribute default="inout" name="type" type="IOType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="method-parameters">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The method-parameters element describes a collection of method 
+    parameters.
+    Used in: method.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" maxOccurs="unbounded" ref="method-parameter"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="method-return-type-ref">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The method-return-type-ref specifies a reference to the  type of the 
+    return-value of the method. Using the container-type attribute 
+    array or collection types can be specified. 
+    Used in: method.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="TypeNameType">
+     <xs:attribute default="none" name="container-type" 
+                   type="ContainerTypeType"/>
+     <xs:attribute default="0" name="array-dimension" 
+                   type="xs:nonNegativeInteger"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="parameter">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The parameter element describes an external parameter used to 
+    parametrize the specified component.
+    Used in: parameter-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element name="name" type="ExternalParameterNameType"/>
+    <xs:element name="value" type="ExternalParameterValueType"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="parameter-section">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The parameter-section element describes a set of parameters used to 
+    parametrize that component.
+    Used in: component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="parameter"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ 
+ <xs:element name="properties">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The properties element specifies a sequence of key-value pairs to
+    contain any information about its parent element.
+    Used in: component-identifier, import, export, method, type.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="property"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="property">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    A property Element describes a name-value pair.
+    Used in: properties.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element name="key" type="PropertyKeyType"/>
+    <xs:element maxOccurs="unbounded" name="value" type="PropertyValueType"/>
+    <xs:element minOccurs="0" ref="constraints"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="raised-exceptions">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The raised-exceptions element specifies a collection of 
+    exception-type-ref elements describing the types of exceptions 
+    raised by that method.
+    Used in: method.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="exception-type-ref"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="resource">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The resource element describes a single resource.
+    To be specified later.
+    Used in: resource-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="description" type="DescriptionType"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="runtime-environment">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The runtime-environment element contains a collection 
+    of runtime-requirements like transaction behaviour, security 
+    requiremente etc needed by the specified  component to work properly.
+    Used in. component-spec.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" ref="parameter-section"/>
+    <xs:element minOccurs="0" ref="external-resources"/>
+    <xs:element minOccurs="0" ref="security-requirements"/>
+    <xs:element minOccurs="0" ref="txn-requirements"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="security-requirement">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The security-requirement element specifies a single 
+    security requirement.
+    Used in: security-requirements.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="description" type="DescriptionType"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="security-requirements">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The security-requirements element specifies a collection of 
+    secuirty requirements.
+    Used in: runtime-environment.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="security-requirement"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="service-oriented">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The empty service-oriented element characterizes a component as 
+    a service-oriented component. 
+    The value of the preserve-state attribute characterizes that 
+    component as a stateful (preserve-state=&quot;yes&quot;) or as a stateless 
+    (preserve-state=&quot;no&quot;) component.
+    Used in: component-category.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:attribute default="yes" name="preserve-state" type="YesNoType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="service-export">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The service-export element describes a collection of business and
+    lifecycle-exports for a given export-scope.
+    Used in: export-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" ref="business-export"/>
+   </xs:sequence>
+   <xs:attribute default="remote" name="export-scope" type="ExportScopeType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="txn-requirement">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The txn-requirement element specifies a single txn-requirement.
+    Used in: txn-requirements.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="description" type="DescriptionType"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="txn-requirements">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The txn-requrements element specifies a collection of 
+    txn-requirements.
+    Used in: runtime-environment.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="txn-requirement"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type element specifies a type.
+    Used in: type-export.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element ref="type-name"/>
+    <xs:element minOccurs="0" ref="type-attrs"/>
+    <xs:element minOccurs="0" ref="type-methods"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-context">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Definition of the structure of a type-context element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:choice>
+    <xs:element name="context-name" type="PredefinedTypeContextType" />
+    <xs:element name="context-ref" type="ReferenceType" />
+   </xs:choice>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-attr">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-attr element describes an attribute of a type.
+    The container-type attribute describes a typ of a container used to
+    represent a type-attr-element. The following values are allowed:
+    array
+    collection
+    none
+    If the container-type attribute is not specified or the value is 
+    &quot;none&quot; the type-attr is a scalar type.
+    The acessor attribute describes which accessors will be available for 
+    that attribute. The following values are allowed:
+    read  - a get&lt;attr-name&gt; accessor is available
+    write - a set&lt;attr-name&gt; accessor is available
+    acess - a getter and a setter are available
+    none  - neither a reader nor a writer method is available
+
+    Used in: type-attrs.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element minOccurs="0" name="description" type="DescriptionType"/>
+    <xs:element name="attr-name" type="TypeAttributeNameType"/>
+    <xs:element name="attr-type-ref" type="TypeNameType"/>
+    <xs:element minOccurs="0" ref="properties"/>
+   </xs:sequence>
+   <xs:attribute default="none" name="container-type" 
+                 type="ContainerTypeType"/>
+   <xs:attribute default="0" name="array-dimension" 
+                 type="xs:nonNegativeInteger"/>
+   <xs:attribute default="access" name="accessor" type="AccessorType"/>
+   <xs:attribute name="reader-name" type="MethodNameType"/>
+   <xs:attribute name="writer-name" type="MethodNameType"/>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-attrs">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-attrs element describes a collection of attributes of a type. 
+    Used in: type.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="type-attr"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-declaring">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The empty type-declaring element characterizes a component as a 
+    component which declares only types.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType></xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-export">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-export element specifies a set of types exported by the
+    specified component.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="type"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-expose">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-expose element specifies a collection of types imported 
+    from the given and exported by the specified component.
+    If the rename-as attribute is specified a type will be known 
+    and exported with the name specified there.
+    Used in: connector-spec, import-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+<!--   <xs:sequence>  -->
+    <xs:choice maxOccurs="unbounded">
+     <xs:element ref="type"/>
+     <xs:element ref="type-name"/>
+    </xs:choice>
+<!--   </xs:sequence> -->
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-import">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-import element specifies a collection of types imported 
+    from the given component.
+    If the rename-as attribute is specified a type will be known with the 
+    name specified there.
+    Used in: connector-spec, import-section.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+<!--   <xs:sequence> -->
+    <xs:choice maxOccurs="unbounded">
+     <xs:element ref="type"/>
+     <xs:element ref="type-name"/>
+    </xs:choice>
+<!--   </xs:sequence> -->
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-methods">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-methods element describes a collection of methods provided 
+    by a given type
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element maxOccurs="unbounded" ref="method"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="type-name">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The type-name element specifies the name of a type.
+    To rename the corresponding type the rename-as attribute could be used.
+    Used in: type.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="TypeNameType">
+     <xs:attribute name="rename-as" type="TypeNameType"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="used-components">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The used-components element contains a collection of specs
+    of used components.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+<!--   <xs:sequence> -->
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+     <xs:element ref="connector-spec"/>
+     <xs:element ref="connector-spec-ref"/>
+    </xs:choice>
+<!--   </xs:sequence> -->
+  </xs:complexType>
+ </xs:element>
+
+ <!-- The following types may be separated in their own type library -->
+
+ <xs:simpleType name="AccessorType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an AccessorType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="read"/>
+   <xs:enumeration value="write"/>
+   <xs:enumeration value="access"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="ComponentNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-name is a &quot;short name&quot; of the component used in 
+    component references.
+    Used in: component-identifier.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ComponentCategoryType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of a 
+    ComponentCategoryType element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="service-oriented"/>
+   <xs:enumeration value="message-driven"/>
+   <xs:enumeration value="type-declaring"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="ComponentNamespaceType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+   The component-namespace element is the name used to register a 
+   component with the component plattform.
+   Is that sufficient to locate a component?
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ConstraintspaceType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Definition of the structure of a components constraintspace element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ContainerTypeType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of a ContainerTypeType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="array"/>
+   <xs:enumeration value="collection"/>
+   <xs:enumeration value="none"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="DescriptionType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The description element contains a verbal description of an arbitrary 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ExportScopeType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an ExportScopeType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="local"/>
+   <xs:enumeration value="remote"/>
+   <xs:enumeration value="full"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="ExternalParameterNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    This type specifies the structure of the name of an external parameter.
+    Used in: parameter.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ExternalParameterValueType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    This type specifies the structure of the value of an external parameter.
+    Used in: parameter.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="FacadeNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The facade-name element contains the name of a facade.
+    Used in: facade.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ImportScopeType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an ImportScopeType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="local"/>
+   <xs:enumeration value="remote"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="IOType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an IOType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="in"/>
+   <xs:enumeration value="out"/>
+   <xs:enumeration value="inout"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="MethodNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Definition of the structure of a method-name element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ParameterNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The parameter-name element specifies the name of a parameter.
+    Used in: method-parameter, parameter.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="ParameterTypeRefType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The parameter-type-ref element specifies a reference to a type 
+    describing the type of the parameter.
+    Used in: method-parameter.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="PredefinedTypeContextType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an ImportScopeType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="JAVA"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <xs:simpleType name="PropertyKeyType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    This type describes the structure of a key in a property
+    Used in: property.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="PropertyValueType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    This type describes the structure of a value in a property
+    Used in: property.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+  <xs:complexType name = "QualifiedNameType">
+   <xs:sequence>
+    <xs:element name="alias" type="ComponentNameType" minOccurs="0"/>   
+    <xs:element name="name" type="ComponentNameType"/>
+    <xs:element name="namespace" type="ComponentNamespaceType" />
+   </xs:sequence>
+  </xs:complexType>
+
+ <xs:complexType name="ReferenceType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The component-impl-ref element describes 
+    a reference to a possibly remote component implementation which is part
+    of a deployable component. Specified
+    properties will be compared to given ones in the referenced spec.
+    Used in: component.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:sequence>
+   <xs:element name="URL" type="URLType"/>
+   <xs:element minOccurs="0" ref="properties"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <xs:simpleType name="TypeAttributeNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Definition of the structure of a type-attribute-name element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="TypeNameType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Definition of the structure of a type-name element.
+    Used in: attr-type-ref, method-return-type-ref, raised-exceptions-ref,
+             type-name.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="URLType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    The URL Type describes a universal resource location.
+    That element is used to divide compontent-specs
+    specs into different parts.
+    Used in:  component-spec-ref, component-impl-ref, 
+    connector-spec-ref.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <xs:simpleType name="YesNoType">
+  <xs:annotation>
+   <xs:documentation xml:lang="en">
+    Collection of legal elements for the specification of an YesNoType 
+    element.
+   </xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="yes"/>
+   <xs:enumeration value="no"/>
+  </xs:restriction>
+ </xs:simpleType>
+</xs:schema>

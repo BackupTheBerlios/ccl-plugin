@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+
+<component-spec
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="///D:/usr/src/ComponentML/ComponentML.xsd">
+ <!-- xsi:noNamespaceSchemaLocation="http://www.isst.fhg.de/~ukriegel/CSE/Schema/ComponentML-0_6.xsd"> -->
+
+
+ <!-- Beispiel fuer eine Komponentenspezifikation  -->
+ <!-- Component BSVertragVerwaltung -->
+ <description>BSVertragVerwaltung</description>
+ <!-- Identifikationssektion -->
+ <global-section>
+  <component-name>
+   <name>BSVertragVerwaltung</name>
+   <namespace>com.companyA.BSVertragVerwaltung</namespace>
+  </component-name>
+  <component-category>
+   <service-oriented preserve-state="no" />
+  </component-category>
+  <type-context>
+   <context-name>JAVA</context-name>
+  </type-context>
+  <properties>
+   <property>
+    <key>vendor</key>
+    <value>Monsters Inc.</value>
+   </property>
+   <property>
+    <key>version</key>
+    <value>1.2.2</value>
+   </property>
+  </properties>
+ </global-section>
+
+
+ <!-- EXPORT SECTION -->
+ <export-section>
+  <lifecycle-export>
+   <method>
+    <description>constructor</description>
+    <method-name>create</method-name>
+   </method>
+  </lifecycle-export>
+
+  <facade>
+   <facade-name>TestFacade1</facade-name>
+   <business-export export-scope="local">
+    <method>
+     <method-name>facade1Method1</method-name>
+     <method-parameters>
+      <method-parameter type="in">
+       <parameter-name>pBSNR</parameter-name>
+       <parameter-type-ref>String</parameter-type-ref>
+      </method-parameter>
+     </method-parameters> 
+     <method-return-type-ref>BSVertragBET</method-return-type-ref> 
+    </method>
+    <method>
+     <method-name>facade1Method2</method-name>
+     <method-parameters>
+      <method-parameter type="in">
+       <parameter-name>pBSNR</parameter-name>
+       <parameter-type-ref>String</parameter-type-ref>
+      </method-parameter>
+     </method-parameters> 
+     <method-return-type-ref>BSVertragBET</method-return-type-ref> 
+    </method>
+   </business-export>
+  </facade>
+
+  <facade>
+   <facade-name>TestFacade1</facade-name>
+   <business-export export-scope="local">
+    <method>
+     <method-name>facade2Method1</method-name>
+     <method-parameters>
+      <method-parameter type="in">
+       <parameter-name>pBSNR</parameter-name>
+       <parameter-type-ref>String</parameter-type-ref>
+      </method-parameter>
+     </method-parameters> 
+     <method-return-type-ref>BSVertragBET</method-return-type-ref> 
+    </method>
+    <method>
+     <method-name>facade2Method2</method-name>
+     <method-parameters>
+      <method-parameter type="in">
+       <parameter-name>pBSNR</parameter-name>
+       <parameter-type-ref>String</parameter-type-ref>
+      </method-parameter>
+     </method-parameters> 
+     <method-return-type-ref>BSVertragBET</method-return-type-ref> 
+    </method>
+   </business-export>
+  </facade>
+
+ </export-section>
+
+
+
+ <configuration-section>
+  <used-components>
+   <!-- import BETS from component BusinessEntityTypes -->
+   <connector-spec>
+    <component-spec-ref>
+     <URL>url-to-businessEntityTypes</URL>
+     <properties>
+      <property>
+       <key>version</key>
+       <value>1.0</value>
+      </property>
+     </properties>
+    </component-spec-ref>
+    <type-expose>
+     <type-name>BerechnungErgebnisBET</type-name>
+     <type-name>SimulationErgebnisBET</type-name>
+     <type-name>BSVertragBET</type-name>
+     <type-name>BSBerechneException</type-name>
+     <type-name>BSBerechnungException</type-name>
+    </type-expose>
+   </connector-spec>
+   <!-- import business functions from component BSBerechnung -->      
+   <connector-spec>
+    <component-spec-ref>
+     <URL>url-to-BSBerechnung</URL>
+     <properties>
+      <property>
+       <key>version</key>
+       <value>1.2.1</value>
+      </property>
+     </properties>
+    </component-spec-ref>
+    <lifecycle-import import-scope="local">
+     <method>
+      <description>constructor</description>
+      <method-name>create</method-name>
+     </method>
+    </lifecycle-import>
+    <business-expose import-scope="local">
+     <method>
+      <description>Method for simple finance arithmetics</description>
+      <method-name>berechne</method-name>
+      <method-parameters>
+       <method-parameter type="in">
+        <description>Bausparvertrag</description>
+        <parameter-name>pVertrag</parameter-name>
+        <parameter-type-ref>BSVertragBET</parameter-type-ref>
+       </method-parameter>
+      </method-parameters>
+      <method-return-type-ref>BerechnungErgebnisBET</method-return-type-ref>
+      <raised-exceptions>
+       <exception-type-ref>BBException</exception-type-ref>
+      </raised-exceptions>
+     </method>
+     <method>
+      <description>Method for financial simulations</description>
+      <method-name>simuliere</method-name>
+      <method-parameters>
+       <method-parameter type="in">
+        <parameter-name>pVertrag</parameter-name>
+        <parameter-type-ref>BSVertragBET</parameter-type-ref>
+       </method-parameter>
+      </method-parameters>
+      <method-return-type-ref>SimulationErgebnisBET</method-return-type-ref>
+      <raised-exceptions>
+       <exception-type-ref>BBException</exception-type-ref>
+      </raised-exceptions>
+     </method>
+     <method>
+      <description>Neuvertrag</description>
+      <method-name>createNeuvertrag</method-name>
+      <!-- no parameters -->
+      <method-return-type-ref>BSVertragBET</method-return-type-ref>
+      <raised-exceptions>
+       <exception-type-ref>BBException</exception-type-ref>  
+      </raised-exceptions>
+     </method>
+    </business-expose>
+   </connector-spec>
+   <connector-spec>
+    <component-spec-ref>
+     <URL>URL-to-HostKommunkation-Spec</URL>
+    </component-spec-ref>
+    <lifecycle-import>
+     <method>
+      <description>constructor</description>
+      <method-name>create</method-name>
+     </method>
+    </lifecycle-import>
+    <business-import>
+     <method>
+      <description>XML communication: XML cmd in, XML  result out
+      </description>
+      <method-name>doCmd</method-name>
+      <method-parameters>
+       <method-parameter type="in">
+        <description>XML-Command-String</description>
+        <parameter-name>pCmd</parameter-name>
+        <parameter-type-ref>String</parameter-type-ref>
+       </method-parameter>
+      </method-parameters>
+      <method-return-type-ref>String</method-return-type-ref>
+      <raised-exceptions>
+       <exception-type-ref>HostKommunicationException</exception-type-ref>
+      </raised-exceptions>
+     </method>
+    </business-import>  
+    <type-import>
+     <type-name>HostKommunikationException</type-name>
+    </type-import>
+   </connector-spec>
+  </used-components>
+ </configuration-section>
+
+ <properties>
+  <property>
+   <key>status</key>
+   <value>initial</value>
+  </property>
+ </properties>
+</component-spec>
+
+
+
+
+
+
