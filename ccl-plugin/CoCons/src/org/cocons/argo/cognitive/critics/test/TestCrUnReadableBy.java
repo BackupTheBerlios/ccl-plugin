@@ -19,9 +19,6 @@ import org.cocons.uml.ccl.*;
 
 public class TestCrUnReadableBy extends TestCase {
 
-  MContextbasedConstraint cocon;
-  ContextCondition scopeSet;
-  ContextCondition constrainedSet;
   Project project;
 
   public TestCrUnReadableBy(String name) {
