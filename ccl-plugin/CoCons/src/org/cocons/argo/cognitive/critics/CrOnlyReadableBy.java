@@ -23,7 +23,7 @@ public class CrOnlyReadableBy extends CrCoCon {
     setHeadline("Test critique");
 
     // set description
-    setDescription("Yet another fucking critique");
+    setDescription("Test critique");
 
     // makes the critique active
     addSupportedDecision(CrCoCon.decCONSTRAINT);
