@@ -102,7 +102,7 @@ public String getValidValuesType() {
   return(validValueType);
 }
 
-public String getUnit() {
+/*public String getUnit() {
   VCPLTranslator trans = new VCPLTranslator();
   return(trans.getUnit(this.getConstraintBody()));
 }
@@ -120,7 +120,7 @@ public int[] getIntegerRange() {
 public float[] getFloatRange() {
   VCPLTranslator trans = new VCPLTranslator();
   return(trans.getFloatRange(this.getConstraintBody()));
-}
+}*/
 // ---------------------------------------
 
 }

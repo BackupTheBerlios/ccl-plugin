@@ -109,11 +109,9 @@ public class ValueComparison implements Comparison {
 	public void setNegated(boolean newNegated) {
 		_negated = newNegated;
 	}
-	
+
 	/**
-	 * Checks whether the given value lies within this comparison. A comparison without value or tag
-	 * or comparison operation is no restrictivness so the preposition would be true
-	 * and thus the comparison covers the element value, also if this comparison is negated.
+	 * Checks whether the given value lies within this comparison. 
 	 * Creation date: (26.12.2001 14:20:30)
 	 * @return boolean true, if an model element's taggedValue compared to the contained values is satisfactory.
 	 * The case that this comparison is negated is considered.
@@ -122,31 +120,43 @@ public class ValueComparison implements Comparison {
 	public boolean covers(MModelElement modelElement) {
 
 		boolean covers = true;
+		boolean tagExisted = false;
 
-		if (modelElement == null || modelElement.getTaggedValues() == null) {
+		// to avoid nullpointer-exceptions
+		if (modelElement == null
+			|| modelElement.getTaggedValues() == null
+			|| this.getTag() == null
+			|| this.getValue() == null
+			|| this.getComparator() == null) {
 			return false;
 		}
 
+		// for every context property value of the element
 		MContextPropertyValue elementValue = null;
 
 		Object[] taggedValues = modelElement.getTaggedValues().toArray();
 		for (int i = 0; i < taggedValues.length; i++) {
+
 			if (taggedValues[i] instanceof MContextPropertyValue) {
 				elementValue = (MContextPropertyValue) taggedValues[i];
+
+				// if the tag is equal, the element is only covered if all compared values are satisfactory.
+				if (this.getTag().equals(elementValue.getContextPropertyTag().getTag())) {
+					tagExisted = true;
+					covers = covers && this.getComparator().compare(elementValue.getValue(), (String) this.getValue());
+				}
 			}
+
 		}
 
-		// to avoid nullpointerexceptions...
-		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
-			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
-			covers = covers && this.getComparator().compare(elementValue.getValue(), (String) this.getValue());
-			if (this.isNegated()) {
-				covers = !covers;
-			}
+		if (this.isNegated()) {
+			covers = !covers;
 		}
-		return covers;
+
+		// only if a matching tag existed the model element can be covered.
+		return covers && tagExisted;
 	}
-	
+
 	/**
 	* Returns the tagged value (constant) from this comparison.
 	*/

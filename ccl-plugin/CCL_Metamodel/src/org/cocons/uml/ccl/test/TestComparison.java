@@ -234,9 +234,9 @@ public class TestComparison extends junit.framework.TestCase {
 				+ "Comparison "
 				+ comparison.toString()
 				+ ", PropertyValue: "
-				+ equalValue
+				+ equalTag
 				+ " : "
-				+ equalTag, 
+				+ equalValue, 
 			comparison.covers(cl)); 
 
 		//b
