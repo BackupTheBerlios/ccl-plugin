@@ -110,7 +110,7 @@ author: klischat, oetker
     <echo message=" available targets are:"/>
     <echo message=""/>
     <echo message="   compile      --> compiles the plugin."/>
-    <echo message="   run          --> compiles the plugin & runs ArgoUML"/>
+    <echo message="   run          --> compiles the plugin and runs ArgoUML"/>
     <echo message="   clean        --> cleans up the ${build.dir} directory"/>
     <echo message="   usage        --> show this message (default)"/>
     <echo message=""/>
