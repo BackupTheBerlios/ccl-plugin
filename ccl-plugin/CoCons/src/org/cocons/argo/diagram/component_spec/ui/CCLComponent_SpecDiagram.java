@@ -34,15 +34,12 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
     // actions for toolbar
     
     protected static Action _actionClassSpec;
-    protected static Action _actionInterfaceDep= 
-        new CmdCreateNode(MInterfaceImpl.class, "InterfaceSpec");
-    
+    protected static Action _actionInterfaceDep; 
     protected static Action _actionDepend =
 	new CmdSetMode(ModeCreatePolyEdge.class,
 		       "edgeClass", MDependencyImpl.class,
 		       "Import");
-    
-    protected static Action _actionAssoc =
+   protected static Action _actionAssoc =
 	new CmdSetMode(ModeCreatePolyEdge.class,
 		       "edgeClass", MAssociationImpl.class,
 		       "Export");	
@@ -91,8 +88,8 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
 	
 	_actionClassSpec = new CmdCreateNodeStereotype(MClassImpl.class,"CompSpec", 
 						       findStereotype("comp spec") );
-        //_actionInterfaceDep =new CmdCreateNodeStereotype(MClassImpl.interface,"InterfaceSpec",
-         //                                              findStereotype("interface spec")); 
+        _actionInterfaceDep =new CmdCreateNodeStereotype(MInterfaceImpl.class,"InterfaceSpec",
+                                                       findStereotype("interface spec")); 
 	_toolBar.add(_actionClassSpec);
 	_toolBar.add(_actionInterfaceDep);
 	_toolBar.add(_actionDepend);
