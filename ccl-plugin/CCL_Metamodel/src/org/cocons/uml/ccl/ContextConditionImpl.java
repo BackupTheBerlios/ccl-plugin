@@ -21,14 +21,14 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	 * The range of this context condition.
 	 */
 	private String _range;
-	
+
 	/**
 	 * Constructs a context condition.
 	 */
 	public ContextConditionImpl() {
 		super();
 	}
-	
+
 	/**
 	 * Returns a String representing a base class, model elements must descend from
 	 * to comply this context condition.
@@ -57,7 +57,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 
 		return super.isCompliedWith(modelElement);
 	}
-	
+
 	/**
 	 * Sets the base class of this context condition.
 	 * Creation date: (02.01.2002 22:44:54)
@@ -74,7 +74,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	public String toString() {
 		return getRange() + " " + getBaseClass() + " WHERE  " + super.toString();
 	}
-	
+
 	/**
 	 * Returns the range of this context condition.
 	 * A range limits the number of model elements that can be selected
@@ -84,8 +84,8 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	 */
 	public java.lang.String getRange() {
 		return _range;
-	} 
-	
+	}
+
 	/**
 	  * Checks recursivly if this conditional tree is valid. A valid part (condition)
 	  * must have a comparison xor two childs and must be a tree (i.e. has no circles).
@@ -95,14 +95,14 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	  * @return boolean if every tree node is valid.
 	  */
 	public synchronized boolean isValid() {
-		
+
 		boolean bcValid = isBaseClassValid();
 		boolean rValid = isRangeValid();
 		boolean valid = super.isValid();
-		
+
 		return isBaseClassValid() && isRangeValid() && super.isValid();
-	} 
-	
+	}
+
 	/**
 	* Sets the range of this context condition.
 	* Creation date: (02.01.2002 22:44:54)
@@ -111,49 +111,53 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	public void setRange(String new_range) {
 		_range = new_range;
 	}
-/**
- * Checks weather the context condition's base class is valid.
- * Creation date: (08.02.2002 13:37:45)
- * @return boolean true - if the base class is defined in BaseClasses.
- * @see org.cocons.uml.ccl.BaseClasses
- */
-private boolean isBaseClassValid() {
-
-	boolean valid = false;
-
-	if(this.getBaseClass() == null) {
-		return false;
-	}
-
-	String[] types = BaseClasses.getAllAvailableTypes();
-
-	for (int i = 0; i < types.length; i++){
-		valid = valid || types[i].compareToIgnoreCase(this.getBaseClass()) == 0;
-	}
 	
-	return valid;
-}/**
- * Checks weather the context condition's range is valid.
- * Creation date: (08.02.2002 13:37:45)
- * @return boolean true - if the range is given through an (long) integer or one 
- * of its defined keywords such as ALL.
- * @see org.cocons.uml.ccl.CCLConstants
- */
-private boolean isRangeValid() {
+	/**
+	 * Checks weather the context condition's base class is valid.
+	 * Creation date: (08.02.2002 13:37:45)
+	 * @return boolean true - if the base class is defined in BaseClasses.
+	 * @see org.cocons.uml.ccl.BaseClasses
+	 */
+	private boolean isBaseClassValid() {
 
-	boolean valid = true;
+		boolean valid = false;
 
-	if(getRange() == null) {
-		return false;
+		if (this.getBaseClass() == null) {
+			return false;
+		}
+
+		String[] types = BaseClasses.getAllAvailableTypes();
+
+		for (int i = 0; i < types.length; i++) {
+			valid = valid || types[i].compareToIgnoreCase(this.getBaseClass()) == 0;
+		}
+
+		return valid;
 	} 
+	
+	/**
+	* Checks weather the context condition's range is valid.
+	* Creation date: (08.02.2002 13:37:45)
+	* @return boolean true - if the range is given through an (long) integer or one 
+	* of its defined keywords such as ALL.
+	* @see org.cocons.uml.ccl.CCLConstants
+	*/
+	private boolean isRangeValid() {
 
-	try {
-		Long.parseLong(getRange());
-	} catch (NumberFormatException nfe) {
-		valid = false;
+		boolean valid = true;
+
+		if (getRange() == null) {
+			return false;
+		}
+
+		try {
+			Long.parseLong(getRange());
+		} catch (NumberFormatException nfe) {
+			valid = false;
+		}
+
+		valid = valid || getRange().compareToIgnoreCase(CCLConstants.INDIRECT_RANGE_ALL) == 0;
+
+		return valid;
 	}
-
-	valid = valid || getRange().compareToIgnoreCase(CCLConstants.INDIRECT_RANGE_ALL) == 0;
-
-	return valid;
-}}
+}
