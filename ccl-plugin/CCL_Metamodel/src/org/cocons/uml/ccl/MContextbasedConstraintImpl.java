@@ -397,7 +397,7 @@ public class MContextbasedConstraintImpl
 		CoCon cocon = new CoCon();
 
 		// type
-		cocon.setType("SomethingBy");
+		cocon.setType("UnreadableBy");
 
 
 		// scope
@@ -405,12 +405,156 @@ public class MContextbasedConstraintImpl
 		scope.setId( org.cocons.uml.ccl.ccldata.types.IdType.SCOPE );
 		cocon.addCoConSet(scope);
 
+		// ein item fuer "THE warehouse":
+		CoConSetItem thewarehouseitem = new CoConSetItem();
+		scope.addCoConSetItem( thewarehouseitem );
+		CoConSetDirectReference thewarehouse = new CoConSetDirectReference();
+		thewarehouseitem.setCoConSetDirectReference( thewarehouse );
+		thewarehouse.setElement("warehouse");
+		
+		// ein item fuer
+		// all elements where (x < 18 and y > 15) or 'pw' contains 'eins'
+		CoConSetItem x18_y15_pweins_item = new CoConSetItem();
+		scope.addCoConSetItem( x18_y15_pweins_item );
+		CoConSetCondition x18_y15_pweins = new CoConSetCondition();
+		x18_y15_pweins_item.setCoConSetCondition( x18_y15_pweins );
+
+		// "... all components ..."
+		x18_y15_pweins.setRange("all");
+		CoConSetConditionRestriction x18_y15_pweins_restr 
+			= new CoConSetConditionRestriction();
+		x18_y15_pweins_restr.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.ELEMENTS);
+		x18_y15_pweins.
+			addCoConSetConditionRestriction( x18_y15_pweins_restr );
+
+		// "where ..."
+		CoConSetConditionChoice x18_y15_pweins_choice = new CoConSetConditionChoice();
+		x18_y15_pweins.setCoConSetConditionChoice( x18_y15_pweins_choice );
+
+		// "... or ..."
+		CoConSetConditionUnion x18_y15_pweins_union = new CoConSetConditionUnion();
+		x18_y15_pweins_choice.setCoConSetConditionUnion( x18_y15_pweins_union );
+		
+		// "x<18 and y>15"
+		CoConSetConditionUnionItem x18_y15_uitem = 
+			new CoConSetConditionUnionItem();
+		x18_y15_pweins_union.addCoConSetConditionUnionItem( x18_y15_uitem );
+
+		CoConSetConditionIntersection x18_y15_isec =
+			new CoConSetConditionIntersection();
+		x18_y15_uitem.setCoConSetConditionIntersection(x18_y15_isec);
+
+		CoConSetConditionIntersectionItem x18_item =
+			new CoConSetConditionIntersectionItem();
+		x18_y15_isec.addCoConSetConditionIntersectionItem( x18_item );
+
+		CoConSetConditionQuerySingleValue x18_query = 
+			new CoConSetConditionQuerySingleValue();
+		x18_item.setCoConSetConditionQuerySingleValue( x18_query );
+		x18_query.setProperty("x");
+		x18_query.setSingleoperator( org.cocons.uml.ccl.ccldata.types.SingleoperatorType.LOWERTHAN );
+		x18_query.setValue("18");
+
+		CoConSetConditionIntersectionItem y15item =
+			new CoConSetConditionIntersectionItem();
+		x18_y15_isec.addCoConSetConditionIntersectionItem( y15item );
+
+		CoConSetConditionQuerySingleValue y15query = 
+			new CoConSetConditionQuerySingleValue();
+		y15item.setCoConSetConditionQuerySingleValue( y15query );
+		y15query.setProperty("y");
+		y15query.setSingleoperator( org.cocons.uml.ccl.ccldata.types.SingleoperatorType.GREATERTHAN );
+		y15query.setValue("15");
+
+		// "pw contains eins"
+		CoConSetConditionUnionItem pweins_uitem = 
+			new CoConSetConditionUnionItem();
+		x18_y15_pweins_union.addCoConSetConditionUnionItem( pweins_uitem );
+
+		CoConSetConditionQuerySet pweins_query =
+			new CoConSetConditionQuerySet();
+		pweins_uitem.setCoConSetConditionQuerySet( pweins_query );
+
+		pweins_query.setProperty("pw");
+		pweins_query.setSetoperator( org.cocons.uml.ccl.ccldata.types.SetoperatorType.CONTAINS );
+		CoConSetConditionQueryForSetValue pweins_eins_val =
+			new CoConSetConditionQueryForSetValue();
+		pweins_eins_val.setValue("eins");
+		pweins_query.addCoConSetConditionQueryForSetValue( pweins_eins_val );
+		//CoConSetConditionQuerySet pweins = new CoConSetConditionQuerySet();
+		
+
+
+
+
+
+
+
+
+
 
 		// target
 		CoConSet target = new CoConSet();
 		target.setId( org.cocons.uml.ccl.ccldata.types.IdType.TARGET );
-
 		cocon.addCoConSet(target);
+
+		// ein item fuer
+		// all components where z>99
+		CoConSetItem all_z99_item = new CoConSetItem();
+		target.addCoConSetItem( all_z99_item );
+		CoConSetCondition all_z99_cond = new CoConSetCondition();
+		all_z99_item.setCoConSetCondition( all_z99_cond );
+
+		// "... all components ..."
+		all_z99_cond.setRange("all");
+		CoConSetConditionRestriction all_z99_cond_r 
+			= new CoConSetConditionRestriction();
+		all_z99_cond_r.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.COMPONENTS);
+		all_z99_cond.
+			addCoConSetConditionRestriction( all_z99_cond_r );
+
+		// "where z>99"
+		CoConSetConditionChoice all_z99_cond_choice = new CoConSetConditionChoice();
+		all_z99_cond.setCoConSetConditionChoice( all_z99_cond_choice );
+
+		CoConSetConditionQuerySingleValue z99_query = 
+			new CoConSetConditionQuerySingleValue();
+		all_z99_cond_choice.setCoConSetConditionQuerySingleValue( z99_query );
+		z99_query.setProperty("z");
+		z99_query.setSingleoperator( org.cocons.uml.ccl.ccldata.types.SingleoperatorType.GREATERTHAN );
+		z99_query.setValue("99");
+
+		// ein item fuer
+		// all components where z<50
+		CoConSetItem all_z50_item = new CoConSetItem();
+		target.addCoConSetItem( all_z50_item );
+		CoConSetCondition all_z50_cond = new CoConSetCondition();
+		all_z50_item.setCoConSetCondition( all_z50_cond );
+
+		// "... all components ..."
+		all_z50_cond.setRange("all");
+		CoConSetConditionRestriction all_z50_cond_r 
+			= new CoConSetConditionRestriction();
+		all_z50_cond_r.setRestriction(org.cocons.uml.ccl.ccldata.types.RestrictionType.COMPONENTS);
+		all_z50_cond.
+			addCoConSetConditionRestriction( all_z50_cond_r );
+
+		// "where z>50"
+		CoConSetConditionChoice all_z50_cond_choice = new CoConSetConditionChoice();
+		all_z50_cond.setCoConSetConditionChoice( all_z50_cond_choice );
+
+		CoConSetConditionQuerySingleValue z50_query = 
+			new CoConSetConditionQuerySingleValue();
+		all_z50_cond_choice.setCoConSetConditionQuerySingleValue( z50_query );
+		z50_query.setProperty("z");
+		z50_query.setSingleoperator( org.cocons.uml.ccl.ccldata.types.SingleoperatorType.LOWERTHAN );
+		z50_query.setValue("50");
+
+
+
+
+
+		
 
 
 		// attrib
