@@ -70,18 +70,27 @@ public class ActionSaveCML
    public void saveToCML( MClass compo,
 			  String file )
    {
-      try {
-	 ComponentSpecWriter csw =
-	    new ComponentSpecWriter( compo,
-				     file );
-	 csw.write();
-      } catch ( Exception e ) {
-	 JOptionPane.showMessageDialog(null,
-				       file+":\n"+
-				       e,
-				       TITLE,
-				       JOptionPane.ERROR_MESSAGE);
-      }
+       Exception castorException = null;
+       try {
+           ComponentSpecWriter csw =
+               new ComponentSpecWriter( compo,
+                                        file );
+           csw.write();
+       } catch ( org.exolab.castor.xml.MarshalException e ) {
+           castorException = e;
+       } catch ( org.exolab.castor.xml.ValidationException e ) {
+           castorException = e;
+       } catch ( IOException e ) {
+           castorException = e;
+       }
+
+       if (castorException != null) {
+           JOptionPane.showMessageDialog(null,
+                                         file+":\n"+
+                                         castorException,
+                                         TITLE,
+                                         JOptionPane.ERROR_MESSAGE);
+       }
    }
 
    public MClass getCurrentComponent()
