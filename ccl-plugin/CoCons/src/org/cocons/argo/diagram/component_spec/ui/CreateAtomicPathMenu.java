@@ -25,12 +25,7 @@ import org.argouml.ui.*;
 import org.argouml.kernel.*;
 import org.argouml.uml.diagram.ui.ActionAddExistingNode;
 import org.argouml.uml.ui.*;
-<<<<<<< CreateAtomicPathMenu.java
 import org.argouml.uml.diagram.sequence.ui.*;
-import org.argouml.uml.diagram.ui.UMLDiagram;
-=======
-import org.argouml.uml.diagram.sequence.ui.*;
->>>>>>> 1.3
 
 import org.cocons.argo.diagram.ui.*;
 import org.cocons.argo.diagram.atomic_invocation_path.ui.*;
@@ -110,11 +105,9 @@ public class CreateAtomicPathMenu {
               d.add(pers);
               mgm.addNode(mo);
               mo.setName("System");
-<<<<<<< CreateAtomicPathMenu.java
 
               //Model und Fig für Componente anlegen
               MObjectImpl mo2 = new MObjectImpl();
-              //component.getInstances().add(mo2);
               component.addInstance(mo2);
               FigNode pers2 = new FigSeqObject(gm, mo2);
               d.add(pers2);
@@ -143,46 +136,10 @@ public class CreateAtomicPathMenu {
               MCallActionImpl mCallAction = new MCallActionImpl();
               mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
               ms.setDispatchAction(mCallAction);
-              //ms.setDispatchAction(oper);
-              pers.damage();
-              pers2.damage();
-              fe.damage();
-=======
-
-              //Model und Fig für Componente anlegen
-              MObjectImpl mo2 = new MObjectImpl();
-              FigNode pers2 = new FigSeqObject(gm, mo2);
-              d.add(pers2);
-              mgm.addNode(mo2);
-              mo2.setName("<<component>>"+inter.getName());
-
-              //Assoziation anlegen
-              MStimulusImpl ms = new MStimulusImpl();
-
-              Object newEdge = mgm.connect(mo,mo2,MLinkImpl.class);
-              MLink mLink = (MLink) newEdge;
-              mLink.addStimulus(ms);
-
-              Fig startPortFig = pers.getPortFig(mo);
-              Fig destPortFig = pers2.getPortFig(mo2);
-              FigEdge fe = (FigEdge) lay.presentationFor(newEdge);
-              d.add(fe);
-              fe.setSourcePortFig(startPortFig);
-              fe.setSourceFigNode(pers);
-              fe.setDestPortFig(destPortFig);
-              fe.setDestFigNode(pers2);
-              if(!(fe instanceof FigSeqLink)){return;}
-              FigSeqLink figSekLink = (FigSeqLink) fe;
-              figSekLink.mouseReleased(null);
-              //Set Action for Stimulus
-              MCallActionImpl mCallAction = new MCallActionImpl();
-              mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
-              ms.setDispatchAction(mCallAction);
 
               pers.damage();
               pers2.damage();
               fe.damage();
->>>>>>> 1.3
 
             }
           }
