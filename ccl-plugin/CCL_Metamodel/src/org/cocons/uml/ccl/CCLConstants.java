@@ -39,7 +39,7 @@ public interface CCLConstants {
 	 * range 'all'.
 	 */
 	public static final String INDIRECT_RANGE_ALL = "ALL";
-	
 
-	
+
+
 }

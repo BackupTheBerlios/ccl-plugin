@@ -23,11 +23,24 @@ public class BaseClasses {
 	public static final String BUSINESS_TYPE = "BUSINESS TYPE(S)";
 
 	/**
-	* Describing model elements that are components.
-	*/
+	 * Describing model elements that are components.
+	 */
 	public static final String COMPONENT = "COMPONENT(S)";
 
+	/**
+	 * Describing model elements that are components.
+	 */
+	public static final String COMPUTER = "COMPUTER(S)";
 
+	/**
+	 * Describing model elements that are components.
+	 */
+	public static final String CONTAINER = "CONTAINER(S)";
+
+	/**
+	 * Describing model elements that are business types.
+	 */
+	public static final String INFO_TYPE = "INFO TYPE(S)";
 
 	/**
 	 * Returns all defined base class types.
@@ -36,15 +49,19 @@ public class BaseClasses {
 	 */
 	public static String[] getAllAvailableTypes() {
 
-		String[] types = new String[4];
+		String[] types = new String[7];
 
 		types[0] = ELEMENT;
 		types[1] = INTERFACE;
 		types[2] = BUSINESS_TYPE;
-		types[3] = COMPONENT;
+		types[3] = INFO_TYPE;
+		types[4] = CONTAINER;
+		types[5] = COMPONENT;
+		types[6] = COMPUTER;
 
 		return types;
 	}
+    
 	/**
 	* Checks weather the given model element matchs the given base class type.
 	* Creation date: (07.02.2002 18:35:41)
@@ -71,6 +88,12 @@ public class BaseClasses {
 				}
 			}
 
+			if (baseClassType.compareTo(INFO_TYPE) == 0) {
+				if (possClass instanceof MClass) {
+					return CCLConstants.INFO_TYPE.compareTo(((MClass) possClass).getStereotype().getName()) == 0;
+				}
+			}
+
 			if (baseClassType.compareTo(COMPONENT) == 0) {
 				if (possClass instanceof MClass) {
 					return CCLConstants.COMP_SPEC.compareTo(((MClass) possClass).getStereotype().getName()) == 0;
@@ -79,4 +102,5 @@ public class BaseClasses {
 		} catch (NullPointerException npe) {
 		}
 		return false;
-	}}
+	}
+}
