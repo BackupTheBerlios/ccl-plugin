@@ -2,11 +2,12 @@
 // File: Business_TypeDiagramRenderer.java
 // Classes: Business_TypeDiagramRenderer
 // Original jgusulde@cs.tu-berlin.de
-// $Id: Business_TypeDiagramRenderer.java,v 1.1 2001/10/31 14:19:31 jgusulde Exp $
+// $Id: Business_TypeDiagramRenderer.java,v 1.2 2001/11/05 20:54:52 fchabar Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
 import java.util.*;
+
 
 import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.model_management.*;
@@ -18,6 +19,7 @@ import org.tigris.gef.graph.*;
 
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.uml.MMUtil;
+import org.argouml.uml.diagram.static_structure.ui.*;
 
 // could be singleton
 
