@@ -8,6 +8,12 @@ import ru.novosoft.uml.foundation.data_types.*;
 import ru.novosoft.uml.model_management.*;
 
 import org.exolab.castor.xml.*;
+
+//use the XML pretty-printing classes from Apache's SAX implementation.
+//see below for further comments
+import org.apache.xml.serialize.XMLSerializer;
+import org.apache.xml.serialize.OutputFormat;
+
 import de.fhg.isst.ComponentML.*;
 
 public class ComponentSpecWriter
@@ -48,7 +54,34 @@ public class ComponentSpecWriter
 	buildImports(cs);
 
 	// and out...
-        Marshaller marshaller = new Marshaller(_output);
+
+        //We use the XML pretty-printing classes from Apache's SAX implementation.
+        //at *compile time*, this code depends the presence of apache's SAX implementation,
+        //which contains the package org.apache.xml.serialize.
+        //*at runtime*, a check is performed to see whether the package is actually available
+        //If it isn't, the code will still work, but pretty-printing will be deactivated.
+        //
+        //TODO: the compile-time dependency should be removed. There are two ways to do this:
+        //
+        // 1. manually re-implement pretty-printing here by
+        //    implementing org.apache.xml.serialize.DocumentHandler
+        //
+        // 2. load and instantiate all Apache-specific classes dynamically (using reflection).
+        //    Cumbersome, but not really hard to do.
+
+        Marshaller marshaller;
+        try {
+            Class.forName("org.apache.xml.serialize.XMLSerializer");
+            OutputFormat format = new OutputFormat("xml","utf-8",true);
+            XMLSerializer prettyPrinter = new XMLSerializer(_output, format);
+            marshaller = new Marshaller(prettyPrinter);
+        }
+        catch (ClassNotFoundException e) {
+            System.err.println("class org.apache.xml.serialize.XMLSerializer is not available.");
+            System.err.println("XML pretty-printing will be deactivated");
+            marshaller = new Marshaller(_output);
+        }
+
         marshaller.marshal(cs);
    }
 
