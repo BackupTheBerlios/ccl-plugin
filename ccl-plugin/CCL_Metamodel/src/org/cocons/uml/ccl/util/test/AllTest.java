@@ -19,15 +19,17 @@ public class AllTest {
    */
   public static void main(String[] args) {
 	junit.swingui.TestRunner.run(AllTest.class);
-  }              
+  }                
 
   /**
    * Returns a test suite containing all test cases of this package.
    */
   public static Test suite() {
 	TestSuite suite = new TestSuite();
+	suite.addTestSuite(TestTreeGenerator.class);
+	suite.addTestSuite(SyntaxcheckOfCoconsFromBNFTest.class);
 	
 	return suite;
-  }                    
+  }                          
 
 }

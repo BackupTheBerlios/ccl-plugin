@@ -54,8 +54,7 @@ public class TestTreeGenerator extends junit.framework.TestCase {
 		}
 
 		Condition tree = treeGenerator.generateConditionalTree(100);
-		System.out.println(tree);
-
+		
 		assertTrue("Generated Tree should have been valid", tree.isValid());
 	}
 }
