@@ -10,7 +10,7 @@ import ru.novosoft.uml.foundation.core.MModelElement;
  * Creation date: (02.01.2002 22:20:05)
  * @author: Fadi Chabarek
  */
-public interface ContextCondition {
+public interface ContextCondition extends Condition {
 /**
  * Returns a String representing a base class, model elements must descend from
  * to comply this context condition.

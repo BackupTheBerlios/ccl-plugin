@@ -40,4 +40,13 @@ public interface Condition extends TreeNode {
 	 * Creation date: (21.12.2001 00:46:17)
 	 * @return comparison the comparison for this condition .
 	 */
-	public Comparison getComparison();}
+	public Comparison getComparison();
+        /**
+         * Returns the first Child of this Condition
+         */
+        public Condition getFirstChild();
+        /**
+         * Returns the second Child of this Condition
+         */
+        public Condition getSecondChild();
+        }
