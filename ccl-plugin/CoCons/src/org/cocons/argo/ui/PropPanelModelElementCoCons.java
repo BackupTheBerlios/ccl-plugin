@@ -3,6 +3,7 @@ package org.cocons.argo.ui;
 import org.argouml.uml.ui.foundation.core.*;
 import org.argouml.uml.ui.foundation.core.PropPanelModelElement.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import ru.novosoft.uml.foundation.core.*;
@@ -55,9 +56,10 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
     protected static ImageIcon _associationRoleIcon = ResourceLoader.lookupIconResource("AssociationRole");
     protected static ImageIcon _callActionIcon = ResourceLoader.lookupIconResource("CallAction");
 
-    protected UMLTextField targetsetField;
-    protected UMLTextField coconstypeField;
-    protected UMLTextField scopesetField;
+    protected JTextField targetsetField;
+    protected UMLTextField coconsField;
+    protected JTextField scopesetField;
+    protected JTextField attributeField;
     protected JComboBox coconTypeList;
     private String[] coconTypeName = {"UNWRITEABLEBY",
                                       "WRITEABLEBY",
@@ -65,7 +67,7 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
                                       "READABLEBY",
                                       "ONLYWRITEABLEBY",
                                       "ONLYREADABLEBY"};
-
+    private Hashtable cocons;
     ////////////////////////////////////////////////////////////////
     // constructors
     public PropPanelModelElementCoCons(String name, int columns) {
@@ -77,21 +79,63 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
 
         Class mclass = MContextbasedConstraintImpl.class;
 
-        targetsetField = new UMLTextField(this,new UMLTextProperty(mclass,"targetsetField","getText","setText"));
-        targetsetField.setSize(30,20);
-        coconstypeField = new UMLTextField(this,new UMLTextProperty(mclass,"coconstypeField","getName","setName"));
-        scopesetField = new UMLTextField(this,new UMLTextProperty(mclass,"scopesetField","getText","setText"));
+        targetsetField = new JTextField();
+        coconsField = new UMLTextField(this,new UMLTextProperty(mclass,"coconstypeField","getName","setName"));
+        scopesetField = new JTextField();
         coconTypeList = new JComboBox();
+        attributeField = new JTextField();
+        cocons = new Hashtable();
+        cocons.put("targetset","TargetSet");
+        cocons.put("scopeset","ScopeSet");
+        cocons.put("cocontype","MUST BE ");
+        cocons.put("attribute","Attribute");
         for (int i =0; i<coconTypeName.length; i++){
             coconTypeList.addItem(coconTypeName[i]);
 
         }
 
-        coconTypeList.addItemListener(new ItemListener () {
+        targetsetField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+            }
+            public void focusLost(FocusEvent e){
+                String newSelected = (String) targetsetField.getText();
+                cocons.remove("targetset");
+                cocons.put("targetset",newSelected);
+                coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
+
+            }
+        });
+
+        coconTypeList.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
 
-                String newAuswahl = (String) coconTypeList.getSelectedItem();
-                coconstypeField.setText(newAuswahl);
+                String newSelected = (String) coconTypeList.getSelectedItem();
+                cocons.remove("cocontype");
+                cocons.put("cocontype",("MUST BE " +newSelected));
+                coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
+            }
+        });
+
+        scopesetField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+            }
+            public void focusLost(FocusEvent e){
+                String newSelected = (String) scopesetField.getText();
+                cocons.remove("scopeset");
+                cocons.put("scopeset",newSelected);
+                coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
+
+            }
+        });
+
+        attributeField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+            }
+            public void focusLost(FocusEvent e){
+                String newSelected = (String) attributeField.getText();
+                cocons.remove("attribute");
+                cocons.put("attribute",newSelected);
+                coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
 
             }
         });
