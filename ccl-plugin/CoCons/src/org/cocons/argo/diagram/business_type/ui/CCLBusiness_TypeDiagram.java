@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.15 2002/02/10 16:07:15 ali Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.16 2002/02/10 20:38:55 ali Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -27,7 +27,6 @@ import org.cocons.argo.diagram.business_type.*;
 import org.cocons.uml.ccl.*;
 
 import org.tigris.gef.presentation.Fig;
-import org.cocons.uml.ccl.context_property1_3.xmlembed.ContextPropertyNotifications;
 
 public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
@@ -170,17 +169,5 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   }
 
 
-
-	public void preSave()
-	{
-		ContextPropertyNotifications.SINGLETON.preSave(this);
-		super.preSave();
-	}
-
-	public void postSave()
-	{
-		ContextPropertyNotifications.SINGLETON.postSave(this);
-		super.postSave();
-	}
 
 }

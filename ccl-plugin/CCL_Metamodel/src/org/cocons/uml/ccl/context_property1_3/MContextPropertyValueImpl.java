@@ -8,6 +8,7 @@ import ru.novosoft.uml.foundation.core.MNamespace;
 import org.cocons.argo.diagram.ui.FigContextProperty;
 
 import org.argouml.ui.ProjectBrowser;
+import org.argouml.uml.UUIDManager;
 
 import java.util.Vector;
 import java.util.Collection;
@@ -569,7 +570,10 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	public void preSave()
 	{
 		_currentlySaving = true;
+		ensureUUIDAssigned();
 
+		
+		System.out.println("MY UUID : " + getUUID());
 		System.out.println("MY TAG : " + getContextPropertyTag().getUUID() );
 		xx("_validStrings"       , _validStrings        );
 		xx("_stringSelection"    , _stringSelection     );
@@ -602,6 +606,12 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 		creator.setTag( getContextPropertyTag() );
 
 		setValue( creator.create() );
+	}
+
+	protected void ensureUUIDAssigned()
+	{
+		if( getUUID() == null )
+			setUUID(UUIDManager.SINGLETON.getNewUUID());
 	}
 
 	public void xx(String n, Vector v )

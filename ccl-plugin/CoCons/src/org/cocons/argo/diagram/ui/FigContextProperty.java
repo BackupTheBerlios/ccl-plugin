@@ -40,6 +40,7 @@ public class FigContextProperty
   private boolean _killed = false;
   private ModelIterator _modelIterator = ModelIterator.SINGLETON;
   private MContextPropertyValueImpl _myOwner;
+	private MTaggedValue _badLoadedOwner;
 
   FigRect _bigPort;
   /* corners */
@@ -52,6 +53,7 @@ public class FigContextProperty
   // constructors
 
   public FigContextProperty() {
+	  _badLoadedOwner = null;
 
     _bigPort = new FigRect(10, 10, 90, 30, Color.blue, Color.yellow);
     _bigPort.setFillColor(Color.yellow);
@@ -95,6 +97,7 @@ public class FigContextProperty
 
   public FigContextProperty(GraphModel gm, Object node) {
     this();
+	 _badLoadedOwner = null;
 	 System.out.println("FigContextProperty ctor with node");
     setOwner(node);
     ((MContextPropertyValueImpl)node).internalRefToMyFigure(this);
@@ -135,9 +138,14 @@ public class FigContextProperty
   public void setOwner(Object node) {
 	  if( node == null )
 		  { System.out.println("FigContextProperty.setOwner(null)"); }
+	  else if( node instanceof MTaggedValue )
+		  {
+			  System.out.println("FigContextProperty.setOwner() with MTaggedValue!");
+			  _badLoadedOwner = (MTaggedValue)node;
+		  }
 	  else
 		  {
-			  System.out.println("FigContextProperty.setOwner() " + node.getClass() + " // " + node );
+			  _badLoadedOwner = null;
 			  if (!_killed) {
 				  super.setOwner(node);
 				  bindPort(node, _bigPort);
@@ -287,6 +295,9 @@ public class FigContextProperty
   }
   public void mouseMoved(MouseEvent me) {}
 
+
+	public MTaggedValue getBadLoadedOwner()
+	{ return _badLoadedOwner; }
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper-Class FigTerminator

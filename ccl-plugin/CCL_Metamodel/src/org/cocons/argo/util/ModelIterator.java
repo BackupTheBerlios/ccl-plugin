@@ -5,6 +5,7 @@ import ru.novosoft.uml.foundation.core.MModelElement;
 import ru.novosoft.uml.foundation.core.*;
 import java.util.Vector;
 import java.util.Iterator;
+import java.util.Collection;
 import java.util.Observer;
 import java.util.Observable;
 import javax.swing.JOptionPane;
@@ -19,6 +20,11 @@ import org.cocons.argo.diagram.ui.CCLDiagram;
 import org.cocons.argo.diagram.business_type.ui.CCLBusiness_TypeDiagram;
 import org.cocons.argo.diagram.interface_spec.ui.CCLInterface_SpecDiagram;
 import org.cocons.argo.diagram.component_spec.ui.CCLComponent_SpecDiagram;
+import org.cocons.uml.ccl.context_property1_3.xmlembed.EmbeddedContextPropertyTagCreator;
+import org.cocons.uml.ccl.context_property1_3.xmlembed.EmbeddedContextPropertyTagDecoder;
+import org.argouml.uml.UUIDManager;
+import org.argouml.xml.argo.ArgoParser;
+
 
 /**
  * Util class for iterating the ArgoUML model.
@@ -27,6 +33,8 @@ import org.cocons.argo.diagram.component_spec.ui.CCLComponent_SpecDiagram;
  * @version $Revision 1.1$
  */
 public class ModelIterator {
+
+	public static String EMBEDDED_TAG_XML_PREFIX = "<CCLModelIterator.EmbeddedXMLTags>:";
 
   public static ModelIterator SINGLETON = new ModelIterator();
 
@@ -183,7 +191,7 @@ public class ModelIterator {
     _contextPropertyTagList.addElement(me);
     MessageContainer messCon = new MessageContainer();
     messCon.setMessage("tag added");
-    messCon.setString(((MContextPropertyTagImpl)me).getTag());
+    messCon.setString(((MContextPropertyTag)me).getTag());
     notifyObservers(messCon);
   }
 
@@ -224,6 +232,13 @@ public class ModelIterator {
       return(constraintList);
     }
   }
+
+	private void dumbDelCPTag( String tagName )
+	{
+      for (int i = _contextPropertyTagList.size()-1; i >= 0; i--)
+			if (((MContextPropertyTagImpl)_contextPropertyTagList.elementAt(i)).getTag().equals(tagName)) 
+				_contextPropertyTagList.removeElementAt(i);
+	}
 
   private void delCPTag(String tagName, int references) {
     MessageContainer messCon = new MessageContainer();
@@ -362,5 +377,101 @@ public class ModelIterator {
   }
   //
   //////////////////////////////////////////////////////////////////////////////
+
+
+
+
+	private MComment _smuggledComment      = null;
+	private MModel   _smuggledCommentModel = null;
+
+	public void ensureTagsAreModelled()
+	{
+		System.out.println("ensureTagsAreModelled()");
+
+		if( _smuggledComment != null )
+			return;
+
+		Vector models = ProjectBrowser.TheInstance.getProject().getModels();
+
+		_smuggledCommentModel = (MModel)models.elementAt(0);
+		_smuggledComment = new MCommentImpl();
+		_smuggledComment.setName( EMBEDDED_TAG_XML_PREFIX +
+										  EmbeddedContextPropertyTagCreator.SINGLETON.
+										  create(_contextPropertyTagList.iterator()));
+
+		_smuggledComment.setUUID( UUIDManager.SINGLETON.getNewUUID() );
+		_smuggledCommentModel.addOwnedElement(_smuggledComment);
+	}
+
+	public void ensureTagsAreNotModelled()
+	{
+		//System.out.println("ensureTagsAreNotModelled()");
+		if( _smuggledComment != null )
+			{
+				_smuggledCommentModel.removeOwnedElement(_smuggledComment);
+				_smuggledComment      = null;
+				_smuggledCommentModel = null;
+			}
+	}
+
+	public void restoreSmuggledTags()
+	{
+		//Iterator models = ProjectBrowser.TheInstance.getProject().getModels().iterator();
+		Iterator models = ArgoParser.SINGLETON.getProject().getModels().iterator();
+		//System.out.println("restoreSmuggledTags()");
+		while( models.hasNext() )
+			{
+				Collection doomedElems = new Vector();
+				MModel model = (MModel)models.next();
+				Iterator elems = model.getOwnedElements().iterator();
+				//System.out.println("  check Model");
+				while( elems.hasNext() )
+					{
+						Object o = elems.next();
+						//System.out.println("    " + o.getClass() );
+						if( o instanceof MComment )
+							if( perhapsReadSmuggledTag((MComment)o) )
+								doomedElems.add( o );
+					};
+
+				Iterator rm = doomedElems.iterator();
+				while( rm.hasNext() )
+					model.removeOwnedElement( (MModelElement)rm.next() );
+			};
+	}
+
+	protected boolean perhapsReadSmuggledTag( MComment com )
+	{
+		String name = com.getName();
+		if( name == null )
+			return false;
+
+		System.out.println("      >>" + name );
+
+		int headlgt = EMBEDDED_TAG_XML_PREFIX.length();
+
+		if( name.length() < headlgt )
+			return false;
+
+		if( !EMBEDDED_TAG_XML_PREFIX.equals( name.substring(0, headlgt) ))
+			return false;
+
+		String xml = name.substring( headlgt, name.length() );
+		Iterator newtags = EmbeddedContextPropertyTagDecoder.SINGLETON.decode( xml );
+		
+		if( newtags == null )
+			return false;
+
+		while( newtags.hasNext() )
+			{
+				MContextPropertyTag tag = (MContextPropertyTag)newtags.next();
+				dumbDelCPTag( tag.getName() );
+				addCPTag( tag );
+			}
+
+		System.out.println("FOUND " + xml);
+
+		return true;
+	}
 
 }
