@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.8 2001/11/25 20:10:29 shicathy Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.9 2001/12/06 09:49:33 hyshosha Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -38,9 +38,10 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 	protected static Action _actionPackage =
 		new CmdCreateNodeStereotype(MPackageImpl.class, "Package",new MStereotypeImpl());
 
-	protected static Action _actionContextP =
-		new CmdCreateNodeStereotype(MTaggedValueImpl.class, "ContextProperty",new MStereotypeImpl());
-
+        // ----- hyshosha@gmx.de -----
+	// protected static Action _actionContextP =
+	// 	new CmdCreateNodeStereotype(MTaggedValueImpl.class, "ContextProperty",new MStereotypeImpl());
+        // ---------------------------
 
 	protected static Action _actionDepend =
 		new CmdSetMode(ModeCreatePolyEdge.class,
@@ -102,7 +103,9 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
     _toolBar.add(_actionPackage);
     _toolBar.add(_actionBusiness_Type);
-    _toolBar.add(_actionContextP);
+    // ----- hyshosha@gmx.de -----
+    // _toolBar.add(_actionContextP);
+    // ---------------------------
     _toolBar.addSeparator();
 
     _toolBar.add(_actionAssoc);
@@ -112,8 +115,11 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
 
     _toolBar.add(ActionAddAttribute.SINGLETON);
-    //????????????? compare _toolBar.add(_actionContextP);
+    // ----- hyshosha@gmx.de -----
+    // ----- _toolBar.add(_actionContextP) is now out of service
+    // ----- ActionAddContextProperty() was changed
     _toolBar.add(new ActionAddContextProperty());
+    // ---------------------------
     //_toolBar.add(ActionAddOperation.SINGLETON);
     // needs-more-work: remove attribute and operation?
     _toolBar.addSeparator();

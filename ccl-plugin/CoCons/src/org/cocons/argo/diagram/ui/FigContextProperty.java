@@ -1,7 +1,7 @@
 // File: FigContextProperty.java
 // Classes: FigContextProperty
 // Original Author: jgusulde
-// $Id: FigContextProperty.java,v 1.2 2001/11/13 19:23:15 jgusulde Exp $
+// $Id: FigContextProperty.java,v 1.3 2001/12/06 09:48:16 hyshosha Exp $
 
 package org.cocons.argo.diagram.ui;
 
@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.*;
 import java.beans.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 import org.tigris.gef.base.*;
 import org.tigris.gef.presentation.*;
@@ -27,8 +28,14 @@ public class FigContextProperty
   ////////////////////////////////////////////////////////////////
   // instance variables
 
+  String _tagString;
+  String _valString;
+
+  MContextPropertyTagImpl _contPropTag;
+
   /** UML does not really use ports, so just define one big one so
    *  that users can drag edges to or from any point in the icon. */
+
   FigRect _bigPort;
 
   /* corners */
@@ -37,47 +44,58 @@ public class FigContextProperty
   FigPoly _bottomleft;
   FigPoly _bottomright;
 
-  // add other Figs here aes needed
-
+  // add other Figs here as needed
 
   ////////////////////////////////////////////////////////////////
   // constructors
 
   public FigContextProperty() {
     // Put this rectangle behind the rest, so it goes first
-    //_bigPort = new FigRect(5, 5, 30, 85, Color.gray, Color.gray);
-    _bigPort = new FigRect(10, 10, 90, 30, Color.gray, Color.gray);
+    // _bigPort = new FigRect(10, 10, 90, 30, Color.gray, Color.gray);
+    _bigPort = new FigRect(10, 10, 90, 30, Color.blue, Color.yellow);
     _bigPort.setFillColor(Color.yellow);
     _bigPort.setFilled(true);
 
-    _topleft = new FigPoly(10,10);
-    _topleft.addPoint(16,10);
-    _topleft.addPoint(10,16);
-    _topleft.addPoint(10,10);
-    _topleft.setFillColor(Color.yellow);
-    _topleft.setFilled(true);
+    //_topleft = new FigPoly(10,10);
+    _topleft = new FigPoly(Color.blue,Color.yellow);
+    _topleft.addPoint(16,11);
+    _topleft.addPoint(10,17);
+    _topleft.addPoint(10,11);
+    //_topleft.setFillColor(Color.yellow);
+    //_topleft.setFilled(true);
 
-    _topright = new FigPoly(84,10);
-    _topright.addPoint(90,10);
-    _topright.addPoint(90,16);
-    _topright.addPoint(84,10);
+    //_topright = new FigPoly(84,10);
+    _topright = new FigPoly(Color.blue,Color.yellow);
+    //_topright.addPoint(90,10);
+    //_topright.addPoint(90,16);
+    //_topright.addPoint(84,10);
+    _topright.addPoint(99,11);
+    _topright.addPoint(99,17);
+    _topright.addPoint(93,11);
+    //_topright.setFillColor(Color.yellow);
+    //_topright.setFilled(true);
 
-    _topright.setFillColor(Color.yellow);
-    _topright.setFilled(true);
+    //_bottomleft = new FigPoly(10,24);
+    _bottomleft = new FigPoly(Color.blue,Color.yellow);
+    //_bottomleft.addPoint(10,30);
+    //_bottomleft.addPoint(16,30);
+    //_bottomleft.addPoint(10,24);
+    _bottomleft.addPoint(11,39);
+    _bottomleft.addPoint(17,39);
+    _bottomleft.addPoint(11,33);
+    //_bottomleft.setFillColor(Color.yellow);
+    //_bottomleft.setFilled(true);
 
-    _bottomleft = new FigPoly(10,24);
-    _bottomleft.addPoint(10,30);
-    _bottomleft.addPoint(16,30);
-    _bottomleft.addPoint(10,24);
-    _bottomleft.setFillColor(Color.yellow);
-    _bottomleft.setFilled(true);
-
-    _bottomright = new FigPoly(90,30);
-    _bottomright.addPoint(84,30);
-    _bottomright.addPoint(90,24);
-    _bottomright.addPoint(90,30);
-    _bottomright.setFillColor(Color.yellow);
-    _bottomright.setFilled(true);
+    //_bottomright = new FigPoly(90,30);
+    _bottomright = new FigPoly(Color.blue,Color.yellow);
+    //_bottomright.addPoint(84,30);
+    //_bottomright.addPoint(90,24);
+    //_bottomright.addPoint(90,30);
+    _bottomright.addPoint(92,39);
+    _bottomright.addPoint(99,32);
+    _bottomright.addPoint(99,39);
+    //_bottomright.setFillColor(Color.yellow);
+    //_bottomright.setFilled(true);
 
 /*    _stereo.setBounds(60, 7, 45, 15);
     _stereo.setExpandOnly(false);
@@ -87,21 +105,24 @@ public class FigContextProperty
     _stereo.setHeight(18);
     _stereo.setDisplayed(false);
 */
-    _name.setBounds(13, 13, 87, 21);
-// --------------------------------------------------
-    _name.setText("test");
-// --------------------------------------------------
-    _name.setTextFilled(false);
+    //_name.setBounds(13, 13, 87, 21);
+    _name.setBounds(14, 14, 82, 20);
+    _name.setText("context property");
+    //_name.setTextFilled(false);
     //_name.setFillColor(Color.yellow);
     _name.setFilled(false);
     _name.setLineWidth(0);
     _name.setExpandOnly(false);
+    // #####################################
+    _name.setEditable(false); // für's erste
+    // #####################################
+
     // initialize any other Figs here
 
     // add Figs to the FigNode in back-to-front order
 
-    addFig(_name);
     addFig(_bigPort);
+    addFig(_name);
     addFig(_topleft);
     addFig(_topright);
     addFig(_bottomleft);
@@ -111,12 +132,20 @@ public class FigContextProperty
 
   }
 
+  /**
+     * Construct a new context property
+     *
+     * @param gm The graphmodel
+     * @param node The underlying MTaggedValue node
+     */
   public FigContextProperty(GraphModel gm, Object node) {
     this();
     setOwner(node);
+    _name.setText(((MTaggedValueImpl)node).getName());
+    modelChanged();
   }
 
-  public String placeString() { return "new MContextbasedConstraint"; }
+  public String placeString() { return(_tagString+" : "+_valString); }
 
   public Object clone() {
     FigContextProperty figClone = (FigContextProperty) super.clone();
@@ -178,7 +207,7 @@ public class FigContextProperty
     Dimension nameDim = _name.getMinimumSize();
     int w = nameDim.width;
     int h = nameDim.height;
-    return new Dimension(w+6, h+6);
+    return new Dimension(w+12, Math.max(h+10,30));
   }
 
   protected void updateStereotypeText() {
@@ -209,10 +238,10 @@ public class FigContextProperty
     // calculate new height
     int new_height = 0; // height of constant figs
     new_height = new_height + _name.getHeight();
-    int new_width = 0; // width of constant figs
+    int new_width = 12; // width of constant figs -> vorn und hinten soll noch etwas Platz sein
     new_width = new_width + _name.getWidth();
-// needs more work ???
-    setBounds(rect.x-(new_width-rect.width)/2, rect.y-(new_height-rect.height), new_width, new_height);
+
+    setBounds(rect.x, rect.y, new_width, new_height);
   }
 
   public void setBounds(int x, int y, int w, int h)
@@ -222,14 +251,15 @@ public class FigContextProperty
     wt = Math.max(wt,w);
     int ht = _name.getHeight();
     ht = Math.max(ht,h);
+    ht = Math.max(ht,30); // mindestens Initialhöhe
 
     _bigPort.setBounds(x,y,wt,ht);
-    _topleft.setLocation(x, y);
-    _topright.setLocation(x+wt-7, y);
-    _bottomleft.setLocation(x, y+ht-7);
-    _bottomright.setLocation(x+wt-7, y+ht-7);
+    _topleft.setLocation( x , (y+1) );
+    _topright.setLocation( x+wt-7 , (y+1) );
+    _bottomleft.setLocation( (x+1) , y+ht-7 );
+    _bottomright.setLocation( x+wt-(7+1) , y+ht-(7+1) );
 
-    _name.setLocation(x, y);
+    _name.setLocation(x+6, y+4); // nicht ganz in die Ecke klatschen
 
     calcBounds(); //_x = x; _y = y; _w = w; _h = h;
     Rectangle newBounds = getBounds();
@@ -243,6 +273,9 @@ public class FigContextProperty
     MTaggedValue mtv = (MTaggedValue) getOwner();
     if(mtv == null) return;
 
-    _name.setText(mtv.getTag() +":" + mtv.getType() + mtv.getValue());
+    //_name.setText(mtv.getTag() +":" + mtv.getType() + mtv.getValue());
+    _name.setText(mtv.getTag() +":" + mtv.getValue());
+
   }
+
 }
