@@ -77,21 +77,22 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
   }
 
   private void initLayout() {
-    new PropPanelButton(this,buttonPanel,_manageContextPropertyTagsIcon,localize("ManageContextPropertyTags"),"manageContPropTags",null);
-    new PropPanelButton(this,buttonPanel,_infoContextPropertyTagsIcon,localize("InfoContextPropertyTags"),"infoContPropTags",null);
-    new PropPanelButton(this,buttonPanel,_identifyContextPropertyTagsIcon,localize("IdentifyContextProperty"),"identifyContPropTags",null);
+    new PropPanelButton(this,buttonPanel,_manageContextPropertyTagsIcon,localize("Create / Change / Delete CP-Tags"),"manageContPropTags",null);
+    new PropPanelButton(this,buttonPanel,_infoContextPropertyTagsIcon,localize("Show defined CP-Tags"),"infoContPropTags",null);
+    new PropPanelButton(this,buttonPanel,_identifyContextPropertyTagsIcon,localize("Look for special Context Properties"),"identifyContPropTags",null);
     new PropPanelButton(this,buttonPanel,_contextPropertyArrow3Icon,localize("Show values in all figures"),"showAllFigureValues",null);
     new PropPanelButton(this,buttonPanel,_contextPropertyArrow4Icon,localize("Hide values in all figures"),"hideAllFigureValues",null);
     new PropPanelButton(this,buttonPanel,_contextPropertyArrow1Icon,localize("Show / Hide values in the figure"),"showHideFigureValues",null);
     new PropPanelButton(this,buttonPanel,_contextPropertyArrow2Icon,localize("Arrange values vertical or horizontal"),"verticalHorizontal",null);
-    new PropPanelButton(this,buttonPanel,_navUpIcon,localize("Go up"),"navigateUp",null);
+    new PropPanelButton(this,buttonPanel,_navUpIcon,localize("Go to referenced model element"),"navigateUp",null);
     //new PropPanelButton(this,buttonPanel,_navBackIcon,localize("Go back"),"navigateBackAction","isNavigateBackEnabled");
     //new PropPanelButton(this,buttonPanel,_navForwardIcon,localize("Go forward"),"navigateForwardAction","isNavigateForwardEnabled");
-    new PropPanelButton(this,buttonPanel,_deleteIcon,localize("Delete ContextProperty"),"removeElement",null);
+    new PropPanelButton(this,buttonPanel,_deleteIcon,localize("Delete Context Property"),"removeElement",null);
 
     addCaption("                       Tag Name     : ",1,0,0);
     _nameBox = new JComboBox();
-    _nameBox.setBackground(Color.yellow);
+    //_nameBox.setBackground(Color.yellow);
+    _nameBox.setBackground(Color.white);
     _nameBox.setFont(new java.awt.Font("Dialog", 1, 12));
     _nameBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -228,7 +229,8 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
     addCaption("                       Stereotype    : ",4,0,0);
     _stereoBox = new JComboBox();
     _stereoBox.setBackground(Color.white);
-    _stereoBox.setForeground(Color.red);
+    //_stereoBox.setForeground(Color.red);
+    _stereoBox.setForeground(Color.black);
     _stereoBox.setFont(new java.awt.Font("Dialog", 0, 12));
     _stereoBox.addItem("");
     _stereoBox.addItem("Quality");
@@ -388,6 +390,11 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       _nameBox.removeAllItems();
       for (int i = 0; i < cpTagsCount; i++)
         _nameBox.addItem((String)cpTags.elementAt(i));
+      if (this.getTarget() != null) {
+        if (this.getTarget() instanceof MContextPropertyValueImpl) {
+          _nameBox.setSelectedItem(((MContextPropertyValueImpl)this.getTarget()).getContextPropertyTag().getTag());
+        }
+      }
     }
     else if (message.equals("tag removed")) {
       _nameBox.removeItemAt(messCon.getInt());
