@@ -6,7 +6,7 @@ import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.foundation.extension_mechanisms.*;
 import ru.novosoft.uml.foundation.data_types.*;
 import ru.novosoft.uml.model_management.*;
-
+import java.util.Iterator;
 import org.exolab.castor.xml.*;
 
 //use the XML pretty-printing classes from Apache's SAX implementation.
@@ -106,7 +106,7 @@ public class ComponentSpecWriter
 
 
    protected void buildProperties( ComponentSpec cs )
-   {  
+   {
       // example stuff - active because they're required fields
 
        Properties ps = new Properties();
@@ -127,31 +127,85 @@ public class ComponentSpecWriter
       // example stuff - active because they're required fields
       ExportSection es = new ExportSection();
       cs.setExportSection(es);
-      
+
       ExportSectionChoice esc = new ExportSectionChoice();
       es.setExportSectionChoice(esc);
-      Facade f = new Facade();
-      esc.addFacade(f);
-      //es.addFacade(f);
-      f.setFacadeName("mainFacade");
-      BusinessExport be = new BusinessExport();
-      f.addBusinessExport(be);
+
+      for (Iterator it=_component.getAssociationEnds().iterator();
+           it.hasNext();) {
+        MAssociationEnd end = (MAssociationEnd)it.next();
+        MClassifier mc = (MClassifier)end.getOppositeEnd().getType();
+        if (mc instanceof MInterface && mc.getStereotype().getName().equals("interface spec")) {
+           Facade f = new Facade();
+           esc.addFacade(f);
+           //es.addFacade(f);
+           f.setFacadeName(mc.getName());
+           BusinessExport be = new BusinessExport();
+           f.addBusinessExport(be);
+           MInterface mint = (MInterface)mc;
+           for (Iterator it2 = mint.getFeatures().iterator(); it2.hasNext(); ) {
+            Object o = it2.next();
+            if (o instanceof MOperation) {
+              MOperation op = (MOperation)o;
+              be.addMethod(operationToMethod(op));
+            }
+           }
+
+        }
+      }
+   }
+
+  protected void buildImports( ComponentSpec cs ){
+    ImportSection is = new ImportSection();
+    cs.setImportSection(is);
+    BusinessImport bi = new BusinessImport();
+    is.setBusinessImport(bi);
+    for (Iterator it=_component.getClientDependencies().iterator();
+           it.hasNext();){
+      MDependency md = (MDependency) it.next();
+
+      for(Iterator it2 = md.getSuppliers().iterator(); it2.hasNext();){
+        MModelElement mc = (MModelElement)it2.next();
+
+        if (mc instanceof MInterface && mc.getStereotype().getName().equals("interface spec")) {
+          MInterface mint = (MInterface)mc;
+          for (Iterator it3 = mint.getFeatures().iterator(); it3.hasNext(); ) {
+            Object o = it3.next();
+            if (o instanceof MOperation) {
+              MOperation op = (MOperation)o;
+              bi.addMethod(operationToMethod(op));
+            }
+          }
+        }
+      }
+    }
+   }
+
+   private Method operationToMethod(MOperation op) {
       Method m = new Method();
-      be.addMethod(m);
       MethodName mn = new MethodName();
-      mn.setContent("method1");
+      mn.setContent(op.getName());
       m.setMethodName(mn);
+
+      MethodParameters pars = new MethodParameters();
+      for (Iterator it=op.getParameters().iterator(); it.hasNext();) {
+        MParameter mpar = (MParameter)it.next();
+        if (mpar.getName().equals("return")) {
+          MethodReturnTypeRef ret = new MethodReturnTypeRef();
+          ret.setContent(mpar.getType().getName());
+          m.setMethodReturnTypeRef(ret);
+        }
+        else {
+          MethodParameter par = new MethodParameter();
+          par.setParameterName(mpar.getName());
+          par.setParameterTypeRef(mpar.getType().getName());
+          pars.addMethodParameter(par);
+        }
+      }
+      m.setMethodParameters(pars);
+      return m;
    }
 
-
-
-   protected void buildImports( ComponentSpec cs )
-   {
-      /* TODO: Find all MInterfaces imported by _component,
-       * let the (not yet existing) CMLFacadeBuilder build
-       * an according Facade, and include it.
-       */
-   }
 
 
 }
