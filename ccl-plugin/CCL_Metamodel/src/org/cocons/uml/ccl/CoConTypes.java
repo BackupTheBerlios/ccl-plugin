@@ -12,4 +12,8 @@ public interface CoConTypes {
 	 */
 	public static final String SET_TO_VALUE_IN_TYPE = "SetToValueIn";
 
+        /**
+         * Describing the NotAllowedToExistIn CoCon type.
+         */
+        public static final String NOT_ALLOWED_TO_EXIST_IN = "NotAllowedToExistIn";
 }
