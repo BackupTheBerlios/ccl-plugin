@@ -1,0 +1,63 @@
+Wenn ant gerade funktioniert, obwohl Du diesen Text schon lesen kannst,
+ist alles gut, und Du kannst den Text komplett ignorieren.
+
+
+Wenn aber ant mit einer Fehlermeldung dieser Art abbricht:
+
+build.xml:342: Could not create task of type: depend because I can't find it
+in the list of task class definitions.  Common solutions are: 1 execute
+bin/bootstrap. 2 use taskdef to declare your task. 3 add the task to
+defaults.properties.
+
+
+Dann musst Du folgendes tun:
+
+
+[1] Worum geht es denn ueberhaupt? Ichwillnich!
+
+ant hat in der Standardversion keine Dependencies. Das heisst, es erkennt
+nicht, welche Dateien von welchen abhaengen und bei Aenderungen mitkompiliert
+werden muessen. Es werden also immer nur die geaenderten Dateien kompiliert.
+Wenn Du also z.B. in MModelElement.java die Methode getName() in
+getFreakiness() umbenennenst, ist praktisch alles zerstoert - richtig viele
+Klassen benutzen das. Ein kompilieren mit ant funktioniert aber noch, weil
+nur die Datei MModelElement.java uebersetzt wird.
+Dafuer ist Depend gut: Vor dem Kompilieren wird ueberprueft, welche Klassen
+MModelElement benutzen, und all diese werden danach kompiliert.
+
+
+
+[2] Na gut. Und was soll ich tun?
+
+Du brauchst ein neues ant. Das ant, das bei argouml mitkommt, kann das nicht.
+
+[2.1] Ant ziehen:
+Du benoetigst diese beiden Dateien:
+http://jakarta.apache.org/builds/jakarta-ant/release/v1.4.1/bin/jakarta-ant-1.4.1-bin.zip
+http://jakarta.apache.org/builds/jakarta-ant/release/v1.4.1/bin/jakarta-ant-1.4.1-optional.jar
+
+[2.2] Ant installieren:
+Entpacke zuerst jakarta-ant-1.4.1-bin.zip irgendwohin, z.B. ins
+Heimverzeichnis.
+Danach gibt es z.B. das Verzeichnis
+  /home/ich/jakarta-ant-1.4.1/
+Kopiere dann die Datei jakarta-ant-1.4.1-optional.jar in das
+"lib"-Unterverzeichnis davon.
+
+[2.3] Pfade setzen
+Setze wie bisher JAVA_HOME, wenn noetig.
+ANT_HOME muss auf das neue ant-Verzeichnis gesetzt werden. Fuer bash-Benutzer
+geht das mit
+  export ANT_HOME=/home/ich/jakarta-ant-1.4.1
+
+[2.4] Ant laufen
+Jetzt solltest Du vom ccl-plugin-Verzeichnis aus
+  ant compile-onestep
+aufrufen koennen. Wenn das nicht klappt, versuche das ant-Start-Skript aus
+dem bin-Verzeichnis des neuen ant zu benutzen:
+
+  cd /home/ich/ccl-plugin
+  cp /home/ich/jakarta-ant-1.4.1/bin/ant .
+  chmod u+x ./ant
+
+Dann sollte es klappen.

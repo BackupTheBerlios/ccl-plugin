@@ -231,12 +231,27 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
     <fail message="antlrall library does not appear to be in the classpath."/>
   </target>
 
+
+  <!-- =================================================================== -->
+  <!-- Dependency generation                                               -->
+  <!-- =================================================================== -->
+
+  <target name="make-dependencies" depends="init">
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <depend srcdir="${argouml.src.dir}:${cocons.src.dir}:${nsuml.src.dir}:${nsuml.gensrc.dir}:${cclmetamodel.src}:${plugin.src.dir}"
+            destdir="${build.dest}"
+            cache=".depcache"
+            closure="true"/>
+  </target>
+
   <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
 
 
-  <target name="compile-plugin" depends="init">
+  <target name="compile-plugin" depends="init, make-dependencies">
 
     <echo message="Compiling plugin architecture base classes to ${build.dest}"/>
 
@@ -255,7 +270,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
 
-  <target name="compile-nsuml-cclmeta" depends="init">
+  <target name="compile-nsuml-cclmeta" depends="init, make-dependencies">
 
     <echo message="Compiling modified NSUML library and CCL metamodel to ${build.dest}"/>
 
@@ -276,7 +291,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
 
-  <target name="compile-argobase" depends="argobase-prepare, argobase-prerequisites, compile-nsuml-cclmeta, compile-plugin">
+  <target name="compile-argobase" depends="argobase-prepare, argobase-prerequisites, compile-nsuml-cclmeta, compile-plugin, make-dependencies">
 
     <echo message="Compiling basic ArgoUML sources to ${build.dest}"/>
 
@@ -295,7 +310,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
 
-  <target name="compile-cocons" depends="init, compile-argobase">
+  <target name="compile-cocons" depends="init, compile-argobase, make-dependencies">
 
     <echo message="Compiling cocons plugin to ${build.dest}"/>
 
@@ -329,12 +344,9 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
        (you'll probably have to submit special arguments like "-Xms100m -Xmx100m"
        to the VM running Ant to avoid OutOfMemoryErrors).
   -->
-  <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites">
+  <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites, make-dependencies">
 
     <echo message="Compiling all the sources at once"/>
-
-    <!-- create directories -->
-    <mkdir dir="${build.dest}"/>
 
     <javac 
            destdir="${build.dest}"
