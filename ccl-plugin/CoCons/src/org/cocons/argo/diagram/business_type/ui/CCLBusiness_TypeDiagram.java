@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.6 2001/11/20 10:59:06 oetker Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.7 2001/11/20 17:20:59 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -32,9 +32,9 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   ////////////////
   // actions for toolbar
 
-	protected static Action _actionBusiness_Type;
-    //=		new CmdCreateNodeStereotype(MBusiness_TypeImpl.class, "Business Type", new MStereotypeImpl());
-  
+	protected static Action _actionBusiness_Type =	
+        new CmdCreateNodeStereotype(MClassImpl.class, "Business Type", new MStereotypeImpl());
+    
 	protected static Action _actionPackage =
 		new CmdCreateNodeStereotype(MPackageImpl.class, "Package",new MStereotypeImpl());
 
@@ -66,14 +66,6 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   public CCLBusiness_TypeDiagram() {
     try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
-
-    MStereotype stereo = new MStereotypeImpl();
-    //    stereo.setName("type");
-
-    _actionBusiness_Type =
-	new CmdCreateNodeStereotype(MClass.class, "Business Type", stereo);
-
-
   }
 
   public CCLBusiness_TypeDiagram(MNamespace m) {

@@ -64,7 +64,6 @@ author: klischat
     <property file="build.properties"/>
 
     <property name="build.dest" value="${build.dir}/classes"/>
-
     <property name="classpath"
 value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}"/>
 
