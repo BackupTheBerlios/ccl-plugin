@@ -27,6 +27,7 @@ public class MasterTest extends TestCase {
     TestSuite suite=new TestSuite();
     suite.addTest(CclTest.suite());
     suite.addTest(UmlTest.suite());
+    suite.addTest(TestDesignCritic);
     return suite;
   }
 }
