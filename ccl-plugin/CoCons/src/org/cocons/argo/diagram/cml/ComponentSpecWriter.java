@@ -9,6 +9,8 @@ import ru.novosoft.uml.model_management.*;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.exolab.castor.xml.*;
 import org.cocons.uml.ccl.context_property1_3.*;
 //use the XML pretty-printing classes from Apache's SAX implementation.
@@ -121,16 +123,40 @@ public class ComponentSpecWriter
        {
            Object o = it.next();
 
-           if( o instanceof MContextPropertyValue )
+           if( o instanceof MContextPropertyValueImpl )
            {
-               MContextPropertyValue pv = (MContextPropertyValue)o;
-
-               Property prop=new Property();
+               Property prop = new Property();
                props.addProperty( prop );
-
+               prop.setKey( "kind" );
+               prop.addValue( "ContextPropertyValue" );
                prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
-               prop.setKey( pv.getTag() );
-               prop.addValue( pv.getValue() );
+
+               MContextPropertyValueImpl value = (MContextPropertyValueImpl)o;
+               MContextPropertyTagImpl tag = (MContextPropertyTagImpl)value.getContextPropertyTag();
+
+               Constraints constr = new Constraints();
+               prop.setConstraints(constr);
+
+               prop = new Property();
+               constr.addProperty( prop );
+               prop.setKey( "type" );
+               prop.addValue( tag.getValidValuesType() );
+
+               prop = new Property();
+               constr.addProperty( prop );
+               prop.setKey( "name" );
+               prop.addValue( tag.getName() );
+
+               prop = new Property();
+               constr.addProperty( prop );
+               prop.setKey( "valid-values" );
+               for (Iterator vvs = getValidCtxPropValues(value,tag).iterator(); vvs.hasNext();) {
+                   prop.addValue((String)vvs.next());
+               }
+
+//                prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
+//                prop.setKey( pv.getTag() );
+//                prop.addValue( pv.getValue() );
            }
        }
 
@@ -141,6 +167,50 @@ public class ComponentSpecWriter
        prop.addValue( "initial" );
    }
 
+
+    private static Collection /*of String */
+        getValidCtxPropValues(MContextPropertyValueImpl value,
+                              MContextPropertyTagImpl tag) {
+        //TODO: the following code is long and very ugly
+        //   Apparently there's no abstraction to handle the three types of
+        //   ContextPropertyValues/-tags (list of strings, integer values,
+        //   floating point values) in a generalized manner
+
+        Collection result = new LinkedList();
+
+        String type = tag.getValidValuesType();
+        if (type.equals("List Of Strings")) {
+            int pos = 0;
+            for (Iterator it = tag.getValidStrings().iterator(); it.hasNext();) {
+                String stringValue = (String)it.next();
+                if (((Boolean)value.getStringSelectionAt(pos)).booleanValue()) {
+                    result.add(stringValue);
+                }
+                ++pos;
+            }
+        }
+        else if (type.equals("Integer Number")) {
+            int count = value.getIntegerValuesCount();
+            for (int i=0; i<count; i++) {
+                if (((Boolean)value.getIntegerSelectionAt(i)).booleanValue()) {
+                    result.add(value.getIntegerValueAt(i));
+                }
+            }
+        }
+        else if (type.equals("Float Number")) {
+            int count = value.getFloatValuesCount();
+            for (int i=0; i<count; i++) {
+                if (((Boolean)value.getFloatSelectionAt(i)).booleanValue()) {
+                    result.add(value.getFloatValueAt(i));
+                }
+            }
+        }
+        else {
+            System.err.println("ComponentSpecWriter: unknown ContextPropertyTag type: "+type);
+        }
+
+        return result;
+    }
 
    protected void buildExports( ComponentSpec cs )
    {
