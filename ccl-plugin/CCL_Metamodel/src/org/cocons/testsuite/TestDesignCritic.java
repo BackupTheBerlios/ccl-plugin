@@ -1,6 +1,8 @@
 package org.cocons.testsuite;
 
 import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Title:
@@ -13,9 +15,20 @@ import junit.framework.TestCase;
 
 public class TestDesignCritic extends TestCase {
 
-  public TestDesignCritics() {
+  public TestDesignCritic(String p0) {
+    super(p0);
   }
   public static void main(String[] args) {
-    TestDesignCritics testDesignCritics1 = new TestDesignCritics();
+    TestDesignCritic testDesignCritics1 = new TestDesignCritic("");
+  }
+
+  protected void setUp() {
+
+  }
+
+  public static Test suite() {
+    TestSuite suite=new TestSuite();
+
+    return suite;
   }
 }
