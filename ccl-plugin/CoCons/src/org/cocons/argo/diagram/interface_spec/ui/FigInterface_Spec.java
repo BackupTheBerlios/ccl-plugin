@@ -75,16 +75,25 @@ public class FigInterface_Spec extends FigInterface {
   }
 
   public void setFilled(boolean f) {
-	super.setFilled(f);
-	_stereo.setFilled(f);
-	_name.setFilled(f);
+	//super.setFilled(f);
+	//_stereo.setFilled(false);  //f
+	//_name.setFilled(false);   //f
   }
 
   public void setLineWidth(int w) {
-	super.setLineWidth(w);
-	_stereo.setLineWidth(1);
-	_name.setLineWidth(0);
-    }
+	//super.setLineWidth(w);
+	//_stereo.setLineWidth(0); //1
+	//_name.setLineWidth(0);
+  }
+
+  public void setLineColor(Color c) {
+   // super.setLineColor(c);
+   // _stereoFake.setLineWidth(0);
+    //_name.setLineWidth(0);
+  }
+
+  public void setFillColor(Color c){
+  }
   protected void updateStereotypeText() {
     MModelElement me = (MModelElement) getOwner();
     if (me == null) return;

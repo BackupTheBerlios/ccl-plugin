@@ -37,15 +37,8 @@ public class FigBusiness_Type extends FigClass {
 
   public FigBusiness_Type() {
     super();
-
-
     _stereo.setEditable(false);
     _stereo.setDisplayed(true);
-
-    //_stereoLineBlinder = new FigRect(10, 15, 2, 60, Color.white, Color.white);
-    //_stereoLineBlinder.setLineWidth(2);
-    //_stereoLineBlinder.setDisplayed(true);
-
     getOperationFig().setDisplayed(false);
   }
 
