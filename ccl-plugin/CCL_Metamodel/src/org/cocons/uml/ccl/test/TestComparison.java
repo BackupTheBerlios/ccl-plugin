@@ -15,9 +15,7 @@ import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl; 
 
 /**
-* Tests the ComparisonImpl class. Tests won't work anymore, 'cause the
-* the implementations of the MContextProperties were changed in a
-* way I can't and doesn't want to understand, so ignore it :(.
+* Tests the ComparisonImpl class. 
 * Creation date: (26.12.2001 16:38:43)
 * @author: Fadi Chabarek
 */

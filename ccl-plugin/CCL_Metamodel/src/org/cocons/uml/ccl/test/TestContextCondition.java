@@ -6,14 +6,26 @@ import org.cocons.uml.ccl.ContextConditionImpl;
 import org.cocons.uml.ccl.ContextCondition;
 import org.cocons.uml.ccl.BaseClasses;
 import org.cocons.uml.ccl.CCLConstants;
+import org.cocons.uml.ccl.MContextbasedConstraintImpl;
+import org.cocons.uml.ccl.CoConTypes;
+import org.cocons.uml.ccl.comparators.ComparatorFactory;
+
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
+
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
+import ru.novosoft.uml.foundation.core.MConstraintImpl;
+import ru.novosoft.uml.foundation.core.MClassImpl;
+import ru.novosoft.uml.foundation.extension_mechanisms.MStereotypeImpl;
+import ru.novosoft.uml.foundation.core.MClass;
+
+import java.util.Vector;
 
 /**
- * TestCase for the class Context Conditions. Tests won't work anymore, 'cause the
- * the implementations of the MContextProperties were changed in a
- * way I can't and doesn't want to understand, so ignore it :(.
- * Creation date: (07.02.2002 19:34:26)
- * @author: Fadi Chabarek
- */
+* TestCase for the class Context Conditions. 
+* Creation date: (07.02.2002 19:34:26)
+* @author: Fadi Chabarek
+*/
 public class TestContextCondition extends junit.framework.TestCase {
 
 	/**
@@ -82,9 +94,62 @@ public class TestContextCondition extends junit.framework.TestCase {
 	 */
 	public void testIsCompliedWith() {
 
-		//ToDo: test a big tree with range and with base class.
+		/* 
+		"ALL COMPONENTS WHERE 'Workflow' CONTAINS 'Pay Wage' 
+		MUST BE NotTheSameAs 
+		ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Field Service'". */
 
-		assertTrue(true);
+		// init
+		ContextConditionImpl targetSet = new ContextConditionImpl();
+		ComparisonImpl tComp = new ComparisonImpl();
+
+		ComparatorFactory cf = new ComparatorFactoryImpl();
+
+		// 1) constructs cocon
+		// target tree
+		tComp.setTag("Workflow");
+		tComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
+		tComp.setValue("Pay_Wages");
+
+		targetSet.setRange(CCLConstants.INDIRECT_RANGE_ALL);
+		targetSet.setBaseClass(BaseClasses.COMPONENT);
+		targetSet.setComparison(tComp);
+
+		// 2) constructs a complying component
+		MClass component = new MClassImpl();
+		MStereotypeImpl type = new MStereotypeImpl();
+		type.setName(CCLConstants.COMP_SPEC);
+
+		component.setStereotype(type);
+
+		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
+		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
+
+		tag.setTag("Workflow");
+		value.setValue("XXXPay_WagesXXX");
+		value.setContextPropertyTag(tag);
+
+		component.addTaggedValue(value);
+
+		this.assertTrue(
+			"Die Componente component hätte den targetSet erfüllen müssen.", 
+			targetSet.isCompliedWith(component)); 
+
+		/*// scope tree
+		ContextConditionImpl scopeSet = new ContextConditionImpl();
+		ComparisonImpl sComp = new ComparisonImpl();
+		sComp.setTag("Operational_Area");
+		sComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
+		sComp.setValue("Field_Service");
+		
+		scopeSet.setBaseClass(BaseClasses.COMPONENT);
+		scopeSet.setComparison(sComp);
+		
+		assertTrue(true);*/
 	}
 
 	/**

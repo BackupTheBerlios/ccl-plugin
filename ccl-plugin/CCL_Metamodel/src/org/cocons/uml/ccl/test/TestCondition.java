@@ -1,25 +1,26 @@
 package org.cocons.uml.ccl.test;
 
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
-import ru.novosoft.uml.foundation.core.MClassImpl;
 import org.cocons.uml.ccl.ComparisonImpl;
 import org.cocons.uml.ccl.logic_operations.LogicFactoryImpl;
 import org.cocons.uml.ccl.logic_operations.LogicFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
-
 import org.cocons.uml.ccl.Condition;
 import org.cocons.uml.ccl.ConditionImpl;
-
-import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
 import org.cocons.uml.ccl.ContextConditionImpl;
 
+import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
+
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
+
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
+import ru.novosoft.uml.foundation.core.MConstraintImpl;
+import ru.novosoft.uml.foundation.core.MClassImpl;
+
 /**
- * Tests the ConditionImpl class from org.cocons.uml.ccl. Tests won't work anymore, 'cause the
- * the implementations of the MContextProperties were changed in a
- * way I can't and doesn't want to understand, so ignore it :(.
- */
+* Tests the ConditionImpl class from org.cocons.uml.ccl. 
+*/
 public class TestCondition extends junit.framework.TestCase {
 
 	/**
@@ -96,6 +97,11 @@ public class TestCondition extends junit.framework.TestCase {
 
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
+
 		value.setContextPropertyTag(tag);
 
 		tag.setTag(ConditionalTreeGenerator.generateTag(10));
@@ -133,6 +139,11 @@ public class TestCondition extends junit.framework.TestCase {
 		// build up a complient model element.
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
+
 		tag.setTag(cond1.getComparison().getTag());
 		value.setValue(cond1.getComparison().getValue());
 		value.setContextPropertyTag(tag);
