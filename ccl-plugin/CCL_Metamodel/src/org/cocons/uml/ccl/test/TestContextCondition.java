@@ -8,12 +8,14 @@ import org.cocons.uml.ccl.BaseClasses;
 import org.cocons.uml.ccl.CCLConstants;
 
 /**
- * TestCase for the class Context Conditions.
+ * TestCase for the class Context Conditions. Tests won't work anymore, 'cause the
+ * the implementations of the MContextProperties were changed in a
+ * way I can't and doesn't want to understand, so ignore it :(.
  * Creation date: (07.02.2002 19:34:26)
  * @author: Fadi Chabarek
  */
 public class TestContextCondition extends junit.framework.TestCase {
-	
+
 	/**
 	 * Constructs this test case.
 	 * Creation date: (08.02.2002 13:21:16)
@@ -22,7 +24,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 	public TestContextCondition(String name) {
 		super(name);
 	}
-    
+
 	/**
 	 * Starts this test.
 	 * Creation date: (08.02.2002 14:05:46)
@@ -31,14 +33,14 @@ public class TestContextCondition extends junit.framework.TestCase {
 	public static void main(String[] args) {
 		junit.swingui.TestRunner.run(TestContextCondition.class);
 	}
-    
+
 	/**
 	 * Sets this test up.
 	 * Creation date: (08.02.2002 13:27:47)
 	 */
 	public void setUp() {
 	}
-    
+
 	/**
 	 * Tests if the method is base class valid.
 	 * Creation date: (08.02.2002 14:59:38)
@@ -73,7 +75,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 		cc.setBaseClass("COMPINTF");
 		assertTrue("The base class is not defined, so it shouldn't have been valid.", !cc.isValid());
 	}
-    
+
 	/**
 	 * Test the is complied with method.
 	 * Creation date: (08.02.2002 13:32:40)
@@ -84,7 +86,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 
 		assertTrue(true);
 	}
-    
+
 	/**
 	 * Test the validity of ranges.
 	 * Creation date: (08.02.2002 13:51:07)

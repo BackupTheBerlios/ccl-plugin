@@ -12,7 +12,14 @@ import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.Condition;
 import org.cocons.uml.ccl.ConditionImpl;
 
-import org.cocons.uml.ccl.util.ConditionalTreeGenerator;import org.cocons.uml.ccl.ContextConditionImpl;
+import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
+import org.cocons.uml.ccl.ContextConditionImpl;
+
+/**
+ * Tests the ConditionImpl class from org.cocons.uml.ccl. Tests won't work anymore, 'cause the
+ * the implementations of the MContextProperties were changed in a
+ * way I can't and doesn't want to understand, so ignore it :(.
+ */
 public class TestCondition extends junit.framework.TestCase {
 
 	/**
@@ -34,15 +41,15 @@ public class TestCondition extends junit.framework.TestCase {
 	 * The logic factory or.
 	 */
 	private org.cocons.uml.ccl.LogicOperation or;
-	
+
 	/**
-	 * TestCondition constructor comment.
-	 * @param name java.lang.String
+	 * Constructs this test.
+	 * @param name java.lang.String the test's name.
 	 */
 	public TestCondition(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * Runs this test.
 	 * Creation date: (27.12.2001 18:21:22)
@@ -51,7 +58,7 @@ public class TestCondition extends junit.framework.TestCase {
 	public static void main(String[] args) {
 		junit.swingui.TestRunner.run(TestCondition.class);
 	}
-	
+
 	/**
 	 * Sets the test up.
 	 * Creation date: (27.12.2001 18:32:35)
@@ -70,22 +77,23 @@ public class TestCondition extends junit.framework.TestCase {
 		or = logicFactory.produceLogicOperationWithType(LogicFactory.OR);
 
 	}
-	
+
 	/**
 	 * Tests the is complied with method.
 	 * Creation date: (28.12.2001 00:22:19)
 	 */
 	public void testIsCompliedWith() {
 
-		//model element with no tagged value -> not comply.		
+		//model element with no tagged value -> not comply.
 		MClassImpl modelElement = new MClassImpl();
-		
+
 		Condition cond = ConditionalTreeGenerator.generateConditionalTree(100);
-		assertTrue("Model element has no tag, so condition can't be complied with",
-			! cond.isCompliedWith(modelElement));
-		
-		// build up a complex compliant tree		
-		
+		assertTrue(
+			"Model element has no tag, so condition can't be complied with", 
+			!cond.isCompliedWith(modelElement)); 
+
+		// build up a complex compliant tree
+
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
 		value.setContextPropertyTag(tag);
@@ -95,15 +103,13 @@ public class TestCondition extends junit.framework.TestCase {
 
 		modelElement.addTaggedValue(value);
 
-
 		// TODO: build up a usual complient and non complient tree.
 		// ALL CLASSES WHERE 'personal data' = 'yes'.
-		
 
 		// ALL COMPONENTS WHERE 'tier' CONTAINS 'Internet User Interface'.
-		 
+
 	}
-	
+
 	/**
 	 * Tests the is complied with method with the operation OR.
 	 * Creation date: (28.12.2001 00:22:19)
@@ -145,7 +151,7 @@ public class TestCondition extends junit.framework.TestCase {
 			!contextCondition.isCompliedWith(modelElement)); 
 
 	}
-	
+
 	/**
 	 * Tests the validity method.
 	 * Creation date: (27.12.2001 18:13:30)
@@ -218,7 +224,7 @@ public class TestCondition extends junit.framework.TestCase {
 		assertTrue("Condition with no comparison and two childs should be valid", validC.isValid());
 
 	}
-	
+
 	/**
 	 * Tests the isValid Method with conditions that have circles (thus are not trees).
 	 * Creation date: (27.12.2001 18:13:30)

@@ -11,7 +11,9 @@ import org.cocons.uml.ccl.Comparison;
 import org.cocons.uml.ccl.ComparisonImpl;
 
 /**
- * Tests the ComparisonImpl class.
+ * Tests the ComparisonImpl class. Tests won't work anymore, 'cause the
+ * the implementations of the MContextProperties were changed in a
+ * way I can't and doesn't want to understand, so ignore it :(.
  * Creation date: (26.12.2001 16:38:43)
  * @author: Fadi Chabarek
  */
@@ -120,7 +122,7 @@ public class TestComparison extends junit.framework.TestCase {
 
 			comparison.covers(null);
 		} catch (NullPointerException e) {
-			fail("NullPointerException: property value = null");
+			fail("NullPointerException caught with property value = null");
 		}
 		//b)
 
@@ -132,7 +134,7 @@ public class TestComparison extends junit.framework.TestCase {
 
 			comparison.covers(value);
 		} catch (NullPointerException e) {
-			fail("NullPointerException: comparison value = null");
+			fail("NullPointerException caught with comparison value = null");
 		}
 
 		//c)
@@ -143,7 +145,7 @@ public class TestComparison extends junit.framework.TestCase {
 			comparison.covers(value);
 
 		} catch (NullPointerException e) {
-			fail("NullPointerException: comparison tag = null");
+			fail("NullPointerException caught with comparison tag = null");
 		}
 		//d)
 		try {
@@ -153,7 +155,7 @@ public class TestComparison extends junit.framework.TestCase {
 			comparison.covers(value);
 
 		} catch (NullPointerException e) {
-			fail("NullPointerException: comparison tag + value = null");
+			fail("NullPointerException caught with comparison tag + value = null");
 		}
 	}
 

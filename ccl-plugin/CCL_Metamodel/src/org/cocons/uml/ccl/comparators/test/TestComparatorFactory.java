@@ -5,6 +5,10 @@ import org.cocons.uml.ccl.comparators.ComparatorFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 
 import org.cocons.uml.ccl.util.ConditionalTreeGenerator;
+
+/**
+ * Tests the comparators and it's production through the ComparatorFactory.
+ */
 public class TestComparatorFactory extends junit.framework.TestCase {
 
 	/**
@@ -13,8 +17,8 @@ public class TestComparatorFactory extends junit.framework.TestCase {
 	private ComparatorFactory comparatorFactory;
 
 	/**
-	 * TestEquation constructor comment.
-	 * @param name java.lang.String
+	 * Constructs this test.
+	 * @param name java.lang.String the name of the test.
 	 */
 	public TestComparatorFactory(String name) {
 		super(name);
@@ -46,12 +50,12 @@ public class TestComparatorFactory extends junit.framework.TestCase {
 		Comparator eq = cf.produceComparatorWithType(ComparatorFactory.EQUAL);
 
 		assertTrue(
-			"Doubles are equal, but compared with Equation they are not",
-			eq.compare(String.valueOf(equalValue), String.valueOf(equalValue)));
+			"Doubles are equal, but compared with Equation they are not", 
+			eq.compare(String.valueOf(equalValue), String.valueOf(equalValue))); 
 
 		assertTrue(
-			"Doubles are unequal, but compared with Equation they are not",
-			!eq.compare(String.valueOf(equalValue), String.valueOf(unequalValue)));
+			"Doubles are unequal, but compared with Equation they are not", 
+			!eq.compare(String.valueOf(equalValue), String.valueOf(unequalValue))); 
 
 	}
 
@@ -76,33 +80,37 @@ public class TestComparatorFactory extends junit.framework.TestCase {
 
 		if (value1 < value2) {
 			assertTrue(
-				"First value should be less than the second",
-				less.compare(String.valueOf(value1), String.valueOf(value2)));
+				"First value should be less than the second", 
+				less.compare(String.valueOf(value1), String.valueOf(value2))); 
 		}
 
 	}
-/**
- * Tests the contains comparator.
- * Creation date: (28.12.2001 22:05:41)
- */
-public void testContains() {
+    
+	/**
+	 * Tests the contains comparator.
+	 * Creation date: (28.12.2001 22:05:41)
+	 */
+	public void testContains() {
 
-	String substring = ConditionalTreeGenerator.generateTag(23);
+		String substring = ConditionalTreeGenerator.generateTag(23);
 
-	String frontString = ConditionalTreeGenerator.generateTag(45);
-	String endString = ConditionalTreeGenerator.generateTag(56);
+		String frontString = ConditionalTreeGenerator.generateTag(45);
+		String endString = ConditionalTreeGenerator.generateTag(56);
 
-	String concatenatedString = frontString + substring + endString;
+		String concatenatedString = frontString + substring + endString;
 
-	Comparator contains = comparatorFactory.produceComparatorWithType(ComparatorFactory.CONTAINS);
+		Comparator contains = comparatorFactory.produceComparatorWithType(ComparatorFactory.CONTAINS);
 
-	assertTrue("The substring should be contained in the concatenated string.",
-		contains.compare(concatenatedString, substring));
+		assertTrue(
+			"The substring should be contained in the concatenated string.", 
+			contains.compare(concatenatedString, substring)); 
 
-	// numbers are not contained in the containing string
-	substring += '1';
+		// numbers are not contained in the containing string
+		substring += '1';
 
-	assertTrue("The substring should not be contained in the concatenated string.",
-		! contains.compare(concatenatedString, substring));
+		assertTrue(
+			"The substring should not be contained in the concatenated string.", 
+			!contains.compare(concatenatedString, substring)); 
 
-}}
+	}
+}
