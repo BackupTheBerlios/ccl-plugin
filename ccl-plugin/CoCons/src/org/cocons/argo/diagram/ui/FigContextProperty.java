@@ -1,7 +1,7 @@
 // File: FigContextProperty.java
 // Classes: FigContextProperty
 // Original Author: jgusulde
-// $Id: FigContextProperty.java,v 1.1 2001/11/07 10:30:43 jgusulde Exp $
+// $Id: FigContextProperty.java,v 1.2 2001/11/13 19:23:15 jgusulde Exp $
 
 package org.cocons.argo.diagram.ui;
 
@@ -57,17 +57,18 @@ public class FigContextProperty
     _topleft.setFillColor(Color.yellow);
     _topleft.setFilled(true);
 
-    _topright = new FigPoly(90,10);
-    _topright.addPoint(84,10);
-    _topright.addPoint(90,16);
+    _topright = new FigPoly(84,10);
     _topright.addPoint(90,10);
+    _topright.addPoint(90,16);
+    _topright.addPoint(84,10);
+
     _topright.setFillColor(Color.yellow);
     _topright.setFilled(true);
 
-    _bottomleft = new FigPoly(10,30);
+    _bottomleft = new FigPoly(10,24);
+    _bottomleft.addPoint(10,30);
     _bottomleft.addPoint(16,30);
     _bottomleft.addPoint(10,24);
-    _bottomleft.addPoint(10,30);
     _bottomleft.setFillColor(Color.yellow);
     _bottomleft.setFilled(true);
 
@@ -206,9 +207,9 @@ public class FigContextProperty
     calcBounds();
     Rectangle rect = getBounds();
     // calculate new height
-    int new_height = 6; // height of constant figs
+    int new_height = 0; // height of constant figs
     new_height = new_height + _name.getHeight();
-    int new_width = 6; // width of constant figs
+    int new_width = 0; // width of constant figs
     new_width = new_width + _name.getWidth();
 // needs more work ???
     setBounds(rect.x-(new_width-rect.width)/2, rect.y-(new_height-rect.height), new_width, new_height);
@@ -222,13 +223,13 @@ public class FigContextProperty
     int ht = _name.getHeight();
     ht = Math.max(ht,h);
 
-    _bigPort.setBounds(x,y,wt+6,ht+6);
+    _bigPort.setBounds(x,y,wt,ht);
     _topleft.setLocation(x, y);
-    _topright.setLocation(x+wt+6, y);
-    _bottomleft.setLocation(x, y+ht+6);
-    _bottomright.setLocation(x+wt+6, y+ht+6);
+    _topright.setLocation(x+wt-7, y);
+    _bottomleft.setLocation(x, y+ht-7);
+    _bottomright.setLocation(x+wt-7, y+ht-7);
 
-    _name.setLocation(x+3, y+3);
+    _name.setLocation(x, y);
 
     calcBounds(); //_x = x; _y = y; _w = w; _h = h;
     Rectangle newBounds = getBounds();
