@@ -199,12 +199,9 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       public void mouseEntered(MouseEvent me) {}
       public void mouseReleased(MouseEvent me) {}
       public void mousePressed(MouseEvent me) {}
-      public void mouseClicked(MouseEvent me) {
-        if (me.getClickCount()==2) navigateReferencedModelElement();
-      }
+      public void mouseClicked(MouseEvent me) {navigateReferencedModelElement();}
     });
     ownerList.setSelectionBackground(Color.white);
-    ownerList.setToolTipText("Double click for navigation !");
     JScrollPane ownerScroll=new JScrollPane(ownerList,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     addLinkField(ownerScroll,2,0,0);
 
@@ -215,14 +212,11 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       public void mouseEntered(MouseEvent me) {}
       public void mouseReleased(MouseEvent me) {}
       public void mousePressed(MouseEvent me) {}
-      public void mouseClicked(MouseEvent me) {
-        if (me.getClickCount()==2) navigateNamespace();
-      }
+      public void mouseClicked(MouseEvent me) {navigateNamespace();}
     });
     namespaceList.setSelectionBackground(Color.white);
     namespaceList.setSelectionForeground(Color.blue);
     namespaceList.setForeground(Color.blue);
-    namespaceList.setToolTipText("Double click for navigation !");
     JScrollPane namespaceScroll=new JScrollPane(namespaceList,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     addField(namespaceScroll,3,0,0);
 
