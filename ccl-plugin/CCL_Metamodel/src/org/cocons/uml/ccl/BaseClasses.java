@@ -4,11 +4,7 @@ import ru.novosoft.uml.foundation.core.MElement;
 import ru.novosoft.uml.foundation.core.MInterface;
 import ru.novosoft.uml.foundation.core.MClass;
 
-import ru.novosoft.uml.foundation.core.MModelElement;/**
-* Collection of constants describing model element's base classes.
-* Creation date: (15.01.2002 16:57:24)
-* @author: Fadi Chabarek
-*/
+import ru.novosoft.uml.foundation.core.MModelElement;
 public class BaseClasses {
 
 	/**
@@ -38,7 +34,7 @@ public class BaseClasses {
 	 * Creation date: (07.02.2002 19:32:04)
 	 * @return java.lang.String[] the defined base class types.
 	 */
-	public String[] getAllAvailableTypes() {
+	public static String[] getAllAvailableTypes() {
 
 		String[] types = new String[4];
 
@@ -57,7 +53,7 @@ public class BaseClasses {
 	* @param possClass MModelElement the possible matching model element.
 	* @param baseClassType java.lang.String the type to be matched
 	*/
-	public boolean objectMatchsType(MModelElement possClass, String baseClassType) {
+	public static boolean objectMatchsType(MModelElement possClass, String baseClassType) {
 
 		try {
 			if (baseClassType.compareTo(INTERFACE) == 0) {
