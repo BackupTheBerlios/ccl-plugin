@@ -15,119 +15,207 @@ import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.foundation.extension_mechanisms.*;
 import org.cocons.uml.ccl.*;
 
+
 /**
  * Title:        CoCons
  * Description:  CoCons CCL Metamodel Library
  * Copyright:    Copyright (c) 2001
  * Company:      TU Berlin, CIS
  * @author Martin Skinner
- * @version 1.0
+ * @author Nghia Dang Duc
+ * @author Rolf Exner
+ * @version 1.1
  */
 
-public class FigContextbasedConstraint
-  extends FigNodeModelElement {
+public class FigContextbasedConstraint extends FigNodeModelElement {
 
   ////////////////////////////////////////////////////////////////
   // instance variables
 
   /** UML does not really use ports, so just define one big one so
    *  that users can drag edges to or from any point in the icon. */
-  FigCircle _bigPort;
+  //FigCircle _bigPort;
+    protected FigRect _bigPort;
 
-  /* Put in the things for the "person" in the FigActor */
-  Fig _scope;
-  Fig _constrained;
-  FigPoly _triangle;
-  FigLine _arrow;
-  FigPoly _arrowhead;
-  FigText _letter_i;
+    protected FigPoly _triangle;
+    protected FigLine _arrow;
+    protected FigPoly _arrowhead;
+    protected FigText _letter_i;
 
-  // add other Figs here aes needed
+    // add other Figs here aes needed
+    protected FigGroup _scopeVec;
+    protected FigGroup _constraintVec;
+
+    protected FigRect _scopePort;
+    protected FigRect _constraintPort;
+    protected FigText _constraintText;
+    protected FigText _scopeText;
+    public MElementResidence resident = new MElementResidenceImpl();
+
+    protected Vector mScops = new Vector();
+    protected Vector mConsts = new Vector();
+    ////////////////////////////////////////////////////////////////
+    // constructors
+
+    public FigContextbasedConstraint() {
+        // Put this rectangle behind the rest, so it goes first
+        _bigPort = new FigRect(5, 5, 40, 85, Color.gray, Color.gray);
+        //_bigPort = new FigCircle(10, 10, 20, 30, Color.gray, Color.gray);
+
+        //construction of the Scope-Set
+        _scopePort = new FigRect(0,0,80,40, Color.gray, Color.white);
+        _scopePort.setLineWidth(1);
+        _scopePort.setFilled(true);
+
+        _scopeVec = new FigGroup();
+        _scopeVec.setFilled(true);
+        _scopeVec.setLineWidth(1);
+        _scopeVec.addFig(_scopePort);
+
+        _scopeText =  new FigText(120,5,16,15, Color.black,"TimesRoman", 10);
+        _scopeText.setText("Enter Scope Set");
+        _scopeText.setFilled(false);
+        _scopeText.setEditable(true);
+        _scopeText.setLineWidth(0);
+        _scopeText.setWidth(80);
+
+        //construction of the warning-sign
+        _triangle = new FigPoly(50,10);
+        _triangle.addPoint(60,30);
+        _triangle.addPoint(40,30);
+        _triangle.addPoint(50,10);
+
+        _letter_i = new FigText(43,10,16,15, Color.black,"TimesRoman", 12);
+        _letter_i.setText("i");
+        _letter_i.setFilled(false);
+        _letter_i.setEditable(false);
+        _letter_i.setLineWidth(0);
+        _letter_i.setWidth(21);
+
+        //construction of the arrow with arrow-head
+        _arrow = new FigLine(56,25,110,25);
+
+        _arrowhead = new FigPoly(120,25);
+        _arrowhead.addPoint(110,22);
+        _arrowhead.addPoint(110,28);
+        _arrowhead.addPoint(120,25);
+
+        //construction of the Target-(Constraint-)Set
+        _constraintPort = new FigRect(0,0,80,40, Color.gray, Color.white);
+        _constraintPort.setLineWidth(1);
+        _constraintPort.setFilled(true);
+        _constraintPort.translate(120,0);
+
+        _constraintVec = new FigGroup();
+        _constraintVec.setFilled(true);
+        _constraintVec.setLineWidth(1);
+        _constraintVec.addFig(_constraintPort);
+        //_constraintVec.translate(120,0);
+        _constraintText = new FigText(5,5,16,15, Color.black,"TimesRoman", 10);
+        _constraintText.setText("Enter Constraint Set");
+        _constraintText.setFilled(false);
+        _constraintText.setEditable(true);
+        _constraintText.setLineWidth(0);
+        _constraintText.setWidth(85);
+
+        //construction of the text-field for the cocon-type
+        _stereo.setBounds(60, 7, 45, 15);
+        _stereo.setExpandOnly(false);
+        _stereo.setFilled(false);
+        _stereo.setLineWidth(0);
+        _stereo.setEditable(true);
+        _stereo.setHeight(18);
+        _stereo.setDisplayed(false);
+
+        //construction of the text-field for details
+        _name.setBounds(60, 30, 45, 15);
+        _name.setTextFilled(false);
+        _name.setEditable(true);
+        _name.setFilled(false);
+        _name.setLineWidth(0);
+        _name.setExpandOnly(false);
+        // initialize any other Figs here
+
+        // add Figs to the FigNode in back-to-front order
+
+        addFig(_scopePort);
+        //addFig(_scopeVec);
+        addFig(_arrow);
+        addFig(_arrowhead);
+        addFig(_triangle);
+        addFig(_letter_i);
+        addFig(_constraintPort);
+        addFig(_name);
+        addFig(_stereo);
+        addFig(_constraintText);
+        addFig(_scopeText);
+        //addFig(_constraintVec);
+        modelChanged();
+    }
 
 
-  ////////////////////////////////////////////////////////////////
-  // constructors
+    public FigContextbasedConstraint(GraphModel gm, Object node) {
+        this();
+        setOwner(node);
+    }
 
-  public FigContextbasedConstraint() {
-    // Put this rectangle behind the rest, so it goes first
-    //_bigPort = new FigRect(5, 5, 30, 85, Color.gray, Color.gray);
-    _bigPort = new FigCircle(10, 10, 20, 30, Color.gray, Color.gray);
+    public String placeString() { return "new MContextbasedConstraint"; }
 
-    _scope = new FigContextCondition();
+    public Object clone() {
+        FigContextbasedConstraint figClone = (FigContextbasedConstraint) super.clone();
+        Vector v = figClone.getFigs();
 
-    _triangle = new FigPoly(50,10);
-    _triangle.addPoint(60,30);
-    _triangle.addPoint(40,30);
-    _triangle.addPoint(50,10);
+        figClone._scopePort = (FigRect) v.elementAt(0);
+        figClone._arrow = (FigLine) v.elementAt(1);
+        figClone._arrowhead = (FigPoly) v.elementAt(2);
+        figClone._triangle = (FigPoly) v.elementAt(3);
+        figClone._letter_i = (FigText) v.elementAt(4);
+        figClone._constraintPort = (FigRect) v.elementAt(5);
+        figClone._name = (FigText) v.elementAt(6);
+        figClone._stereo = (FigText) v.elementAt(7);
+        figClone._constraintText = (FigText) v.elementAt(8);
+        figClone._scopeText = (FigText) v.elementAt(9);
 
-    _letter_i = new FigText(43,10,16,15, Color.black,"TimesRoman", 12);
-    _letter_i.setText("i");
-    _letter_i.setFilled(false);
-    _letter_i.setEditable(false);
-    _letter_i.setLineWidth(0);
-    _letter_i.setWidth(21);
-
-    _arrow = new FigLine(56,25,110,25);
-
-    _arrowhead = new FigPoly(120,25);
-    _arrowhead.addPoint(110,22);
-    _arrowhead.addPoint(110,28);
-    _arrowhead.addPoint(120,25);
-
-    _constrained = new FigContextCondition(null);
-    _constrained.translate(120,0);
-
-    _stereo.setBounds(60, 7, 45, 15);
-    _stereo.setExpandOnly(false);
-    _stereo.setFilled(false);
-    _stereo.setLineWidth(0);
-    _stereo.setEditable(false);
-    _stereo.setHeight(18);
-    _stereo.setDisplayed(false);
-
-    _name.setBounds(60, 30, 45, 15);
-    _name.setTextFilled(false);
-    _name.setFilled(false);
-    _name.setLineWidth(0);
-    _name.setExpandOnly(false);
-    // initialize any other Figs here
-
-    // add Figs to the FigNode in back-to-front order
-    addFig(_scope);
-    addFig(_arrow);
-    addFig(_arrowhead);
-    addFig(_triangle);
-    addFig(_letter_i);
-    addFig(_constrained);
-
-    addFig(_name);
-    addFig(_stereo);
-
-  }
-
-  public FigContextbasedConstraint(GraphModel gm, Object node) {
-    this();
-    setOwner(node);
-  }
-
-  public String placeString() { return "new MContextbasedConstraint"; }
-
-  public Object clone() {
-    FigContextbasedConstraint figClone = (FigContextbasedConstraint) super.clone();
-    Vector v = figClone.getFigs();
-    figClone._triangle = (FigPoly) v.elementAt(0);
-    figClone._name = (FigText) v.elementAt(1);
-    return figClone;
-  }
+        return figClone;
+    }
 
   ////////////////////////////////////////////////////////////////
   // Fig accessors
 
-  public Selection makeSelection() {
-    return null;
-    // return new SelectionActor(this);
-  }
+    public Selection makeSelection() {
+        return null;
+    }
+/*
+    public Vector getPopUpActions(MouseEvent me) {
+        Vector popUpActions = super.getPopUpActions(me);
+        JMenu addMenu = new JMenu("Add");
 
+        addMenu.add(ActionAddAttribute.SINGLETON);
+        addMenu.add(ActionAddOperation.SINGLETON);
+        addMenu.add(ActionAddNote.SINGLETON);
+
+        popUpActions.insertElementAt(addMenu, popUpActions.size() - 1);
+        JMenu showMenu = new JMenu("Show");
+
+        if(_attrVec.isDisplayed() && _operVec.isDisplayed())
+            showMenu.add(ActionCompartmentDisplay.HideAllCompartments);
+        else if(!_attrVec.isDisplayed() && !_operVec.isDisplayed())
+            showMenu.add(ActionCompartmentDisplay.ShowAllCompartments);
+
+        if (_attrVec.isDisplayed())
+            showMenu.add(ActionCompartmentDisplay.HideAttrCompartment);
+        else
+            showMenu.add(ActionCompartmentDisplay.ShowAttrCompartment);
+
+        if (_operVec.isDisplayed())
+            showMenu.add(ActionCompartmentDisplay.HideOperCompartment);
+        else
+            showMenu.add(ActionCompartmentDisplay.ShowOperCompartment);
+
+        popUpActions.insertElementAt(showMenu, popUpActions.size() - 1);
+        return popUpActions;
+    }
+*/
   public void setOwner(Object node) {
     super.setOwner(node);
     bindPort(node, _bigPort);
@@ -169,76 +257,105 @@ public class FigContextbasedConstraint
     MStereotype stereo = me.getStereotype();
     if (stereo == null || stereo.getName() == null || stereo.getName().length() == 0)
     {
-    	if (! _stereo.isDisplayed()) return;
-    	_stereo.setDisplayed(false);
-    	return;
+        if (! _stereo.isDisplayed()) return;
+        _stereo.setDisplayed(false);
+        return;
     }
     else
     {
-    	String stereoStr = stereo.getName();
-    	_stereo.setText("<<" + stereoStr + ">>");
-    	if (!_stereo.isDisplayed()) {
-    	    _stereo.setDisplayed(true);
-    	}
+        String stereoStr = stereo.getName();
+        _stereo.setText("<<" + stereoStr + ">>");
+        if (!_stereo.isDisplayed()) {
+            _stereo.setDisplayed(true);
+        }
     }
   }
 
+  /*
+  *CalculateSetBoxes()
+  *function to give the boxes of Scope-Set and Target(Constraint)-Set the right size
+  */
+  protected void calculateSetBoxes(){
+
+    Dimension constraintDim = _constraintText.getSize();
+    Dimension scopeDim = _scopeText.getSize();
+
+    int newConstraintWidth = Math.max((int)constraintDim.getWidth(), 40);
+    int newConstraintHeight = Math.max((int)constraintDim.getHeight(), 40);
+    int newScopeWidth = Math.max((int)scopeDim.getWidth(), 40);
+    int newScopeHeight = Math.max((int)scopeDim.getHeight(), 40);
+    newConstraintHeight = Math.max(newConstraintHeight, newScopeHeight);
+    newConstraintWidth = Math.max(newScopeWidth, newConstraintWidth);
+    Dimension newDimension = new Dimension (newConstraintWidth, newConstraintHeight);
+    _constraintPort.setSize(newDimension);
+    _scopePort.setSize(newDimension);
+
+  }
+
+
   protected void modelChanged() {
+
     super.modelChanged();
-    // move the figs
+    //calculate the size of ConstraintSetBox and ScopeSetBox
+    calculateSetBoxes();
     calcBounds();
     Rectangle rect = getBounds();
-    // calculate new height
-    int new_height = 38; // height of constant figs
-    if (_constrained != null)
-      new_height = Math.max(new_height,_constrained.getHeight());
-    if (_scope != null)
-      new_height = Math.max(new_height,_scope.getHeight());
-    // calculate new width
-    int new_width = 35; // width of constant figs
 
+    // calculate new height
+    int new_height = _constraintPort.getHeight();
+    // calculate new width
+    int new_width = 41; // width of constant figs
+    if (_stereo.isDisplayed() )
+      new_width = new_width+ Math.max(_name.getWidth(),_stereo.getWidth());
+    else
+      new_width = new_width+_name.getWidth();
+    new_width = new_width + (2 * _constraintPort.getWidth());
+
+    //figure will be resized and rearanged
+    setBounds(rect.x-(new_width-rect.width)/2, rect.y-(new_height-rect.height), new_width, new_height);
+  }
+
+  public void setBounds(int x, int y, int w, int h){
+    calculateSetBoxes();
+    calcBounds();
+    Rectangle oldBounds = getBounds();
+    // calculate new height
+    h = _constraintPort.getHeight();
+
+    // calculate new width
+    int new_width = 41; // width of constant figs
     if (_stereo.isDisplayed() )
       new_width = new_width+ Math.max(_name.getWidth(),_stereo.getWidth());
     else
       new_width = new_width+_name.getWidth();
 
-    if (_constrained != null)
-      new_width = new_width + _constrained.getWidth();
-    if (_scope != null)
-      new_width = new_width + _scope.getWidth();
+      w = new_width + (2 * _constraintPort.getWidth());
 
-    setBounds(rect.x-(new_width-rect.width)/2, rect.y-(new_height-rect.height), new_width, new_height);
+      int textBoxWidth = _constraintPort.getWidth(); //By "CalculateTextBoxes" it is sure that size of _constraintPort and _scopePort is equal
+
+      int coconTypeWidth = _name.getWidth();
+
+      _constraintPort.setLocation(x, y);
+      _constraintText.setLocation(x, y);
+      _triangle.setLocation(x+textBoxWidth, y + _constraintPort.getHalfHeight()-8);
+      _letter_i.setLocation(x+textBoxWidth, y + _constraintPort.getHalfHeight()-8);
+      _name.setLocation(x+ w / 2 - _name.getWidth() / 2, y + _constraintPort.getHalfHeight() + 5);
+      if (_stereo.isDisplayed() )
+        _stereo.setLocation(x+ w / 2 - _stereo.getWidth()/2, y + _constraintPort.getHalfHeight() - 18);
+      _arrow.setPoints(0, x + textBoxWidth + 16, y + _constraintPort.getHalfHeight() );
+      _arrow.setPoints(1, x + w - textBoxWidth - 10, y + _constraintPort.getHalfHeight() );
+      _arrowhead.setLocation(x + w - textBoxWidth - 10,  y + _constraintPort.getHalfHeight() - 3);
+      _scopePort.setLocation(x + w -textBoxWidth, y);
+      _scopeText.setLocation(x + w -textBoxWidth, y);
+
+      calcBounds(); //_x = x; _y = y; _w = w; _h = h;
+      Rectangle newBounds = getBounds();
+      updateEdges();
+      firePropChange("bounds", oldBounds, newBounds);
+
   }
 
-  public void setBounds(int x, int y, int w, int h)
-  {
-    Rectangle oldBounds = getBounds();
-    int wc = _constrained.getWidth();
-    int ws = _scope.getWidth();
-
-    int wt = _name.getWidth();
-    if (_stereo.isDisplayed() )
-      wt = Math.max(wt,_stereo.getWidth());
-
-    int origin_y = _arrow.getY();
-    int origin_x = x + w / 2;
-    if (_stereo.isDisplayed())
-      wt = Math.max(wt, _stereo.getWidth());
-
-    _constrained.setLocation(x, origin_y- _constrained.getHalfHeight());
-    _triangle.setLocation(x+wc,origin_y-15);
-    _letter_i.setLocation(x+wc,origin_y-15);
-    _name.setLocation(origin_x - _name.getWidth()/2,origin_y+5);
-    if (_stereo.isDisplayed() )
-      _stereo.setLocation(origin_x - _stereo.getWidth()/2,origin_y-18);
-    _arrow.setPoints(0,x+wc+16,origin_y);
-    _arrow.setPoints(1,origin_x+wt/2+5,origin_y);
-    _arrowhead.setLocation(origin_x+wt/2+5,origin_y-3);
-    _scope.setLocation(x+w-ws, origin_y- _scope.getHalfHeight());
-
-  	calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-    Rectangle newBounds = getBounds();
-  	updateEdges();
-  	firePropChange("bounds", oldBounds, newBounds);
+  public void calcBounds() {
+      super.calcBounds();
   }
 }
