@@ -4,7 +4,6 @@ import java.lang.reflect.*;
 import java.util.*;
 import org.cocons.uml.*;
 import ru.novosoft.uml.foundation.core.*;
-import org.cocons.uml.ccl.ccldata.*;
 import org.cocons.uml.ccl.util.*;
 import org.cocons.argo.util.ModelIterator;
 
@@ -20,25 +19,21 @@ public class MContextbasedConstraintImpl
 	extends MConstraintImpl
 	implements MContextbasedConstraint {
 
-  /**
-   * Contains the CCL String in java object code.
-   */
-  private CoConData _xmlCCL;
 
-	/**
-	 * The type of this CoCon.
-	 */
-	private String _coconType;
+        /**
+         * The type of this CoCon.
+         */
+        private String _coconType;
 
-	/**
-	 * The scope set of this CoCon.
-	 */
-	private ContextCondition _scopeSet;
+        /**
+         * The scope set of this CoCon.
+         */
+        private ContextCondition _scopeSet;
 
-	/**
-	 * The target set of this CoCon.
-	 */
-	private ContextCondition _targetSet;
+        /**
+         * The target set of this CoCon.
+         */
+        private ContextCondition _targetSet;
 
 	/**
 	 * The Vector that stores the Elements in the TargetSet, but only those
@@ -71,11 +66,6 @@ public class MContextbasedConstraintImpl
 	private Vector _scopeSetDirectReferences = null;
 
 	/**
-	 * Data Class for the XML definition of this CoCon.
-	 */
-	private CoConData parsedCoCon = null;
-
-	/**
 	 * Constructor that creates a new Contextbased Constraint.
 	 */
 	public MContextbasedConstraintImpl() {
@@ -90,17 +80,7 @@ public class MContextbasedConstraintImpl
 	 *         return null if this CoCon hasn't been initialized yet.
 	 */
 	public Vector getTargetElements() {
-		if (parsedCoCon == null) {
-			return null;
-		} else {
-			if (parsedCoCon.getTargetSet().getDirectReferences() != null) {
-				// direct references
-				return _targetSetDirectReferences;
-			} else {
-				// indirect references
-				return _targetElements;
-			}
-		}
+          return null;
 	}
 
 	/**
@@ -112,17 +92,7 @@ public class MContextbasedConstraintImpl
 	 *         return null if this CoCon hasn't been initialized yet.
 	 */
 	public Vector getScopedElements() {
-		if (parsedCoCon == null) {
-			return null;
-		} else {
-			if (parsedCoCon.getScopeSet().getDirectReferences() != null) {
-				// direct references
-				return _scopeSetDirectReferences;
-			} else {
-				// indirect references
-				return _scopeElements;
-			}
-		}
+          return null;
 	}
 
 	/**
@@ -134,22 +104,11 @@ public class MContextbasedConstraintImpl
 		return _coconType;
 	}
 
-  /**
-   * Sets the CCL String that defines the functionality of this CoCon. The
-   * String that is given must be in XML CCL syntax.
-   *
-   * @param xmlCCL the CCL String in XML notation.
-   */
-  public void setXMLCCL(CoConData xmlCCL) {
-    _xmlCCL = xmlCCL;
-    updateSets();
-  }
-
 	/**
 	 * Updates the TargetSet and ScopeSet
 	 */
 	private void updateSets() {
-                _coconType = _xmlCCL.getType();
+          /*      //_coconType = _xmlCCL.getType();
 
 		ModelIterator ite = new ModelIterator();
 		Vector modelElements = ite.getAllModelElements();
@@ -206,33 +165,26 @@ public class MContextbasedConstraintImpl
 				}
 			}
 		}
-
+          */
 	}
 
-  /**
-   * Returns the CCL Object that defines this CoCon.
-   *
-   * @return the CCL-XML Data Object.
-   */
-  public CoConData getXMLCCL() {
-    return _xmlCCL;
-  }
+
 
 	/**
-	 * Returns the scope' context condition.
-	 * Creation date: (15.01.2002 14:38:23)
-	 * @return org.cocons.uml.ccl.ContextCondition the scope's context condition.
+	 * Returns the scope set context condition.
+	 *
+	 * @return ContextCondition the scope's context condition.
 	 */
-	public ContextCondition getScopeContextCondition() {
+	public ContextCondition getScopeSetContextCondition() {
 		return _scopeSet;
 	}
 
 	/**
-	* Returns the target context condition.
-	* Creation date: (15.01.2002 14:37:44)
-	* @return org.cocons.uml.ccl.ContextCondition the target context condition.
+	* Returns the target set context condition.
+	*
+	* @return ContextCondition the target context condition.
 	*/
-	public ContextCondition getTargetContextCondition() {
+	public ContextCondition getTargetSetContextCondition() {
 		return _targetSet;
 	}
 
@@ -244,18 +196,69 @@ public class MContextbasedConstraintImpl
 	}
 
 	/**
-	* Sets the scope' context condition.
-	* Creation date: (15.01.2002 14:38:23)
-	*/
-	public void setScopeContextCondition(ContextCondition condition) {
+	 * Sets the context condition for the scope set.
+         *
+	 * @param condition the ContextCondition
+	 */
+	public void setScopeSetContextCondition(ContextCondition condition) {
 		_scopeSet = condition;
 	}
 
 	/**
-	* Sets the target context condition.
-	* Creation date: (15.01.2002 14:37:44)
-	*/
-	public void setTargetContextCondition(ContextCondition condition) {
+	 * Sets the context condition for the target set.
+	 *
+	 * @param condition the ContextCondition
+         */
+	public void setTargetSetContextCondition(ContextCondition condition) {
 		_targetSet = condition;
 	}
+
+        /**
+         * Sets the direct associated elements for the target set.
+         *
+         * @param directElements the vector that contains the direct
+         *        elements for the target set. Each element is a String,
+         *        the name of the direct associated element.
+         */
+        public void setTargetSetDirectElements(Vector directElements) {
+
+        }
+
+        /**
+         * Sets the direct associated elements for the scope set.
+         *
+         * @param directElements the vector that contains the direct
+         *        elements for the scope set. Each element is a String,
+         *        the name of the direct associated element.
+         */
+        public void setScopeSetDirectElements(Vector directElements) {
+        }
+
+        /**
+         * Returns the complete CCL String that defines this CoCon.
+         *
+         * @return the CCL String that defines this CoCon, returns null
+         *         if the CoCon hasn't been initialized yet.
+         */
+        public String toString() {
+          return null;
+        }
+
+        /**
+         * Returns the part of the CCL String that defines the target set.
+         *
+         * @return the CCL String that defines the target set.
+         */
+        public String getTargetSetCCLString() {
+          return null;
+        }
+
+        /**
+         * Returns the part of the CCL String that defines the scope set.
+         *
+         * @return the CCL String that defines the scope set.
+         */
+        public String getScopeSetCCLString() {
+          return null;
+        }
 }
