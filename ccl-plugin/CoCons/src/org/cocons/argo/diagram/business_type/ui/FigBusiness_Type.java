@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.1 2001/11/06 21:15:38 jgusulde Exp $
+// $Id: FigBusiness_Type.java,v 1.2 2001/11/07 11:38:00 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -92,12 +92,12 @@ public class FigBusiness_Type extends FigNodeModelElement {
   public String placeString() { return "new Class"; }
 
   public Object clone() {
-	  FigBusiness_Type figClone = (FigBusiness_Type) super.clone();
-	  Vector v = figClone.getFigs();
-	  figClone._bigPort = (FigRect) v.elementAt(0);
-	  figClone._name = (FigText) v.elementAt(1);
-	  figClone._attr = (FigText) v.elementAt(2);
-	  return figClone;
+    FigBusiness_Type figClone = (FigBusiness_Type) super.clone();
+    Vector v = figClone.getFigs();
+    figClone._bigPort = (FigRect) v.elementAt(0);
+    figClone._name = (FigText) v.elementAt(1);
+    figClone._attr = (FigText) v.elementAt(2);
+    return figClone;
   }
 
   ////////////////////////////////////////////////////////////////
