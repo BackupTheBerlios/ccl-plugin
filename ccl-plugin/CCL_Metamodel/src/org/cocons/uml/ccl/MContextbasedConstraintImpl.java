@@ -135,7 +135,7 @@ public class MContextbasedConstraintImpl
 	 *
 	 * @return Vector the scope's context condition(s).
 	 */
-	public ContextCondition getScopeSetContextCondition() {
+	public Vector getScopeSetContextConditions() {
 		return _scopeSet;
 	}
 
@@ -144,7 +144,7 @@ public class MContextbasedConstraintImpl
 	*
 	* @return Vector the target context condition(s).
 	*/
-	public Vector getTargetSetContextCondition() {
+	public Vector getTargetSetContextConditions() {
 		return _targetSet;
 	}
 
@@ -170,8 +170,8 @@ public class MContextbasedConstraintImpl
           } else {
             // all indirect associations are bound by OR
             _scopeSet = conditions;
-            for (int i=0; i<conditions.size(); i++) {
-              ContextCondition condition = (ContextCondition)conditions.elementAt(i);
+            for (int j=0; j<conditions.size(); j++) {
+              ContextCondition condition = (ContextCondition)conditions.elementAt(j);
               // and get all model elements that belong to this condition
               ModelIterator ite = new ModelIterator();
 	      Vector modelElements = ite.getAllModelElements();
@@ -193,21 +193,21 @@ public class MContextbasedConstraintImpl
          *        elements of type ContextCondition
          */
 	public void setTargetSetContextCondition(Vector conditions) {
-	  if (condition==null) {
+	  if (conditions==null) {
             _targetSetIndirectElements = null;
             _targetSet = null;
 
           } else {
             // all indirect associations are bound by OR
             _targetSet = conditions;
-            for (int i=0; i<conditions.size(); i++) {
-              ContextCondition condition = (ContextCondition)conditions.elementAt(i);
+            for (int j=0; j<conditions.size(); j++) {
+              ContextCondition condition = (ContextCondition)conditions.elementAt(j);
               // and get all model elements that belong to this condition
               ModelIterator ite = new ModelIterator();
 	      Vector modelElements = ite.getAllModelElements();
               for (int i = 0; i < modelElements.size(); i++) {
 	        MModelElement element = (MModelElement) modelElements.elementAt(i);
-                if (_targetSet.isCompliedWith(element)) {
+                if (condition.isCompliedWith(element)) {
                   _targetSetIndirectElements.addElement(element);
                 }
               }
