@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.8 2001/12/07 16:23:58 jgusulde Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.9 2001/12/18 19:22:19 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -205,10 +205,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
         _model.addOwnedElement((MModelElement) node);
     }
 
-    if (node instanceof MClass) {
-      KnownBusinessTypes.add((MClass)node);
-    }
-
     /*if (node instanceof MInterface){
     //System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
         ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
@@ -223,11 +219,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
      if (!_nodes.contains(node)) return;
         _nodes.removeElement(node);
 
-     if (node instanceof MClass) {
-       KnownBusinessTypes.remove((MClass)node);
-     }
-
-        fireNodeRemoved(node);
+     fireNodeRemoved(node);
     }
 
 
