@@ -1,5 +1,5 @@
 Wenn ant gerade funktioniert, obwohl Du diesen Text schon lesen kannst,
-ist alles gut, und Du kannst den Text komplett ignorieren.
+ist alles gut, und Du kannst den Text komplett ignorieren. Glueckwunsch!
 
 
 Wenn aber ant mit einer Fehlermeldung dieser Art abbricht:
