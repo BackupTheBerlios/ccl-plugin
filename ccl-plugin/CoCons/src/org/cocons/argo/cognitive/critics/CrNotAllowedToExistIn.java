@@ -17,12 +17,12 @@ import org.argouml.uml.cognitive.critics.CrUML;
  * @author Stefan Tang
  * @version $Revision 1.1$
  */
-public class CrNotAllowedToExistIn extends CrUML {
+public class CrNotAllowedToExistIn extends CrCoCon {
 
   public CrNotAllowedToExistIn() {
   }
 
-  public boolean predicate2(Object dm, Designer dsgr) {
+  public boolean predicate(Object dm, Designer dsgr) {
     //check if the given object is a context based constraint
     if (!(dm instanceof MContextbasedConstraintImpl)) {
       return NO_PROBLEM;
