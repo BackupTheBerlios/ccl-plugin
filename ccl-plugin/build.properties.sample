@@ -1,14 +1,20 @@
+# build.properties
+#
+# environment-specific configuration of the build process
+
 #######################
 # source directories for the various components of the extended
 # ArgoUML editor
 
 # original ArgoUML sources + our arguml_modifications
 argouml.src.dir=../argouml/argouml/src_new
+
 cocons.src.dir=CoCons/src
 nsuml.src.dir=nsuml/src
 nsuml.gensrc.dir=nsuml/gen
 cclmetamodel.src=CCL_Metamodel/src
 plugin.src.dir=plugin/src
+
 
 #######################
 # lib directory of the ArgoUML CVS repository.
@@ -16,10 +22,15 @@ plugin.src.dir=plugin/src
 # build file at this point, except for the nsuml library,
 # which will be replaced by our modified version located
 # in ${nsuml.src.dir}
+#
+# A file "jdom.jar" containing the jdom DOM library
+# (www.jdom.org) must also be present in this directory because
+# NSUML requires it.
 argouml.lib.dir=../argouml/argouml/lib
 
 # JUnit library
 junit.lib=/usr/local/junit/junit.jar
+
 
 #######################
 # which directory to build the editor into

@@ -4,8 +4,11 @@
 
 Single ANT build file for ArgoUML and the plugin.
 
-Has to be configured in build.properties.
+Must be configured in build.properties.
 
+Parts stolen from ArgoUML's build.xml
+
+author: klischat
 ============================================================================ -->
 
 <project name="argouml" default="usage" basedir=".">
@@ -20,12 +23,21 @@ Has to be configured in build.properties.
     <property name="lastversion" value="0.9.5"/>
   </target>
 
+  <target name="check-for-buildprops">
+    <available file="build.properties"
+               property="has.buildprops" />
+  </target>
+
+  <target name="assert-buildprops-available" depends="check-for-buildprops" unless="has.buildprops">
+    <fail message="build configuration file &quot;build.properties&quot; not found. Create it."/>
+  </target>
+
 
   <!-- =================================================================== -->
   <!-- Initialization target                                               -->
   <!-- =================================================================== -->
 
- <target name="init" depends="setversion">
+ <target name="init" depends="setversion,assert-buildprops-available">
 
     <tstamp/>
 
@@ -35,19 +47,6 @@ Has to be configured in build.properties.
     <property name="year" value="2001"/>
 
     <echo message="------------------- ${Name} ${version} [${year}] ----------------"/>
-
-    <!-- default property values -->
-    <!-- overridable in build.properties -->
-
-    <property name="argouml.src.dir" value="../argouml/argouml/src_new"/>
-    <property name="cocons.src.dir" value="CoCons/src"/>
-    <property name="nsuml.src.dir" value="nsuml/src"/>
-    <property name="plugin.src.dir" value="plugin/src"/>
-
-    <property name="argouml.lib.dir" value="../argouml/argouml/lib"/>
-    <property name="build.dir" value="build"/>
-
-    <!-- end of default property values -->
 
     <property name="ant.xml-libs" value="${ANT_HOME}/lib/jaxp_1_1.jar:${ANT_HOME}/lib/crimson.jar"/>
 
@@ -59,17 +58,6 @@ Has to be configured in build.properties.
     <property name="argo.bin.dir" value="${build.dir}/bin"/>
     <property name="argo.bin.src" value="${build.src}/bin"/>
 -->
-
-    <!-- ===============================================================  -->
-    <!-- Load user properties.                                            -->
-    <!--                                                                  -->
-    <!-- Any property set before this cannot be changed                   -->
-    <!-- Check for argo-specific properties before generic ant properties -->
-    <!-- Since .ant.properties is rather generic, we check for            -->
-    <!-- .argo.ant.properties first, to allow setting properties that     -->
-    <!-- we know will be argo-oriented, then the more generic             -->
-    <!-- .ant.properties, which could be used by other ant buildfiles.    -->
-    <!-- ===============================================================  -->
 
     <property file="${user.home}/.argo.ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
@@ -137,13 +125,19 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   compile      --> compiles the source code to the tree under ${build.dir}"/>
-    <echo message="   run          --> runs ArgoUML from compiled source"/>
-    <echo message="   package      --> generates the ${name}.jar file"/>
-    <echo message="   dist         --> generates ${Name} .tar.gz and .zip files into ${dist.dir}"/>
-    <echo message="   prepare-docs --> writes the documentation to ${docs.dir}"/>
+    <echo message="   compile-plugin      --> compiles the plugin architecture base classes to the tree under ${build.dir}"/>
+    <echo message="   compile-nsuml-cclmeta      --> compiles the modified NSUML library and CCL metamodel to the tree under ${build.dir}"/>
+    <echo message="   compile-argobase      --> compiles the basic argouml.org sources to the tree under ${build.dir}"/>
+    <echo message="                             Our argouml_modifications must be weaved into the source tree beforhand"/>
+    <echo message="   compile-cocons      --> compiles the cocons plugin to the tree under ${build.dir}"/>
+    <echo message="   compile-onestep      --> like &quot;compile&quot;, but does everything in one compiler run."/>
+    <echo message="                            Increased memory consumption, probably slower."/>
+    <echo message="   package      --> packages everything into ${name}.jar"/>
     <echo message="   clean        --> cleans up the ${build.dir} directory"/>
-    <echo message="   distclean    --> cleans up the distribution directory, ${dist.dir}"/>
+    <echo message="   run          --> [not yet functional] runs ArgoUML from compiled source"/>
+    <echo message="   dist         --> [not yet functional] generates ${Name} .tar.gz and .zip files into ${dist.dir}"/>
+    <echo message="   prepare-docs --> [not yet functional] writes the documentation to ${docs.dir}"/>
+    <echo message="   distclean    --> [not yet functional] cleans up the distribution directory, ${dist.dir}"/>
     <echo message="   usage        --> show this message (default)"/>
     <echo message=""/>
     <echo message=" See the comments inside the build.xml file for more details."/>
@@ -155,7 +149,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init">
+  <target name="argobase-prepare" depends="init">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -178,7 +172,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <!-- =================================================================== -->
   <!-- not yet adapted - klischat -->
 
-  <target name="update" depends="prepare">
+  <target name="update" depends="argobase-prepare">
     <echo message="Updating from CVS "/>
     <cvs dest="${src.dir}"
 	 command="update"
@@ -190,7 +184,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <!-- =================================================================== -->
   <!-- not yet adapted - klischat -->
 
-  <target name="generateparser" depends="prepare">
+  <target name="generateparser" depends="argobase-prepare">
     <echo message="Generate parsers"/>
 
     <java fork="yes" classname="antlr.Tool" classpath="${classpath}">
@@ -206,8 +200,8 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <!-- Checks for necessary libraries and correct versions of libraries    -->
   <!-- =================================================================== -->
 
-  <target name="prerequisites"
-          depends="prepare,
+  <target name="argobase-prerequisites"
+          depends="argobase-prepare,
 	           check.gef.localizer,
 		   check.gef,
 		   check.log4j,
@@ -215,25 +209,25 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
   <target name="check.gef"
-          depends="prepare"
+          depends="argobase-prepare"
 	  unless="has.gef">
     <fail message="gef library does not appear to be in the classpath."/>
   </target>
 
   <target name="check.gef.localizer"
-          depends="prepare, check.gef"
+          depends="argobase-prepare, check.gef"
 	  unless="has.gef.localizer">
     <fail message="Please install a more recent version of the gef library (minimum 0.9.5)"/>
   </target>
 
   <target name="check.log4j"
-          depends="prepare"
+          depends="argobase-prepare"
 	  unless="has.log4j">
     <fail message="log4j library does not appear to be in the classpath."/>
   </target>
 
   <target name="check.antlr"
-          depends="prepare"
+          depends="argobase-prepare"
 	  unless="has.antlr">
     <fail message="antlrall library does not appear to be in the classpath."/>
   </target>
@@ -241,11 +235,104 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
-  <!-- <target name="compile" depends="generateparser,prepare"> -->
 
-  <target name="compile" depends="prepare, prerequisites">
 
-    <echo message="Compiling the sources"/>
+  <target name="compile-plugin" depends="init">
+
+    <echo message="Compiling plugin architecture base classes to ${build.dest}"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${plugin.src.dir}" />
+    </javac>
+  </target>
+
+
+  <target name="compile-nsuml-cclmeta" depends="init">
+
+    <echo message="Compiling modified NSUML library and CCL metamodel to ${build.dest}"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${nsuml.src.dir}" />
+      <src path="${nsuml.gensrc.dir}" />
+      <src path="${cclmetamodel.src}" />
+    </javac>
+  </target>
+
+
+  <target name="compile-argobase" depends="argobase-prepare, argobase-prerequisites, compile-nsuml-cclmeta, compile-plugin">
+
+    <echo message="Compiling basic ArgoUML sources to ${build.dest}"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${argouml.src.dir}" />
+    </javac>
+  </target>
+
+
+  <target name="compile-cocons" depends="init, compile-argobase">
+
+    <echo message="Compiling cocons plugin to ${build.dest}"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${cocons.src.dir}" />
+    </javac>
+
+    <!-- copy plugin descriptor (ArgoUML-Plugin.txt) to build destination -->
+    <mkdir dir="${build.dir}/plugins"/>
+    <copy file="${cocons.src.dir}/../plugins/ArgoUML-Plugin.txt" todir="${build.dir}/plugins" />
+
+  </target>
+
+
+  <!-- this target builds the whole thing (ArgoUML + all of our stuff) -->
+  <target name="compile" depends="compile-cocons">
+  </target>
+
+
+  <!-- same thing, but builds everything in one step (one compiler call)
+       This is not recommended, as it requires huge amounts of memory
+       (you'll probably have to submit special arguments like "-Xms100m -Xmx100m"
+       to the VM running Ant to avoid OutOfMemoryErrors).
+  -->
+  <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites">
+
+    <echo message="Compiling all the sources at once"/>
 
     <!-- create directories -->
     <mkdir dir="${build.dest}"/>
@@ -265,6 +352,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
       <src path="${plugin.src.dir}" />
     </javac>
   </target>
+
 
   <!-- =================================================================== -->
   <!-- Creates the class package                                           -->
