@@ -17,6 +17,7 @@ import ru.novosoft.uml.foundation.data_types.MMultiplicity;
 import org.cocons.uml.ccl.comparators.*;
 import org.cocons.uml.ccl.*;
 import org.cocons.uml.ccl.*;
+import org.cocons.uml.ccl.util.ContextConditionFactory;
 
 
 /**
@@ -273,16 +274,34 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     }
   }
 
+  protected void updateModel() {
+    MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+    if (me == null) return;
+    String coconString = _targetText.getText();
+    coconString = coconString + " " + "MUST BE" ;
+    coconString = coconString + " " + "UnreadableBy";
+    coconString = coconString + " " + _scopeText.getText();
+    System.out.println(coconString);
+    ContextConditionFactory ccf = new ContextConditionFactory(coconString);
+    if (ccf.isValid()){
+      me.setCoConType(ccf.getCoConType());
+      me.setTargetSetDirectElements(ccf.getTargetDirectAssoziations());
+      me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
+      me.setTargetSetContextCondition(ccf.getTargetIndirectAssoziations());
+      me.setScopeSetContextCondition(ccf.getScopeIndirectAssoziations());
+    }
+  }
 
+/*
   protected void updateModel() {
     MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
     if (me == null) return;
 
     me.setCoConType("hier muß noch die Checkbox ausgelesen werden...");
 
-    /*
-    * Read the Target-Set Text-Box and commit it to the Owner
-    */
+    //
+    //Read the Target-Set Text-Box and commit it to the Owner
+    //
 
     String targetString = _targetText.getText();
     Vector compoString = new Vector();
@@ -301,12 +320,14 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
     for (int k = 0; k < compoString.size(); k++){
       if (compoString.get(k).toString().equals("or") || compoString.get(k).toString().equals("OR")){
-        act = k;
-        Vector helpString = new Vector();
-        for (int i = act; i < k; i++){
-          helpString.addElement(compoString.get(i));
+        if(compoString.get(k+1).toString().equals("THE") || compoString.get(k+1).toString().equals("ALL")){
+          act = k;
+          Vector helpString = new Vector();
+          for (int i = act; i < k; i++){
+            helpString.addElement(compoString.get(i));
+          }
+          conditionStrings.addElement(helpString);
         }
-        conditionStrings.addElement(helpString);
       }
     }
 
@@ -316,16 +337,14 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
       //if indirect assoziation
       if (actVect.get(0).toString().equals("all") || actVect.get(0).toString().equals("ALL")){
-        ContextCondition indirectCondition = buildConditionTree(actVect);
-        //fill the Vector conditionTrees with all the indirect Assoziation Trees
-        indirectAssoziations.addElement(indirectCondition);
+        ContextCondition indirectConditionTree = buildConditionTree(actVect);
+        indirectAssoziations.addElement(indirectConditionTree);
       }
       //if direct assoziation
       else{
         //me.setTargetSetDirectElements(actVect);
-        for (int j = 0; j < actVect.size(); j++){
-          //fill the Vector directAssoziations with all the direct Elements
-          directAssoziations.addElement( actVect.get(j));
+        if(actVect.get(0).toString().equals("the") || actVect.get(0).toString().equals("THE")){
+          directAssoziations.addElement(actVect.getClass(2));
         }
       }
     }
@@ -335,49 +354,120 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     me.setTargetSetDirectElements(directAssoziations);
     //The indirect Assoziations must be a Tree of the type ContextCondition:
 
-    //... to Do: Built Tree out of the conditions and commit
+    //if there are no indirect assoziations, setTargetSetDirectElements has the parameter null
+    if (indirectAssoziations.size()<1){
+      me.setTargetSetDirectElements(null);
+    }
+    if (indirectAssoziations.size()==1){
+      me.setTargetSetDirectElements(((ContextCondition)indirectAssoziations.get(0)));
+    }
+    if (indirectAssoziations.size()>1){
+      ContextCondition target = (ContextCondition) indirectAssoziations.get(0);
+      indirectAssoziations.removeElementAt(0);
+      target = concatenateContextCondition(target, indirectAssoziations);
+      me.setTargetSetDirectElements(target);
+    }
 
 
-   /*
-    * Read the Scope-Set Text-Box and commit it to the Owner
-    */
+    //
+    // Read the Scope-Set Text-Box and commit it to the Owner
+    //
 
     //Needs more work
 
-    //falls keine indirekte Assoziation besteht, wird als Parameter "null" übergeben
   }
 
-
+  //build a ContextCondition Tree out of a description like:
+  //ALL components WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
   protected ContextCondition buildConditionTree(Vector compoString){
 
     ContextConditionImpl target = new ContextConditionImpl();
     ComparatorFactoryImpl comparatorFactory = new ComparatorFactoryImpl();
+    Vector theComparisons = new Vector();
 
     MMultiplicity range = new MMultiplicity( (compoString.get(0)).toString());
     String baseClass = (compoString.get(1)).toString();
-
-    ComparisonImpl b = new ComparisonImpl();
-    String condition = "";
-    String value = "";
-    for (int i = 3; i < compoString.size(); i++) {
-      if (((compoString.get(i)).toString()).equals("=") ||((compoString.get(i)).toString()).equals("EQUALS")) {
-        b.setComparator(comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL));
-        for(int j = 3; j < i; j++){
-            condition = condition + compoString.get(j) + " ";
-        }
-        for(int h = i+1; h < compoString.size(); h++){
-          value =value + compoString.get(h) + " ";
-        }
+    int i = 3;
+    for (int l = 3; (compoString.get(l)).toString.equals("OR")|| l < compoString.size(); l++){
+      Vector firstVect = new Vector();
+      for(; i < l; i++){
+        firstVect.addElement(compoString.get(i));
       }
+      Comparison comparison = simpleComparison(firstVect);
+      theComparisons.addElement(comparison);
+      i = l + 1;
     }
-
-    target.setRange(range);
-    target.setBaseClass(baseClass);
-    target.setComparison(b);
+    target = buildTreeRecursive(target,theComparisons, range, baseClass);
     return target;
   }
 
+  //helps the method buildConditionTree to compute a ContextConditionTree
+  protected ContextConditionImpl buildTreeRecursive (ContextCondition target, Vector theComparisons, MMultiplicity range, String baseClass){
 
+      LogicFactoryImpl lf = new LogicFactoryImpl();
+      LogicOperation logOp = lf.produceLogicOperationWithType(LogicFactory.OR);
+
+      if(theComparisons.size()>1){
+        ContextCondition firstChild = new ContextConditionImpl();
+        firstChild.setRange(range);
+        firstChild.setBaseClass(baseClass);
+        firstChild.setComparison(theComparisons.get(0));
+        theComparisons.removeElementAt(0);
+        target.setFirstChild(firstChild);
+        Condition secondChild = buildTreeRecursive (secondChild, theComparisons, range, baseClass);
+        target.setSecondChild(secondChild);
+      }
+      if(theComparisons.size()==1){
+        target.setRange(range);
+        target.setBaseClass(baseClass);
+        target.setComparison(theComparisons.get(0));
+        return target;
+      }
+      if(theComparisons.size()==0){
+        return target;
+        }
+      else System.out.println("Function buildTreeRecursive: theComparisons.size() < 0");
+  }
+
+  //builds a ContextConditionTree out of several ContextConditionTrees
+  //the original description was like the following:
+  //ALL type1 WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
+  //OR
+  //ALL type2 WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
+  //OR....
+  protected ContextConditionImpl concatenateContextCondition(ContextConditionImpl target, Vector vect){
+    if (vect.size()>0){
+      ContextCondition newRoot = new ContextConditionImpl();
+      newRoot.setFirstChild(target);
+      newRoot.setSecondChild(vect.get(0);
+      vect.removeElementAt(0);
+      concatenateContextCondition(newRoot, vect);
+    }
+    else return target;
+  }
+
+  //Vector vect has the form: tag comparator value
+  protected  Comparison simpleComparison(Vector vect){
+    ComparisonImpl comparison = new ComparisonImpl();
+    String condition = "";
+    String value = "";
+    for (int i = 0; i < vect.size(); i++) {
+      if (((vect.get(i)).toString()).equals("=") ||((vect.get(i)).toString()).equals("EQUALS")) {
+        comparison.setComparator(comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL));
+        for(j=0; j < i; j++){
+          condition = condition + compoString.get(j) + " ";
+        }
+        for(int h = i+1; h < vect.size(); h++){
+           value =value + compoString.get(h) + " ";
+        }
+      }
+    }
+    comparison.setTag(condition);
+    comparison.setValue(value);
+    return comparison;
+  }
+
+  */
 
   /*
   *CalculateSetBoxes()
@@ -460,6 +550,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       Rectangle newBounds = getBounds();
       updateEdges();
       firePropChange("bounds", oldBounds, newBounds);
+      updateModel();
 
   }
 
