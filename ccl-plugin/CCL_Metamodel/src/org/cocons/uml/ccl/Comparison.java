@@ -5,7 +5,7 @@ import org.cocons.uml.ccl.context_property1_3.*;
 import ru.novosoft.uml.foundation.data_types.MMultiplicity;
 import ru.novosoft.uml.MBase;
 
-public interface Comparison {
+import ru.novosoft.uml.foundation.core.MModelElement;public interface Comparison {
 
 	/**
 	 * Returns the tag (variable) from this condition.
@@ -14,13 +14,7 @@ public interface Comparison {
 
 
 
-	/**
-	 * Checks whether the given value lies within this comparison.
-	 * Creation date: (21.12.2001 00:36:03)
-	 * @return boolean true, if the elementValue compared to the contained values is satisfactory.
-	 * @param elementValue MContextPropertyValue a tagged value contained by a ccl word.
-	 */
-	boolean covers(MContextPropertyValue elementValue);
+
 
 	/**
 	 * Returns a Comparator this comparison uses to compare values with its own.
@@ -36,6 +30,12 @@ public interface Comparison {
 	*/
 	boolean isNegated();
 	/**
+	 * Checks whether the given value lies within this comparison.
+	 * Creation date: (21.12.2001 00:36:03)
+	 * @return boolean true, if the elementValue compared to the contained values is satisfactory.
+	 * @param elementValue MContextPropertyValue a tagged value contained by a ccl word.
+	 */
+	boolean covers(MModelElement elementValue);	/**
 	* Returns the tagged value (constant) from this condition.
 	*/
 	public Object getValue();}

@@ -67,7 +67,7 @@ public class ConditionImpl implements Condition {
 		this();
 		this.setComparison(comp);
 	}
-    
+	
 	/**
 	 * Constructs this Condition as a node. A conditional node consists of an logic operation
 	 * and two conditonal childs.
@@ -94,15 +94,8 @@ public class ConditionImpl implements Condition {
 
 		try {
 			if (this.isLeaf()) {
-				Object[] taggedValues = modelElement.getTaggedValues().toArray();
-				for (int i = 0; i < taggedValues.length; i++) {
-					if (taggedValues[i] instanceof MContextPropertyValue) {
-						// now we have one of our yellow pinups.
-						// Lets see if it's in our comparison!?!
-						comply = this.getComparison().covers((MContextPropertyValue) taggedValues[i]);
-
-					}
-				}
+				// see if the comparison covers the model elment
+				comply = this.getComparison().covers(modelElement);
 
 			} else {
 				// Step recursivly down the conditionial tree relating the children with our logical operation.
@@ -381,5 +374,5 @@ public class ConditionImpl implements Condition {
 		return condition;
 	}
 
-    
+	
 }

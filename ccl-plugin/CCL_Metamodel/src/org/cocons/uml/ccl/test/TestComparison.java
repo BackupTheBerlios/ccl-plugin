@@ -14,7 +14,7 @@ import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
 import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl; 
 
-import org.cocons.uml.ccl.ValueComparison;/**
+import org.cocons.uml.ccl.ValueComparison;import ru.novosoft.uml.foundation.core.MClassImpl;/**
 * Tests the ComparisonImpl class. 
 * Creation date: (26.12.2001 16:38:43)
 * @author: Fadi Chabarek
@@ -62,6 +62,7 @@ public class TestComparison extends junit.framework.TestCase {
 		String elementTag = String.valueOf(Math.random());
 
 		// tagged value
+		MClassImpl cl = new MClassImpl();
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
 
@@ -72,6 +73,8 @@ public class TestComparison extends junit.framework.TestCase {
 		tag.setTag(elementTag);
 		value.setContextPropertyTag(tag);
 		value.setValue(elementValue);
+
+		cl.addTaggedValue(value);
 
 		// comparison
 		ValueComparison comparison = new ValueComparison();
@@ -91,7 +94,7 @@ public class TestComparison extends junit.framework.TestCase {
 			compared = compared && comparisonTag.equals(elementTag);
 
 			comparison.setComparator(comparators[i]);
-			covered = comparison.covers(value);
+			covered = comparison.covers(cl);
 
 			assertTrue("The compared and covered should be the same for the comparison", compared == covered);
 
@@ -115,6 +118,7 @@ public class TestComparison extends junit.framework.TestCase {
 		
 			*/
 
+		MClassImpl cl = new MClassImpl();
 		ValueComparison comparison = new ValueComparison();
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
@@ -124,6 +128,8 @@ public class TestComparison extends junit.framework.TestCase {
 		tag.addConstraint(con);
 
 		value.setContextPropertyTag(tag);
+
+		cl.addTaggedValue(value);
 
 		//a)
 		try {
@@ -143,7 +149,7 @@ public class TestComparison extends junit.framework.TestCase {
 
 			comparison.setValue(null);
 
-			comparison.covers(value);
+			comparison.covers(cl);
 		} catch (NullPointerException e) {
 			fail("NullPointerException caught with comparison value = null");
 		}
@@ -153,7 +159,7 @@ public class TestComparison extends junit.framework.TestCase {
 			comparison.setValue("no");
 			comparison.setTag(null);
 
-			comparison.covers(value);
+			comparison.covers(cl);
 
 		} catch (NullPointerException e) {
 			fail("NullPointerException caught with comparison tag = null");
@@ -163,7 +169,7 @@ public class TestComparison extends junit.framework.TestCase {
 			comparison.setTag("bla");
 			comparison.setComparator(null);
 
-			comparison.covers(value);
+			comparison.covers(cl);
 
 		} catch (NullPointerException e) {
 			fail("NullPointerException caught with comparison tag + value = null");
@@ -185,6 +191,7 @@ public class TestComparison extends junit.framework.TestCase {
 		
 			*/
 
+		MClassImpl cl = new MClassImpl();
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
 
@@ -193,6 +200,8 @@ public class TestComparison extends junit.framework.TestCase {
 		tag.addConstraint(con);
 
 		value.setContextPropertyTag(tag);
+		
+		cl.addTaggedValue(value);
 
 		Comparator equation = comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL);
 
@@ -228,7 +237,7 @@ public class TestComparison extends junit.framework.TestCase {
 				+ equalValue
 				+ " : "
 				+ equalTag, 
-			comparison.covers(value)); 
+			comparison.covers(cl)); 
 
 		//b
 		value.getContextPropertyTag().setTag(String.valueOf(unequalTag));
@@ -241,7 +250,7 @@ public class TestComparison extends junit.framework.TestCase {
 				+ equalValue
 				+ " : "
 				+ equalTag, 
-			!comparison.covers(value)); 
+			!comparison.covers(cl)); 
 
 		//c
 		value.getContextPropertyTag().setTag(String.valueOf(equalTag));
@@ -255,7 +264,7 @@ public class TestComparison extends junit.framework.TestCase {
 				+ equalValue
 				+ " : "
 				+ equalTag, 
-			!comparison.covers(value)); 
+			!comparison.covers(cl)); 
 
 		//d
 		value.getContextPropertyTag().setTag(String.valueOf(unequalTag));
@@ -269,7 +278,7 @@ public class TestComparison extends junit.framework.TestCase {
 				+ equalValue
 				+ " : "
 				+ equalTag, 
-			!comparison.covers(value)); 
+			!comparison.covers(cl)); 
 
 	}
 }
