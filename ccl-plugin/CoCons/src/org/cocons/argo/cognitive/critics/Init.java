@@ -19,7 +19,7 @@ import ru.novosoft.uml.foundation.core.MModelElementImpl;
 
 public class Init implements Runnable {
 
-  public static Critic readabilityCritic = new CrConstrainedReadability();
+  public static Critic unReadableByCritic = new CrUnReadableBy();
   public static Critic onlyReadableByCritic = new CrOnlyReadableBy();
 
   /*
@@ -37,7 +37,7 @@ public class Init implements Runnable {
 
     java.lang.Class modelElementCls = MModelElementImpl.class;
 
-    Agency.register(readabilityCritic, modelElementCls);
+    Agency.register(unReadableByCritic, modelElementCls);
     Agency.register(onlyReadableByCritic, modelElementCls);
 
   }
