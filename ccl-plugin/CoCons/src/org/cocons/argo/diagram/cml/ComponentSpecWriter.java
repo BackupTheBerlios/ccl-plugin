@@ -49,7 +49,7 @@ public class ComponentSpecWriter
    // Main method
 
    public void write()
-      throws Exception
+       throws MarshalException, ValidationException, IOException
    {
         ComponentSpec cs = new ComponentSpec();
 
@@ -112,34 +112,33 @@ public class ComponentSpecWriter
 
 
    protected void buildProperties( ComponentSpec cs )
-   {
-      // example stuff - active because they're required fields
-		Properties props = new Properties();
-		cs.setProperties( props );
-		//		System.out.println("TV");
-		Iterator it = _component.getTaggedValues().iterator();
-		while( it.hasNext() )
-			{
-				Object o = it.next();
-				//				System.out.println("  " + o.getClass() );
+    {
+       Properties props = new Properties();
+       cs.setProperties( props );
+       //		System.out.println("TV");
+       Iterator it = _component.getTaggedValues().iterator();
+       while( it.hasNext() )
+       {
+           Object o = it.next();
 
-				if( o instanceof MContextPropertyValue )
-					{
-						MContextPropertyValue pv = (MContextPropertyValue)o;
+           if( o instanceof MContextPropertyValue )
+           {
+               MContextPropertyValue pv = (MContextPropertyValue)o;
 
-						Property prop=new Property();
-						props.addProperty( prop );
+               Property prop=new Property();
+               props.addProperty( prop );
 
-						prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
-						prop.setKey( pv.getTag() );
-						prop.addValue( pv.getValue() );
-// 						MContextPropertyValue pv = (MContextPropertyValue)o;
-// 						MContextPropertyTag t = pv.getContextPropertyTag();
-// 						System.out.println("  ++ " + t.getTag() );
-// 						System.out.println("  -- " + pv.getTag() );
-// 						System.out.println("     " + pv.getValue() );
-					}
-			}
+               prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
+               prop.setKey( pv.getTag() );
+               prop.addValue( pv.getValue() );
+           }
+       }
+
+       Property prop=new Property();
+       props.addProperty( prop );
+
+       prop.setKey( "development-status" );
+       prop.addValue( "initial" );
    }
 
 
@@ -273,13 +272,26 @@ public class ComponentSpecWriter
         MParameter mpar = (MParameter)it.next();
         if (mpar.getName().equals("return")) {
           MethodReturnTypeRef ret = new MethodReturnTypeRef();
-          ret.setContent(mpar.getType().getName());
+
+          if (mpar.getType() == null) {
+              //TODO: this should fail
+              ret.setContent("[none]");
+          }
+          else {
+              ret.setContent(mpar.getType().getName());
+          }
           m.setMethodReturnTypeRef(ret);
         }
         else {
           MethodParameter par = new MethodParameter();
           par.setParameterName(mpar.getName());
-          par.setParameterTypeRef(mpar.getType().getName());
+          if (mpar.getType() == null) {
+              //TODO: this should fail
+              par.setParameterTypeRef("[none]");
+          }
+          else {
+              par.setParameterTypeRef(mpar.getType().getName());
+          }
           pars.addMethodParameter(par);
         }
       }
@@ -287,15 +299,6 @@ public class ComponentSpecWriter
       return m;
    }
 
-
-    /*
-    private static TypeAttr mAttrToCMLAttr(MAttribute mattr) {
-        TypeAttr result = new TypeAttr();
-        result.setAttrName(mattr.getName());
-        result.setAttrTypeRef(mattr.getType().getName());
-        return result;
-    }
-    */
 
     private static Type mTypeToCMLType(MClass mtype) {
         Type type = new Type();
