@@ -20,8 +20,6 @@ public class ComparisonImpl implements Comparison {
 	 */
 	private String _value;
 
-
-
 	/**
 	 * Constructs a comparison implementation.
 	 */
@@ -53,8 +51,6 @@ public class ComparisonImpl implements Comparison {
 		return covers;
 	}
 
-
-
 	/**
 	 * Returns the tag (variable) from this condition.
 	 */
@@ -69,13 +65,11 @@ public class ComparisonImpl implements Comparison {
 		return this._value;
 	}
 
-
-
 	/**
-		* Insert the method's description here.
-		* Creation date: (26.12.2001 14:20:30)
-		* @param tag java.lang.String
-		*/
+	 * Sets the tag (variable) of this comparison.
+	 * Creation date: (26.12.2001 14:20:30)
+	 * @param tag java.lang.String the tag (variable)
+	 */
 	public void setTag(String tag) {
 		this._tag = tag;
 	}
@@ -97,21 +91,26 @@ public class ComparisonImpl implements Comparison {
 
 		return this.getTag() + " " + this.getComparator() + " " + this.getValue();
 	}
+
 	/**
 	 * The comparison's comparison between other tags and its own.
 	 */
-	private Comparator _comparator;	/**
-	 * Returns a Comparison this comparison uses to compare values with its own.
-	 * Creation date: (26.12.2001 14:20:30)
-	 * @return org.cocons.uml.ccl.Comparison the comparison.
-	 */
+	private Comparator _comparator; 
+	/**
+	* Returns a Comparison this comparison uses to compare values with its own.
+	* Creation date: (26.12.2001 14:20:30)
+	* @return org.cocons.uml.ccl.Comparison the comparison.
+	*/
 	public Comparator getComparator() {
 		return this._comparator;
-	}	/**
+	}
+
+	/**
 	 * Sets the comparison used to compare values with the boudary value.
 	 * Creation date: (26.12.2001 14:22:19)
 	 * @param newComparison org.cocons.uml.ccl.Comparison the comparison.
 	 */
 	public void setComparator(Comparator newComparator) {
 		_comparator = newComparator;
-	}}
+	}
+}
