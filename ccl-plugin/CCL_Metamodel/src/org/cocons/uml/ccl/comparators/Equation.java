@@ -29,30 +29,33 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 	 * @return java.lang.String the description.
 	 */
 	public String toString() {
-		return "EQUAL";
+		return "EQUALS";
 	}
-/**
- * bla.
- * Creation date: (27.12.2001 15:45:50)
- * @return java.lang.Object
- */
-public Object clone() {
-	return (Object) new Equation();
-}/**
- * Insert the method's description here.
- * Creation date: (27.12.2001 16:00:12)
- * @return boolean
- * @param obj java.lang.Object
- */  
-public boolean equals(Object obj) {
+	/**
+	 * clones this object.
+	 * Creation date: (27.12.2001 15:45:50)
+	 * @return java.lang.Object the clone.
+	 */
+	public Object clone() {
+		return (Object) new Equation();
+	} 
+    
+	/**
+	* Checks if another object is equal to this one.
+	* Creation date: (27.12.2001 16:00:12)
+	* @return boolean if it's equal.
+	* @param obj java.lang.Object the other object.
+	*/
+	public boolean equals(Object obj) {
 
-	boolean equals = false;
+		boolean equals = false;
 
-	if(obj instanceof Equation) {
-		if(((Equation) obj).compare("test", "test") && obj.toString() == this.toString()) {
-			equals = true;
+		if (obj instanceof Equation) {
+			if (((Equation) obj).compare("test", "test") && obj.toString() == this.toString()) {
+				equals = true;
+			}
 		}
-	}
 
-	return equals;
-}}
+		return equals;
+	}
+}
