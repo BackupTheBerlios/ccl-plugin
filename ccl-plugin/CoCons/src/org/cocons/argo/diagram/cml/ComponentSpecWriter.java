@@ -129,27 +129,23 @@ public class ComponentSpecWriter
                props.addProperty( prop );
                prop.setKey( "kind" );
                prop.addValue( "ContextPropertyValue" );
-               prop.setDescription( CONTEXT_PROPERTY_DESCRIPTION );
 
+               //TODO: it is necessary here to use the -Impl classes
+               //  instead of their corresponding interfaces, as the
+               //  interfaces seem to lack many of the essential methods
+               //  needed to traverse the structure of the
+               //  ContextPropertyValues/-Tags
                MContextPropertyValueImpl value = (MContextPropertyValueImpl)o;
                MContextPropertyTagImpl tag = (MContextPropertyTagImpl)value.getContextPropertyTag();
+
+               prop.setDescription( "valid values: "+tag.getConstraintBody() );
 
                Constraints constr = new Constraints();
                prop.setConstraints(constr);
 
                prop = new Property();
                constr.addProperty( prop );
-               prop.setKey( "type" );
-               prop.addValue( tag.getValidValuesType() );
-
-               prop = new Property();
-               constr.addProperty( prop );
-               prop.setKey( "name" );
-               prop.addValue( tag.getName() );
-
-               prop = new Property();
-               constr.addProperty( prop );
-               prop.setKey( "valid-values" );
+               prop.setKey( tag.getName() );
                for (Iterator vvs = getValidCtxPropValues(value,tag).iterator(); vvs.hasNext();) {
                    prop.addValue((String)vvs.next());
                }
