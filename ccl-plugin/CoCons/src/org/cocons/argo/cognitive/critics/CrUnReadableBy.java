@@ -4,6 +4,8 @@ package org.cocons.argo.cognitive.critics;
 import org.argouml.cognitive.critics.Critic;
 import org.argouml.cognitive.Designer;
 
+import ru.novosoft.uml.foundation.core.MModelElement;
+
 import java.util.Vector;
 
 import org.cocons.uml.ccl.MContextbasedConstraint;
@@ -64,14 +66,23 @@ public class CrUnReadableBy extends CrCoCon {
 
   public boolean predicate(Object dm, Designer dsgr) {
 
-    MContextbasedConstraint cocon = null;
+    /*MContextbasedConstraint cocon = null;
 
     if(!(dm instanceof MContextbasedConstraint)) {
       return NO_PROBLEM;
     } else {
         cocon = (MContextbasedConstraint) dm;
 
-    }
+        Vector constrainedElements =
+          cocon.getScopeSet().getConditionedModelElements();
+
+        Vector scopedElements =
+          cocon.getConstrainedSet().getConditionedModelElements();
+
+        MModelElement modelElement = null;
+
+
+    }*/
     return false;
   }
 

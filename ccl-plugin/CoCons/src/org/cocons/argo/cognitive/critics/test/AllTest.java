@@ -26,7 +26,7 @@ public class AllTest {
    */
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestCrConstrainedReadability.class);
+    suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestCrUnReadableBy.class);
     //suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestXXX.class);
     return suite;
   }
