@@ -23,8 +23,8 @@ public class Init implements Runnable {
    * Constructs an Initilizer
    */
   public Init() {
-    super();
-  }
+	super();
+  }  
 
 
   /*
@@ -32,8 +32,9 @@ public class Init implements Runnable {
    */
   public void run() {
   java.lang.Class cls = MModelElementImpl.class;
-    //Agency.register(new CrSetToValueIn(), cls);
-    //Agency.register(new CrNotAllowedToExistIn(), cls);
-    Agency.register(new CrNotTheSameAs(), cls);
-  }
+	//Agency.register(new CrSetToValueIn(), cls);
+	//Agency.register(new CrNotAllowedToExistIn(), cls);
+	Agency.register(new CrNotTheSameAs(), cls);
+	Agency.register(new CrTheSameAs(), cls);
+  }    
 }
