@@ -1,10 +1,17 @@
 package org.cocons.argo.ui;
 
+import java.awt.*;
+import javax.swing.*;
+import ru.novosoft.uml.foundation.core.*;
+import ru.novosoft.uml.foundation.data_types.*;
+import ru.novosoft.uml.foundation.extension_mechanisms.*;
+import org.argouml.uml.ui.*;
+
 import javax.swing.*;
 
 import org.tigris.gef.util.*;
 
-import org.argouml.uml.ui.foundation.core.PropPanelModelElement;
+import org.argouml.uml.ui.foundation.core.*;
 import org.argouml.uml.ui.*;
 
 /**
@@ -16,12 +23,12 @@ import org.argouml.uml.ui.*;
  * @version 1.0
  */
 
-public class PropPanelBusiness_Type extends PropPanelModelElement {
+public class PropPanelBusiness_Type extends PropPanelClassifier {
 
-  protected static ImageIcon _business_TypeIcon = ResourceLoader.lookupIconResource("Class");
+  protected static ImageIcon _business_TypeIcon = ResourceLoader.lookupIconResource("Business_Type");
 
   public PropPanelBusiness_Type() {
-    super("Class", _business_TypeIcon, 3);
+    super("Business Type", _business_TypeIcon, 3);
 
     addCaption("Name:",1,0,0);
     addField(nameField,1,0,0);
@@ -32,9 +39,22 @@ public class PropPanelBusiness_Type extends PropPanelModelElement {
     addCaption("Namespace:",3,0,0);
     addField(namespaceScroll,3,0,0);
 
+    addCaption("Extends:",4,0,0);
+    addField(extendsScroll,4,0,0);
+
+    addCaption("Associations:",0,1,0);
+    addField(connectScroll,0,1,0.5);
+
+    addCaption("Attributes:",1,2,0.4);
+    addField(attrScroll,1,2,0.4);
+
+    new PropPanelButton(this,buttonPanel,_navUpIcon,localize("Go up"),"navigateNamespace",null);
+    new PropPanelButton(this,buttonPanel,_navBackIcon,localize("Go back"),"navigateBackAction","isNavigateBackEnabled");
+    new PropPanelButton(this,buttonPanel,_navForwardIcon,localize("Go forward"),"navigateForwardAction","isNavigateForwardEnabled");
+    new PropPanelButton(this,buttonPanel,_addAttrIcon,localize("Add attribute"),"addAttribute",null);
   }
 
   protected boolean isAcceptibleBaseMetaClass(String baseClass) {
-      return baseClass.equals("Class");
+      return baseClass.equals("Business_Type");
   }
 }
