@@ -15,6 +15,18 @@ import org.cocons.uml.*;
 
 public interface MContextCondition extends MBase {
   /**
+   * Gets the value of the attribute BaseClass.
+   *
+   * @return current value of the BaseClass attribute
+   */
+  public String getBaseClass();
+  /**  
+   * Sets the value of the attribute BaseClass.
+   *
+   * @param new value of the BaseClass attribute
+   */
+  public void setBaseClass( String __arg );
+  /**
    * Gets the value of the attribute Query.
    *
    * @return current value of the Query attribute

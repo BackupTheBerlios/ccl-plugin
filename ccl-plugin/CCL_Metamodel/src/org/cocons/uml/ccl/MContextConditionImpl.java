@@ -30,6 +30,33 @@ public class MContextConditionImpl extends MBaseImpl
 
   // ///////////////////////////
   //
+  //   Attribute baseClass
+  //
+  // ///////////////////////////
+  protected String _baseClass;
+
+  /**
+   * Gets the value of the attribute BaseClass.
+   *
+   * @return current value of the BaseClass attribute
+   */
+  public String getBaseClass()
+  {
+     return _baseClass;
+  }
+
+  /**
+   * Sets the value of the attribute BaseClass.
+   *
+   * @param new value of the BaseClass attribute
+   */
+  public void setBaseClass( String __arg )
+  {
+    _baseClass = __arg;
+  }
+
+  // ///////////////////////////
+  //
   //   Attribute query
   //
   // ///////////////////////////
