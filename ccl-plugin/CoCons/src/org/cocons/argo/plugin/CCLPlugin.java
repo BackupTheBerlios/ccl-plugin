@@ -30,6 +30,7 @@ public class CCLPlugin implements ArgoPlugin {
 
     pla.add(new org.cocons.argo.diagram.Init());
     pla.add(new org.cocons.argo.ui.Init());
+    pla.add(new org.cocons.argo.critics.Init());
     return pla;
   }
 
