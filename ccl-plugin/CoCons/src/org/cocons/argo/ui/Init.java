@@ -23,6 +23,5 @@ public class Init implements Runnable {
     ProjectBrowser pb = ProjectBrowser.TheInstance;
     pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
     pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
-    pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelBusiness_Type());
   }
 }
