@@ -16,4 +16,9 @@ public interface CoConTypes {
          * Describing the NotAllowedToExistIn CoCon type.
          */
         public static final String NOT_ALLOWED_TO_EXIST_IN = "NotAllowedToExistIn";
+
+        /**
+         * Describing the NotTheSameAs CoCon type.
+         */
+        public static final String NOT_THE_SAME_AS_TYPE = "NotTheSameAs";
 }
