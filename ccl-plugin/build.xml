@@ -1,0 +1,436 @@
+<?xml version="1.0"?>
+
+<!-- ===========================================================================
+
+Single ANT build file for ArgoUML and the plugin.
+
+Has to be configured in build.properties.
+
+============================================================================ -->
+
+<project name="argouml" default="usage" basedir=".">
+
+  <!-- =================================================================== -->
+  <!-- Global initialization                                               -->
+  <!-- =================================================================== -->
+
+  <target name="setversion">
+    <!-- These cannot be changed in .ant.properties -->
+    <property name="nextversion" value="0.9.6"/>
+    <property name="lastversion" value="0.9.5"/>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+
+ <target name="init" depends="setversion">
+
+    <tstamp/>
+
+    <property name="Name" value="ArgoUML"/>
+    <property name="name" value="argouml"/>
+    <property name="version" value="${lastversion}-${DSTAMP}-${TSTAMP}"/>
+    <property name="year" value="2001"/>
+
+    <echo message="------------------- ${Name} ${version} [${year}] ----------------"/>
+
+    <!-- default property values -->
+    <!-- overridable in build.properties -->
+
+    <property name="argouml.src.dir" value="../argouml/argouml/src_new"/>
+    <property name="cocons.src.dir" value="CoCons/src"/>
+    <property name="nsuml.src.dir" value="nsuml/src"/>
+    <property name="plugin.src.dir" value="plugin/src"/>
+
+    <property name="argouml.lib.dir" value="../argouml/argouml/lib"/>
+    <property name="build.dir" value="build"/>
+
+    <!-- end of default property values -->
+
+    <property name="ant.xml-libs" value="${ANT_HOME}/lib/jaxp_1_1.jar:${ANT_HOME}/lib/crimson.jar"/>
+
+<!--
+    <property name="dist.dir" value="${build.dir}/dist"/>
+    <property name="docs.dir" value="${build.dir}/doc"/>
+    <property name="snapshot.dir" value="../www/snapshots"/>
+
+    <property name="argo.bin.dir" value="${build.dir}/bin"/>
+    <property name="argo.bin.src" value="${build.src}/bin"/>
+-->
+
+    <!-- ===============================================================  -->
+    <!-- Load user properties.                                            -->
+    <!--                                                                  -->
+    <!-- Any property set before this cannot be changed                   -->
+    <!-- Check for argo-specific properties before generic ant properties -->
+    <!-- Since .ant.properties is rather generic, we check for            -->
+    <!-- .argo.ant.properties first, to allow setting properties that     -->
+    <!-- we know will be argo-oriented, then the more generic             -->
+    <!-- .ant.properties, which could be used by other ant buildfiles.    -->
+    <!-- ===============================================================  -->
+
+    <property file="${user.home}/.argo.ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="build.properties"/>
+
+    <property name="build.dest" value="${build.dir}/classes"/>
+
+    <property name="classpath"
+value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${junit.lib}"/>
+
+    <!-- The following can be set in .argo.ant.properties                 -->
+    <!--     or .ant.properties to some other value                       -->
+    <property name="debug" value="off"/>
+    <property name="optimize" value="on"/>
+    <property name="deprecation" value="off"/>
+
+    <property name="packages" value="org.*"/>
+    <property name="manifest" value="${argouml.src.dir}/org/argouml.mf"/>
+
+    <property name="build.src" value="${argouml.src.dir}"/>
+
+
+    <!-- developer.lib.dir is the developer snapshot directory.           -->
+    <!-- If it is not set, it defaults to build.dir, and "build install"  -->
+    <!-- will not do anything.                                            -->
+    <property name="developer.lib.dir" value="${build.dir}"/>
+
+    <!-- developer.bin.dir is the developer snapshot directory.           -->
+    <!-- If it is not set, it defaults to argo.bin.dir, and               -->
+    <!-- "build install"  will not do anything.                           -->
+    <property name="developer.bin.dir" value="${argo.bin.dir}"/>
+
+    <property name="log4j.javadoc.link"
+              value="http://jakarta.apache.org/log4j/docs/api"/>
+    <property name="jdk.javadoc.link"
+              value="http://java.sun.com/products/jdk/1.2/docs/api"/>
+
+
+    <available classname="org.tigris.gef.base.Globals"
+	       classpath="${classpath}"
+               property="has.gef" />
+    <available classname="org.tigris.gef.util.Localizer"
+	       classpath="${classpath}"
+               property="has.gef.localizer" />
+    <available classname="org.apache.log4j.Category"
+	       classpath="${classpath}"
+               property="has.log4j" />
+    <available classname="antlr.ANTLRException"
+	       classpath="${classpath}"
+               property="has.antlr" />
+
+  </target>
+
+  <!-- Note this file can only make Ant display values set in the file correctly, -->
+  <!-- but external values in the environment or properties file will be operational.  -->
+
+  <!-- =================================================================== -->
+  <!-- Help on usage                                                       -->
+  <!-- =================================================================== -->
+  <target name="usage" depends="init">
+    <echo message=""/>
+    <echo message=""/>
+    <echo message="${Name} Build file"/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=" available targets are:"/>
+    <echo message=""/>
+    <echo message="   compile      --> compiles the source code to the tree under ${build.dir}"/>
+    <echo message="   run          --> runs ArgoUML from compiled source"/>
+    <echo message="   package      --> generates the ${name}.jar file"/>
+    <echo message="   dist         --> generates ${Name} .tar.gz and .zip files into ${dist.dir}"/>
+    <echo message="   prepare-docs --> writes the documentation to ${docs.dir}"/>
+    <echo message="   clean        --> cleans up the ${build.dir} directory"/>
+    <echo message="   distclean    --> cleans up the distribution directory, ${dist.dir}"/>
+    <echo message="   usage        --> show this message (default)"/>
+    <echo message=""/>
+    <echo message=" See the comments inside the build.xml file for more details."/>
+    <echo message="-------------------------------------------------------------"/>
+    <echo message=""/>
+    <echo message=""/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="init">
+    <!-- create directories -->
+    <echo message="Preparing the build directories"/>
+    <mkdir dir="${build.dir}"/>
+    <copy todir="${build.dest}/org/argouml/Images">
+      <fileset dir="${argouml.src.dir}/org/argouml/Images" includes="**/**" excludes="CVS/**" />
+    </copy>
+    <copy todir="${build.dest}/org/argouml/resource">
+      <fileset dir="${argouml.src.dir}/org/argouml/resource" includes="**/**" excludes="CVS/**" />
+    </copy>
+    <copy todir="${build.dest}/org/argouml/xml/dtd">
+      <fileset dir="${argouml.src.dir}/org/argouml/xml/dtd" includes="**/**" excludes="CVS/**" />
+    </copy>
+    <copy file="${argouml.src.dir}/org/argouml/argo.ini" tofile="${build.dest}/org/argouml/argo.ini" />
+    <copy file="${argouml.src.dir}/org/argouml/default.xmi" tofile="${build.dest}/org/argouml/default.xmi" />
+	<copy file="${argouml.src.dir}/org/argouml/registry.xml" tofile="${build.dest}/org/argouml/registry.xml"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Update from CVS                                                     -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+
+  <target name="update" depends="prepare">
+    <echo message="Updating from CVS "/>
+    <cvs dest="${src.dir}"
+	 command="update"
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Generates the parsers from the grammars by using Antlr              -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+
+  <target name="generateparser" depends="prepare">
+    <echo message="Generate parsers"/>
+
+    <java fork="yes" classname="antlr.Tool" classpath="${classpath}">
+          <arg line="-o ${build.src}/org/argouml/uml/reveng/java  ${build.src}/org/argouml/uml/reveng/java/java.g"/>
+    </java>
+    <java fork="yes" classname="antlr.Tool" classpath="${classpath}">
+          <arg line="-o ${build.src}/org/argouml/language/java/generator  ${build.src}/org/argouml/language/java/generator/java.g"/>
+    </java>
+
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Checks for necessary libraries and correct versions of libraries    -->
+  <!-- =================================================================== -->
+
+  <target name="prerequisites"
+          depends="prepare,
+	           check.gef.localizer,
+		   check.gef,
+		   check.log4j,
+		   check.antlr">
+  </target>
+
+  <target name="check.gef"
+          depends="prepare"
+	  unless="has.gef">
+    <fail message="gef library does not appear to be in the classpath."/>
+  </target>
+
+  <target name="check.gef.localizer"
+          depends="prepare, check.gef"
+	  unless="has.gef.localizer">
+    <fail message="Please install a more recent version of the gef library (minimum 0.9.5)"/>
+  </target>
+
+  <target name="check.log4j"
+          depends="prepare"
+	  unless="has.log4j">
+    <fail message="log4j library does not appear to be in the classpath."/>
+  </target>
+
+  <target name="check.antlr"
+          depends="prepare"
+	  unless="has.antlr">
+    <fail message="antlrall library does not appear to be in the classpath."/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <!-- <target name="compile" depends="generateparser,prepare"> -->
+
+  <target name="compile" depends="prepare, prerequisites">
+
+    <echo message="Compiling the sources"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${argouml.src.dir}" />
+      <src path="${cocons.src.dir}" />
+      <src path="${nsuml.src.dir}" />
+      <src path="${nsuml.gensrc.dir}" />
+      <src path="${cclmetamodel.src}" />
+      <src path="${plugin.src.dir}" />
+    </javac>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target name="package" depends="compile">
+    <filter token="version" value="${version}"/>
+    <copy file="${manifest}" tofile="${build.dest}/${manifest}" filtering="on" overwrite="on" />
+    <jar jarfile="${build.dir}/${name}.jar"
+         basedir="${build.dest}"
+         includes="org/**"
+         excludes="*.txt,*.bat,*.xml,*.sh,${manifest}"
+         manifest="${build.dest}/${manifest}"/>
+    <copy todir="${build.dir}">
+      <fileset dir="${argouml.lib.dir}" />
+    </copy>
+    <copy file="${argouml.src.dir}/README.txt" tofile="${build.dir}/README.txt" />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates a snapshot                                                  -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="snapshot" depends="compile">
+    <!-- create directories -->
+    <mkdir dir="${snapshot.dir}"/>
+    <filter token="version" value="${version}"/>
+    <copy file="${manifest}" tofile="${build.dest}/${manifest}" filtering="on" />
+    <jar jarfile="${snapshot.dir}/${name}-snapshot-${DSTAMP}.jar"
+         basedir="${build.dest}"
+         includes="org/argouml/**"
+         excludes="*.txt,*.bat,*.xml,*.sh,${manifest}"
+         manifest="${build.dest}/${manifest}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the docs                                                   -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="prepare-docs" depends="init">
+    <mkdir dir="${docs.dir}"/>
+
+    <!-- Links allow reference to external classes from within Argo javadocs -->
+    <javadoc sourcepath="${build.src}"
+             destdir="${docs.dir}"
+             classpath="${classpath}"
+             packagenames="${packages}"
+	     use="true"
+	     private="true"
+	     splitindex="true"
+	     windowtitle="ArgoUML API Documentation"
+	     overview="org/argouml/overview-argo.html"
+	     >
+      <link offline="true"
+            href="${jdk.javadoc.link}"
+            packagelistLoc="${jdk.javadoc.link}"/>
+      <link offline="true"
+            href="${log4j.javadoc.link}"
+            packagelistLoc="${log4j.javadoc.link}"/>
+
+    </javadoc>
+
+    <copy todir="${docs.dir}/org/argouml/doc-files">
+      <fileset dir="${build.src}/org/argouml/doc-files" includes="**/**" excludes="CVS/**" />
+    </copy>
+
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the distribution                                            -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="dist" depends="package">
+    <echo message="Building the distribution files (zip,tar)"/>
+    <zip zipfile="../${Name}-${version}.zip" basedir="${build.dir}" includes="gef.jar lib/log4j.jar nsuml.jar xerces.jar ocl-argo.jar antlrall.jar argouml.jar README.txt"/>
+    <tar tarfile="../${Name}-${version}.tar" basedir="${build.dir}" includes="gef.jar lib/log4j.jar nsuml.jar xerces.jar ocl-argo.jar antlrall.jar argouml.jar README.txt"/>
+    <gzip zipfile="../${Name}-${version}.tar.gz" src="../${Name}-${version}.tar" />
+    <delete file="../${Name}-${version}.tar"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the source distribution                                            -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="dist-src" depends="init">
+    <echo message="Building the source distribution files (zip,tar)"/>
+    <chmod file="${src.dir}/build.sh" perm="ugo+rx" />
+    <zip zipfile="../${Name}-${version}-src.zip" basedir="${src.dir}/.." excludes="**/.*/** **/.* **/*% **/*~ **/*.shared* **/*.proj* **/*.ref.* **/*.bak" includes="src_new/**"/>
+    <tar tarfile="../${Name}-${version}-src.tar" basedir="${src.dir}/.." excludes="**/.*/** **/.* **/*% **/*~ **/*.shared* **/*.proj* **/*.ref.* **/*.bak" includes="src_new/**"/>
+    <gzip zipfile="../${Name}-${version}-src.tar.gz" src="../${Name}-${version}-src.tar" />
+    <delete file="../${Name}-${version}-src.tar"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the lib distribution                                            -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="dist-lib" depends="init">
+    <echo message="Building the library distribution files (zip,tar)"/>
+    <zip zipfile="../${Name}-${version}-libs.zip" basedir="${lib.dir}/.." includes="lib/gef.jar lib/log4j.jar lib/nsuml.jar lib/xerces.jar lib/ocl-argo.jar lib/antlrall.jar" />
+    <tar tarfile="../${Name}-${version}-libs.tar" basedir="${lib.dir}/.." includes="lib/gef.jar lib/log4j.jar lib/nsuml.jar lib/xerces.jar lib/ocl-argo.jar lib/antlrall.jar" />
+    <gzip zipfile="../${Name}-${version}-libs.tar.gz" src="../${Name}-${version}-libs.tar" />
+    <delete file="../${Name}-${version}-libs.tar"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Creates the whole distribution                                            -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="dist-all" depends="dist,dist-src,dist-lib"/>
+
+  <!-- =================================================================== -->
+  <!-- Creates the whole distribution with adjusted version number         -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="dist-release" depends="setversion">
+  	<property name="version" value="${nextversion}"/>
+  	<antcall target="dist-all">
+  	</antcall>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Clean targets                                                       -->
+  <!-- =================================================================== -->
+  <target name="clean" depends="init">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="distclean" depends="clean">
+    <delete dir="${dist.dir}"/>
+    <delete>
+       <fileset dir=".." includes="${Name}-${version}*" />
+    </delete>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Run ArgoUML from compiled sources                                   -->
+  <!-- =================================================================== -->
+  <target name="run" depends="compile">
+    <echo message="--- Executing ${Name} ---"/>
+    <!-- Uncomment the sysproperty and change the value if you want -->
+    <java classname="org.argouml.application.Main"
+          fork="yes"
+          classpath="${build.dest};${classpath};${ant.xml-libs}">
+      <!-- sysproperty key="log4j.configuration"
+                   value="org/argouml/resource/configuration.lcf"/-->
+    </java>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Move the jar file into the user execution directory.                -->
+  <!-- =================================================================== -->
+  <!-- not yet adapted - klischat -->
+  <target name="developer_snapshot" depends="package">
+    <copy file="${build.dir}/${name}.jar" todir="${developer.lib.dir}"/>
+
+    <filter token="argojarfile" value="${developer.lib.dir}/${name}.jar"/>
+    <copy todir="${argo.bin.dir}" filtering="on" >
+        <fileset dir="${developer.bin.dir}">
+	    <include name="argouml.bat"/>
+	    <include name="argouml.sh"/>
+        </fileset>
+    </copy>
+  </target>
+
+</project>
+
+<!-- End of file -->
+
+

@@ -1,0 +1,32 @@
+#######################
+# source directories for the various components of the extended
+# ArgoUML editor
+
+# original ArgoUML sources + our arguml_modifications
+argouml.src.dir=../argouml/argouml/src_new
+cocons.src.dir=CoCons/src
+nsuml.src.dir=nsuml/src
+nsuml.gensrc.dir=nsuml/gen
+cclmetamodel.src=CCL_Metamodel/src
+plugin.src.dir=plugin/src
+
+#######################
+# lib directory of the ArgoUML CVS repository.
+# Must contain everything expected in the original ArgoUML
+# build file at this point, except for the nsuml library,
+# which will be replaced by our modified version located
+# in ${nsuml.src.dir}
+argouml.lib.dir=../argouml/argouml/lib
+
+# JUnit library
+junit.lib=/usr/local/junit/junit.jar
+
+#######################
+# which directory to build the editor into
+#
+# will be created if necessary.
+#
+# "ant compile" will put the classes into ${build.dir}/classes;
+# "ant package" will put the ready-made argouml.jar into ${build.dir}/
+build.dir=build
+
