@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<project name="ccl-plugin" default="usage" basedir=".">
+
+
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+
+ <target name="init">
+
+    <tstamp/>
+
+    <property name="Name" value="CCL plugin"/>
+    <property name="name" value="ccl-plugin"/>
+
+<!--
+    <property name="version" value="${lastversion}-${DSTAMP}-${TSTAMP}"/>
+    <property name="year" value="2001"/>
+-->
+
+    <echo message="------------------- ${Name} ----------------"/>
+
+    <property name="src.dir" value="src"/>
+    <!-- <property name="lib.dir" value="../lib"/> -->
+    <property name="classpath" value=""/>
+
+    <property name="packages" value="org.argouml.*"/>
+<!--    <property name="manifest" value="${src.dir}/org/argouml.mf"/> -->
+
+    <property name="build.dir" value="build"/>
+    <property name="build.src" value="${src.dir}"/>
+    <property name="build.dest" value="${build.dir}/classes"/>
+    <property name="dist.dir" value="${build.dir}/dist"/>
+    <property name="docs.dir" value="${build.dir}/doc"/>
+
+    <!-- ===============================================================  -->
+    <!-- Load user properties.                                            -->
+    <!--                                                                  -->
+    <!-- Any property set before this cannot be changed                   -->
+    <!-- Check for argo-specific properties before generic ant properties -->
+    <!-- Since .ant.properties is rather generic, we check for            -->
+    <!-- .argo.ant.properties first, to allow setting properties that     -->
+    <!-- we know will be argo-oriented, then the more generic             -->
+    <!-- .ant.properties, which could be used by other ant buildfiles.    -->
+    <!-- ===============================================================  -->
+
+    <property file="${user.home}/.argo.ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+
+    <!-- The following can be set in .argo.ant.properties                 -->
+    <!--     or .ant.properties to some other value                       -->
+    <property name="debug" value="off"/>
+    <property name="optimize" value="on"/>
+    <property name="deprecation" value="off"/>
+
+
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="init">
+    <!-- create directories -->
+    <echo message="Preparing the build directories"/>
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Checks for necessary libraries and correct versions of libraries    -->
+  <!-- =================================================================== -->
+
+  <target name="prerequisites"
+          depends="prepare">
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <!-- <target name="compile" depends="generateparser,prepare"> -->
+
+  <target name="compile" depends="prepare, prerequisites">
+
+    <echo message="Compiling the sources"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac srcdir="${build.src}"
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target name="package" depends="compile">
+<!--    <filter token="version" value="${version}"/> -->
+    <jar jarfile="${build.dir}/${name}.jar"
+         basedir="${build.dest}"
+         includes="org/argouml/**"
+         excludes="*.txt,*.bat,*.xml,*.sh"/>
+<!--
+    <copy todir="${build.dir}">
+      <fileset dir="${lib.dir}" />
+    </copy>
+-->
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the docs                                                   -->
+  <!-- not yet adapted  -  klischat -->
+  <!-- =================================================================== -->
+  <target name="prepare-docs" depends="init">
+    <mkdir dir="${docs.dir}"/>
+
+    <!-- Links allow reference to external classes from within Argo javadocs -->
+    <javadoc sourcepath="${build.src}"
+             destdir="${docs.dir}"
+             classpath="${classpath}"
+             packagenames="${packages}"
+	     use="true"
+	     private="true"
+	     splitindex="true"
+	     windowtitle="ArgoUML API Documentation"
+	     overview="org/argouml/overview-argo.html"
+	     >
+      <link offline="true"
+            href="${jdk.javadoc.link}"
+            packagelistLoc="${jdk.javadoc.link}"/>
+      <link offline="true"
+            href="${log4j.javadoc.link}"
+            packagelistLoc="${log4j.javadoc.link}"/>
+
+    </javadoc>
+
+    <copy todir="${docs.dir}/org/argouml/doc-files">
+      <fileset dir="${build.src}/org/argouml/doc-files" includes="**/**" excludes="CVS/**" />
+    </copy>
+
+  </target>
+
+
+</project>
+
+<!-- End of file -->
+
+
