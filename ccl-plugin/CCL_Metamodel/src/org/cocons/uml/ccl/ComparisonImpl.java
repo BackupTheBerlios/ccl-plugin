@@ -55,7 +55,7 @@ public class ComparisonImpl implements Comparison {
 		// to avoid nullpointerexceptions...
 		if (this.getTag() != null && this.getValue() != null && this.getComparator() != null) {
 			covers = covers && this.getTag().equals(elementValue.getContextPropertyTag().getTag());
-			covers = covers && this.getComparator().compare(this.getValue(), elementValue.getValue());
+			covers = covers && this.getComparator().compare(elementValue.getValue(), this.getValue());
 			if (this.isNegated()) {
 				covers = !covers;
 			}
