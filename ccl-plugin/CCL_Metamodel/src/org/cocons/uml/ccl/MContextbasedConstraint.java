@@ -45,32 +45,38 @@ public interface MContextbasedConstraint extends MConstraint {
 	public void setCoConType(String type);
 
 	/**
-	 * Sets the context condition for the target set.
-	 *
-	 * @param contextCondition the target set context condition.
+	 * Sets the context condition(s) for the target set. Calling
+         * this method with parameter null will reset the target set.
+         *
+	 * @param conditions the ContextConditions, a vector containing
+         *        elements of type ContextCondition
 	 */
-	public void setTargetSetContextCondition(ContextCondition contextCondition);
+	public void setTargetSetContextCondition(Vector conditions);
 
 	/**
-	 * Sets the context condition for the scope set.
-	 *
-	 * @param contextCondition the scope set context condition.
+	 * Sets the context condition(s) for the scope set. Calling
+         * this method with parameter null will reset the scope set.
+         *
+	 * @param conditions the ContextConditions, a vector containing
+         *        elements of type ContextCondition
 	 */
-	public void setScopeSetContextCondition(ContextCondition contextCondition);
+	public void setScopeSetContextCondition(Vector conditions);
 
 	/**
-	 * Returns the scope' context condition.
+	 * Returns the scope' context condition(s).
 	 *
-	 * @return ContextCondition the scope's context condition.
+	 * @return ContextCondition the scope's context condition(s), a vector
+         *         containing elements of type ContextCondition.
 	 */
-	public ContextCondition getScopeSetContextCondition();
+	public Vector getScopeSetContextConditions();
 
 	/**
-	* Returns the target context condition.
+	* Returns the target context condition(s).
 	*
-	* @return ContextCondition the target context condition.
+	 * @return ContextCondition the target context condition(s), a vector
+         *         containing elements of type ContextCondition.
 	*/
-	public ContextCondition getTargetSetContextCondition();
+	public Vector getTargetSetContextConditions();
 
 		/**
 		 * Sets the direct associated elements for the target set.

@@ -34,12 +34,12 @@ public class MContextbasedConstraintImpl
         /**
          * The scope set of this CoCon.
          */
-        private ContextCondition _scopeSet;
+        private Vector _scopeSet;
 
         /**
          * The target set of this CoCon.
          */
-        private ContextCondition _targetSet;
+        private Vector _targetSet;
 
 	/**
 	 * The Vector that stores the Elements in the TargetSet, but only those
@@ -131,20 +131,20 @@ public class MContextbasedConstraintImpl
 	}
 
 	/**
-	 * Returns the scope set context condition.
+	 * Returns the scope set context condition(s).
 	 *
-	 * @return ContextCondition the scope's context condition.
+	 * @return Vector the scope's context condition(s).
 	 */
 	public ContextCondition getScopeSetContextCondition() {
 		return _scopeSet;
 	}
 
 	/**
-	* Returns the target set context condition.
+	* Returns the target set context condition(s).
 	*
-	* @return ContextCondition the target context condition.
+	* @return Vector the target context condition(s).
 	*/
-	public ContextCondition getTargetSetContextCondition() {
+	public Vector getTargetSetContextCondition() {
 		return _targetSet;
 	}
 
@@ -156,50 +156,60 @@ public class MContextbasedConstraintImpl
 	}
 
 	/**
-	 * Sets the context condition for the scope set. Calling
+	 * Sets the context condition(s) for the scope set. Calling
          * this method with parameter null will reset the scope set.
          *
-	 * @param condition the ContextCondition
+	 * @param conditions the ContextConditions, a vector containing
+         *        elements of type ContextCondition
 	 */
-	public void setScopeSetContextCondition(ContextCondition condition) {
-	  if (condition==null) {
+	public void setScopeSetContextCondition(Vector conditions) {
+	  if (conditions==null) {
             _scopeSetIndirectElements = null;
             _scopeSet = null;
 
           } else {
-            _scopeSet = condition;
-            // and get all model elements that belong to this condition
-            ModelIterator ite = new ModelIterator();
-	    Vector modelElements = ite.getAllModelElements();
-            for (int i = 0; i < modelElements.size(); i++) {
-	      MModelElement element = (MModelElement) modelElements.elementAt(i);
-              if (_scopeSet.isCompliedWith(element)) {
-                _scopeSetIndirectElements.addElement(element);
+            // all indirect associations are bound by OR
+            _scopeSet = conditions;
+            for (int i=0; i<conditions.size(); i++) {
+              ContextCondition condition = (ContextCondition)conditions.elementAt(i);
+              // and get all model elements that belong to this condition
+              ModelIterator ite = new ModelIterator();
+	      Vector modelElements = ite.getAllModelElements();
+              for (int i = 0; i < modelElements.size(); i++) {
+	        MModelElement element = (MModelElement) modelElements.elementAt(i);
+                if (condition.isCompliedWith(element)) {
+                  _scopeSetIndirectElements.addElement(element);
+                }
               }
             }
           }
 	}
 
 	/**
-	 * Sets the context condition for the target set. Calling
+	 * Sets the context condition(s) for the target set. Calling
          * this method with parameter null will reset the target set.
-	 *
-	 * @param condition the ContextCondition
+         *
+	 * @param conditions the ContextConditions, a vector containing
+         *        elements of type ContextCondition
          */
-	public void setTargetSetContextCondition(ContextCondition condition) {
+	public void setTargetSetContextCondition(Vector conditions) {
 	  if (condition==null) {
             _targetSetIndirectElements = null;
             _targetSet = null;
 
           } else {
-            _targetSet = condition;
-            // and get all model elements that belong to this condition
-            ModelIterator ite = new ModelIterator();
-	    Vector modelElements = ite.getAllModelElements();
-            for (int i = 0; i < modelElements.size(); i++) {
-	      MModelElement element = (MModelElement) modelElements.elementAt(i);
-              if (_targetSet.isCompliedWith(element)) {
-                _targetSetIndirectElements.addElement(element);
+            // all indirect associations are bound by OR
+            _targetSet = conditions;
+            for (int i=0; i<conditions.size(); i++) {
+              ContextCondition condition = (ContextCondition)conditions.elementAt(i);
+              // and get all model elements that belong to this condition
+              ModelIterator ite = new ModelIterator();
+	      Vector modelElements = ite.getAllModelElements();
+              for (int i = 0; i < modelElements.size(); i++) {
+	        MModelElement element = (MModelElement) modelElements.elementAt(i);
+                if (_targetSet.isCompliedWith(element)) {
+                  _targetSetIndirectElements.addElement(element);
+                }
               }
             }
           }
@@ -337,7 +347,7 @@ public class MContextbasedConstraintImpl
 		// todo: replace next line with correct data
 		CoCon myself = getIMClassRepresentation();
 
-		String xmlstring = 
+		String xmlstring =
 			CoConXMLWriter.SINGLETON.singleCoConToString( myself );
 		super.setBody( new MBooleanExpression(BODY_LANGUAGE, xmlstring) );
 	}
@@ -362,8 +372,8 @@ public class MContextbasedConstraintImpl
 	public void initializeFromIMClass( CoCon cocon )
 	{}
 
-	public static 
-		org.cocons.uml.ccl.ccldata.CoCon 
+	public static
+		org.cocons.uml.ccl.ccldata.CoCon
 		newSampleCoCon()
 	{
 		CoCon cocon = new CoCon();
