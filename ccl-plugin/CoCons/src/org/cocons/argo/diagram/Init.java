@@ -16,16 +16,26 @@ import javax.swing.*;
 
 
 public class Init implements Runnable {
-
-  private static int MENU_INDEX_DIAGRAM = 3;
-
-  public void run() {
-    ProjectBrowser pb = ProjectBrowser.TheInstance;
-    // add menu bar items
-    JMenuBar mainMenuBar = pb.getJMenuBar();
-    JMenu diagramMenu = mainMenuBar.getMenu(MENU_INDEX_DIAGRAM);
-    diagramMenu.add(new ActionCCLConstraintDiagram());
-    diagramMenu.add(new ActionCCLBusiness_TypeDiagram());
-    diagramMenu.add(new ActionCCLInterface_SpecDiagram());
-  }
+    
+    private static int MENU_INDEX_DIAGRAM = 3;
+    
+    public void run() {
+	ProjectBrowser pb = ProjectBrowser.TheInstance;
+	// add menu bar items
+	JMenuBar mainMenuBar = pb.getJMenuBar();
+	JMenu diagramMenu = mainMenuBar.getMenu(MENU_INDEX_DIAGRAM);
+	diagramMenu.add(new ActionCCLConstraintDiagram());
+	diagramMenu.add(new ActionCCLBusiness_TypeDiagram());
+	diagramMenu.add(new ActionCCLInterface_SpecDiagram());
+	diagramMenu.add(new ActionCCLComponent_SpecDiagram());
+	
+    }
 }
+
+
+
+
+
+
+
+
