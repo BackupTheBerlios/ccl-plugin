@@ -88,7 +88,7 @@ author: klischat
 
     <property name="build.dest" value="${build.dir}/classes"/>
     <property name="classpath"
-value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}:${castor.lib}"/>
+value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/nsuml.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}:${castor.lib}"/>
 
     <!-- The following can be set in .argo.ant.properties                 -->
     <!--     or .ant.properties to some other value                       -->
@@ -264,7 +264,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
     <!-- create directories -->
     <mkdir dir="${build.dest}"/>
 
-    <depend srcdir="${argouml.src.dir}:${cocons.src.dir}:${nsuml.src.dir}:${nsuml.gensrc.dir}:${cclmetamodel.src}:${plugin.src.dir}"
+    <depend srcdir="${argouml.src.dir}:${cocons.src.dir}:${cclmetamodel.src}:${plugin.src.dir}"
             destdir="${build.dest}"
             cache=".depcache"
             closure="true"/>
@@ -308,8 +308,6 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
            debug="${debug}"
            deprecation="${deprecation}"
            optimize="${optimize}">
-      <src path="${nsuml.src.dir}" />
-      <src path="${nsuml.gensrc.dir}" />
       <src path="${cclmetamodel.src}" />
     </javac>
   </target>
@@ -400,8 +398,6 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
            optimize="${optimize}">
       <src path="${argouml.src.dir}" />
       <src path="${cocons.src.dir}" />
-      <src path="${nsuml.src.dir}" />
-      <src path="${nsuml.gensrc.dir}" />
       <src path="${cclmetamodel.src}" />
       <src path="${plugin.src.dir}" />
       <src path="${cmlmapping.src.dir}" />
