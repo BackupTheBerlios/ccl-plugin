@@ -73,7 +73,7 @@ public class ContextConditionImpl extends ConditionImpl implements ContextCondit
 	 * @return a string representation of the receiver
 	 */
 	public String toString() {
-		return getRange() + " " + getBaseClass() + " WHERE  " + super.toString();
+		return getRange() + " " + getBaseClass() + " WHERE " + super.toString();
 	}
 
 	/**

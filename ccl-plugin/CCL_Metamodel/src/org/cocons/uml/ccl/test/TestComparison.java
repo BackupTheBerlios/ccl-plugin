@@ -24,6 +24,10 @@ import ru.novosoft.uml.foundation.core.MClassImpl;
 * @author: Fadi Chabarek
 */
 public class TestComparison extends junit.framework.TestCase {
+	
+	/**
+	 * A comparator factory to produce comparators.
+	 */
 	private org.cocons.uml.ccl.comparators.ComparatorFactory comparatorFactory;
 
 	/**
@@ -451,4 +455,56 @@ public class TestComparison extends junit.framework.TestCase {
 		assertTrue("Test D: Adam should not have been covered", !comp.covers(unCoveredElement));
 
 	}
-}
+/**
+ * Test the value comparison with negation.
+ * Creation date: (12.02.2002 15:07:43)
+ */
+public void testValueComparisonWithNegation() {MClassImpl cl = new MClassImpl();
+		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
+		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
+
+		value.setContextPropertyTag(tag);
+
+		cl.addTaggedValue(value);
+
+		Comparator equation = comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL);
+
+		double equalValue = Math.random();
+		double unequalValue = Math.random();
+
+		while (equalValue == unequalValue) {
+			unequalValue = Math.random();
+		}
+
+		double equalTag = Math.random();
+		double unequalTag = Math.random();
+
+		while (equalTag == unequalTag) {
+			unequalTag = Math.random();
+		}
+
+		ValueComparison comparison = new ValueComparison();
+		comparison.setNegated(true);
+		comparison.setValue(String.valueOf(equalValue));
+		comparison.setTag(String.valueOf(equalTag));
+
+		comparison.setComparator(equation);
+
+		//a
+		value.setValue(String.valueOf(equalValue));
+		tag.setTag(String.valueOf(equalTag));
+
+		assertTrue(
+			"With equal tagged values and negation the comparison should not have covered. Detail:\n"
+				+ "Comparison "
+				+ comparison.toString()
+				+ ", PropertyValue: "
+				+ equalTag
+				+ " : "
+				+ equalValue, 
+			!comparison.covers(cl)); 
+}}

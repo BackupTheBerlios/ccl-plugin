@@ -26,7 +26,7 @@ public class Contains implements Comparator {
 	 */
 	public String toString() {
 
-		return "CONTAIN";
+		return "CONTAINS";
 	}
 
 	/**
@@ -53,5 +53,14 @@ public class Contains implements Comparator {
 		} catch (NullPointerException npe) {
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns the negated string representation of this comparator.
+	 * Creation date: (12.02.2002 15:32:39)
+	 * @return java.lang.String the negated string represantation.
+	 */
+	public java.lang.String toNegatedString() {
+		return "DOES NOT CONTAIN";
 	}
 }

@@ -4,7 +4,7 @@ import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
 
 import ru.novosoft.uml.foundation.core.MModelElement;
 
-/**
+import org.cocons.uml.ccl.comparators.Equation;/**
  * A ValueComparison is an implementation of the interface comparison.
  * A Comparison has a tag as variable, a value as a constant value and
  * a comparator to compare the variable with that value.
@@ -67,7 +67,11 @@ public class ValueComparison implements Comparison {
 	 */
 	public String toString() {
 
-		return this.getTag() + " " + this.getComparator() + " " + this.getValue();
+	return
+		this.getTag() + " " + 
+			(isNegated() ? this.getComparator().toNegatedString() :
+				this.getComparator().toString()) + " " + this.getValue().toString();  
+			
 	}
 
 	/**

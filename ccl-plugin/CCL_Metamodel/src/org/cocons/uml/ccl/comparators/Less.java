@@ -19,9 +19,9 @@ public class Less implements org.cocons.uml.ccl.Comparator {
 	 * @return a string representation of the receiver
 	 */
 	public String toString() {
-		return "LESS THEN";
+		return "<";
 	}
-    
+
 	/**
 	 * Compares to Strings if one is less then the other.
 	 * Creation date: (28.12.2001 01:46:14)
@@ -41,5 +41,14 @@ public class Less implements org.cocons.uml.ccl.Comparator {
 		} else {
 			return false;
 		}
+	}
+    
+	/**
+	 * Returns the negated string representation of this comparator.
+	 * Creation date: (12.02.2002 15:34:36)
+	 * @return java.lang.String the negated string represantation.
+	 */
+	public java.lang.String toNegatedString() {
+		return ">=";
 	}
 }

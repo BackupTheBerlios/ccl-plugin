@@ -6,7 +6,7 @@ import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
 
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue; 
-/**
+import org.cocons.uml.ccl.comparators.Equation;/**
 * A SetComparison is an implementation of the interface comparison.
 * A Comparison has a tag as variable, and a set of values as constant values 
 * and a comparator to compare the variable with that value.
@@ -170,4 +170,29 @@ public class SetComparison implements Comparison {
 	public void setComparator(Comparator newComparator) {
 		_comparator = newComparator;
 	}
-}
+/**
+ * Returns the ccl string represantation of this set comparison.
+ * Creation date: (12.02.2002 14:55:07)
+ * @return java.lang.String
+ */
+public String toString() {
+	
+	String repr = this.getTag() + " " + 
+					(isNegated() ? this.getComparator().toNegatedString() :
+										this.getComparator().toString());  
+	
+	// values
+	repr += " { ";
+		
+	Vector values = (Vector)this.getValue();
+	for (int i = 0; i <  values.size(); i++){
+		if(i != 0) {
+			repr += ", ";
+		}
+		repr += values.elementAt(i).toString();	
+	}
+
+	repr += " }";
+		
+	return repr;
+}}

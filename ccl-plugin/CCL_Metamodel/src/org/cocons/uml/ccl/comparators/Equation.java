@@ -23,7 +23,7 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 	 * @return java.lang.String the description.
 	 */
 	public String toString() {
-		return "EQUALS";
+		return "=";
 	}
 
 	/**
@@ -79,5 +79,14 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 		} catch (NullPointerException npe) {
 		}
 		return false;
+	}
+    
+	/**
+	 * Returns the negated string representation of this comparator.
+	 * Creation date: (12.02.2002 15:33:09)
+	 * @return java.lang.String the negated string represantation.
+	 */
+	public java.lang.String toNegatedString() {
+		return "!=";
 	}
 }

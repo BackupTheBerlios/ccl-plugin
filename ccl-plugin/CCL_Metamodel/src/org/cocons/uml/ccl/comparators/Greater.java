@@ -19,9 +19,9 @@ public class Greater implements org.cocons.uml.ccl.Comparator {
 	 * @return a string representation of the receiver
 	 */
 	public String toString() {
-		return "GREATER THEN";
+		return ">";
 	}
-    
+
 	/**
 	 * Compares to Strings if the first one is greater than the other.
 	 * Creation date: (09.02.2002 15:34:37)
@@ -42,5 +42,14 @@ public class Greater implements org.cocons.uml.ccl.Comparator {
 		} else {
 			return false;
 		}
+	}
+    
+	/**
+	 * Returns the negated string representation of this comparator.
+	 * Creation date: (12.02.2002 15:33:28)
+	 * @return java.lang.String the negated string represantation.
+	 */
+	public java.lang.String toNegatedString() {
+		return "<=";
 	}
 }
