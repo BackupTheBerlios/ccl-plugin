@@ -24,7 +24,12 @@ public class ComparatorFactoryImpl implements ComparatorFactory {
 	  */
 	public int[] getAvailableTypes() {
 
-		int[] types = {ComparatorFactory.EQUAL, ComparatorFactory.LESS, ComparatorFactory.CONTAINS};
+		int[] types = 
+			{
+				ComparatorFactory.EQUAL, 
+				ComparatorFactory.LESS, 
+				ComparatorFactory.CONTAINS, 
+				ComparatorFactory.GREATER}; 
 
 		return types;
 	}
@@ -75,6 +80,11 @@ public class ComparatorFactoryImpl implements ComparatorFactory {
 			case CONTAINS :
 				{
 					com = new Contains();
+					break;
+				}
+			case GREATER :
+				{
+					com = new Greater();
 					break;
 				}
 		}

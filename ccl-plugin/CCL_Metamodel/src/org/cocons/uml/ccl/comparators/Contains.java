@@ -8,26 +8,33 @@ import org.cocons.uml.ccl.Comparator;
  * @author: Fadi Chabarek
  */
 public class Contains implements Comparator {
-/**
- * Constructs this comparison.
- */
-public Contains() {
-	super();
-}
-/**
- * Compares to Strings if the first contains the second.
- * Creation date: (28.12.2001 21:38:28)
- * @return boolean true if the value1 contains value2.
- */
-public boolean compare(java.lang.String value1, java.lang.String value2) {
-	return value1.lastIndexOf(value2) >= 0;
-}
-/**
- * Returns a String that represents the value of this object.
- * @return a string representation of the receiver
- */
-public String toString() {
+	
+	/**
+	 * Constructs this comparison.
+	 */
+	public Contains() {
+		super();
+	}
+    
+	/**
+	 * Compares to Strings if the first contains the second.
+	 * Creation date: (28.12.2001 21:38:28)
+	 * @return boolean true if the value1 contains value2 and both are unequal null.
+	 */
+	public boolean compare(java.lang.String value1, java.lang.String value2) {
+		try {
+			return value1.lastIndexOf(value2) >= 0;
+		} catch (NullPointerException npe) {
+			return false;
+		}
+	}
+    
+	/**
+	 * Returns a String that represents the value of this object.
+	 * @return a string representation of the receiver
+	 */
+	public String toString() {
 
-	return "CONTAINS";
-}
+		return "CONTAINS";
+	}
 }

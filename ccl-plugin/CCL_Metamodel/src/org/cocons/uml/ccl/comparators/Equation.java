@@ -17,10 +17,14 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 	/**
 	 * Compares to strings case insensitivly if they are  equal.
 	 * Creation date: (26.12.2001 14:09:23)
-	 * @return boolean
+	 * @return boolean true if both values are equal and both of them are unequal null.
 	 */
 	public boolean compare(String value1, String value2) {
-		return value1.compareToIgnoreCase(value2) == 0;
+		try {
+			return value1.compareToIgnoreCase(value2) == 0;
+		} catch (NullPointerException npe) {
+			return false;
+		}
 	}
 
 	/**
@@ -31,6 +35,7 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 	public String toString() {
 		return "EQUALS";
 	}
+    
 	/**
 	 * clones this object.
 	 * Creation date: (27.12.2001 15:45:50)
@@ -38,8 +43,8 @@ public class Equation implements org.cocons.uml.ccl.Comparator, Cloneable {
 	 */
 	public Object clone() {
 		return (Object) new Equation();
-	} 
-    
+	}
+
 	/**
 	* Checks if another object is equal to this one.
 	* Creation date: (27.12.2001 16:00:12)

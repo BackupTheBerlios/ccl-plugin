@@ -13,14 +13,19 @@ public interface ComparatorFactory {
 	public final static int EQUAL = 1;
 
 	/*
-	 * The Type of the comparator less.
+	 * The Type of the comparator less then (<).
 	 */
 	public final static int LESS = 2;
 
 	/*
+	 * The Type of the comparator greater then (>).
+	 */
+	public final static int GREATER = 3;
+
+	/*
 	 * The Type of the comparator contains.
 	 */
-	public final static int CONTAINS = 3;
+	public final static int CONTAINS = 4;
 
 	/**
 	 * produces a comparator.
@@ -42,4 +47,5 @@ public interface ComparatorFactory {
 	* @return org.cocons.uml.ccl.Comparator[] all avaiable comparators.
 	*/
 	Comparator[] produceAllAvailableComparators();
+    
 }
