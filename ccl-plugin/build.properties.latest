@@ -8,7 +8,6 @@
 cocons.src.dir=CoCons/src
 cmlmapping.src.dir=CoCons/cmlbinding/mapping
 cclmetamodel.src=CCL_Metamodel/src
-plugin.src.dir=plugin/src
 
 
 #######################
