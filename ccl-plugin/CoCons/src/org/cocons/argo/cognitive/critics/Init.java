@@ -9,8 +9,8 @@ import ru.novosoft.uml.foundation.core.MModelElementImpl;
  * Title:        CoCons
  * Description:  CoCons CCL Metamodel Library
  * Copyright:    Copyright (c) 2001
- * Company:      TU Berlin, CIS
- * @author Fadi Chabarek
+ * Company:      Technical University of Berlin, Dept. of Computer Science
+ * @author Fadi Chabarek, Stefan Tang, Philipp Schumacher
  * @version 1.0
  *
  * A Plugin Initializer registering CCL-supported design critics to ArgoUml.
@@ -20,6 +20,7 @@ import ru.novosoft.uml.foundation.core.MModelElementImpl;
 public class Init implements Runnable {
 
   public static Critic readabilityCritic = new CrConstrainedReadability();
+  public static Critic onlyReadableByCritic = new CrOnlyReadableBy();
 
   /*
    * Constructs an Initilizer
@@ -30,14 +31,14 @@ public class Init implements Runnable {
 
 
   /*
-   * Registers the UnReadableBy Critic to the Argo Agency singelton.
+   * Registers the Critics to the Argo Agency singelton.
    */
   public void run() {
 
     java.lang.Class modelElementCls = MModelElementImpl.class;
 
     Agency.register(readabilityCritic, modelElementCls);
-
+    Agency.register(onlyReadableByCritic, modelElementCls);
 
   }
 }
