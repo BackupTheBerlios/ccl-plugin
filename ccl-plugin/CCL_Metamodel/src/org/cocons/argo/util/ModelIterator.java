@@ -19,52 +19,61 @@ import org.argouml.uml.diagram.static_structure.ui.FigClass;
  */
 public class ModelIterator {
 
-  /**
-   * Default Constructor
-   */
-  public ModelIterator() {
-  }
+	/**
+	 * Default Constructor
+	 */
+	public ModelIterator() {
+	}
 
-  /**
-   * Looks up all model elements in the ArgoUML model.
-   *
-   * @return A Vector containing model elements
-   */
-  public Vector getAllModelElements() {
-    Vector modelElements = new Vector();
-    Project theProject = ProjectBrowser.TheInstance.getProject();
-    Vector projectMembers = theProject.getMembers();
-    for (int i=0; i<projectMembers.size(); i++) {
-      if (projectMembers.elementAt(i) instanceof ProjectMemberDiagram) {
-        ProjectMemberDiagram memberDiag = (ProjectMemberDiagram)projectMembers.elementAt(i);
-        ArgoDiagram diagram = memberDiag.getDiagram();
-        Vector nodes = diagram.getNodes();
-        for (int j=0; j<nodes.size(); j++) {
-          MModelElement modelElement = (MModelElement)nodes.elementAt(j);
-          modelElements.addElement(modelElement);
-        }
+	/**
+	 * Looks up all model elements in the ArgoUML model.
+	 *
+	 * @return A Vector containing model elements
+	 */
+	public Vector getAllModelElements() {
+		Project theProject = ProjectBrowser.TheInstance.getProject();
+		return getAllModelElements(theProject);
+	}
 
-      }
-    }
-    return modelElements;
-  }
+	/**
+	 * Looks up a specific class from the ArgoUML model.
+	 *
+	 * @param name the name of the class
+	 * @return The ModelElement class if existant, else null.
+	 */
+	public MModelElement getModelElementClass(String name) {
+		MModelElement mclass = null;
+		Vector modelElements = getAllModelElements();
+		for (int i = 0; i < modelElements.size(); i++) {
+			mclass = (MModelElement) modelElements.elementAt(i);
+			if (mclass.getName().equals(name)) {
+				return mclass;
+			}
+		}
+		return mclass;
+	}
 
-  /**
-   * Looks up a specific class from the ArgoUML model.
-   *
-   * @param name the name of the class
-   * @return The ModelElement class if existant, else null.
-   */
-  public MModelElement getModelElementClass(String name) {
-    MModelElement mclass = null;
-    Vector modelElements = getAllModelElements();
-    for (int i=0; i<modelElements.size(); i++) {
-      mclass = (MModelElement)modelElements.elementAt(i);
-      if (mclass.getName().equals(name)) {
-        return mclass;
-      }
-    }
-    return mclass;
-  }
+	/**
+	 * Returns all model elements for a given project.
+	 * Creation date: (15.01.2002 17:58:50)
+	 * @return java.util.Vector the vector of the model elements.
+	 * @param project org.argouml.kernel.Project a given project.
+	 */
+	public Vector getAllModelElements(Project theProject) {
+		Vector modelElements = new Vector();
+		Vector projectMembers = theProject.getMembers();
+		for (int i = 0; i < projectMembers.size(); i++) {
+			if (projectMembers.elementAt(i) instanceof ProjectMemberDiagram) {
+				ProjectMemberDiagram memberDiag = (ProjectMemberDiagram) projectMembers.elementAt(i);
+				ArgoDiagram diagram = memberDiag.getDiagram();
+				Vector nodes = diagram.getNodes();
+				for (int j = 0; j < nodes.size(); j++) {
+					MModelElement modelElement = (MModelElement) nodes.elementAt(j);
+					modelElements.addElement(modelElement);
+				}
 
+			}
+		}
+		return modelElements;
+	}
 }

@@ -221,7 +221,7 @@ public class MContextbasedConstraintImpl
 	public String getXMLCCLString() {
 		return _xmlCCL;
 	}
-    
+
 	/**
 	 * Returns the scope' context condition.
 	 * Creation date: (15.01.2002 14:38:23)
@@ -229,8 +229,8 @@ public class MContextbasedConstraintImpl
 	 */
 	public ContextCondition getScopeContextCondition() {
 		return _scopeSet;
-	} 
-    
+	}
+
 	/**
 	* Returns the target context condition.
 	* Creation date: (15.01.2002 14:37:44)
@@ -238,5 +238,28 @@ public class MContextbasedConstraintImpl
 	*/
 	public ContextCondition getTargetContextCondition() {
 		return _targetSet;
+	}
+    
+	/**
+	 * Sets the type of this Contextbased Constraint.
+	 */
+	public void setCoConType(String coConType) {
+		_coconType = coConType;
+	} 
+    
+	/**
+	* Sets the scope' context condition.
+	* Creation date: (15.01.2002 14:38:23)
+	*/
+	public void setScopeContextCondition(ContextCondition condition) {
+		_scopeSet = condition;
+	} 
+    
+	/**
+	* Sets the target context condition.
+	* Creation date: (15.01.2002 14:37:44)
+	*/
+	public void setTargetContextCondition(ContextCondition condition) {
+		_targetSet = condition;
 	}
 }

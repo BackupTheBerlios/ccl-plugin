@@ -8,8 +8,13 @@ package org.cocons.uml.ccl;
 public interface BaseClasses {
 
 	/**
-	 * Describing model element that are interfaces
+	 * Describing model elements that are interfaces.
 	 */
 	public static final String INTERFACE = "INTERFACE";
+
+	/**
+	 * Describing pure model elements. 
+	 */
+	public static final String ELEMENT = "ELEMENT";
 
 }

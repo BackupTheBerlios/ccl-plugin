@@ -18,17 +18,18 @@ public class AllTest {
    * Runs all test cases in this package.
    */
   public static void main(String[] args) {
-    junit.swingui.TestRunner.run(AllTest.class);
-  }
+	junit.swingui.TestRunner.run(AllTest.class);
+  }  
 
   /**
    * Returns a test suite containing all test cases of this package.
    */
   public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestCrUnReadableBy.class);
-    //suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestXXX.class);
-    return suite;
-  }
+	TestSuite suite = new TestSuite();
+	suite.addTestSuite(TestCrUnReadableBy.class);
+	suite.addTestSuite(TestCrSetToValueIn.class);
+	//suite.addTestSuite(org.cocons.argo.cognitive.critics.test.TestXXX.class);
+	return suite;
+  }    
 
 }
