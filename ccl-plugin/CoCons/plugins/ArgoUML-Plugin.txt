@@ -1,1 +1,4 @@
-org.cocons.plugin.CCLPlugin=C:\\dev\\argouml\\build\\classes
+#
+# Replace with path to CCL-Plugin class files!
+#
+org.cocons.argo.plugin.CCLPlugin=C:\\dev\\argouml\\build\\classes
