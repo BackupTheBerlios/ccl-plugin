@@ -37,7 +37,8 @@ public class FigInterface_Spec extends FigInterface {
 
   public FigInterface_Spec() {
     super();
-    _stereoFake.setDisplayed(false);
+//is this fake or fake?!!!    _stereoFake.setDisplayed(false);
+    _stereo.setDisplayed(false);
     _stereo.setExpandOnly(true);
     _stereo.setFilled(true);
     _stereo.setLineWidth(1);
@@ -53,7 +54,8 @@ public class FigInterface_Spec extends FigInterface {
 
   public FigInterface_Spec(GraphModel gm, Object node) {
     super(gm,node);
-    _stereoFake.setDisplayed(false);
+//Ist es Fake oder nur _stereo?    _stereoFake.setDisplayed(false);
+    _stereo.setDisplayed(false);
     _stereo.setExpandOnly(true);
     _stereo.setFilled(true);
     _stereo.setLineWidth(1);

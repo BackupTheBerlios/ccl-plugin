@@ -2,6 +2,12 @@ package org.cocons.uml.ccl.context_property1_3;
 
 import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValueImpl;
 import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
+import ru.novosoft.uml.foundation.core.MModelElement;
+import ru.novosoft.uml.foundation.core.MNamespace;
+
+import org.cocons.argo.diagram.ui.FigContextProperty;
+
+import java.util.Vector;
 
 /**
 * Wraps a MTaggedValue, but deprecates its set/getTag()-Method, so that a
@@ -18,40 +24,467 @@ import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
 */
 public class MContextPropertyValueImpl extends MTaggedValueImpl implements MContextPropertyValue {
 
-	private MTaggedValue _taggedValue;
-		private MContextPropertyTag _contextTag = null;
+	// private MTaggedValueImpl _taggedValue; // ??? wozu ??? (hyshosha@gmx.de)
+        private MContextPropertyTag _contextTag = null;
+
+        private String _validValuesType;
+        private String _stereoString = "";
+        private String _valString_horizontal = "no values selected or defined ";
+        private String _valString_vertical = "\n> no values selected or defined \n";
+
+        private boolean _figureOrientation = false; // horizontal
+        private boolean _valueVisibility = true; // Values und Stereo werden in der Figure angezeigt
+
+        private Vector _validStrings;
+        private Vector _stringSelection;
+        private Vector _stringDependencies;
+
+        private int _valuesCount;
+        private boolean _valuesSelected = false;
+
+        private Vector _definedIntegers;
+        private Vector _intSelection;
+        private Vector _intDependencies;
+
+        private Vector _definedFloats;
+        private Vector _floatSelection;
+        private Vector _floatDependencies;
 
 	/**
 	 * MContextPropertyTag constructor comment.
 	 */
 	public MContextPropertyValueImpl() {
-		_taggedValue = new MTaggedValueImpl();
+          // _taggedValue = new MTaggedValueImpl(); // ??? wozu ??? (hyshosha@gmx.de)
 	}
+
 	/**
 	* Returns the related tag for this context based value.
 	* Creation date: (21.12.2001 18:18:06)
 	* @return MContextPropertyTag The related context property tag.
 	*/
 	public MContextPropertyTag getContextPropertyTag() {
-		return _contextTag;
+          return _contextTag;
 	}
-		public void internalRefByContextPropertyTag (MContextPropertyTag __arg){
-		  MContextPropertyTag __saved = _contextTag;
-			/*if (contextTag != null) {
-			  contextTag.removeScopedValue(this);  // nicht mehr, da die Beziehung nicht mehr bidirektional ist
-			}*/
-		  fireRefSet("propertyTag", __saved, __arg);
-		  _contextTag = __arg;
-		}
 
+        public void internalRefByContextPropertyTag (MContextPropertyTag __arg){
+          setContextPropertyTag(__arg);
+          /*
+          MContextPropertyTag __saved = _contextTag;
+          fireRefSet("propertyTag", __saved, __arg);
+          _contextTag = __arg;
+          _validValuesType = ((MContextPropertyTagImpl)__arg).getValidValuesType();
+          if (_validValuesType.equals("List Of Strings")) {
+            _validStrings = ((MContextPropertyTagImpl)_contextTag).getValidStrings();
+            _valuesCount = _validStrings.size();
+            _stringSelection = new Vector();
+            _stringDependencies = new Vector();
+            for (int i = 0; i < _valuesCount; i++) {
+              _stringSelection.addElement(new Boolean(false));
+              String dependency = "";
+              _stringDependencies.addElement(dependency);
+            }
+          }
+          else if (_validValuesType.equals("Integer Number")) {
+          }
+          else if (_validValuesType.equals("Float Number")) {
+          }
+          else {}
+          */
+        }
+
+        public void removeScopedTag(){
+          _contextTag = null;
+          _validValuesType = null;
+          _validStrings = null;
+          _stringDependencies = null;
+          _stringSelection = null;
+          _definedIntegers = null;
+          _intSelection = null;
+          _intDependencies = null;
+          _definedFloats = null;
+          _floatSelection = null;
+          _floatDependencies = null;
+        }
 	/**
 	* Sets the tag for this context based property value.
 	* Creation date: (21.12.2001 18:18:34)
 	* @param contextTag MContextPropertyTag The related context based property tag.
 	*/
-	public void setContextPropertyTag(MContextPropertyTag _contextTag) {
-		this._contextTag = _contextTag;
+	public void setContextPropertyTag(MContextPropertyTag contextTag) {
+          _contextTag = contextTag;
+          _valuesSelected = false;
+          _validValuesType = ((MContextPropertyTagImpl)_contextTag).getValidValuesType();
+          if (_validValuesType.equals("List Of Strings")) {
+            _validStrings = ((MContextPropertyTagImpl)_contextTag).getValidStrings();
+            _valuesCount = _validStrings.size();
+            _stringSelection = new Vector();
+            _stringDependencies = new Vector();
+            for (int i = 0; i < _valuesCount; i++) {
+              _stringSelection.addElement(new Boolean(false));
+              String dependency = "";
+              _stringDependencies.addElement(dependency);
+            }
+          }
+          else if (_validValuesType.equals("Integer Number")) {
+            _definedIntegers = new Vector();
+            _intSelection = new Vector();
+            _intDependencies = new Vector();
+            addEmptyIntegerValue();
+          }
+          else if (_validValuesType.equals("Float Number")) {
+            _definedFloats = new Vector();
+            _floatSelection = new Vector();
+            _floatDependencies = new Vector();
+            addEmptyFloatValue();
+          }
+          else {}
 	}
-		public void removeContextPropertyTag(){
-			_contextTag = null;
-		}}
+
+        // -------------- by hyshosha@gmx.de -----------------------
+        private MModelElement _objectWithContextProperty = null;
+        private FigContextProperty _myFigure;
+
+        public void removeMe() {
+          _myFigure.destroyMe();
+        }
+
+        public void logicalRefByModelElement(MModelElement __arg) {
+          _objectWithContextProperty = __arg;
+        }
+
+        public MNamespace getNamespace() {
+          return(_objectWithContextProperty.getNamespace());
+        }
+
+        public MModelElement getReferencedModelElement() {
+          return(_objectWithContextProperty);
+        }
+
+        public void internalRefToMyFigure(FigContextProperty figure) {
+          _myFigure = figure;
+        }
+
+        public void markFigure() {
+          _myFigure.setColor(java.awt.Color.green);
+          _myFigure.damage();
+        }
+
+        public void actualizeFigure() {
+          _myFigure.actualizeEntries();
+          _myFigure.damage();
+        }
+
+        public void resetFigureColor() {
+          if (this.hasSelectedValues()) _myFigure.setColor(java.awt.Color.yellow);
+          else _myFigure.setColor(java.awt.Color.lightGray);
+          _myFigure.damage();
+        }
+
+        public String getValidValuesType() {
+          return _validValuesType;
+	}
+
+        public void setValidValuesType(String type) {
+          _validValuesType = type;
+	}
+
+        public String getStereoString() {
+          return _stereoString;
+	}
+
+        public void setStereoString(String string) {
+          _stereoString = string;
+	}
+
+        public String getValueString_Horizontal() {
+          return _valString_horizontal;
+	}
+
+        public String getValueString_Vertical() {
+          return _valString_vertical;
+	}
+
+        public void setValueString_Horizontal(String string) {
+          _valString_horizontal = string;
+	}
+
+        public void setValueString_Vertical(String string) {
+          _valString_vertical = string;
+	}
+
+        public int getValuesCount() {
+          return(_valuesCount);
+        }
+
+        /////////////////////////////////////////////////////
+        // List of Strings
+        public Boolean getStringSelectionAt(int index) {
+          return((Boolean)_stringSelection.elementAt(index));
+        }
+
+        public String getStringDependencyAt(int index) {
+          return((String)_stringDependencies.elementAt(index));
+        }
+
+        public void setStringDependencyAt(int index,String dependency) {
+          _stringDependencies.setElementAt(dependency,index);
+          checkValueSelection_ListOfString();
+        }
+
+        public void negateStringSelectionAt(int index) {
+          boolean old = ((Boolean)_stringSelection.elementAt(index)).booleanValue();
+          Boolean newSelection = new Boolean(!old);
+          _stringSelection.setElementAt(newSelection,index);
+          checkValueSelection_ListOfString();
+        }
+
+        public void checkValueSelection_ListOfString() {
+          boolean valuesSelected = false;
+          boolean actual = false;
+          _valString_horizontal = "";
+          _valString_vertical = "\n> ";
+          _valuesCount = _validStrings.size();
+          for (int i = 0; i < _valuesCount; i++) {
+            actual = ((Boolean)_stringSelection.elementAt(i)).booleanValue();
+            valuesSelected = valuesSelected||actual;
+            if (actual) {
+              if (((String)_stringDependencies.elementAt(i)).equals("")) {
+                _valString_horizontal = _valString_horizontal + (String)_validStrings.elementAt(i) + ", ";
+                _valString_vertical = _valString_vertical + (String)_validStrings.elementAt(i) + " \n> ";
+              }
+              else {
+                _valString_horizontal = _valString_horizontal + (String)_validStrings.elementAt(i)+" ["+ (String)_stringDependencies.elementAt(i)+"]" + ", ";
+                _valString_vertical = _valString_vertical + (String)_validStrings.elementAt(i)+" ["+ (String)_stringDependencies.elementAt(i)+"]" + " \n> ";
+              }
+            }
+          }
+          _valuesSelected = valuesSelected;
+          if (!valuesSelected) {
+            _valString_horizontal = "no values selected or defined ";
+            _valString_vertical = "\n> no values selected or defined \n";
+          }
+          else {
+            _valString_horizontal = _valString_horizontal.substring(0,_valString_horizontal.length()-2) + " ";
+            _valString_vertical = _valString_vertical.substring(0,_valString_vertical.length()-2);
+          }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        // Integer Number
+        public void addEmptyIntegerValue() {
+          String empty1 = "";
+          String empty2 = "";
+          _definedIntegers.addElement(empty1);
+          _intDependencies.addElement(empty2);
+          _intSelection.addElement(new Boolean(false));
+        }
+
+        public int getIntegerValuesCount() {
+          return(_definedIntegers.size());
+        }
+
+        public boolean isEmptyIntegerValue(int index) {
+          if ((((String)_definedIntegers.elementAt(index)).equals("")&&(!((Boolean)_intSelection.elementAt(index)).booleanValue()))) {
+            return(true);
+          }
+          else return(false);
+        }
+
+        public void removeIntegerValueAt(int index) {
+          _definedIntegers.removeElementAt(index);
+          _intSelection.removeElementAt(index);
+          _intDependencies.removeElementAt(index);
+        }
+
+        public void negateIntegerSelectionAt(int index) {
+          boolean old = ((Boolean)_intSelection.elementAt(index)).booleanValue();
+          Boolean newSelection = new Boolean(!old);
+          _intSelection.setElementAt(newSelection,index);
+          checkValueSelection_Integer();
+        }
+
+        public void checkValueSelection_Integer() {
+          boolean valuesSelected = false;
+          boolean actual = false;
+          _valString_horizontal = "";
+          _valString_vertical = "\n> ";
+          _valuesCount = _definedIntegers.size();
+          for (int i = 0; i < _valuesCount; i++) {
+            actual = ((Boolean)_intSelection.elementAt(i)).booleanValue();
+            valuesSelected = valuesSelected||actual;
+            if (actual) {
+              if (((String)_intDependencies.elementAt(i)).equals("")) {
+                _valString_horizontal = _valString_horizontal + (String)_definedIntegers.elementAt(i) + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedIntegers.elementAt(i) + " \n> ";
+              }
+              else {
+                _valString_horizontal = _valString_horizontal + (String)_definedIntegers.elementAt(i)+" ["+ (String)_intDependencies.elementAt(i)+"]" + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedIntegers.elementAt(i)+" ["+ (String)_intDependencies.elementAt(i)+"]" + " \n> ";
+              }
+            }
+          }
+          _valuesSelected = valuesSelected;
+          if (!valuesSelected) {
+            _valString_horizontal = "no values selected or defined ";
+            _valString_vertical = "\n> no values selected or defined \n";
+          }
+          else {
+            _valString_horizontal = _valString_horizontal.substring(0,_valString_horizontal.length()-2) + " ";
+            _valString_vertical = _valString_vertical.substring(0,_valString_vertical.length()-2);
+          }
+        }
+
+        public Boolean getIntegerSelectionAt(int index) {
+          return((Boolean)_intSelection.elementAt(index));
+        }
+
+        public String getIntegerDependencyAt(int index) {
+          return((String)_intDependencies.elementAt(index));
+        }
+
+        public void setIntegerDependencyAt(int index,String dependency) {
+          _intDependencies.setElementAt(dependency,index);
+          checkValueSelection_Integer();
+        }
+
+        public String getIntegerValueAt(int index) {
+          return((String)_definedIntegers.elementAt(index));
+        }
+
+        public void setIntegerValueAt(int index,String value) {
+          _definedIntegers.setElementAt(value,index);
+        }
+
+        public void cleanIntegerValues() {
+          for (int i = _definedIntegers.size()-1; i >= 0; i--) {
+            if (isEmptyIntegerValue(i)) removeIntegerValueAt(i);
+          }
+          addEmptyIntegerValue();
+          checkValueSelection_Integer();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        // Float Number
+        public void addEmptyFloatValue() {
+          String empty1 = "";
+          String empty2 = "";
+          _definedFloats.addElement(empty1);
+          _floatDependencies.addElement(empty2);
+          _floatSelection.addElement(new Boolean(false));
+        }
+
+        public int getFloatValuesCount() {
+          return(_definedFloats.size());
+        }
+
+        public boolean isEmptyFloatValue(int index) {
+          if ((((String)_definedFloats.elementAt(index)).equals("")&&(!((Boolean)_floatSelection.elementAt(index)).booleanValue()))) {
+            return(true);
+          }
+          else return(false);
+        }
+
+        public void removeFloatValueAt(int index) {
+          _definedFloats.removeElementAt(index);
+          _floatSelection.removeElementAt(index);
+          _floatDependencies.removeElementAt(index);
+        }
+
+        public void negateFloatSelectionAt(int index) {
+          boolean old = ((Boolean)_floatSelection.elementAt(index)).booleanValue();
+          Boolean newSelection = new Boolean(!old);
+          _floatSelection.setElementAt(newSelection,index);
+          checkValueSelection_Float();
+        }
+
+        public void checkValueSelection_Float() {
+          boolean valuesSelected = false;
+          boolean actual = false;
+          _valString_horizontal = "";
+          _valString_vertical = "\n> ";
+          _valuesCount = _definedFloats.size();
+          for (int i = 0; i < _valuesCount; i++) {
+            actual = ((Boolean)_floatSelection.elementAt(i)).booleanValue();
+            valuesSelected = valuesSelected||actual;
+            if (actual) {
+              if (((String)_floatDependencies.elementAt(i)).equals("")) {
+                _valString_horizontal = _valString_horizontal + (String)_definedFloats.elementAt(i) + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedFloats.elementAt(i) + " \n> ";
+              }
+              else {
+                _valString_horizontal = _valString_horizontal + (String)_definedFloats.elementAt(i)+" ["+ (String)_floatDependencies.elementAt(i)+"]" + ", ";
+                _valString_vertical = _valString_vertical + (String)_definedFloats.elementAt(i)+" ["+ (String)_floatDependencies.elementAt(i)+"]" + " \n> ";
+              }
+            }
+          }
+          _valuesSelected = valuesSelected;
+          if (!valuesSelected) {
+            _valString_horizontal = "no values selected or defined ";
+            _valString_vertical = "\n> no values selected or defined \n";
+          }
+          else {
+            _valString_horizontal = _valString_horizontal.substring(0,_valString_horizontal.length()-2) + " ";
+            _valString_vertical = _valString_vertical.substring(0,_valString_vertical.length()-2);
+          }
+        }
+
+        public Boolean getFloatSelectionAt(int index) {
+          return((Boolean)_floatSelection.elementAt(index));
+        }
+
+        public String getFloatDependencyAt(int index) {
+          return((String)_floatDependencies.elementAt(index));
+        }
+
+        public void setFloatDependencyAt(int index,String dependency) {
+          _floatDependencies.setElementAt(dependency,index);
+          checkValueSelection_Float();
+        }
+
+        public String getFloatValueAt(int index) {
+          return((String)_definedFloats.elementAt(index));
+        }
+
+        public void setFloatValueAt(int index,String value) {
+          _definedFloats.setElementAt(value,index);
+        }
+
+        public void cleanFloatValues() {
+          for (int i = _definedFloats.size()-1; i >= 0; i--) {
+            if (isEmptyFloatValue(i)) removeFloatValueAt(i);
+          }
+          addEmptyFloatValue();
+          checkValueSelection_Float();
+        }
+        //
+        ////////////////////////////////////////////////////////////////////////
+
+        public boolean hasSelectedValues() {
+          return(_valuesSelected);
+        }
+
+        public boolean getFigureOrientation() {
+          return(_figureOrientation);
+        }
+
+        public void negateFigureOrientation() {
+          _figureOrientation = !_figureOrientation;
+        }
+
+        public void resetFigureOrientation() {
+          _figureOrientation = false;
+        }
+
+        public boolean getValueVisibility() {
+          return(_valueVisibility);
+        }
+
+        public void negateValueVisibility() {
+          _valueVisibility = !_valueVisibility;
+        }
+
+        public void resetValueVisibility() {
+          _valueVisibility = true;
+        }
+
+}

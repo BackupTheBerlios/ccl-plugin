@@ -1,8 +1,3 @@
-// File: FigContextProperty.java
-// Classes: FigContextProperty
-// Original Author: jgusulde
-// $Id: FigContextProperty.java,v 1.4 2002/01/22 16:37:07 jgusulde Exp $
-
 package org.cocons.argo.diagram.ui;
 
 import java.awt.*;
@@ -19,107 +14,75 @@ import org.argouml.uml.diagram.ui.*;
 
 import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.foundation.extension_mechanisms.*;
-import org.cocons.uml.ccl.*;
+import org.cocons.uml.ccl.context_property1_3.*;
+import org.cocons.argo.util.*;
 
+import java.lang.Thread;
+import org.argouml.ui.*;
+import org.w3c.dom.Notation;
+
+/**
+ * Title:        CCL-Plugin for ArgoUML
+ * Description:
+ * Copyright:    Copyright (c) 2002
+ * Company:      Technische Universität Berlin
+ * @author hyshosha@gmx.de ; hasihola@cs.tu-berlin.de
+ * @version 1.0
+ */
 
 public class FigContextProperty
-  extends FigNodeModelElement {
+  extends FigNodeModelElement implements MouseListener, MouseMotionListener{
 
   ////////////////////////////////////////////////////////////////
   // instance variables
 
-  String _tagString;
-  String _valString;
-
-  //MContextPropertyTagImpl _contPropTag;
-
-  /** UML does not really use ports, so just define one big one so
-   *  that users can drag edges to or from any point in the icon. */
+  private FigTerminator _killer;
+  private boolean _killed = false;
+  private ModelIterator _modelIterator = ModelIterator.SINGLETON;
+  private MContextPropertyValueImpl _myOwner;
 
   FigRect _bigPort;
-
   /* corners */
   FigPoly _topleft;
   FigPoly _topright;
   FigPoly _bottomleft;
   FigPoly _bottomright;
 
-  // add other Figs here as needed
-
   ////////////////////////////////////////////////////////////////
   // constructors
 
   public FigContextProperty() {
-    // Put this rectangle behind the rest, so it goes first
-    // _bigPort = new FigRect(10, 10, 90, 30, Color.gray, Color.gray);
+
     _bigPort = new FigRect(10, 10, 90, 30, Color.blue, Color.yellow);
     _bigPort.setFillColor(Color.yellow);
     _bigPort.setFilled(true);
 
-    //_topleft = new FigPoly(10,10);
     _topleft = new FigPoly(Color.blue,Color.yellow);
     _topleft.addPoint(16,11);
     _topleft.addPoint(10,17);
     _topleft.addPoint(10,11);
-    //_topleft.setFillColor(Color.yellow);
-    //_topleft.setFilled(true);
 
-    //_topright = new FigPoly(84,10);
     _topright = new FigPoly(Color.blue,Color.yellow);
-    //_topright.addPoint(90,10);
-    //_topright.addPoint(90,16);
-    //_topright.addPoint(84,10);
     _topright.addPoint(99,11);
     _topright.addPoint(99,17);
     _topright.addPoint(93,11);
-    //_topright.setFillColor(Color.yellow);
-    //_topright.setFilled(true);
 
-    //_bottomleft = new FigPoly(10,24);
     _bottomleft = new FigPoly(Color.blue,Color.yellow);
-    //_bottomleft.addPoint(10,30);
-    //_bottomleft.addPoint(16,30);
-    //_bottomleft.addPoint(10,24);
     _bottomleft.addPoint(11,39);
     _bottomleft.addPoint(17,39);
     _bottomleft.addPoint(11,33);
-    //_bottomleft.setFillColor(Color.yellow);
-    //_bottomleft.setFilled(true);
 
-    //_bottomright = new FigPoly(90,30);
     _bottomright = new FigPoly(Color.blue,Color.yellow);
-    //_bottomright.addPoint(84,30);
-    //_bottomright.addPoint(90,24);
-    //_bottomright.addPoint(90,30);
     _bottomright.addPoint(92,39);
     _bottomright.addPoint(99,32);
     _bottomright.addPoint(99,39);
-    //_bottomright.setFillColor(Color.yellow);
-    //_bottomright.setFilled(true);
 
-/*    _stereo.setBounds(60, 7, 45, 15);
-    _stereo.setExpandOnly(false);
-    _stereo.setFilled(false);
-    _stereo.setLineWidth(0);
-    _stereo.setEditable(false);
-    _stereo.setHeight(18);
-    _stereo.setDisplayed(false);
-*/
-    //_name.setBounds(13, 13, 87, 21);
     _name.setBounds(14, 14, 82, 20);
-    _name.setText("context property");
-    //_name.setTextFilled(false);
-    //_name.setFillColor(Color.yellow);
     _name.setFilled(false);
     _name.setLineWidth(0);
     _name.setExpandOnly(false);
-    // #####################################
-    _name.setEditable(false); // für's erste
-    // #####################################
-
-    // initialize any other Figs here
-
-    // add Figs to the FigNode in back-to-front order
+    _name.setEditable(false);
+    _name.setJustification(FigText.JUSTIFY_LEFT);
 
     addFig(_bigPort);
     addFig(_name);
@@ -128,57 +91,56 @@ public class FigContextProperty
     addFig(_bottomleft);
     addFig(_bottomright);
 
-    //addFig(_stereo);
-
   }
 
-  /**
-     * Construct a new context property
-     *
-     * @param gm The graphmodel
-     * @param node The underlying MTaggedValue node
-     */
   public FigContextProperty(GraphModel gm, Object node) {
     this();
     setOwner(node);
-/*
-    _name.setText(((MTaggedValueImpl)node).getName());
-*/
+    ((MContextPropertyValueImpl)node).internalRefToMyFigure(this);
+    _myOwner = (MContextPropertyValueImpl)node;
+    _name.setText(((MContextPropertyValueImpl)node).getContextPropertyTag().getName());
     modelChanged();
-  }
-
-  public String placeString() { return(_tagString+" : "+_valString); }
-
-  public Object clone() {
-    FigContextProperty figClone = (FigContextProperty) super.clone();
-    Vector v = figClone.getFigs();
-    figClone._name = (FigText) v.elementAt(0);
-    figClone._bigPort = (FigRect) v.elementAt(1);
-    figClone._topleft = (FigPoly) v.elementAt(2);
-    figClone._topright = (FigPoly) v.elementAt(3);
-    figClone._bottomleft = (FigPoly) v.elementAt(4);
-    figClone._bottomright = (FigPoly) v.elementAt(5);
-
-    return figClone;
+    _killer = new FigTerminator(this);
   }
 
   ////////////////////////////////////////////////////////////////
   // Fig accessors
 
+  public void actualizeEntries() {
+    if (_myOwner.getValueVisibility()) {
+      String stereo = _myOwner.getStereoString();
+      if (!_myOwner.getFigureOrientation()) {
+        if (stereo.equals(""))
+          _name.setText(_myOwner.getContextPropertyTag().getTag()+" : "+_myOwner.getValueString_Horizontal());
+        else
+          _name.setText("<<"+stereo+">> "+_myOwner.getContextPropertyTag().getTag()+" : "+_myOwner.getValueString_Horizontal());
+      }
+      else {
+        if (stereo.equals(""))
+          _name.setText(_myOwner.getContextPropertyTag().getTag()+" : "+_myOwner.getValueString_Vertical());
+        else
+          _name.setText("<<"+stereo+">> "+_myOwner.getContextPropertyTag().getTag()+" : "+_myOwner.getValueString_Vertical());
+      }
+    }
+    else _name.setText(_myOwner.getContextPropertyTag().getTag());
+    modelChanged();
+  }
+
   public Selection makeSelection() {
-    return new SelectionNodeClarifiers(this);
+    callFocus();
+    return(null);
   }
 
   public void setOwner(Object node) {
-    super.setOwner(node);
-    bindPort(node, _bigPort);
+    if (!_killed) {
+      super.setOwner(node);
+      bindPort(node, _bigPort);
+    }
   }
 
-  /** Returns true if this Fig can be resized by the user. */
-  public boolean isResizable() { return true; }
+  public boolean isResizable() { return false; }
 
   public void setLineColor(Color col) {
-    //_triangle.setLineColor(col);
     _topleft.setLineColor(col);
     _topright.setLineColor(col);
     _bottomleft.setLineColor(col);
@@ -195,6 +157,7 @@ public class FigContextProperty
     _bottomright.setFillColor(col);
     _bigPort.setFillColor(col);
   }
+
   public Color getFillColor() { return _bigPort.getFillColor(); }
 
   public void setFilled(boolean f) {  }
@@ -206,54 +169,46 @@ public class FigContextProperty
   public int getLineWidth() { return _bigPort.getLineWidth(); }
 
   public Dimension getMinimumSize() {
-    Dimension nameDim = _name.getMinimumSize();
-    int w = nameDim.width;
-    int h = nameDim.height;
-    return new Dimension(w+12, Math.max(h+10,30));
-  }
-
-  protected void updateStereotypeText() {
-    MModelElement me = (MModelElement) getOwner();
-    if (me == null) return;
-    MStereotype stereo = me.getStereotype();
-    if (stereo == null || stereo.getName() == null || stereo.getName().length() == 0)
-    {
-    	if (! _stereo.isDisplayed()) return;
-    	_stereo.setDisplayed(false);
-    	return;
-    }
-    else
-    {
-    	String stereoStr = stereo.getName();
-    	_stereo.setText("<<" + stereoStr + ">>");
-    	if (!_stereo.isDisplayed()) {
-    	    _stereo.setDisplayed(true);
-    	}
-    }
+    int w = _name.getWidth();
+    int h = _name.getHeight();
+    return new Dimension(w+10, Math.max(h+10,30));
   }
 
   protected void modelChanged() {
-    super.modelChanged();
-    // move the figs
-    calcBounds();
-    Rectangle rect = getBounds();
-    // calculate new height
-    int new_height = 0; // height of constant figs
-    new_height = new_height + _name.getHeight();
-    int new_width = 12; // width of constant figs -> vorn und hinten soll noch etwas Platz sein
-    new_width = new_width + _name.getWidth();
+    if (!_killed) {
+      // move the figs
+      calcBounds();
+      Rectangle rect = getBounds();
+      // calculate new height
+      int new_height = 0;
+      new_height = new_height + _name.getHeight();
 
-    setBounds(rect.x, rect.y, new_width, new_height);
+      int new_width = 10; // vorn und hinten soll noch etwas Platz sein
+      new_width = new_width + _name.getWidth();
+
+      MContextPropertyValueImpl owner = (MContextPropertyValueImpl)this.getOwner();
+      if (owner.hasSelectedValues()) {
+        this.setFillColor(Color.yellow);
+        this.setLineColor(Color.blue);
+        this.setTextColor(Color.black);
+      }
+      else {
+        this.setFillColor(Color.lightGray);
+        this.setLineColor(Color.blue);
+        this.setTextColor(Color.red);
+      }
+
+      setBounds(rect.x, rect.y, new_width, new_height);
+    }
   }
 
-  public void setBounds(int x, int y, int w, int h)
-  {
+  public void setBounds(int x, int y, int w, int h) {
+
     Rectangle oldBounds = getBounds();
     int wt = _name.getWidth();
     wt = Math.max(wt,w);
     int ht = _name.getHeight();
-    ht = Math.max(ht,h);
-    ht = Math.max(ht,30); // mindestens Initialhöhe
+    ht = Math.max(ht,30);
 
     _bigPort.setBounds(x,y,wt,ht);
     _topleft.setLocation( x , (y+1) );
@@ -261,7 +216,7 @@ public class FigContextProperty
     _bottomleft.setLocation( (x+1) , y+ht-7 );
     _bottomright.setLocation( x+wt-(7+1) , y+ht-(7+1) );
 
-    _name.setLocation(x+6, y+4); // nicht ganz in die Ecke klatschen
+    _name.setLocation(x+6, y+4);
 
     calcBounds(); //_x = x; _y = y; _w = w; _h = h;
     Rectangle newBounds = getBounds();
@@ -269,15 +224,125 @@ public class FigContextProperty
     firePropChange("bounds", oldBounds, newBounds);
   }
 
-  public void textEdited(){
-// needs more work !!!
-    // use MTaggedValue to set text
-    MTaggedValue mtv = (MTaggedValue) getOwner();
-    if(mtv == null) return;
+  public void delete() {
+    _killer.killIt();
+    _myOwner.getReferencedModelElement().removeTaggedValue(_myOwner);
+    super.delete();
+  }
 
-    //_name.setText(mtv.getTag() +":" + mtv.getType() + mtv.getValue());
-    _name.setText(mtv.getTag() +":" + mtv.getValue());
+  public void destroyMe() {
+    _killed = true;
+    this.delete();
+  }
+
+  public void kill() {
+    _killed = true;
+    super.delete();
+  }
+
+  public void startKiller() {
+    _killer.start();
+  }
+
+  public void setColor(Color color) {
+    setFillColor(color);
+  }
+
+  public void callFocus() {
+    MessageContainer messCon = new MessageContainer();
+    messCon.setMessage("focus gained");
+    messCon.setObject(_myOwner);
+    messCon.setString(_myOwner.getContextPropertyTag().getTag());
+    _modelIterator.changeObservable(messCon);
+  }
+
+  // ...implements MouseListener
+  public void mouseExited(MouseEvent me) {}
+  public void mouseEntered(MouseEvent me) {}
+  public void mouseReleased(MouseEvent me) {}
+  public void mousePressed(MouseEvent me) {}
+
+  private boolean _okay = false;
+  public void mouseClicked(MouseEvent me) {
+    if (me.getClickCount()==2) {
+      _okay = !_okay;
+      if (_okay) {
+        _myOwner.negateValueVisibility();
+        actualizeEntries();
+        modelChanged();
+      }
+    }
+    else callFocus();
+  }
+  // ...implements MouseMotionListener
+  public void mouseDragged(MouseEvent me) {
+    callFocus();
+  }
+  public void mouseMoved(MouseEvent me) {}
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Helper-Class FigTerminator
+  // (removes the Context Property, if the referenced Model Element was deleted)
+  class FigTerminator extends Thread {
+
+    private FigContextProperty _figure;
+    private boolean _start = true;
+    private boolean _online;
+    private boolean _killed = false;
+    private boolean _go_on = true;
+    private String _uuid_fig;
+    private MContextPropertyValueImpl _owner;
+
+    public FigTerminator(FigContextProperty figure) {
+      super();
+      _figure = figure;
+      _online = false;
+    }
+
+    public void run() {
+      _online = true;
+      _killed = false;
+      _go_on = true;
+      if (_start) {
+        _owner = (MContextPropertyValueImpl)_figure.getOwner();
+        _uuid_fig = _owner.getUUID();
+        _start = false;
+      }
+      try {
+        while(_online) {
+          this.sleep(500);
+          if (_figure.getFigEdges().size() == 0)  {
+            // das referenzierte Modellobject wurde gelöscht
+            _figure.kill();
+            ProjectBrowser pb = ProjectBrowser.TheInstance;
+            pb.getNavPane().forceUpdate();
+            //destroy(); // new, but stops with error-message
+            super.stop(); // deprecated, but stops without error-message
+          }
+          else if (_figure.getFigEdges().size() == 1)  {
+            // die Kante zwischen Objekt-Figure und CP-Figure wurde gelöscht
+            _owner.getReferencedModelElement().removeTaggedValue(_owner);
+            _figure.kill();
+            ProjectBrowser pb = ProjectBrowser.TheInstance;
+            pb.getNavPane().forceUpdate();
+            //destroy(); // new, but stops with error-message
+            super.stop(); // deprecated, but stops without error-message
+          }
+          else {}
+        }
+        _killed = true;
+      }
+      catch(InterruptedException e) {}
+    }
+
+    public void killIt() {
+      _online = false;
+      while(!_killed) {}
+    }
 
   }
+  // Helper-Class FigTerminator
+  //////////////////////////////////////////////////////////////////////////////
 
 }

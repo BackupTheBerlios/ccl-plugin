@@ -1,6 +1,7 @@
 package org.cocons.uml.ccl.context_property1_3;
 
 import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
+import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
  * Describes a contextbased tag-value pair. In the sense of contextbased
@@ -22,11 +23,20 @@ public interface MContextPropertyValue extends MTaggedValue {
 	 * Creation date: (21.12.2001 18:23:32)
 	 * @param MContextPropertyTag The context based property tag.
 	 */
-  void internalRefByContextPropertyTag (MContextPropertyTag __arg);    
+        void internalRefByContextPropertyTag (MContextPropertyTag __arg);
 
+        /**
+          * This method removed the tag, that the value is belonging to.
+          */
+        void removeScopedTag();
 
-/**
- * This method removed the tag, that the value is belonging to.
- */
-
-void removeContextPropertyTag();}
+        /**
+         *
+         * It's useful to have a reference to the model element
+         * the context property value belongs to...
+         * (hyshosha@gmx.de)
+         *
+         */
+         void logicalRefByModelElement (MModelElement __arg);
+         MModelElement getReferencedModelElement();
+}

@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.11 2002/01/29 22:15:59 jgusulde Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.12 2002/01/31 19:00:05 hasihola Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -132,13 +132,13 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
 
     _toolBar.add(ActionAddAttribute.SINGLETON);
-    // ----- hyshosha@gmx.de -----
-    // ----- _toolBar.add(_actionContextP) is now out of service
-    // ----- ActionAddContextProperty() was changed
-    _toolBar.add(new ActionAddContextProperty());
-    // ---------------------------
-    //_toolBar.add(ActionAddOperation.SINGLETON);
-    // needs-more-work: remove attribute and operation?
+
+    _toolBar.addSeparator();
+    _toolBar.add(ActionManageContextPropertyTags.SINGLETON);
+    _toolBar.add(ActionInfoContextPropertyTags.SINGLETON);
+    _toolBar.add(ActionIdentifyContextProperty.SINGLETON);
+    _toolBar.addSeparator();
+    _toolBar.add(ActionAddContextProperty.SINGLETON);
     _toolBar.addSeparator();
 
     _toolBar.add(ActionAddNote.SINGLETON);

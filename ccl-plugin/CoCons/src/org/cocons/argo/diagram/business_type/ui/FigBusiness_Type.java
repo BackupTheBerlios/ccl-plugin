@@ -39,13 +39,13 @@ public class FigBusiness_Type extends FigClass {
     super();
     _stereo.setEditable(false);
     _stereo.setDisplayed(true);
-    getOperationFig().setDisplayed(false);
+    getOperationsFig().setDisplayed(false);
   }
 
   public FigBusiness_Type(GraphModel gm, Object node) {
     super(gm,node);
 
-    getOperationFig().setDisplayed(false);
+    getOperationsFig().setDisplayed(false);
   }
 
 

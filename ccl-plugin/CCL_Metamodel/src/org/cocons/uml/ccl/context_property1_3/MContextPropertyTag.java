@@ -1,5 +1,7 @@
 package org.cocons.uml.ccl.context_property1_3;
 
+import java.util.Vector;
+
 /**
  * Describes a contextbased property tag.
  * Creation date: (21.12.2001 18:20:29)
@@ -12,15 +14,21 @@ public interface MContextPropertyTag extends ru.novosoft.uml.foundation.core.MMo
  * Erstellungsdatum: (31.12.2001 03:40:23)
  */
 void deleteMyself();
-
 /**
- * Insert the method's description here.
- * Creation date: (22.01.2002 16:02:10)
- * @return java.lang.String
+ * Compares the argument with herself.
+ * Return true if both are the same.
+ * Erstellungsdatum: (31.12.2001 03:34:04)
+ * @return boolean
+ * @param __arg org.omg.CORBA.Object
  */
-String getTag();/**
- * Sets the tag of this context property tag.
- * Creation date: (22.01.2002 16:29:49)
- * @param tag String the tag.
- */
-void setTag(String tag);}
+boolean equals(Object __arg);
+
+// --------- hyshosha --------------------
+void setTag(String tagName);
+String getTag();
+String getConstraintBody();
+// ---------------------------------------
+
+}
+
+
