@@ -60,7 +60,7 @@ public class Init implements Runnable {
 
         diagramMenu.add(new ActionCCLAtomicInvocationPathDiagram());
 
-
+	diagramMenu.add(new ActionCCLCseComponentDiagram());
 
     }
 

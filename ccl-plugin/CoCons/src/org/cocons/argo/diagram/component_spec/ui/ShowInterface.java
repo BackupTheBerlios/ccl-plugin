@@ -1,7 +1,6 @@
 /*
  * MShowInterface.java
  * Created on January 10, 2002, 7:15 PM
- * @author  bassem
  * @version 1.0
  */
 package org.cocons.argo.diagram.component_spec.ui;
