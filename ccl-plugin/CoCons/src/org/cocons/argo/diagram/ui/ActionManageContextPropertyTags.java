@@ -744,28 +744,29 @@ public class ActionManageContextPropertyTags extends UMLAction  {
     "  Tag Name:\n"+
     "  Gültige Zeichen für die Eingabe sind Buchstaben, Ziffern, \"_\" und \"-\" und Leerzeichen.\n"+
     "  Ein gültiger Tag-Name muss mit einem Buchstaben oder einer Ziffer beginnen und enden. \n"+
+    "  (Insbesondere führende Leerzeichen werden hier als fehlerhafte Eingabe betrachtet.)\n"+
     "\n"+
     "  List Of Strings:\n"+
-    "  Gültige Zeichen für die Definition eines validen Strings sind Buchstaben, Ziffern, \"_\" und \"-\".\n"+
+    "  Gültige Zeichen für die Definition eines validen Strings sind Buchstaben, Ziffern, \"_\" und \"-\" und Leerzeichen.\n"+
     "  Die einzelnen Strings werden voneinander durch Kommata getrennt.\n"+
-    "  Leerzeichen sind an keiner Stelle zulässig.\n"+
-    "  An Anfang und Ende des Definitionsstrings werden zulässige Zeichen erwartet.\n"+
+    "  An Anfang und Ende des Definitionsstrings werden zulässige Zeichen erwartet (keine Kommata).\n"+
     "  Aufeinanderfolgende Kommata werden als Fehleingabe angesehen.\n"+
+    "  Führende und abschliessende Leerzeichen eines Strings werden entfernt.\n"+
     "\n"+
     "  Integer Number:\n"+
     "  Gültige Zeichen für die Eingabe einer unteren/oberen Schranke sind Ziffern und \"-\".\n"+
     "  Untere und obere Schranke werden durch genau ein Komma voneinander getrennt.\n"+
     "  Eine gültige Range-Definition wird mit einem \"[\" eingeleitet und einem \"]\" abgeschlossen.\n"+
-    "  Leerzeichen sind an keiner Stelle zulässig.\n"+
+    "  (Leerzeichen sind an jeder Stelle zulässig, sie werden jedoch vor der Evaluation der Eingabe entfernt.)\n"+
     "  Soll auf eine explizite Range-Definition verzichtet werden, ist die Eingabe \"[,]\" zulässig.\n"+
-    "  Soll auf eine untere/obere Schranke verzichtet werden, sind die Eingaben \"[,xxx]\"/\"[xxx,]\" zulässig.\n"+
+    "  Soll auf eine untere/obere Schranke verzichtet werden, sind die Eingaben \"[,xxx]\" bzw. \"[xxx,]\" zulässig.\n"+
     "  Es wird erwartet, dass gilt: Unterschranke < Oberschranke .\n"+
+    "  (Selbstverständlich müssen alle als numerische Angabe erwarteten Eingaben auch als\n"+
+    "   solche interpretierbar sein.)\n"+
     "\n"+
     "  Float Number:\n"+
     "  Es gelten sinngemäss dieselben Vereinbarungen wie für Integer Number.\n"+
     "  Als zusätzliches zulässiges Zeichen kommt natürlich der Dezimalpunkt \".\" dazu.\n"+
-    "  (Selbstverständlich müssen alle als numerische Angabe erwarteten Eingaben auch als\n"+
-    "   solche interpretierbar sein.)\n"+
     "\n"+
     "  Unit:\n"+
     "  Für die optionale Angabe einer Einheit für Integer/Float Number gelten keine Einschränkungen.\n"+
@@ -775,7 +776,7 @@ public class ActionManageContextPropertyTags extends UMLAction  {
     "    Context Property - Gruppe:\n"+
     "    Heiko Voigt <hyshosha@gmx.de>\n"+
     "    Jerry Hasiholan <hasihola@cs.tu-berlin.de>\n"+
-    "    ( Berlin, 28.o1.2oo2 )\n";
+    "    ( Berlin, 1o.o2.2oo2 )\n";
     // -------------------------
 
   }
