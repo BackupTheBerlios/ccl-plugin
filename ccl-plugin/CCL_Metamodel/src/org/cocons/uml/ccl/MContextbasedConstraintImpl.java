@@ -353,4 +353,25 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
   }
   public void updateScopedModelElements() {}
   public void updateConstrainedModelElements() {}
+
+  /**
+   * Returns the type for this ContextbasedConstraint.
+   * @return the CoCon type
+   */
+  public int getCoConType() {
+    return coConType;
+  }
+  /**
+   * Sets the type for this ContextbasedConstraint.
+   * @param newType the new type
+   */
+  public void setCoConType(int newType) {
+    coConType = newType;
+  }
+  /**
+   * Defines the type for this ContextbasedConstraint.
+   */
+  private int coConType;
+  public final static int TYPE_ONLY_READABLE_BY = 6;
+
 }
