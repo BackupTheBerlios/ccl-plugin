@@ -154,6 +154,8 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 // 		while( it.hasNext() )
 // 			System.out.println(" POST " + it.next() );
 // 		System.out.println("POST::" + _stringSelection);
+
+		setCPValue( getValueString_Horizontal() );
 		return true;
 	}
 

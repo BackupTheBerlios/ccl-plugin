@@ -6,7 +6,7 @@ import org.cocons.uml.*;
 import ru.novosoft.uml.foundation.core.*;
 import org.cocons.uml.ccl.util.*;
 import org.cocons.argo.util.ModelIterator;
-
+import org.cocons.uml.ccl.util.Parser;
 import org.cocons.uml.ccl.ccldata.*;
 import org.cocons.uml.ccl.xml.CoConXMLWriter;
 
@@ -76,7 +76,7 @@ public class MContextbasedConstraintImpl
 	 */
 	public MContextbasedConstraintImpl() {
 		System.out.println("MContextbasedConstraintImpl ctor");
-		setBody(new ru.novosoft.uml.foundation.data_types.MBooleanExpression("CCLXML", "<hallo>Hallo!</hallo>"));
+		//setBody(new ru.novosoft.uml.foundation.data_types.MBooleanExpression("CCLXML", "<hallo>Hallo!</hallo>"));
 	}
 
 	/**
@@ -377,7 +377,6 @@ public class MContextbasedConstraintImpl
 	{
 		System.out.println("MContextbasedConstraintImpl.syncBody()");
 
-		// todo: replace next line with correct data
 		CoCon myself = getIMClassRepresentation();
 
 		String xmlstring =
@@ -399,13 +398,13 @@ public class MContextbasedConstraintImpl
 
 	public CoCon getIMClassRepresentation()
 	{
-		return newSampleCoCon();
+		return Parser.MCoCon2CoCon( this );
 	}
 
-	public void initializeFromIMClass( CoCon cocon )
-	{
-		System.out.println("MContextbasedConstraintImpl.initializeFromIMClass " + cocon);
-	}
+// 	public void initializeFromIMClass( CoCon cocon )
+// 	{
+// 		System.out.println("MContextbasedConstraintImpl.initializeFromIMClass " + cocon);
+// 	}
 
 	public static
 		org.cocons.uml.ccl.ccldata.CoCon

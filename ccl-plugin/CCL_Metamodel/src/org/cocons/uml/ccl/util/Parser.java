@@ -107,20 +107,35 @@ public class Parser {
     return cocon;
   }
 
-  public static MContextbasedConstraint CoCon2MCoCon (CoCon cocon) {
-    MContextbasedConstraint mcocon = new MContextbasedConstraintImpl();
+	public static MContextbasedConstraint CoCon2MCoCon (CoCon cocon)
+	{
+		MContextbasedConstraint mcocon = new MContextbasedConstraintImpl();
+		Parser.CoCon2ExistingMCoCon( cocon, mcocon );
+		return mcocon;
+	}
+
+	public static void CoCon2ExistingMCoCon( CoCon cocon,
+														  MContextbasedConstraint mcocon )
+	{
+		System.out.println("CCC 1 " + cocon + " " +mcocon);
 //set the type
     mcocon.setCoConType(cocon.getType());
+		System.out.println("CCC 2");
 //step through all CoConSets
     Vector target = new Vector();
     Vector scope = new Vector();
     for(int i = 0; i < cocon.getCoConSet().length; i++) {
+		System.out.println("CCC 3");
       CoConSet set = cocon.getCoConSet(i);
 //step through all CoConSetItems of the CoConSet
       for(int j = 0; j < set.getCoConSetItem().length; j++) {
+		System.out.println("CCC 4");
         CoConSetItem setItem = set.getCoConSetItem(j);
+		System.out.println("CCC 4.1");
         CoConSetCondition coconCondition = setItem.getCoConSetCondition();
+		System.out.println("CCC 4.2");
         ContextConditionImpl cc = getContextCondition(coconCondition.getCoConSetConditionChoice());
+		System.out.println("CCC 5");
         cc.setRange(coconCondition.getRange());
         cc.setBaseClass(getBaseClass(coconCondition.getCoConSetConditionRestriction(0).getRestriction()));
         if(set.getId().getType() == IdType.TARGET_TYPE) {
@@ -132,7 +147,6 @@ public class Parser {
     }
     mcocon.setScopeSetContextConditions(scope);
     mcocon.setTargetSetContextConditions(target);
-    return mcocon;
   }
 
   /**

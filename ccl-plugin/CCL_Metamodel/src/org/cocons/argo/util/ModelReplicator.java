@@ -35,6 +35,9 @@ import org.cocons.uml.ccl.ccldata.CoCon;
 import org.cocons.uml.ccl.ccldata.CoConList;
 
 import org.cocons.uml.ccl.xml.CoConXMLReader;
+import org.cocons.uml.ccl.util.Parser;
+
+
 
 public class ModelReplicator
 {
@@ -43,7 +46,7 @@ public class ModelReplicator
 	private Collection _reflectiveReplicatableMElement                 = null;
 	private Collection _reflectiveReplicatableMModelElement            = null;
 	private Collection _reflectiveReplicatableMConstraint              = null;
-	private Collection _reflectiveReplicatableMContextbasedConstrained = null;
+	private Collection _reflectiveReplicatableMContextbasedConstraint = null;
 
 	public static ModelReplicator SINGLETON 
 		= new ModelReplicator();
@@ -59,8 +62,8 @@ public class ModelReplicator
 			= getReflectiveReplicatableMModelElement();            
 		_reflectiveReplicatableMConstraint              
 			= getReflectiveReplicatableMConstraint();              
-		_reflectiveReplicatableMContextbasedConstrained 
-			= getReflectiveReplicatableMContextbasedConstrained(); 
+		_reflectiveReplicatableMContextbasedConstraint 
+			= getReflectiveReplicatableMContextbasedConstraint(); 
 	}
 
 
@@ -116,7 +119,7 @@ public class ModelReplicator
 		return c;
 	}
 
-	protected Collection getReflectiveReplicatableMContextbasedConstrained()
+	protected Collection getReflectiveReplicatableMContextbasedConstraint()
 	{
 		return new Vector();
 	}
@@ -180,14 +183,15 @@ public class ModelReplicator
 	{
 		replicateMConstraint(cons,cocon);
 		replicateReflective( cons, cocon,
-									_reflectiveReplicatableMContextbasedConstrained );
+									_reflectiveReplicatableMContextbasedConstraint );
 
 		MBooleanExpression mb = cocon.getBody();
 		if( MContextbasedConstraintImpl.BODY_LANGUAGE.equals(mb.getLanguage()) )
 			{
 				try {
 					CoConList ccl = CoConXMLReader.SINGLETON.readString(mb.getBody());
-					cocon.initializeFromIMClass( ccl.getCoCon( 0 ) );
+					//cocon.initializeFromIMClass( ccl.getCoCon( 0 ) );
+					Parser.CoCon2ExistingMCoCon( ccl.getCoCon( 0 ), cocon );
 				} catch ( Exception e ) {
 					System.err.println(e);
 				}

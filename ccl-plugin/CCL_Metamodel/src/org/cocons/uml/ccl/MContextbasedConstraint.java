@@ -127,8 +127,8 @@ public interface MContextbasedConstraint extends MConstraint {
 	/** Returns intermediate class representation */
 	public CoCon getIMClassRepresentation();
 
-	/** Initializes cocon from intermediate classes  */
-	public void initializeFromIMClass( CoCon cocon );
+// 	/** Initializes cocon from intermediate classes  */
+// 	public void initializeFromIMClass( CoCon cocon );
 
         /**
          * Updates the CoCons, that means the scope and target set will be

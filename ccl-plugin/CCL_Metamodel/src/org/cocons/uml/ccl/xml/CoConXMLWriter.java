@@ -16,6 +16,8 @@ import org.exolab.castor.xml.*;
 import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xml.serialize.OutputFormat;
 
+import org.cocons.uml.ccl.util.Parser;
+
 
 
 public class CoConXMLWriter
@@ -48,7 +50,8 @@ public class CoConXMLWriter
 			{
 				Object o = it.next();
 				if( o instanceof MContextbasedConstraint )
-					clist.addCoCon( ((MContextbasedConstraint)o).getIMClassRepresentation() );
+					clist.addCoCon( Parser.MCoCon2CoCon((MContextbasedConstraint)o) );
+				//.getIMClassRepresentation() );
 			}
 		
 		return clist;

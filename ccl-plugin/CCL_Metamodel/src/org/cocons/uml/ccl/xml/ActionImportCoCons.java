@@ -32,6 +32,8 @@ import org.cocons.argo.diagram.constraint.ui.*;
 
 import org.tigris.gef.graph.*;
 
+import org.cocons.uml.ccl.util.Parser;
+
 
 public class ActionImportCoCons 
 	extends UMLAction
@@ -91,8 +93,10 @@ public class ActionImportCoCons
 	{
 		GraphModel gm = diag.getGraphModel();
 
-		MContextbasedConstraintImpl mcocon = new MContextbasedConstraintImpl();
-		mcocon.initializeFromIMClass( cocon );
+		MContextbasedConstraint mcocon = 
+			Parser.CoCon2MCoCon( cocon );
+		//new MContextbasedConstraintImpl();
+		//mcocon.initializeFromIMClass( cocon );
 
 		FigContextbasedConstraint fig = new FigContextbasedConstraint( gm, mcocon );
 		diag.getLayer().add( fig );
