@@ -19,41 +19,44 @@ import org.cocons.uml.ccl.*;
 
 public class TestCrUnReadableBy extends TestCase {
 
+
+
+
   Project project;
 
   public TestCrUnReadableBy(String name) {
-    super(name);
-  }
+	super(name);
+  }  
 
   public static void main(String[] args) {
-    junit.swingui.TestRunner.run(TestCrUnReadableBy.class);
-  }
+	junit.swingui.TestRunner.run(TestCrUnReadableBy.class);
+  }  
 
   public void setUp() {
 
   /*
-    cocon = new MContextbasedConstraintImpl();
-    scopeSet = new MContextConditionImpl();
-    constrainedSet = new MContextConditionImpl();
+	cocon = new MContextbasedConstraintImpl();
+	scopeSet = new MContextConditionImpl();
+	constrainedSet = new MContextConditionImpl();
 
-    scopeSet.addContextbasedConstraint(cocon);
-    constrainedSet.addContextbasedConstraint(cocon);
+	scopeSet.addContextbasedConstraint(cocon);
+	constrainedSet.addContextbasedConstraint(cocon);
 
-    cocon.setScopeSet(scopeSet);
-    cocon.setConstrainedSet(constrainedSet);
+	cocon.setScopeSet(scopeSet);
+	cocon.setConstrainedSet(constrainedSet);
 
-    project = ProjectBrowser.TheInstance.getProject();
+	project = ProjectBrowser.TheInstance.getProject();
 */
 
 
-  }
+  }  
 
   public void tearDown() {
 
 
-  }
+  }  
 
   public void testPredicate() {
-    assertTrue("tautologisch", true);
-  }
+	assertTrue("tautologisch", true);
+  }  
 }
