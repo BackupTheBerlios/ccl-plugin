@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.10 2001/12/18 19:21:40 jgusulde Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.11 2002/01/29 22:15:59 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -69,7 +69,7 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   public CCLBusiness_TypeDiagram() {
     _actionBusiness_Type =
       new CmdCreateNodeStereotype(MClassImpl.class,
-               "business type", findStereotype("type") );
+               "BusinessType", findStereotype("type") );
     try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
 
