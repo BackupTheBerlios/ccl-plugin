@@ -18,6 +18,7 @@ import ru.novosoft.uml.foundation.core.*;
 import java.awt.event.*;
 import org.cocons.uml.ccl.*;
 import ru.novosoft.uml.foundation.extension_mechanisms.*;
+import ru.novosoft.uml.foundation.data_types.*;
 
 public class ActionAddContextProperty extends UMLAction {
 
@@ -38,7 +39,22 @@ public class ActionAddContextProperty extends UMLAction {
         MTaggedValue mcp = (MTaggedValue) target;
         super.actionPerformed(ae);
     }
-
+/*
+    public void actionPerformed(ActionEvent ae) {
+        ProjectBrowser pb = ProjectBrowser.TheInstance;
+        Project p = pb.getProject();
+        Object target = pb.getDetailsTarget();
+        System.out.println("jan---->ActionAddContextProperty.actionPerformed  target ist MClass:"+target instanceof MClass);
+        System.out.println("jan---->"+pb + "  " + p + "  " + target);
+        if (!(target instanceof MClass)) return;
+        MClass mcls = (MClass) target;
+        MTaggedValue mcp = new MTaggedValue();
+        mcp.setValue("newContextProperty");
+        mcp.setVisibility(MVisibilityKind.PUBLIC);
+        mcls.addTaggedValue(mcp);
+        super.actionPerformed(ae);
+    }
+*/
     public boolean shouldBeEnabled() {
         ProjectBrowser pb = ProjectBrowser.TheInstance;
         Object target = pb.getDetailsTarget();

@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.6 2001/11/25 20:10:29 shicathy Exp $
+// $Id: FigBusiness_Type.java,v 1.7 2001/12/05 06:48:44 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -27,7 +27,8 @@ import org.argouml.uml.ui.*;
 import org.argouml.uml.generator.*;
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.ui.*;
-
+import org.argouml.uml.diagram.static_structure.ui.FigClass;
+import org.cocons.argo.diagram.ui.ContextViewPopUpMenu;
 
 public class FigBusiness_Type extends FigNodeModelElement {
 
@@ -109,10 +110,13 @@ public class FigBusiness_Type extends FigNodeModelElement {
   }
 
   public Vector getPopUpActions(MouseEvent me) {
+
     Vector popUpActions = super.getPopUpActions(me);
     JMenu addMenu = new JMenu("Add");
     addMenu.add(ActionAddAttribute.SINGLETON);
+    addMenu.add("CopyAsInfoType");
     popUpActions.insertElementAt(addMenu, popUpActions.size() - 1);
+    ContextViewPopUpMenu.getPopUpActions(popUpActions);
     return popUpActions;
   }
 
