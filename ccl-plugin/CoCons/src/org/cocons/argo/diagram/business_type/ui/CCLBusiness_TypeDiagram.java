@@ -1,8 +1,5 @@
 
-// File: CCLBusiness_TypeDiagram.java
-// Classes: CCLBusiness_TypeDiagram
-// Original Author: jgusulde@cs.tu-berlin.de
-// $Id: CCLBusiness_TypeDiagram.java,v 1.2 2001/11/05 21:05:15 fchabar Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.3 2001/11/13 11:36:05 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -13,6 +10,7 @@ import javax.swing.*;
 
 import ru.novosoft.uml.model_management.*;
 import ru.novosoft.uml.foundation.core.*;
+import ru.novosoft.uml.foundation.extension_mechanisms.*;
 import ru.novosoft.uml.behavior.common_behavior.*;
 
 import org.tigris.gef.base.*;
@@ -22,27 +20,28 @@ import org.argouml.ui.*;
 import org.argouml.uml.ui.*;
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.uml.diagram.static_structure.*;
-import org.argouml.uml.diagram.static_structure.ui.ClassDiagramRenderer;
+import org.argouml.uml.diagram.static_structure.ui.*;
 
-import org.cocons.argo.diagram.ui.CCLDiagram;
+import org.cocons.argo.diagram.ui.*;
+import org.cocons.argo.diagram.business_type.*;
+import org.cocons.uml.ccl.*;
 
 public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
+    
   ////////////////
   // actions for toolbar
-  // needs-more-work: should these be static?
-
-
 
 	protected static Action _actionClass =
-		new CmdCreateNode(MClassImpl.class, "Class");
+		new CmdCreateNodeStereotype(MClassImpl.class, "Class", new MStereotypeImpl());
+  
+	protected static Action _actionPackage =
+		new CmdCreateNodeStereotype(MPackageImpl.class, "Package",new MStereotypeImpl());
 
-	protected static Action _actionObject =
-		new CmdCreateNode(MInstanceImpl.class, "Instance");
+	protected static Action _actionContextP =
+		new CmdCreateNodeStereotype(MContextPropertyTagImpl.class, "ContextProperty",new MStereotypeImpl());
 
-	protected static Action _actionInterface =
-		new CmdCreateNode(MInterfaceImpl.class, "Interface");
-
+   
 	protected static Action _actionDepend =
 		new CmdSetMode(ModeCreatePolyEdge.class,
 					   "edgeClass", MDependencyImpl.class,
@@ -53,24 +52,10 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 					   "edgeClass", MAssociationImpl.class,
 					   "Association");
 
-	protected static Action _actionLink =
-		new CmdSetMode(ModeCreatePolyEdge.class,
-					   "edgeClass", MLinkImpl.class,
-					   "Link");
-
 	protected static Action _actionGeneralize =
 		new CmdSetMode(ModeCreatePolyEdge.class,
 					   "edgeClass", MGeneralizationImpl.class,
 					   "Generalization");
-
-
-	protected static Action _actionRealize =
-		new CmdSetMode(ModeCreatePolyEdge.class,
-					   "edgeClass", MAbstractionImpl.class,
-					   "Realization");
-
-	protected static Action _actionPackage =
-		new CmdCreateNode(MPackageImpl.class, "Package");
 
 
   ////////////////////////////////////////////////////////////////
@@ -79,7 +64,7 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
 
   public CCLBusiness_TypeDiagram() {
-    try { setName("class diagram " + _ClassDiagramSerial++); }
+    try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
   }
 
@@ -90,12 +75,12 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
   public void setNamespace(MNamespace m) {
     super.setNamespace(m);
-    ClassDiagramGraphModel gm = new ClassDiagramGraphModel();
+    Business_TypeDiagramGraphModel gm = new Business_TypeDiagramGraphModel();
     gm.setNamespace(m);
     setGraphModel(gm);
     LayerPerspective lay = new LayerPerspectiveMutable(m.getName(), gm);
     setLayer(lay);
-    ClassDiagramRenderer rend = new ClassDiagramRenderer(); // singleton
+    Business_TypeDiagramRenderer rend = new Business_TypeDiagramRenderer(); // singleton
     lay.setGraphNodeRenderer(rend);
     lay.setGraphEdgeRenderer(rend);
   }
@@ -116,21 +101,20 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
     _toolBar.add(_actionPackage);
     _toolBar.add(_actionClass);
+    _toolBar.add(_actionContextP);
+    _toolBar.addSeparator();
+    
     _toolBar.add(_actionAssoc);
     _toolBar.add(_actionDepend);
     _toolBar.add(_actionGeneralize);
     _toolBar.addSeparator();
 
-//     _toolBar.add(_actionObject);
-//     _toolBar.add(_actionLink);
-//     _toolBar.addSeparator();
-
-    _toolBar.add(_actionInterface);
-	_toolBar.add(_actionRealize);
-    _toolBar.addSeparator();
 
     _toolBar.add(ActionAddAttribute.SINGLETON);
-    _toolBar.add(ActionAddOperation.SINGLETON);
+    // ActionAddContextProperty extends CCLDiagram 
+    // new file , where to put ????????
+    _toolBar.add(new ActionAddContextProperty());
+    //_toolBar.add(ActionAddOperation.SINGLETON);
     // needs-more-work: remove attribute and operation?
     _toolBar.addSeparator();
 
@@ -150,4 +134,4 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
     _toolBar.add(_diagramName);
   }
 
-} /* end class UMLClassDiagram */
+} 

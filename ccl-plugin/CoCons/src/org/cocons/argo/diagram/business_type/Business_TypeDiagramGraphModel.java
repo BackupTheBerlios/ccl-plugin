@@ -1,7 +1,5 @@
-// File: Business_TypeDiagramGraphModel.java
-// Classes: Business_TypeDiagramGraphModel
-// Original Author: jgusulde@cs.tu-berlin.de
-// $Id: Business_TypeDiagramGraphModel.java,v 1.1 2001/10/31 14:15:35 jgusulde Exp $
+// Original Author: jgusulde
+// $Id: Business_TypeDiagramGraphModel.java,v 1.2 2001/11/13 11:36:05 oetker Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -17,13 +15,15 @@ import ru.novosoft.uml.foundation.extension_mechanisms.MStereotype;
 import org.tigris.gef.graph.*;
 
 import org.argouml.uml.MMUtil;
+import org.cocons.uml.ccl.*;
 
 /** This class defines a bridge between the UML meta-model
  *  representation of the design and the GraphModel interface used by
  *  GEF.  This class handles only UML Class digrams.  */
 
 public class Business_TypeDiagramGraphModel extends MutableGraphSupport
-implements MutableGraphModel, VetoableChangeListener, MElementListener {
+    implements MutableGraphModel, GraphModel,VetoableChangeListener, MElementListener {
+        
   ////////////////////////////////////////////////////////////////
   // instance variables
   protected Vector _nodes = new Vector();
@@ -60,9 +60,11 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
   public Vector getPorts(Object nodeOrEdge) {
     Vector res = new Vector();  //wasteful!
     if (nodeOrEdge instanceof MClass) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MInterface) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MInstance) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MModel) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MPackage) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MContextPropertyTag) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MAssociation) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MDependency) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MGeneralization) res.addElement(nodeOrEdge);
     return res;
   }
 
@@ -73,70 +75,111 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 
   /** Return all edges going to given port */
   public Vector getInEdges(Object port) {
+    
     Vector res = new Vector(); //wasteful!
+    
     if (port instanceof MClass) {
       MClass cls = (MClass) port;
       Collection ends = cls.getAssociationEnds();
       if (ends == null) return res; // empty Vector
       //java.util.Enumeration endEnum = ends.elements();
-	  Iterator iter = ends.iterator();
+      Iterator iter = ends.iterator();
       while (iter.hasNext()) {
 		  MAssociationEnd ae = (MAssociationEnd) iter.next();
 		  res.add(ae.getAssociation());
       }
     }
-    if (port instanceof MInterface) {
-      MInterface Intf = (MInterface) port;
-      Collection ends = Intf.getAssociationEnds();
-      if (ends == null) return res; // empty Vector
-      Iterator endEnum = ends.iterator();
-      while (endEnum.hasNext()) {
-	    MAssociationEnd ae = (MAssociationEnd) endEnum.next();
-	    res.addElement(ae.getAssociation());
-	  }
-    }
-    /*if (port instanceof MPackage) {
-      MPackage cls = (MPackage) port;
-      Vector ends = cls.getAssociationEnd();
-      if (ends == null) return res; // empty Vector
-      java.util.Enumeration endEnum = ends.elements();
-      while (endEnum.hasMoreElements()) {
-	    MAssociationEnd ae = (MAssociationEnd) endEnum.nextElement();
-	    res.addElement(ae.getAssociation());
+    
+    if (port instanceof MPackage) {
+      MPackage pa = (MPackage) port;
+      Collection sp = pa.getSpecializations();
+      if (sp == null) return res; // empty Vector
+      Iterator spEnum = sp.iterator();
+      while (spEnum.hasNext()) {
+	    MGeneralization spG = (MGeneralization) spEnum.next();
+	    res.addElement(spG);
       }
-    }*/
-    if (port instanceof MInstance) {
-      MInstance inst = (MInstance) port;
-      Collection ends = inst.getLinkEnds();
-	  res.addAll(ends);
+      Collection ge = pa.getGeneralizations();
+      if ( ge == null) return res;
+      Iterator geEnum = ge.iterator();
+      while ( geEnum.hasNext() ) {
+         MGeneralization geG = (MGeneralization) spEnum.next();
+         res.addElement(geG);
+      }      
     }
+    
+    if (port instanceof MContextPropertyTag) {
+      MContextPropertyTag cpt = (MContextPropertyTag) port;
+      Collection sd = cpt.getSupplierDependencies();
+      if (sd == null) return res; // empty Vector
+      Iterator it = sd.iterator();
+      while (it.hasNext()) {
+        MDependency sdmd = (MDependency) it.next();
+        res.addElement(sdmd);
+      }
+      Collection cd = cpt.getClientDependencies();
+      if (cd == null) return res; // empty Vector
+      it = cd.iterator();
+      while (it.hasNext()) {
+        MDependency cdmd = (MDependency) it.next();
+        res.addElement(cdmd);
+      }
+    }
+   
     return res;
   }
 
   /** Return all edges going from given port */
   public Vector getOutEdges(Object port) {
-    return new Vector(); // needs-more-work?
+    return getInEdges(port);
   }
 
   /** Return one end of an edge */
   public Object getSourcePort(Object edge) {
+    
     if (edge instanceof MAssociation) {
       MAssociation assoc = (MAssociation) edge;
       List conns = assoc.getConnections();
       return conns.get(0);
     }
-    System.out.println("needs-more-work getSourcePort");
+    
+    if (edge instanceof MGeneralization) {
+      MGeneralization gen = (MGeneralization) edge;
+      MGeneralizableElement child = gen.getChild();
+      return child;
+    }
+    
+    if (edge instanceof MDependency) {
+      MDependency denp = (MDependency) edge;
+      Collection clients = denp.getClients();
+      return ((Object[])clients.toArray())[0];
+    }
+    
+    //System.out.println("needs-more-work getSourcePort");
     return null;
   }
 
   /** Return  the other end of an edge */
   public Object getDestPort(Object edge) {
+      
     if (edge instanceof MAssociation) {
       MAssociation assoc = (MAssociation) edge;
       List conns = assoc.getConnections();
       return conns.get(1);
     }
-    System.out.println("needs-more-work getDestPort");
+    
+    if (edge instanceof MGeneralization) {
+      MGeneralization gen = (MGeneralization) edge;
+      MGeneralizableElement parent = gen.getParent();
+      return parent;
+    }
+    
+    if (edge instanceof MDependency) {
+      MDependency denp = (MDependency) edge;
+      Collection supplier = denp.getSuppliers();
+      return ((Object[])supplier.toArray())[0];
+    }
+    //System.out.println("needs-more-work getDestPort");
     return null;
   }
 
@@ -147,14 +190,44 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
   /** Return true if the given object is a valid node in this graph */
   public boolean canAddNode(Object node) {
     if (_nodes.contains(node)) return false;
-    return (node instanceof MClass) || (node instanceof MInterface)
-    || (node instanceof MModel)  || (node instanceof MPackage) || (node instanceof MInstance);
+    return ( (node instanceof MClass) || (node instanceof MPackage) || 
+            (node instanceof MContextPropertyTag) );
   }
 
+
+  /** Add the given node to the graph, if valid. */
+  public void addNode(Object node) {
+    //System.out.println("adding class node!!");
+    if (!canAddNode(node) ) return;
+    _nodes.addElement(node);
+  
+    if (node instanceof MModelElement && ((MModelElement)node).getNamespace() == null) {
+        _model.addOwnedElement((MModelElement) node);
+    }
+  
+    /*if (node instanceof MInterface){
+    //System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
+        ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
+    }*/
+
+    fireNodeAdded(node);
+    // System.out.println("adding "+node+" OK");
+  }
+  
+    /** Remove the given node from the graph. */
+  public void removeNode(Object node) {
+     if (!_nodes.contains(node)) return;
+        _nodes.removeElement(node);
+        fireNodeRemoved(node);
+    }
+  
+    
+    
   /** Return true if the given object is a valid edge in this graph */
   public boolean canAddEdge(Object edge)  {
     if(_edges.contains(edge)) return false;
     Object end0 = null, end1 = null;
+    
     if (edge instanceof MAssociation) {
       List conns = ((MAssociation)edge).getConnections();
       if (conns.size() < 2) return false;
@@ -175,51 +248,21 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
       end0 = ((Object[])clients.toArray())[0];
       end1 = ((Object[])suppliers.toArray())[0];
     }
-    else if (edge instanceof MLink) {
-      Collection roles = ((MLink)edge).getConnections();
-      MLinkEnd le0 = (MLinkEnd)((Object[]) roles.toArray())[0];
-      MLinkEnd le1 = (MLinkEnd)((Object[]) roles.toArray())[0];
-      if (le0 == null || le1 == null) return false;
-      end0 = le0.getInstance();
-      end1 = le1.getInstance();
-    }
+    
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
+    if ( !( end0 instanceof MClass && end1 instanceof MClass) ) return false;
     return true;
   }
 
-  /** Remove the given node from the graph. */
-  public void removeNode(Object node) {
-    if (!_nodes.contains(node)) return;
-    _nodes.removeElement(node);
-    fireNodeRemoved(node);
-  }
-
-  /** Add the given node to the graph, if valid. */
-  public void addNode(Object node) {
-    //System.out.println("adding class node!!");
-    if (_nodes.contains(node)) return;
-    _nodes.addElement(node);
-    if (node instanceof MModelElement &&
-	((MModelElement)node).getNamespace() == null) {
-	_model.addOwnedElement((MModelElement) node);
-    }
-    if (node instanceof MInterface){
-	//System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
-
-	((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
-    }
-
-    fireNodeAdded(node);
-    // System.out.println("adding "+node+" OK");
-  }
-
+ 
   /** Add the given edge to the graph, if valid. */
   public void addEdge(Object edge) {
     //System.out.println("adding class edge!!!!!!");
-    if (_edges.contains(edge)) return;
+    if ( !canAddEdge(edge) ) return;
     _edges.addElement(edge);
+    
     // needs-more-work: assumes public
     if (edge instanceof MModelElement &&
        ((MModelElement)edge).getNamespace() == null) {
@@ -229,57 +272,66 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
   }
 
 
-  public void addNodeRelatedEdges(Object node) {
-    if ( node instanceof MClassifier ) {
-      Collection ends = ((MClassifier)node).getAssociationEnds();
-      Iterator iter = ends.iterator();
-      while (iter.hasNext()) {
-         MAssociationEnd ae = (MAssociationEnd) iter.next();
-         if(canAddEdge(ae.getAssociation()))
-           addEdge(ae.getAssociation());
-      }
-    }
-    if ( node instanceof MGeneralizableElement ) {
-      Collection gn = ((MGeneralizableElement)node).getGeneralizations();
-      Iterator iter = gn.iterator();
-      while (iter.hasNext()) {
-         MGeneralization g = (MGeneralization) iter.next();
-         if(canAddEdge(g))
-           addEdge(g);
-      }
-      Collection sp = ((MGeneralizableElement)node).getSpecializations();
-      iter = sp.iterator();
-      while (iter.hasNext()) {
-         MGeneralization s = (MGeneralization) iter.next();
-         if(canAddEdge(s))
-           addEdge(s);
-      }
-    }
-    if ( node instanceof MModelElement ) {
-      Vector specs = new Vector(((MModelElement)node).getClientDependencies());
-      specs.addAll(((MModelElement)node).getSupplierDependencies());
-      Iterator iter = specs.iterator();
-      while (iter.hasNext()) {
-         MDependency dep = (MDependency) iter.next();
-         if(canAddEdge(dep))
-           addEdge(dep);
-      }
-    }
-  }
-
-
-  /** Remove the given edge from the graph. */
+    /** Remove the given edge from the graph. */
   public void removeEdge(Object edge) {
     if (!_edges.contains(edge)) return;
     _edges.removeElement(edge);
     fireEdgeRemoved(edge);
   }
+  
+  
+  
+  
+  public void addNodeRelatedEdges(Object node) {
+    
+    if ( node instanceof MClass ) {
+      Collection ends = ((MClass)node).getAssociationEnds();
+      Iterator iter = ends.iterator();
+      while (iter.hasNext()) {
+         MAssociationEnd ae = (MAssociationEnd) iter.next();
+         if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
+      }
+    }
+    
+    
+    if ( node instanceof MPackage ) {
+      Collection gn = ((MPackage)node).getGeneralizations();
+      Iterator iter = gn.iterator();
+      while (iter.hasNext()) {
+         MGeneralization g = (MGeneralization) iter.next();
+         if(canAddEdge(g))  addEdge(g);
+      }
+      
+      Collection sp = ((MPackage)node).getSpecializations();
+      iter = sp.iterator();
+      while (iter.hasNext()) {
+         MGeneralization s = (MGeneralization) iter.next();
+         if(canAddEdge(s))  addEdge(s);
+      }
+    }
+    
+    
+    if ( node instanceof MDependency ) {
+      Vector specs = new Vector(((MDependency)node).getClientDependencies());
+      specs.addAll(((MDependency)node).getSupplierDependencies());
+      Iterator iter = specs.iterator();
+      while (iter.hasNext()) {
+         MDependency dep = (MDependency) iter.next();
+         if(canAddEdge(dep))  addEdge(dep);
+      }
+    }
+  }
+
+
 
   /** Return true if the two given ports can be connected by a
    * kind of edge to be determined by the ports. */
-  public boolean canConnect(Object fromP, Object toP) { return true; }
-
-
+  public boolean canConnect(Object fromP, Object toP) { 
+    if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
+    else return false; 
+  }
+ 
+ 
   /** Contruct and add a new edge of a kind determined by the ports */
   public Object connect(Object fromPort, Object toPort) {
     System.out.println("should not enter here! connect2");
@@ -287,148 +339,40 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
   }
 
   /** Contruct and add a new edge of the given kind */
-  public Object connect(Object fromPort, Object toPort,
-			java.lang.Class edgeClass) {
-	  //    System.out.println("connecting: "+fromPort+toPort+edgeClass);
-      if ((fromPort instanceof MClass) && (toPort instanceof MClass)) {
-	    MClass fromCls = (MClass) fromPort;
-	    MClass toCls = (MClass) toPort;
+  public Object connect(Object fromPort, Object toPort, java.lang.Class edgeClass) {
+	 //    System.out.println("connecting: "+fromPort+toPort+edgeClass);
 
-	    if (edgeClass == MGeneralizationImpl.class) {
-			MGeneralization gen = MMUtil.SINGLETON.buildGeneralization(fromCls, toCls);
+    if (edgeClass == MGeneralizationImpl.class) {
+         MGeneralizableElement child = (MGeneralizableElement) fromPort;
+         MGeneralizableElement parent = (MGeneralizableElement) toPort;
+			MGeneralization gen = MMUtil.SINGLETON.buildGeneralization(child, parent);
 			addEdge(gen);
 			return gen;
-	    }
-	    else if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromCls, toCls);
- 	      addEdge(asc);
+	 }
+	 
+    else if (edgeClass == MAssociationImpl.class) {
+        MClassifier m1 = (MClassifier) fromPort;
+        MClassifier m2 = (MClassifier) toPort;
+		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
+ 	     addEdge(asc);
 		  return asc;
-		  //return asc;
-	    }
-	    else if (edgeClass == MDependencyImpl.class) {
-			// nsuml: using Binding as default
-			MDependency dep = MMUtil.SINGLETON.buildDependency(fromCls, toCls);
+	 }
+	 
+    else if (edgeClass == MDependencyImpl.class) {
+			MModelElement client = (MModelElement) fromPort;
+         MModelElement supplier = (MModelElement) toPort;
+			MDependency dep = MMUtil.SINGLETON.buildDependency(client, supplier);
 			addEdge(dep);
 			return dep;
-	    }
-	    else {
-	      System.out.println("connect: Cannot make a "+ edgeClass.getName() +
-			     " between a " + fromPort.getClass().getName() +
-			     " and a " + toPort.getClass().getName());
-	      return null;
-	    }
-      }
-      else if ((fromPort instanceof MPackage) && (toPort instanceof MPackage)) {
-		  MPackage fromPack = (MPackage) fromPort;
-		  MPackage toPack = (MPackage) toPort;
-    // needs-more-work: assumes public, user pref for default visibility?
-	//do I have to check the namespace here? (Toby)
-		  if (edgeClass == MDependencyImpl.class) {
-			  // nsuml: using Usage as default
-			  MDependency dep = MMUtil.SINGLETON.buildDependency(fromPack, toPack);
-			  addEdge(dep);
-			  return dep;
-		  }
-      }
-
-      // break
-      else if ((fromPort instanceof MClass) && (toPort instanceof MInterface)) {
-	MClass fromCls = (MClass) fromPort;
-	MInterface toIntf = (MInterface) toPort;
-
-	if (edgeClass == MAbstractionImpl.class) {
-		MAbstraction real = MMUtil.SINGLETON.buildRealization(fromCls, toIntf);
-		addEdge(real);
-		return real;
-	}
-
-	  else  if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromCls, toIntf);
- 	      addEdge(asc);
-		  return asc;
-	}
-	else {
-	  System.out.println("Cannot make a "+ edgeClass.getName() +
-			     " between a " + fromPort.getClass().getName() +
-			     " and a " + toPort.getClass().getName());
-	  return null;
-	}
-      }
-
-      // break
-      else if ((fromPort instanceof MInterface) && (toPort instanceof MClass)) {
-	MInterface fromIntf = (MInterface) fromPort;
-	MClass toCls = (MClass) toPort;
-
-
-	if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromIntf, false, toCls, true);
- 	      addEdge(asc);
-		  return asc;
-	}
-
-// 	else if (edgeClass == MAbstractionImpl.class) {
-// 		MAbstraction real = MMUtil.SINGLETON.buildRealization(toCls, fromIntf);
-// 		addEdge(real);
-// 		return real;
-// 	}
-
-	else {
-	  System.out.println("Cannot make a "+ edgeClass.getName() +
-			     " between a " + fromPort.getClass().getName() +
-			     " and a " + toPort.getClass().getName());
-	  return null;
-	}
-      }
-
-      // break
-      else if ((fromPort instanceof MInterface) && (toPort instanceof MInterface)) {
-	MInterface fromIntf = (MInterface) fromPort;
-	MInterface toIntf = (MInterface) toPort;
-
-	if (edgeClass == MGeneralizationImpl.class) {
-		MGeneralization gen = new MGeneralizationImpl();
-	  gen.setChild(fromIntf);
-	  gen.setParent(toIntf);
-	  addEdge(gen);
-	  return gen;
-	}
-	else if (edgeClass == MDependencyImpl.class) {
-		//nsuml: using Binding
-	MDependency dep = new MDependencyImpl();
-		dep.addSupplier(fromIntf);
-		dep.addClient(toIntf);
-		addEdge(dep);
-	  addEdge(dep);
-	  return dep;
-	}
-	else {
-	  System.out.println("Cannot make a "+ edgeClass.getName() +
-			     " between a " + fromPort.getClass().getName() +
-			     " and a " + toPort.getClass().getName());
-	  return null;
-	}
-      }
-
-      // break
-      else if ((fromPort instanceof MInstance) && (toPort instanceof MInstance)) {
-        MInstance fromInst = (MInstance) fromPort;
-        MInstance toInst = (MInstance) toPort;
-    	if (edgeClass == MLinkImpl.class) {
-    	  MLink link = new MLinkImpl();
-		  MLinkEnd le0 = new MLinkEndImpl();
-		  le0.setInstance(fromInst);
-		  MLinkEnd le1 = new MLinkEndImpl();
-		  le1.setInstance(toInst);
-		  link.addConnection(le0);
-		  link.addConnection(le1);
-    	  addEdge(link);
-    	  return link;
-    	}
-      }
-
-    System.out.println("should not enter here! connect3");
-    return null;
+	 }
+	 
+    else {
+        System.out.println("connect: Cannot make a "+ edgeClass.getName() +
+            " between a " + fromPort.getClass().getName() +
+			   " and a " + toPort.getClass().getName());
+	     return null;
+	 }
+        
   }
 
 
@@ -442,17 +386,18 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
       Vector oldOwned = (Vector) pce.getOldValue();
       MElementImport eo = (MElementImport) pce.getNewValue();
       MModelElement me = eo.getModelElement();
+      
       if (oldOwned.contains(eo)) {
-	//System.out.println("model removed " + me);
-	if (me instanceof MClassifier) removeNode(me);
-	if (me instanceof MPackage) removeNode(me);
-	if (me instanceof MAssociation) removeEdge(me);
-	if (me instanceof MDependency) removeEdge(me);
-	if (me instanceof MGeneralization) removeEdge(me);
-	//if (me instanceof Realization) removeEdge(me);
+        //System.out.println("model removed " + me);
+        if (me instanceof MClass) removeNode(me);
+        if (me instanceof MPackage) removeNode(me);
+        if (me instanceof MContextPropertyTag) removeNode(me);
+        if (me instanceof MAssociation) removeEdge(me);
+        if (me instanceof MDependency) removeEdge(me);
+        if (me instanceof MGeneralization) removeEdge(me);    
       }
       else {
-	//System.out.println("model added " + me);
+        //System.out.println("model added " + me);
       }
     }
   }
@@ -474,5 +419,5 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 
   static final long serialVersionUID = -2638688086415040146L;
 
-} /* end class ClassDiagramGraphModel */
+} 
 

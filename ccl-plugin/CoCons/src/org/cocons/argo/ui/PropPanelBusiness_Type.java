@@ -18,10 +18,10 @@ import org.argouml.uml.ui.*;
 
 public class PropPanelBusiness_Type extends PropPanelModelElement {
 
-  protected static ImageIcon _business_TypeIcon = ResourceLoader.lookupIconResource("Business_Type");
+  protected static ImageIcon _business_TypeIcon = ResourceLoader.lookupIconResource("Class");
 
   public PropPanelBusiness_Type() {
-    super("Business_Type", _business_TypeIcon, 3);
+    super("Class", _business_TypeIcon, 3);
 
     addCaption("Name:",1,0,0);
     addField(nameField,1,0,0);
@@ -35,6 +35,6 @@ public class PropPanelBusiness_Type extends PropPanelModelElement {
   }
 
   protected boolean isAcceptibleBaseMetaClass(String baseClass) {
-      return baseClass.equals("Business_Type");
+      return baseClass.equals("Class");
   }
 }

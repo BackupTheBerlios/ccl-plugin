@@ -66,11 +66,11 @@ author: klischat
     <property name="build.dest" value="${build.dir}/classes"/>
 
     <property name="classpath"
-value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${junit.lib}"/>
+value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}"/>
 
     <!-- The following can be set in .argo.ant.properties                 -->
     <!--     or .ant.properties to some other value                       -->
-    <property name="debug" value="off"/>
+    <property name="debug" value="on"/>
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>
 
