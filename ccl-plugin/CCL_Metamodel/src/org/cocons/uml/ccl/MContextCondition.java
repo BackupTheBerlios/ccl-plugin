@@ -20,7 +20,7 @@ public interface MContextCondition extends MBase {
    * @return current value of the BaseClass attribute
    */
   public String getBaseClass();
-  /**  
+  /**
    * Sets the value of the attribute BaseClass.
    *
    * @param new value of the BaseClass attribute
@@ -221,4 +221,8 @@ public interface MContextCondition extends MBase {
    * @param __arg ContextbasedConstraint to be unreferenced
    */
   void internalUnrefByContextbasedConstraint(MContextbasedConstraint __arg);
+
+  public void updateConditionedModelElements();
+
+  public Vector getConditionedModelElements();
 }
