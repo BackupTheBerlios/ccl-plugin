@@ -37,31 +37,78 @@ public interface MContextbasedConstraint extends MConstraint {
 	 */
 	public String getCoConType();
 
-  /**
-   * Sets the CCL data object that defines the functionality of this CoCon.
-   *
-   * @param xmlCCL the CCL data object.
-   */
-  public void setXMLCCL(CoConData xmlCCL);
+	/**
+	 * Sets the type of this Contextbased Constraint.
+	 *
+	 * @param type the CoCon type.
+	 */
+	public void setCoConType(String type);
 
-  /**
-   * Returns the CCL data object that defines this CoCon.
-   *
-   * @return the CCL data object.
-   */
-  public CoConData getXMLCCL();
+	/**
+	 * Sets the context condition for the target set.
+	 *
+	 * @param contextCondition the target set context condition.
+	 */
+	public void setTargetSetContextCondition(ContextCondition contextCondition);
+
+	/**
+	 * Sets the context condition for the scope set.
+	 *
+	 * @param contextCondition the scope set context condition.
+	 */
+	public void setScopeSetContextCondition(ContextCondition contextCondition);
 
 	/**
 	 * Returns the scope' context condition.
-	 * Creation date: (15.01.2002 14:38:23)
-	 * @return org.cocons.uml.ccl.ContextCondition the scope's context condition.
+	 *
+	 * @return ContextCondition the scope's context condition.
 	 */
-	ContextCondition getScopeContextCondition();
+	public ContextCondition getScopeSetContextCondition();
 
 	/**
 	* Returns the target context condition.
-	* Creation date: (15.01.2002 14:37:44)
-	* @return org.cocons.uml.ccl.ContextCondition the target context condition.
+	*
+	* @return ContextCondition the target context condition.
 	*/
-	ContextCondition getTargetContextCondition();
+	public ContextCondition getTargetSetContextCondition();
+
+        /**
+         * Sets the direct associated elements for the target set.
+         *
+         * @param directElements the vector that contains the direct
+         *        elements for the target set. Each element is a String,
+         *        the name of the direct associated element.
+         */
+        public void setTargetSetDirectElements(Vector directElements);
+
+        /**
+         * Sets the direct associated elements for the scope set.
+         *
+         * @param directElements the vector that contains the direct
+         *        elements for the scope set. Each element is a String,
+         *        the name of the direct associated element.
+         */
+        public void setScopeSetDirectElements(Vector directElements);
+
+        /**
+         * Returns the complete CCL String that defines this CoCon.
+         *
+         * @return the CCL String that defines this CoCon, returns null
+         *         if the CoCon hasn't been initialized yet.
+         */
+        public String toString();
+
+        /**
+         * Returns the part of the CCL String that defines the target set.
+         *
+         * @return the CCL String that defines the target set.
+         */
+        public String getTargetSetCCLString();
+
+        /**
+         * Returns the part of the CCL String that defines the scope set.
+         *
+         * @return the CCL String that defines the scope set.
+         */
+        public String getScopeSetCCLString();
 }
