@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.9 2001/12/18 19:22:19 jgusulde Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.10 2002/01/22 16:37:07 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -108,7 +108,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          res.addElement(geG);
       }
     }
-
+/*
       if (port instanceof MTaggedValue) {
 	  MTaggedValue tv = (MTaggedValue) port;
 	  Collection sd = tv.getSupplierDependencies();
@@ -126,7 +126,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 	      res.addElement(cdmd);
 	  }
     }
-
+*/
     return res;
   }
 
@@ -286,7 +286,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 
 
   public void addNodeRelatedEdges(Object node) {
-
+/*
     if ( node instanceof MTaggedValue ) {
       Collection ends = ((MTaggedValue)node).getClientDependencies();
       ends.addAll(((MTaggedValue)node).getSupplierDependencies());
@@ -296,7 +296,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          if(canAddEdge(dep))  addEdge(dep);
       }
     }
-
+*/
 
     if ( node instanceof MClass ) {
       Collection ends = ((MClass)node).getAssociationEnds();

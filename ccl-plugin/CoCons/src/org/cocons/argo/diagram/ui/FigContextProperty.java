@@ -1,7 +1,7 @@
 // File: FigContextProperty.java
 // Classes: FigContextProperty
 // Original Author: jgusulde
-// $Id: FigContextProperty.java,v 1.3 2001/12/06 09:48:16 hyshosha Exp $
+// $Id: FigContextProperty.java,v 1.4 2002/01/22 16:37:07 jgusulde Exp $
 
 package org.cocons.argo.diagram.ui;
 
@@ -31,7 +31,7 @@ public class FigContextProperty
   String _tagString;
   String _valString;
 
-  MContextPropertyTagImpl _contPropTag;
+  //MContextPropertyTagImpl _contPropTag;
 
   /** UML does not really use ports, so just define one big one so
    *  that users can drag edges to or from any point in the icon. */
@@ -141,7 +141,9 @@ public class FigContextProperty
   public FigContextProperty(GraphModel gm, Object node) {
     this();
     setOwner(node);
+/*
     _name.setText(((MTaggedValueImpl)node).getName());
+*/
     modelChanged();
   }
 

@@ -86,25 +86,25 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 		  res.add(ae.getAssociation());
       }
     }
-
-      if (port instanceof MTaggedValue) {
-	  MTaggedValue tv = (MTaggedValue) port;
-	  Collection sd = tv.getSupplierDependencies();
-	  if (sd == null) return res; // empty Vector
-	  Iterator it = sd.iterator();
-	  while (it.hasNext()) {
-	      MDependency sdmd = (MDependency) it.next();
-	      res.addElement(sdmd);
-	  }
-	  Collection cd = tv.getClientDependencies();
-	  if (cd == null) return res; // empty Vector
-	  it = cd.iterator();
-	  while (it.hasNext()) {
-	      MDependency cdmd = (MDependency) it.next();
-	      res.addElement(cdmd);
-	  }
+/*  Achtung  Jan
+    if (port instanceof MTaggedValue) {
+      MTaggedValue tv = (MTaggedValue) port;
+      Collection sd = tv.getSupplierDependencies();
+      if (sd == null) return res; // empty Vector
+      Iterator it = sd.iterator();
+      while (it.hasNext()) {
+        MDependency sdmd = (MDependency) it.next();
+        res.addElement(sdmd);
+      }
+      Collection cd = tv.getClientDependencies();
+      if (cd == null) return res; // empty Vector
+      it = cd.iterator();
+      while (it.hasNext()) {
+        MDependency cdmd = (MDependency) it.next();
+        res.addElement(cdmd);
+      }
     }
-
+*/
     return res;
   }
 
@@ -243,7 +243,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 
 
   public void addNodeRelatedEdges(Object node) {
-
+/*  Achtung Jan
     if ( node instanceof MTaggedValue ) {
       Collection ends = ((MTaggedValue)node).getClientDependencies();
       ends.addAll(((MTaggedValue)node).getSupplierDependencies());
@@ -253,7 +253,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 	 if(canAddEdge(dep))  addEdge(dep);
       }
     }
-
+*/
     if ( node instanceof MClass ) {
       Collection ends = ((MClass)node).getAssociationEnds();
       Iterator iter = ends.iterator();

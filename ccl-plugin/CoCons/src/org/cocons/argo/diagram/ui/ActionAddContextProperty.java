@@ -48,6 +48,8 @@ public class ActionAddContextProperty extends UMLAction {
     // main methods
 
     public void actionPerformed(ActionEvent ae) {
+/*
+
         ProjectBrowser pb = ProjectBrowser.TheInstance;
         Project p = pb.getProject();
         Object target = pb.getDetailsTarget();
@@ -146,6 +148,7 @@ public class ActionAddContextProperty extends UMLAction {
 
         // #############################################
         super.actionPerformed(ae);
+*/
     }
 
     public boolean shouldBeEnabled() {
