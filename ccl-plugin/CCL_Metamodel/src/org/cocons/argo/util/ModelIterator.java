@@ -26,45 +26,56 @@ public class ModelIterator {
 	 */
 	public ModelIterator() {
 	}
-/**
- * Returns all MContextPropertyTags from the current project
- * Erstellungsdatum: (31.12.2001 02:30:09)
- * @return java.util.Vector
- */
-public Vector getAllContextPropertyTags() {
-	Vector propertyTags = new Vector();
-	Vector modelElements = getAllModelElements();
-	for (int i = 0; i < modelElements.size(); i++) {
-			if ( modelElements.elementAt(i) instanceof MContextPropertyTag) {
-				propertyTags.addElement((MContextPropertyTag)modelElements.elementAt(i));
-			}
-	}
-	return propertyTags;
-}
-/**
- * Returns all MContextPropertyValues from the current project
- * Erstellungsdatum: (31.12.2001 02:56:51)
- * @return java.util.Vector
- */
-public Vector getAllContextPropertyValues() {
-	Vector propertyValues = new Vector();
-	Vector modelElements = getAllModelElements();
-	for (int i = 0; i < modelElements.size(); i++) {
-			if ( modelElements.elementAt(i) instanceof MContextPropertyValue) {
-				propertyValues.addElement((MContextPropertyValue)modelElements.elementAt(i));
-			}
-	}
-	return propertyValues;
-}
+    
 	/**
-	 * Looks up all model elements in the ArgoUML model.
-	 *
-	 * @return A Vector containing model elements
+	 * Returns all MContextPropertyTags from the current project
+	 * Erstellungsdatum: (31.12.2001 02:30:09)
+	 * @return java.util.Vector
 	 */
-	public Vector getAllModelElements() {
-		Project theProject = ProjectBrowser.TheInstance.getProject();
-		return getAllModelElements(theProject);
+	public Vector getAllContextPropertyTags() {
+		Vector propertyTags = new Vector();
+		Vector modelElements = getAllModelElements();
+		for (int i = 0; i < modelElements.size(); i++) {
+			if (modelElements.elementAt(i) instanceof MContextPropertyTag) {
+				propertyTags.addElement((MContextPropertyTag) modelElements.elementAt(i));
+			}
+		}
+		return propertyTags;
 	}
+    
+	/**
+	 * Returns all MContextPropertyValues from the current project
+	 * Erstellungsdatum: (31.12.2001 02:56:51)
+	 * @return java.util.Vector
+	 */
+	public Vector getAllContextPropertyValues() {
+		Vector propertyValues = new Vector();
+		Vector modelElements = getAllModelElements();
+		for (int i = 0; i < modelElements.size(); i++) {
+			if (modelElements.elementAt(i) instanceof MContextPropertyValue) {
+				propertyValues.addElement((MContextPropertyValue) modelElements.elementAt(i));
+			}
+		}
+		return propertyValues;
+	}
+    
+	/**
+	  * Looks up all model elements in the ArgoUML model.
+	  *
+	  * @return A Vector containing model elements
+	  */
+	public Vector getAllModelElements() {
+
+		if (ProjectBrowser.TheInstance != null) {
+			Project theProject = ProjectBrowser.TheInstance.getProject();
+
+			return getAllModelElements(theProject);
+
+		} else {
+			return new Vector();
+		}
+	}
+    
 	/**
 	 * Returns all model elements for a given project.
 	 * Creation date: (15.01.2002 17:58:50)
@@ -88,6 +99,7 @@ public Vector getAllContextPropertyValues() {
 		}
 		return modelElements;
 	}
+    
 	/**
 	 * Looks up a specific class from the ArgoUML model.
 	 *
