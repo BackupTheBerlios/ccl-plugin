@@ -18,4 +18,9 @@ void deleteMyself();
  * Creation date: (22.01.2002 16:02:10)
  * @return java.lang.String
  */
-String getTag();}
+String getTag();/**
+ * Sets the tag of this context property tag.
+ * Creation date: (22.01.2002 16:29:49)
+ * @param tag String the tag.
+ */
+void setTag(String tag);}
