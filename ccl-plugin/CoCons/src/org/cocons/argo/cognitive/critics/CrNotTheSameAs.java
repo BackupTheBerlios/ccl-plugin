@@ -11,9 +11,10 @@ import org.cocons.uml.ccl.ContextCondition;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.BaseClasses;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
+
 /**
- * Criticising modelelements that break rules set up from further defined
- * SetToValueIn-Contextbased constraints.
+ * The design critic that supervises the NotTheSameAs Contextbased Constraint.
+ *
  * @see org.cocons.uml.ccl.MContextbasedConstraint
  * @see www.cocons.org
  *
@@ -21,140 +22,122 @@ import org.cocons.uml.ccl.comparators.ComparatorFactory;
  */
 public class CrNotTheSameAs extends CrCoCon {
 
-	/**
-	 * A context based constraint, describing:
-	 * ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
-	 * MUST BE SetToValueIn IN
-	 * ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
-	 */
-	MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
+  // only for testing purpose
+  MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
+  static boolean gemacht = false;
 
-	/**
-	 * The cocon's target context condition, describing
-	 * ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
-	 */
-	ContextConditionImpl targetSet = new ContextConditionImpl();
+  private void setUpCoCon() {
+    ComparisonImpl sComp = new ComparisonImpl();
+    ComparatorFactory cf = new ComparatorFactoryImpl();
+    ContextConditionImpl targetSet = new ContextConditionImpl();
+    ContextConditionImpl scopeSet = new ContextConditionImpl();
+    ComparisonImpl tComp = new ComparisonImpl();
+    // The example expressed in ccl:
+    // ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
+    // MUST BE SetToValueIn IN
+    // ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
+    // init
+    cocon = new MContextbasedConstraintImpl();
+    targetSet = new ContextConditionImpl();
+    scopeSet = new ContextConditionImpl();
+    tComp = new ComparisonImpl();
+    sComp = new ComparisonImpl();
+    cf = new ComparatorFactoryImpl();
 
-	/**
-	 * The cocon's scope context condition, describing
-	 * ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
-	 */
-	ContextConditionImpl scopeSet = new ContextConditionImpl();
+    // 1) constructs cocon
+    // target tree
+    tComp.setTag("Workflow");
+    tComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
+    tComp.setValue("PayWages");
 
-	/**
-	 * A comparison of the target context condition, describing
-	 * `Workflow' CONTAINS `Integrate Two Contracts'
-	 */
-	ComparisonImpl tComp = new ComparisonImpl();
+    targetSet.setBaseClass(BaseClasses.COMPONENT);
+    targetSet.setComparison(tComp);
+    // scope tree
+    sComp.setTag("OperationalArea");
+    sComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
+    sComp.setValue("FieldService");
 
-	/**
-	 * A comparison of the scope context condition, describing
-	 * `<<Configure>> Historization' = `To Local Logfile'
-	 */
-	ComparisonImpl sComp = new ComparisonImpl();
+    scopeSet.setBaseClass(BaseClasses.COMPONENT);
+    scopeSet.setComparison(sComp);
 
-	/**
-	 * A factory producing comparisons.
-	 */
-	ComparatorFactory cf = new ComparatorFactoryImpl();
+    Vector targetSetConditions = new Vector();
+    targetSetConditions.addElement(targetSet);
+    cocon.setTargetSetContextConditions(targetSetConditions);
+    cocon.setCoConType(CoConTypes.NOT_THE_SAME_AS_TYPE);
+    Vector scopeSetConditions = new Vector();
+    scopeSetConditions.addElement(scopeSet);
+    cocon.setScopeSetContextConditions(scopeSetConditions);
+  }
 
+  /**
+   * Constructs this Critic.
+   */
+  public CrNotTheSameAs() {
+    super();
+    // set headline
+    setHeadline("NotTheSameAs Contextbased Constraint violated");
+    // set description
+    setDescription("A model element is associated both in the target and scope set " +
+      "of a NotTheSameAs Contextbased Constraint.");
+  }
 
-	/**
-		 * Sets the CoCon up for this test.
-		 * Creation date: (15.01.2002 18:08:56)
-		 */
-	private void setUpCoCon() {
+  /**
+   * Predicate showing weather this critic found a problem in the
+   * argouml-model or not.
+   *
+   * @return boolean true if a SetToValueIn-Contextbased Constraint is violated.
+   */
+  public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
+    // this is only for testing purpose, uses hardcoded cocon
+    return predicate(cocon);
 
-		// The example expressed in ccl:
-		// ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
-		// MUST BE SetToValueIn IN
-		// ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
-
-		// init
-		cocon = new MContextbasedConstraintImpl();
-		targetSet = new ContextConditionImpl();
-		scopeSet = new ContextConditionImpl();
-		tComp = new ComparisonImpl();
-		sComp = new ComparisonImpl();
-
-		cf = new ComparatorFactoryImpl();
-
-		// 1) constructs cocon
-		// target tree
-		tComp.setTag("'Workflow'");
-		tComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
-		tComp.setValue("`Pay Wages'");
-
-		targetSet.setBaseClass(BaseClasses.INTERFACE);
-		targetSet.setComparison(tComp);
-
-		// scope tree
-		sComp.setTag("`Operational Area'");
-		sComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
-		sComp.setValue("`Field Service'");
-
-		scopeSet.setBaseClass(BaseClasses.ELEMENT);
-		scopeSet.setComparison(sComp);
-
-                Vector targetSetConditions = new Vector();
-                targetSetConditions.addElement(targetSet);
-		cocon.setTargetSetContextConditions(targetSetConditions);
-		cocon.setCoConType(CoConTypes.NOT_THE_SAME_AS_TYPE);
-                Vector scopeSetConditions = new Vector();
-                scopeSetConditions.addElement(scopeSet);
-		cocon.setScopeSetContextConditions(scopeSetConditions);
-
+    /*
+    //check if the given object is a context based constraint
+    if (!(dm instanceof MContextbasedConstraintImpl)) {
+      return NO_PROBLEM;
+    }
+    //get ContextBasedConstraint and check if the type is correct
+    MContextbasedConstraintImpl coCon = (MContextbasedConstraintImpl)dm;
+    if (cocon.getCoConType().equals(CoConTypes.NOT_THE_SAME_AS_TYPE)) {
+      cocon.update();
+      Vector targetSet = cocon.getTargetElements();
+      Vector scopeSet = cocon.getScopedElements();
+      for (int t = 0; t < targetSet.size(); t++) {
+	if (!scopeSet.contains(targetSet.elementAt(t))) {
+	  return PROBLEM_FOUND;
 	}
+      }
+    }
+    return NO_PROBLEM;
+    */
+  }
 
-	/**
-	 * Constructs this Critic.
-	 */
-	public CrNotTheSameAs() {
-		super();
+  /**
+   * Checks weather the given Contextbased Constraint has the type SetToValueIn
+   * and if that's the case if it is violated within the argouml-model.
+   *
+   * @return boolean true - if the given cocon is violated.
+   * @param cocon org.cocons.uml.ccl.MContextbasedConstraint a SetToValueInCocon
+   */
+  private boolean predicate(MContextbasedConstraint cocon) {
 
-		setUpCoCon();
+    // testing only
+    if (!gemacht) {
+      setUpCoCon();
+      gemacht = true;
+    }
+    cocon.update();
 
-		// set headline
-		setHeadline("Bruch eines SetToValueIn Cocons");
 
-		// set description
-		setDescription(
-			"Das von einem SetToValueIn Cocon aufgestellte " + "kontextbasierendes Constraint wurde verletzt.");
+    if (cocon.getCoConType().equals(CoConTypes.NOT_THE_SAME_AS_TYPE)) {
+      Vector targetSet = cocon.getTargetElements();
+      Vector scopeSet = cocon.getScopedElements();
+      for (int t = 0; t < targetSet.size(); t++) {
+	if (!scopeSet.contains(targetSet.elementAt(t))) {
+	  return PROBLEM_FOUND;
 	}
-
-	/**
-		 * Predicate showing weather this critic found a problem in the
-		 * argouml-model or not.
-	 * @return boolean true if a SetToValueIn-Contextbased Constraint is violated.
-	 */
-	public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
-
-		return predicate(cocon);
-	}
-
-	/**
-	 * Checks weather the given Contextbased Constraint has the type SetToValueIn
-		* and if that's the case if it is violated within the argouml-model.
-	 * Creation date: (15.01.2002 13:09:34)
-	 * @return boolean true - if the given cocon is violated.
-	 * @param cocon org.cocons.uml.ccl.MContextbasedConstraint a SetToValueInCocon
-	 */
-	private boolean predicate(MContextbasedConstraint cocon) {
-
-		//the constraint is violated, if a model element of the target set
-		// is not in the scoped set.
-
-		if (cocon.getCoConType().equals(CoConTypes.NOT_THE_SAME_AS_TYPE)) {
-			Vector targetSet = cocon.getTargetElements();
-			Vector scopeSet = cocon.getScopedElements();
-
-			for (int t = 0; t < targetSet.size(); t++) {
-				if (!scopeSet.contains(targetSet.elementAt(t))) {
-					return PROBLEM_FOUND;
-				}
-			}
-		}
-
-		return NO_PROBLEM;
-	}
+      }
+    }
+    return NO_PROBLEM;
+  }
 }
