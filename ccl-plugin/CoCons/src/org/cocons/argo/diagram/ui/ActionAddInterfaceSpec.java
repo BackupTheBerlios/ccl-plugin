@@ -46,8 +46,8 @@ public class ActionAddInterfaceSpec extends UMLAction {
     _jp.add(new CmdCreateNodeStereotype(MInterfaceImpl.class,
           "new Interface", findStereotype("interface spec") ));
     _jp.addSeparator();
-
-    for(Iterator mi = new ModelIterator().getAllModelElements().iterator();mi.hasNext();){
+    Collection models = ProjectBrowser.TheInstance.getProject().getCurrentNamespace().getOwnedElements();
+    for(Iterator mi = models.iterator();mi.hasNext();){
       Object o = mi.next();
       if (o instanceof MInterface){
         MInterface minterface = (MInterface)o;
