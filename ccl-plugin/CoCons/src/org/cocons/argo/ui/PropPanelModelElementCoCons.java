@@ -17,7 +17,7 @@ import java.util.*;
 
 import org.cocons.uml.ccl.*;
 
-abstract public class PropPanelModelElementCoCons extends PropPanel {
+abstract public class PropPanelModelElementCoCons extends PropPanel implements CoConTypes{
 
     ////////////////////////////////////////////////////////////////
     // constants
@@ -62,25 +62,25 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
     protected JTextField scopesetField;
     protected JTextField attributeField;
     protected JComboBox coconTypeList;
-    private String[] coconTypeName = {"InaccessibleBy",
-                                      "AccessibleBy",
-                                      "OnlyAccessibleBy",
-                                      "UnreadableBy",
-                                      "ReadableBy",
-                                      "OnlyReadableBy",
-                                      "WriteableBy",
-                                      "UnwriteableBy",
-                                      "OnlyWriteableBy",
-                                      "AllocatedTo",
-                                      "NotAllocatedTo",
-                                      "OnlyAllocatedTo",
-                                      "ReplicatedTo",
-                                      "ComplyingWithRational",
-                                      "TheSameAs",
-                                      "NotTheSameAs",
-                                      "Logged",
-                                      "Encrypted",
-                                      "Errorhandled"
+    private String[] coconTypeName = {INACCESSIBLE_BY,
+                                      ACCESSIBLE_BY,
+                                      ONLY_ACCESSIBLE_BY,
+                                      UNREADABLE_BY,
+                                      READABLE_BY,
+                                      ONLY_READABLE_BY,
+                                      WRITEABLE_BY,
+                                      UNWRITEABLE_BY,
+                                      ONLY_WRITEABLE_BY,
+                                      ALLOCATED_TO,
+                                      NOT_ALLOCATED_TO,
+                                      ONLY_ALLOCATED_TO,
+                                      REPLICATED_TO,
+                                      THE_SAME_AS,
+                                      NOT_THE_SAME_AS_TYPE,
+                                      COMPLYING_WITH_RATIONAL,
+                                      LOGGED,
+                                      ENCRYPTED,
+                                      ERRORHANDLED
                                       };
     private Hashtable cocons;
     ////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
                 cocons.remove("cocontype");
                 cocons.put("cocontype",("MUST BE " +newSelected));
                 coconsField.setText(cocons.get("targetset")+ ";" + cocons.get("cocontype")+ ";" + cocons.get("scopeset")+ ";" + cocons.get("attribute") + ";");
-                coconType.setText(""+cocons.get("cocontype"));
+                coconType.setText(""+newSelected);
             }
         });
 
