@@ -1,6 +1,7 @@
 package org.cocons.uml.ccl;
 
 import ru.novosoft.uml.foundation.core.*;
+import java.util.Vector;
 
 /**
  * Interface to a CCL ContextbasedConstraint metaclass.
@@ -71,4 +72,8 @@ public interface MContextbasedConstraint extends MConstraint {
    */
   void internalUnrefByConstrainedSet(MContextCondition __arg);
 
-  }
+  public Vector getScopedModelElements();
+  public Vector getConstrainedModelElements();
+  public void updateScopedModelElements();
+  public void updateConstrainedModelElements();
+}
