@@ -31,8 +31,8 @@ public class Init implements Runnable {
    * Registers the Critics to the Argo Agency singelton.
    */
   public void run() {
-
-    Agency.register(new CrSetToValueIn(), CrSetToValueIn.class);
-    Agency.register(new CrNotAllowedToExistIn(), CrNotAllowedToExistIn.class);
+  java.lang.Class cls = MModelElementImpl.class;
+    Agency.register(new CrSetToValueIn(), cls);
+    Agency.register(new CrNotAllowedToExistIn(), cls);
   }
 }
