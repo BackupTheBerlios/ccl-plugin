@@ -59,6 +59,31 @@ public class ConditionImpl implements Condition {
 	}
 
 	/**
+	 * Constructs this condition as an conditional leaf with a comparison.
+	 * Creation date: (10.02.2002 13:31:38)
+	 * @param comp org.cocons.uml.ccl.Comparison a comparison.
+	 */
+	public ConditionImpl(Comparison comp) {
+		this();
+		this.setComparison(comp);
+	}
+    
+	/**
+	 * Constructs this Condition as a node. A conditional node consists of an logic operation
+	 * and two conditonal childs.
+	 * Creation date: (10.02.2002 13:34:40)
+	 * @param firstChild Condition the first child to be set for this condition.
+	 * @param lo LogicOperation the logic operation to be set for this condition.
+	 * @param secondChild Condition the second child to be set for this condition.
+	 */
+	public ConditionImpl(Condition firstChild, LogicOperation lo, Condition secondChild) {
+		this();
+		this.setFirstChild(firstChild);
+		this.setLogicOperation(lo);
+		this.setSecondChild(secondChild);
+	}
+
+	/**
 	 * Checks if this condition is complied with a given model element.
 	 * Creation date: (21.12.2001 20:39:49)
 	 * @return boolean if the condtion is complied.
@@ -356,4 +381,5 @@ public class ConditionImpl implements Condition {
 		return condition;
 	}
 
+    
 }
