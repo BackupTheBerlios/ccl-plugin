@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.5 2001/11/20 10:59:06 oetker Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.6 2001/11/22 11:00:02 shicathy Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -23,7 +23,7 @@ import org.cocons.uml.ccl.*;
 
 public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     implements MutableGraphModel, GraphModel,VetoableChangeListener, MElementListener {
-        
+
   ////////////////////////////////////////////////////////////////
   // instance variables
   protected Vector _nodes = new Vector();
@@ -75,12 +75,13 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 
   /** Return all edges going to given port */
   public Vector getInEdges(Object port) {
-    
+
     Vector res = new Vector(); //wasteful!
-    
+
     if (port instanceof MClass) {
       MClass cls = (MClass) port;
       Collection ends = cls.getAssociationEnds();
+
       if (ends == null) return res; // empty Vector
       //java.util.Enumeration endEnum = ends.elements();
       Iterator iter = ends.iterator();
@@ -89,7 +90,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 		  res.add(ae.getAssociation());
       }
     }
-    
+
     if (port instanceof MPackage) {
       MPackage pa = (MPackage) port;
       Collection sp = pa.getSpecializations();
@@ -105,7 +106,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       while ( geEnum.hasNext() ) {
          MGeneralization geG = (MGeneralization) spEnum.next();
          res.addElement(geG);
-      }      
+      }
     }
 
       if (port instanceof MTaggedValue) {
@@ -124,7 +125,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 	      MDependency cdmd = (MDependency) it.next();
 	      res.addElement(cdmd);
 	  }
-      }
+    }
+
     return res;
   }
 
@@ -135,44 +137,44 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 
   /** Return one end of an edge */
   public Object getSourcePort(Object edge) {
-    
+
     if (edge instanceof MAssociation) {
       MAssociation assoc = (MAssociation) edge;
       List conns = assoc.getConnections();
       return conns.get(0);
     }
-    
+
     if (edge instanceof MGeneralization) {
       MGeneralization gen = (MGeneralization) edge;
       MGeneralizableElement child = gen.getChild();
       return child;
     }
-    
+
     if (edge instanceof MDependency) {
       MDependency denp = (MDependency) edge;
       Collection clients = denp.getClients();
       return ((Object[])clients.toArray())[0];
     }
-    
+
     //System.out.println("needs-more-work getSourcePort");
     return null;
   }
 
   /** Return  the other end of an edge */
   public Object getDestPort(Object edge) {
-      
+
     if (edge instanceof MAssociation) {
       MAssociation assoc = (MAssociation) edge;
       List conns = assoc.getConnections();
       return conns.get(1);
     }
-    
+
     if (edge instanceof MGeneralization) {
       MGeneralization gen = (MGeneralization) edge;
       MGeneralizableElement parent = gen.getParent();
       return parent;
     }
-    
+
     if (edge instanceof MDependency) {
       MDependency denp = (MDependency) edge;
       Collection supplier = denp.getSuppliers();
@@ -198,11 +200,11 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     //System.out.println("adding class node!!");
     if (!canAddNode(node) ) return;
     _nodes.addElement(node);
-  
+
     if (node instanceof MModelElement && ((MModelElement)node).getNamespace() == null) {
         _model.addOwnedElement((MModelElement) node);
     }
-  
+
     /*if (node instanceof MInterface){
     //System.out.println("Interface stereo: "+MMUtil.STANDARDS.lookup("interface"));
         ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
@@ -211,21 +213,21 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     fireNodeAdded(node);
     // System.out.println("adding "+node+" OK");
   }
-  
+
     /** Remove the given node from the graph. */
   public void removeNode(Object node) {
      if (!_nodes.contains(node)) return;
         _nodes.removeElement(node);
         fireNodeRemoved(node);
     }
-  
-    
-    
+
+
+
   /** Return true if the given object is a valid edge in this graph */
   public boolean canAddEdge(Object edge)  {
     if(_edges.contains(edge)) return false;
     Object end0 = null, end1 = null;
-    
+
     if (edge instanceof MAssociation) {
       List conns = ((MAssociation)edge).getConnections();
       if (conns.size() < 2) return false;
@@ -246,23 +248,24 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       end0 = ((Object[])clients.toArray())[0];
       end1 = ((Object[])suppliers.toArray())[0];
     }
-    
+
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
     if ( !(( end0 instanceof MClass && end1 instanceof MTaggedValue) ||
 	   ( end0 instanceof MTaggedValue && end1 instanceof MClass) ||
 	   ( end0 instanceof MClass && end1 instanceof MClass))  ) return false;
+
     return true;
   }
 
- 
+
   /** Add the given edge to the graph, if valid. */
   public void addEdge(Object edge) {
     //System.out.println("adding class edge!!!!!!");
     if ( !canAddEdge(edge) ) return;
     _edges.addElement(edge);
-    
+
     // needs-more-work: assumes public
     if (edge instanceof MModelElement &&
        ((MModelElement)edge).getNamespace() == null) {
@@ -278,10 +281,10 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     _edges.removeElement(edge);
     fireEdgeRemoved(edge);
   }
-  
-  
-  
-  
+
+
+
+
   public void addNodeRelatedEdges(Object node) {
 
     if ( node instanceof MTaggedValue ) {
@@ -293,7 +296,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          if(canAddEdge(dep))  addEdge(dep);
       }
     }
-    
+
     if ( node instanceof MClass ) {
       Collection ends = ((MClass)node).getAssociationEnds();
       Iterator iter = ends.iterator();
@@ -302,8 +305,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
       }
     }
-    
-    
+
+
     if ( node instanceof MPackage ) {
       Collection gn = ((MPackage)node).getGeneralizations();
       Iterator iter = gn.iterator();
@@ -311,7 +314,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          MGeneralization g = (MGeneralization) iter.next();
          if(canAddEdge(g))  addEdge(g);
       }
-      
+
       Collection sp = ((MPackage)node).getSpecializations();
       iter = sp.iterator();
       while (iter.hasNext()) {
@@ -319,8 +322,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          if(canAddEdge(s))  addEdge(s);
       }
     }
-    
-    
+
+
     if ( node instanceof MDependency ) {
       Vector specs = new Vector(((MDependency)node).getClientDependencies());
       specs.addAll(((MDependency)node).getSupplierDependencies());
@@ -336,14 +339,14 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 
   /** Return true if the two given ports can be connected by a
    * kind of edge to be determined by the ports. */
-  public boolean canConnect(Object fromP, Object toP) { 
+  public boolean canConnect(Object fromP, Object toP) {
     if ( (fromP instanceof MClass) && (toP instanceof MTaggedValue) ) return true;
     if ( (fromP instanceof MTaggedValue) && (toP instanceof MClass) ) return true;
     if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
-    return false; 
+    return false;
   }
- 
- 
+
+
   /** Contruct and add a new edge of a kind determined by the ports */
   public Object connect(Object fromPort, Object toPort) {
     System.out.println("should not enter here! connect2");
@@ -361,7 +364,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 			addEdge(gen);
 			return gen;
 	 }
-	 
+
     else if (edgeClass == MAssociationImpl.class) {
         MClassifier m1 = (MClassifier) fromPort;
         MClassifier m2 = (MClassifier) toPort;
@@ -369,7 +372,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
  	     addEdge(asc);
 		  return asc;
 	 }
-	 
+
     else if (edgeClass == MDependencyImpl.class) {
 			MModelElement client = (MModelElement) fromPort;
          MModelElement supplier = (MModelElement) toPort;
@@ -377,14 +380,14 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 			addEdge(dep);
 			return dep;
 	 }
-	 
+
     else {
         System.out.println("connect: Cannot make a "+ edgeClass.getName() +
             " between a " + fromPort.getClass().getName() +
 			   " and a " + toPort.getClass().getName());
 	     return null;
 	 }
-        
+
   }
 
 
@@ -398,7 +401,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       Vector oldOwned = (Vector) pce.getOldValue();
       MElementImport eo = (MElementImport) pce.getNewValue();
       MModelElement me = eo.getModelElement();
-      
+
       if (oldOwned.contains(eo)) {
         //System.out.println("model removed " + me);
         if (me instanceof MClass) removeNode(me);
@@ -406,7 +409,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
         if (me instanceof MTaggedValue) removeNode(me);
         if (me instanceof MAssociation) removeEdge(me);
         if (me instanceof MDependency) removeEdge(me);
-        if (me instanceof MGeneralization) removeEdge(me);    
+        if (me instanceof MGeneralization) removeEdge(me);
       }
       else {
         //System.out.println("model added " + me);
@@ -431,5 +434,5 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
 
   static final long serialVersionUID = -2638688086415040146L;
 
-} 
+}
 
