@@ -84,7 +84,7 @@ public class Parser {
     }
 //get all contextConditions of the SCOPESET
     CoConSet scope = new CoConSet();
-    target.setId(IdType.SCOPE);
+    scope.setId(IdType.SCOPE);
     for (int i = 0; i < mcocon.getScopeSetContextConditions().size(); i++) {
       if (mcocon.getScopeSetContextConditions().elementAt(i) instanceof ContextCondition) {
         ContextCondition cc =
