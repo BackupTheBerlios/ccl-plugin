@@ -427,7 +427,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       String coconString = _targetText.getText();
       coconString = coconString + " " + _coconstypeText.getText();
       coconString = coconString + " " + _scopeText.getText();
-      coconString = convert(coconString);
+      coconString = convert.finalConvert(coconString);
       //System.out.println(coconString);
 
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
