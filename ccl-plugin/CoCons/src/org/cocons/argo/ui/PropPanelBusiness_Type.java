@@ -30,6 +30,13 @@ public class PropPanelBusiness_Type extends PropPanelClassifier {
   public PropPanelBusiness_Type() {
     super("Business Type", _business_TypeIcon, 3);
 
+    //
+    //   this will cause the components on this page to be notified
+    //      anytime a stereotype, namespace, operation, etc
+    //      has its name changed or is removed anywhere in the model
+    Class[] namesToWatch = { MStereotype.class,MNamespace.class,MAttribute.class,MAssociation.class,MClassifier.class };
+    setNameEventListening(namesToWatch);
+
     addCaption("Name:",1,0,0);
     addField(nameField,1,0,0);
 
@@ -57,4 +64,16 @@ public class PropPanelBusiness_Type extends PropPanelClassifier {
   protected boolean isAcceptibleBaseMetaClass(String baseClass) {
       return baseClass.equals("Business_Type");
   }
+
+
+
+
+    public boolean isAcceptibleStereotype(MModelElement element) {
+        boolean isAcceptible = false;
+	if(element instanceof MStereotype) {
+	    String stereoName = ((MStereotype) element).getName();
+	    isAcceptible = (stereoName.equals("type") || stereoName.equals("util"));
+	}
+        return isAcceptible;
+    }
 }

@@ -1,5 +1,5 @@
 
-// $Id: Business_TypeDiagramRenderer.java,v 1.4 2001/11/13 16:25:58 oetker Exp $
+// $Id: Business_TypeDiagramRenderer.java,v 1.5 2001/11/16 12:51:16 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -8,6 +8,7 @@ import java.util.*;
 import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.model_management.*;
 import ru.novosoft.uml.behavior.common_behavior.*;
+import ru.novosoft.uml.foundation.extension_mechanisms.*;
 
 import org.tigris.gef.base.*;
 import org.tigris.gef.presentation.*;
@@ -42,17 +43,9 @@ public class Business_TypeDiagramRenderer
 
   /** Return a Fig that can be used to represent the given node */
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
-        if (node instanceof MClass) {
-            FigClass figC = new FigClass(gm, node);
-            figC.setOperationVisible(false);
-            return figC;
-        }
-        else if (node instanceof MBusiness_Type) {
-            FigBusiness_Type figB = new FigBusiness_Type(gm, node);
-            return figB;
-        }
+        if (node instanceof MBusiness_Type) return new FigBusiness_Type(gm, node);
         else if (node instanceof MPackage) return new FigPackage(gm, node);         
-        else if (node instanceof MContextPropertyTag) return new FigContextProperty(gm, node);
+        else if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
         
         //System.out.println("needs-more-work Business_TypeDiagramRenderer getFigNodeFor "+node);
         return null;

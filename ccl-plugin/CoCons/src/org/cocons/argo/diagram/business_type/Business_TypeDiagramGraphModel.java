@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.3 2001/11/13 16:25:58 oetker Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.4 2001/11/16 12:51:16 oetker Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -10,7 +10,7 @@ import ru.novosoft.uml.*;
 import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.model_management.*;
 import ru.novosoft.uml.behavior.common_behavior.*;
-import ru.novosoft.uml.foundation.extension_mechanisms.MStereotype;
+import ru.novosoft.uml.foundation.extension_mechanisms.*;
 
 import org.tigris.gef.graph.*;
 
@@ -59,10 +59,9 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   /** Return all ports on node or edge */
   public Vector getPorts(Object nodeOrEdge) {
     Vector res = new Vector();  //wasteful!
-    if (nodeOrEdge instanceof MClass) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MBusiness_Type) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MPackage) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MContextPropertyTag) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MTaggedValue) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MAssociation) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MDependency) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MGeneralization) res.addElement(nodeOrEdge);
@@ -78,18 +77,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public Vector getInEdges(Object port) {
     
     Vector res = new Vector(); //wasteful!
-    
-    if (port instanceof MClass) {
-      MClass cls = (MClass) port;
-      Collection ends = cls.getAssociationEnds();
-      if (ends == null) return res; // empty Vector
-      //java.util.Enumeration endEnum = ends.elements();
-      Iterator iter = ends.iterator();
-      while (iter.hasNext()) {
-		  MAssociationEnd ae = (MAssociationEnd) iter.next();
-		  res.add(ae.getAssociation());
-      }
-    }
     
     if (port instanceof MBusiness_Type) {
       MBusiness_Type bt = (MBusiness_Type) port;
@@ -120,25 +107,44 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          res.addElement(geG);
       }      
     }
+
+      if (port instanceof MTaggedValue) {
+	  MTaggedValue tv = (MTaggedValue) port;
+	  Collection sd = tv.getSupplierDependencies();
+	  if (sd == null) return res; // empty Vector
+	  Iterator it = sd.iterator();
+	  while (it.hasNext()) {
+	      MDependency sdmd = (MDependency) it.next();
+	      res.addElement(sdmd);
+	  }
+	  Collection cd = tv.getClientDependencies();
+	  if (cd == null) return res; // empty Vector
+	  it = cd.iterator();
+	  while (it.hasNext()) {
+	      MDependency cdmd = (MDependency) it.next();
+	      res.addElement(cdmd);
+	  }
+      }
     
-    if (port instanceof MContextPropertyTag) {
+    /*
+      if (port instanceof MContextPropertyTag) {
       MContextPropertyTag cpt = (MContextPropertyTag) port;
       Collection sd = cpt.getSupplierDependencies();
       if (sd == null) return res; // empty Vector
       Iterator it = sd.iterator();
       while (it.hasNext()) {
-        MDependency sdmd = (MDependency) it.next();
-        res.addElement(sdmd);
+      MDependency sdmd = (MDependency) it.next();
+      res.addElement(sdmd);
       }
       Collection cd = cpt.getClientDependencies();
       if (cd == null) return res; // empty Vector
       it = cd.iterator();
       while (it.hasNext()) {
-        MDependency cdmd = (MDependency) it.next();
-        res.addElement(cdmd);
+      MDependency cdmd = (MDependency) it.next();
+      res.addElement(cdmd);
       }
-    }
-   
+      }
+    */
     return res;
   }
 
@@ -203,8 +209,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   /** Return true if the given object is a valid node in this graph */
   public boolean canAddNode(Object node) {
     if (_nodes.contains(node)) return false;
-    return ( (node instanceof MClass) || (node instanceof MPackage) || 
-            (node instanceof MContextPropertyTag) || (node instanceof MBusiness_Type));
+    return ( (node instanceof MPackage) || (node instanceof MTaggedValue) || (node instanceof MBusiness_Type));
   }
 
 
@@ -265,7 +270,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
-    if ( !(( end0 instanceof MClass && end1 instanceof MClass) ||
+    if ( !(( end0 instanceof MBusiness_Type && end1 instanceof MTaggedValue) ||
+	   ( end1 instanceof MBusiness_Type && end0 instanceof MTaggedValue) ||
 	   ( end0 instanceof MBusiness_Type && end1 instanceof MBusiness_Type))  ) return false;
     return true;
   }
@@ -297,13 +303,14 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   
   
   public void addNodeRelatedEdges(Object node) {
-    
-    if ( node instanceof MClass ) {
-      Collection ends = ((MClass)node).getAssociationEnds();
+
+    if ( node instanceof MTaggedValue ) {
+      Collection ends = ((MTaggedValue)node).getClientDependencies();
+      ends.addAll(((MTaggedValue)node).getClientDependencies());
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
-         MAssociationEnd ae = (MAssociationEnd) iter.next();
-         if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
+         MDependency dep = (MDependency) iter.next();
+         if(canAddEdge(dep))  addEdge(dep);
       }
     }
     
@@ -350,9 +357,10 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   /** Return true if the two given ports can be connected by a
    * kind of edge to be determined by the ports. */
   public boolean canConnect(Object fromP, Object toP) { 
-    if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
-    else if ( (fromP instanceof MBusiness_Type) && (toP instanceof MBusiness_Type) ) return true;
-    else return false; 
+    if ( (fromP instanceof MBusiness_Type) && (toP instanceof MTaggedValue) ) return true;
+    if ( (fromP instanceof MTaggedValue) && (toP instanceof MBusiness_Type) ) return true;
+    if ( (fromP instanceof MBusiness_Type) && (toP instanceof MBusiness_Type) ) return true;
+    return false; 
   }
  
  
@@ -413,10 +421,9 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       
       if (oldOwned.contains(eo)) {
         //System.out.println("model removed " + me);
-        if (me instanceof MClass) removeNode(me);
         if (me instanceof MBusiness_Type) removeNode(me);
         if (me instanceof MPackage) removeNode(me);
-        if (me instanceof MContextPropertyTag) removeNode(me);
+        if (me instanceof MTaggedValue) removeNode(me);
         if (me instanceof MAssociation) removeEdge(me);
         if (me instanceof MDependency) removeEdge(me);
         if (me instanceof MGeneralization) removeEdge(me);    
