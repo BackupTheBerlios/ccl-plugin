@@ -1,0 +1,81 @@
+
+--- CASTOR installieren und ComponentML vorbereiten ---
+
+
+Das Folgende bezieht sich ausschliesslich auf Ant. Irgendein findiger
+JBuilder-Benutzer sollte sich dieses Textes annehmen und eine passende
+Anleitung hinzufuegen.
+
+
+
+
+
+[1] Warum?
+
+Komponenten sollen in das "ComponentML"-Format exportiert werden koennen.
+Dazu wird "Castor" als Bibliothek benutzt. Ohne die nachfolgenden Schritte
+kompiliert das plugin nicht mehr.
+
+
+
+----------------------------------------------------------------------
+[2] Castor installieren
+
+2.1 - Download
+Zuerst muss das Paket gezogen werden. Je nach Lieblingsformat sollte das eine
+dieser beiden Dateien sein:
+
+tar.gz: ftp://ftp.exolab.org/pub/castor/castor_0.9.3.9/castor-0.9.3.9.tgz
+zip:    ftp://ftp.exolab.org/pub/castor/castor_0.9.3.9/castor-0.9.3.9.zip
+
+
+2.2 - Installation
+Das Paket muss jetzt irgendwohin entpackt werden. Wohin ist egal, aber doch bitte
+*nicht* in den ccl-plugin-Baum. ;-)
+
+
+2.3 - Ant konfigurieren
+build.properties.sample wurde geaendert. Die beiden Eintragungen
+  cmlmapping.src.dir=CoCons/cmlbinding/mapping
+  castor.lib=/path/to/castor-0.9.3.9-xml.jar
+sind neu und muessen in die build.properties uebernommen werden. Der
+zweite Eintrag muss den eigenen Pfaden angeglichen werden, der Erste
+ist unveraendert zu uebernehmen.
+
+
+
+
+----------------------------------------------------------------------
+[3] ComponentML-Zwischenklassen erzeugen
+
+3.1 - Konfigurieren
+Im Verzeichnis ccl-plugin/CoCons/cmlbinding liegt eine Datei namens
+"env.sh.sample". Diese muss in "env.sh" umbenannt und an die eigenen
+Pfade angepasst werden.
+
+3.2 - Klassen erzeugen
+Im Verzeichnis ccl-plugin/CoCons/cmlbinding muss dann das Shell-Skript
+"genwrappers.sh" gestartet werden.
+Die Frage
+  mapping/de/fhg/isst/ComponentML/ExportSectionChoiceSequence.java already exists. overwrite(y|n|a|?)
+kann dabei mit "a" (all) beantwortet werden und ist kein Grund zur Sorge.
+
+3.3 - Gut is'
+
+Jetzt sollte ein Verzeichnis
+  ccl-plugin/CoCons/cmlbinding/mapping/de/fhg/isst/ComponentML
+existieren, in dem knapp ueber 100 Java-Dateien liegen.
+Diese Datei werden *nicht* in das CVS eingecheckt. Sie werden *nicht* veraendert,
+es sei denn, die ComponentML-Spezifikation aendert sich. In diesem Fall waere aber
+wieder das "genwrappers.sh"-Skript verantwortlich.
+
+----------------------------------------------------------------------
+[4] - Plugin kompilieren
+
+Es gibt ein neues ant-kompilier-target:
+
+   ant compile-cmlbinding
+
+das zusaetzlich zu den normalen ant-Aufrufen gestartet werden muss.
+Wer mit "ant compile-onestep" kompiliert, kann das ignorieren, da dieser
+Teil dabei miterledigt wird.

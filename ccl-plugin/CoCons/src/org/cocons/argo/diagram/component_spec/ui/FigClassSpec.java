@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.beans.*;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
@@ -30,7 +31,7 @@ import org.argouml.uml.diagram.ui.*;
 import org.argouml.uml.diagram.static_structure.ui.*;
 import org.argouml.ui.*;
 import org.cocons.argo.diagram.ui.ContextViewPopUpMenu;
-
+import org.cocons.argo.diagram.cml.ActionSaveCML;
 public class FigClassSpec extends FigNodeModelElement{
 
     ////////////////////////////////////////////////////////////////
@@ -117,6 +118,8 @@ public class FigClassSpec extends FigNodeModelElement{
 	addMenu.add(ActionAddNote.SINGLETON);
 	popUpActions.insertElementAt(addMenu,popUpActions.size() - 1);
 	ContextViewPopUpMenu.getPopUpActions(popUpActions);
+	popUpActions.add( ActionSaveCML.SINGLETON );
+
 	return popUpActions;
     }
      

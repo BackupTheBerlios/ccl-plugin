@@ -8,6 +8,7 @@
 
 mkdir mapping
 
-java -classpath $CASTOR_JAR:$XERCES_JAR org.exolab.castor.builder.SourceGenerator -i ComponentML.xsd -package de.fhg.isst.ComponentML -dest mapping &&
+java -classpath $CASTOR_JAR:$XERCES_JAR org.exolab.castor.builder.SourceGenerator -i ComponentML.xsd -package de.fhg.isst.ComponentML -dest mapping 
 
-(cd mapping; javac -classpath $CASTOR_JAR:$XERCES_JAR `find . -name '*.java'`)
+#(cd mapping; javac -classpath $CASTOR_JAR:$XERCES_JAR `find . -name '*.java'`)
+

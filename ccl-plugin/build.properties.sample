@@ -10,6 +10,7 @@
 argouml.src.dir=../argouml/argouml/src_new
 
 cocons.src.dir=CoCons/src
+cmlmapping.src.dir=CoCons/cmlbinding/mapping
 nsuml.src.dir=nsuml/src
 nsuml.gensrc.dir=nsuml/gen
 cclmetamodel.src=CCL_Metamodel/src
@@ -30,6 +31,17 @@ argouml.lib.dir=../argouml/argouml/lib
 
 # JUnit library
 junit.lib=/usr/local/junit/junit.jar
+
+
+#
+# Castor library
+#
+# Download: Choose one of
+# tar.gz: ftp://ftp.exolab.org/pub/castor/castor_0.9.3.9/castor-0.9.3.9.tgz
+# zip:    ftp://ftp.exolab.org/pub/castor/castor_0.9.3.9/castor-0.9.3.9.zip
+#
+castor.lib=/path/to/castor-0.9.3.9-xml.jar
+
 
 
 #######################

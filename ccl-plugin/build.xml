@@ -32,6 +32,29 @@ author: klischat
     <fail message="build configuration file &quot;build.properties&quot; not found. Create it."/>
   </target>
 
+  <target name="check-for-castor">
+    <available file="${castor.lib}"
+	       property="have.castor"/>
+  </target>
+
+  <target name="assert-castor-available"
+	  depends="check-for-castor"
+          unless="have.castor">
+    <fail message="Castor jar not found -- Install it (see INSTALL-CASTOR.txt for details)"/>
+  </target>
+
+
+  <target name="check-for-cmlmapping">
+    <available file="${cmlmapping.src.dir}/de/fhg/isst/ComponentML/ComponentSpec.java"
+	       property="have.cmlmapping"/>
+  </target>
+
+  <target name="assert-cmlmapping-available"
+          depends="check-for-cmlmapping"
+	  unless="have.cmlmapping">
+    <fail message="It seems like you didn't create the ComponentML mapping files. (see INSTALL-CASTOR.txt for details)"/>
+  </target>
+
 
   <!-- =================================================================== -->
   <!-- Initialization target                                               -->
@@ -65,7 +88,7 @@ author: klischat
 
     <property name="build.dest" value="${build.dir}/classes"/>
     <property name="classpath"
-value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}"/>
+value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.dir}/gef.jar:${argouml.lib.dir}/antlrall.jar:${argouml.lib.dir}/log4j.jar:${argouml.lib.dir}/jdom.jar:${argouml.lib.dir}/xerces.jar:${junit.lib}:${castor.lib}"/>
 
     <!-- The following can be set in .argo.ant.properties                 -->
     <!--     or .ant.properties to some other value                       -->
@@ -129,6 +152,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
     <echo message="   compile-argobase      --> compiles the basic argouml.org sources to the tree under ${build.dir}"/>
     <echo message="                             Our argouml_modifications must be weaved into the source tree beforhand"/>
     <echo message="   compile-cocons      --> compiles the cocons plugin to the tree under ${build.dir}"/>
+    <echo message="   compile-cmlbinding  --> compiles the CML mapping classes"/>
     <echo message="   compile-onestep      --> like &quot;compile&quot;, but does everything in one compiler run."/>
     <echo message="                            Increased memory consumption, probably slower."/>
     <echo message="   package      --> packages everything into ${name}.jar"/>
@@ -310,7 +334,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
 
-  <target name="compile-cocons" depends="init, compile-argobase, make-dependencies">
+  <target name="compile-cocons" depends="init, compile-argobase, make-dependencies,assert-castor-available,assert-cmlmapping-available">
 
     <echo message="Compiling cocons plugin to ${build.dest}"/>
 
@@ -334,6 +358,25 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   </target>
 
 
+
+  <target name="compile-cmlbinding" depends="init, compile-argobase, make-dependencies,assert-castor-available,assert-cmlmapping-available">
+    <echo message="Compiling CML bindings to ${build.dest}"/>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dest}"/>
+
+    <javac 
+           destdir="${build.dest}"
+           classpath="${classpath}"
+           excludes="*.txt,*.bat,*.xml,*.sh"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+      <src path="${cmlmapping.src.dir}" />
+    </javac>
+  </target>
+
+
   <!-- this target builds the whole thing (ArgoUML + all of our stuff) -->
   <target name="compile" depends="compile-cocons">
   </target>
@@ -344,7 +387,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
        (you'll probably have to submit special arguments like "-Xms100m -Xmx100m"
        to the VM running Ant to avoid OutOfMemoryErrors).
   -->
-  <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites, make-dependencies">
+  <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites, make-dependencies,assert-castor-available,assert-cmlmapping-available">
 
     <echo message="Compiling all the sources at once"/>
 
@@ -361,6 +404,7 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
       <src path="${nsuml.gensrc.dir}" />
       <src path="${cclmetamodel.src}" />
       <src path="${plugin.src.dir}" />
+      <src path="${cmlmapping.src.dir}" />
     </javac>
   </target>
 
