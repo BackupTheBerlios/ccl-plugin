@@ -70,4 +70,12 @@ public interface MContextbasedConstraint extends MConstraint {
    * @param __arg ConstrainedSet to be unreferenced
    */
   void internalUnrefByConstrainedSet(MContextCondition __arg);
+
+  public void updateConstrainedModelElements() {}
+
+  public void updateScopedModelElements(){}
+
+  public Vector getScopedModelElements() {}
+
+  public setScopedModelElements(Vector modelElements) {}
 }
