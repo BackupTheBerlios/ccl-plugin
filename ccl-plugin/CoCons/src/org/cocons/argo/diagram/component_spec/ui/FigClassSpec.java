@@ -35,9 +35,6 @@ import org.cocons.argo.diagram.cml.ActionSaveCML;
 
 
 public class FigClassSpec extends FigClass{
-   protected FigRect _bigPort = new FigRect(10, 10, 90, 40, Color.cyan, Color.cyan);
- 
- 
     ////////////////////////////////////////////////////////////////
     // constructors
     
@@ -45,19 +42,14 @@ public class FigClassSpec extends FigClass{
 	super();
         _name.setLineWidth(1);
 	_name.setFilled(true);
-	
-        addFig(_bigPort);
-        Rectangle r = getBounds();
-	setBounds(10, 10, 90, 40);
-    
+	       
         getOperationsFig().setDisplayed(false);
         getAttributesFig().setDisplayed(false);
     }
-
      
     public FigClassSpec(GraphModel gm, Object node) {
     super(gm,node);
-
+    
     getOperationsFig().setDisplayed(false);
     getAttributesFig().setDisplayed(false);
     }
@@ -70,7 +62,7 @@ public class FigClassSpec extends FigClass{
 	return popUpActions;
     }
      public Selection makeSelection() {
-	return null;//new SelectionMoveClarifiers(this);
+	return null;
     }
 }
     
