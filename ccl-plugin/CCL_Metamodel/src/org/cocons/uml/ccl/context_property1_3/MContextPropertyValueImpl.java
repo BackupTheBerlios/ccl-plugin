@@ -120,7 +120,14 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	public void setContextPropertyTag(MContextPropertyTag contextTag) {
           _contextTag = contextTag;
           _valuesSelected = false;
-          _validValuesType = ((MContextPropertyTagImpl)_contextTag).getValidValuesType();
+          try {
+            _validValuesType = ((MContextPropertyTagImpl)_contextTag).getValidValuesType();
+          }
+          catch (NullPointerException npe) {
+            _contextTag = null;
+            System.out.println("CP-Tag has no ValidValue-Definition!");
+            return;
+          }
           if (_validValuesType.equals("List Of Strings")) {
             _validStrings = ((MContextPropertyTagImpl)_contextTag).getValidStrings();
             _valuesCount = _validStrings.size();
@@ -144,7 +151,11 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
             _floatDependencies = new Vector();
             addEmptyFloatValue();
           }
-          else {}
+          else {
+            _contextTag = null;
+            System.out.println("CP-Tag has unknown ValidValue-Definition!");
+            return;
+          }
 	}
 
         // -------------- by hyshosha@gmx.de -----------------------
