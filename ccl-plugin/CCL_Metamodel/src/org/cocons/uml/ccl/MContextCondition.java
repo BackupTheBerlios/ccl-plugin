@@ -222,7 +222,15 @@ public interface MContextCondition extends MBase {
    */
   void internalUnrefByContextbasedConstraint(MContextbasedConstraint __arg);
 
+  /**
+   * Updates the conditioned model elements. Selects all conditioned elements
+   * and adds them to the conditionedModelElements.
+   */
   public void updateConditionedModelElements();
 
+  /**
+   * Returns all the model elements that are bound by this condition.
+   * @return A vector containing elements of type MModelElement
+   */
   public Vector getConditionedModelElements();
 }
