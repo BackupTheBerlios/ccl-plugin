@@ -77,6 +77,11 @@ public class ActionExportCoCons
 
       jfc.setDialogTitle( TITLE );
 
+		jfc.addChoosableFileFilter( CoConXMLFileFilters.ANY_XML_FILTER );
+		jfc.addChoosableFileFilter( CoConXMLFileFilters.COCON_XML_FILTER );
+
+		jfc.setFileFilter( CoConXMLFileFilters.COCON_XML_FILTER );
+
       if( jfc.showSaveDialog(null) == 
           JFileChooser.APPROVE_OPTION )
          return jfc.getSelectedFile().getAbsolutePath();

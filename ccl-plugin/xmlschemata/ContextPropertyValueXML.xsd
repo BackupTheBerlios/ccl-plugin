@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
 	<xs:element name="EmbeddedContextPropertyValue">
 		<xs:complexType>
 			<xs:sequence>
@@ -20,7 +18,6 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-
 	<xs:element name="ECPVEntry">
 		<xs:complexType>
 			<xs:attribute name="value" type="xs:string" use="required" />
@@ -28,8 +25,6 @@
 			<xs:attribute name="dependency" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
-
-
 </xs:schema>
 
 

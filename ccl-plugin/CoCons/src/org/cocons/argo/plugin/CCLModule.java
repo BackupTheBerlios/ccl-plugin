@@ -9,6 +9,8 @@ import org.argouml.cognitive.critics.Agency;
 import org.cocons.argo.cognitive.critics.*;
 import org.cocons.argo.ui.*;
 import org.tigris.gef.util.*;
+import org.cocons.uml.ccl.xml.ActionImportCoCons;
+import org.cocons.uml.ccl.xml.ActionExportCoCons;
 
 /**
  * The module that loads the CoCons into ArgoUML.
@@ -19,6 +21,8 @@ import org.tigris.gef.util.*;
 public class CCLModule 
 	implements ArgoModule, PluggableMenu
 {
+	public static String TOOL_MENU_CONTEXT_ID   = "Tools";
+	public static String IMPORT_MENU_CONTEXT_ID = "File:Import";
 
   private static String IMAGEDIR="/org/cocons/argo/Images";
 
@@ -70,7 +74,7 @@ public class CCLModule
 
 	public JMenuItem getMenuItem(JMenuItem parentMenuItem, String menuType)
 	{
-		if( "Tools".equals(menuType) )
+		if( TOOL_MENU_CONTEXT_ID.equals(menuType) )
 			{
 				return getToolsMenuExtensions();
 			}
@@ -88,7 +92,7 @@ public class CCLModule
 
 	public Object[] buildContext(JMenuItem parentMenuItem, String menuType)
 	{
-		if( "Tools".equals( menuType ) )
+		if( TOOL_MENU_CONTEXT_ID.equals( menuType ) )
 			return getPluggableContext();
 
 		return null;
@@ -115,8 +119,8 @@ public class CCLModule
 	public JMenuItem getToolsMenuExtensions()
 	{
 		JMenu menu = new JMenu("CoCons");
-		menu.add( org.cocons.uml.ccl.xml.ActionExportCoCons.SINGLETON );
-		menu.add( new JMenuItem("Import from file...") );
+		menu.add( ActionExportCoCons.SINGLETON );
+		menu.add( ActionImportCoCons.SINGLETON );
 		return menu;
 	}
 

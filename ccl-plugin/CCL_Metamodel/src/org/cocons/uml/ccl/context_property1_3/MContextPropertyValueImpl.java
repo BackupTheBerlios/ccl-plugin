@@ -35,6 +35,10 @@ import org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType;
 */
 public class MContextPropertyValueImpl extends MTaggedValueImpl implements MContextPropertyValue {
 
+	public static String LIST_OF_STRINGS_ID = "List Of Strings";
+	public static String FLOAT_NUMBER_ID    = "Float Number";
+	public static String INTEGER_NUMBER_ID  = "Integer Number";
+
 	// private MTaggedValueImpl _taggedValue; // ??? wozu ??? (hyshosha@gmx.de)
         private MContextPropertyTag _contextTag = null;
 
@@ -89,19 +93,19 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 		_stereoString="m,mm";
 		switch( type.getType() ) {
 		case TypeType.STRINGS_TYPE:
-			_validValuesType    = "List Of Strings";
+			_validValuesType    = LIST_OF_STRINGS_ID;
 			_validStrings       = values;
 			_stringSelection    = selections;
 			_stringDependencies = deps;
 			break;
 		case TypeType.FLOATS_TYPE:
-			_validValuesType   = "Float Number";
+			_validValuesType   = FLOAT_NUMBER_ID;
 			_definedFloats     = values;
 			_floatSelection    = selections;
 			_floatDependencies = deps;
 			break;
 		case TypeType.INTEGERS_TYPE:
-			_validValuesType = "Integer Number";
+			_validValuesType = INTEGER_NUMBER_ID;
 			_definedIntegers = values;
 			_intSelection    = selections;
 			_intDependencies = deps;
