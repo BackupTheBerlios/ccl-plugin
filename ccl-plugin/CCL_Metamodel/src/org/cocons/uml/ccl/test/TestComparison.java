@@ -1,22 +1,26 @@
 package org.cocons.uml.ccl.test;
 
 import org.cocons.uml.ccl.Comparator;
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyTag;
-import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.Comparison;
 import org.cocons.uml.ccl.ComparisonImpl;
 
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyTag;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
+
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
+import ru.novosoft.uml.foundation.core.MConstraintImpl; 
+
 /**
- * Tests the ComparisonImpl class. Tests won't work anymore, 'cause the
- * the implementations of the MContextProperties were changed in a
- * way I can't and doesn't want to understand, so ignore it :(.
- * Creation date: (26.12.2001 16:38:43)
- * @author: Fadi Chabarek
- */
+* Tests the ComparisonImpl class. Tests won't work anymore, 'cause the
+* the implementations of the MContextProperties were changed in a
+* way I can't and doesn't want to understand, so ignore it :(.
+* Creation date: (26.12.2001 16:38:43)
+* @author: Fadi Chabarek
+*/
 public class TestComparison extends junit.framework.TestCase {
 	private org.cocons.uml.ccl.comparators.ComparatorFactory comparatorFactory;
 
@@ -62,6 +66,11 @@ public class TestComparison extends junit.framework.TestCase {
 		// tagged value
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
+
 		tag.setTag(elementTag);
 		value.setContextPropertyTag(tag);
 		value.setValue(elementValue);
@@ -99,18 +108,22 @@ public class TestComparison extends junit.framework.TestCase {
 	public void testCoversPropertyValueForNullPointerExceptions() {
 
 		/********************* TEST A: NullPointerExceptions ******************
-
+		
 			a) property value = null
 			b) comparison value = null
 			c) comparison tag = null
 			d) comparison comparator = null
 			e) comparison value + tag != null, comparator = null
-
+		
 			*/
 
 		ComparisonImpl comparison = new ComparisonImpl();
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
 
 		value.setContextPropertyTag(tag);
 
@@ -166,16 +179,20 @@ public class TestComparison extends junit.framework.TestCase {
 	public void testCoversPropertyValueWithEquation() {
 
 		/********************* TEST A: Equation ******************
-
+		
 			a) with equal tagged values -> covers = true
 			b) with unequal tags -> covers = false
 			c) with unequal values -> covers = false
 			d) with unequal tags and values -> covers = false
-
+		
 			*/
 
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
+
+		MConstraintImpl con = new MConstraintImpl();
+		con.setBody(new MBooleanExpression(null, "\"List Of Strings\" "));
+		tag.addConstraint(con);
 
 		value.setContextPropertyTag(tag);
 
@@ -212,8 +229,8 @@ public class TestComparison extends junit.framework.TestCase {
 				+ ", PropertyValue: "
 				+ equalValue
 				+ " : "
-				+ equalTag,
-			comparison.covers(value));
+				+ equalTag, 
+			comparison.covers(value)); 
 
 		//b
 		value.getContextPropertyTag().setTag(String.valueOf(unequalTag));
@@ -225,8 +242,8 @@ public class TestComparison extends junit.framework.TestCase {
 				+ ", PropertyValue: "
 				+ equalValue
 				+ " : "
-				+ equalTag,
-			!comparison.covers(value));
+				+ equalTag, 
+			!comparison.covers(value)); 
 
 		//c
 		value.getContextPropertyTag().setTag(String.valueOf(equalTag));
@@ -239,8 +256,8 @@ public class TestComparison extends junit.framework.TestCase {
 				+ ", PropertyValue: "
 				+ equalValue
 				+ " : "
-				+ equalTag,
-			!comparison.covers(value));
+				+ equalTag, 
+			!comparison.covers(value)); 
 
 		//d
 		value.getContextPropertyTag().setTag(String.valueOf(unequalTag));
@@ -253,8 +270,8 @@ public class TestComparison extends junit.framework.TestCase {
 				+ ", PropertyValue: "
 				+ equalValue
 				+ " : "
-				+ equalTag,
-			!comparison.covers(value));
+				+ equalTag, 
+			!comparison.covers(value)); 
 
 	}
 }
