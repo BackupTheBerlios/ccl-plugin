@@ -12,12 +12,12 @@ import org.argouml.uml.diagram.ui.UMLDiagram;
  * @version 1.0
  */
 
-public abstract class CoConDiagram extends UMLDiagram {
+public abstract class CCLDiagram extends UMLDiagram {
 
-  public CoConDiagram() {
+  public CCLDiagram() {
   }
 
-  public CoConDiagram(MNamespace m) {
+  public CCLDiagram(MNamespace m) {
     super(m);
   }
 }
