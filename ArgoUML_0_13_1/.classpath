@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src_new"/>
+    <classpathentry kind="src" path="Ant"/>
+    <classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/antlrall.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/gef.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/log4j.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/nsuml.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/ocl-argo.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesArgoUML_0_13_1/xerces.jar"/>
+    <classpathentry kind="output" path="build_classes"/>
+</classpath>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="Cocons_src"/>
+    <classpathentry kind="src" path="plugins_src"/>
+    <classpathentry kind="src" path="CCL_Metamodel_src"/>
+    <classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/xerces.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/gef.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/log4j.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/nsuml.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/ocl-argo.jar"/>
+    <classpathentry kind="lib" path="C:/Dokumente und Einstellungen/LAYEKERS/Desktop/CCL-PROJEKT/LibrariesCCLPlugin/castor-0.9.3.9-xml.jar"/>
+    <classpathentry kind="src" path="/ArgoUML_0_13_1"/>
+    <classpathentry kind="output" path="build_classes"/>
+</classpath>

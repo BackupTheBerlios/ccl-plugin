@@ -1,0 +1,21 @@
+(* 
+
+  ANTLR Translator Generator
+  Project led by Terence Parr at http://www.jGuru.com
+  Software rights: http://www.antlr.org/RIGHTS.html
+ 
+  $Id: file_line_formatter.sa,v 1.1 2003/07/12 18:30:32 layekers Exp $
+
+*)
+
+class ANTLR_FILE_LINE_FORMATTER is
+   
+   format_string( file_name : STR , line : INT ) : STR is
+      if ( void(file_name) ) then
+	 return "line(" + line + "), ";
+      else
+	 return file_name + ": line(" + line + "), ";
+      end;
+   end;
+   
+end;

@@ -1,0 +1,32 @@
+(* 
+
+  ANTLR Translator Generator
+  Project led by Terence Parr at http://www.jGuru.com
+  Software rights: http://www.antlr.org/RIGHTS.html
+ 
+  $Id: byte_buffer.sa,v 1.1 2003/07/12 18:30:32 layekers Exp $
+
+*)
+
+class ANTLR_BYTE_BUFFER is
+
+   include ANTLR_INPUT_BUFFER;
+
+   create( in : $ISTREAM ) : SAME pre ~void(in) is
+      res : SAME := new;
+      res.input := in;
+      res.init;
+      return res;
+   end;
+
+   fill ( amount : INT ) is
+      sync_consume;
+
+      loop while!( queue.num_entries < amount + marker_offset );
+	 queue.append( input.get );
+      end;      
+
+   end;
+
+   
+end;
