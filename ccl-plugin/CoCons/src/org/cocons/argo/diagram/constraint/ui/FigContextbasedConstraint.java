@@ -29,11 +29,17 @@ import org.cocons.uml.ccl.util.SyntaxcheckOfCoconsFromBNF;
  * Company:      TU Berlin, CIS
  * @author Martin Skinner
  * @author Nghia Dang Duc
- * @author Rolf Exner, Soner Dastan
+ * @author Rolf Exner
  * @version 1.1
  */
 
 public class FigContextbasedConstraint extends FigNodeModelElement {
+
+  private String _targetString = "";
+  private String _scopeString = "";
+  private String _coconTypeString = "";
+  private String _attributeString = "";
+
   private String nameString;
   private boolean updateCoconType;
   private boolean updateTargetDirect;
@@ -254,8 +260,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
       if (me == null) return;
       String newNameString = me.getName();
-      System.out.println(nameString);
-      System.out.println(newNameString);
       if (nameString != null){
         if(nameString.equals(newNameString) ){
           updateTargetDirect = false;
@@ -289,11 +293,12 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           while (st.hasMoreTokens()) {
                s.addElement(st.nextToken());
           }
-          if(s != null) {
-            if( 0 < s.size()) {
+          if(null != s) {
+            if(0 < s.size()) {
               _targetText.setText((s.get(0)).toString());
-            }
+              }
           }
+
           if (!_targetText.isDisplayed()) {
               _targetText.setDisplayed(true);
           }
@@ -335,9 +340,9 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
             while (st.hasMoreTokens()) {
                  s.addElement(st.nextToken());
             }
-            if(s != null) {
-              if( 1 < s.size()) {
-                _coconstypeText.setText((s.get(1)).toString());
+            if(null != s) {
+              if(1 < s.size()) {
+              _coconstypeText.setText((s.get(1)).toString());
               }
             }
 
@@ -386,8 +391,8 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           while (st.hasMoreTokens()) {
                s.addElement(st.nextToken());
           }
-          if(s != null) {
-            if( 2 < s.size()) {
+          if(null != s) {
+            if(2 < s.size()) {
               _scopeText.setText((s.get(2)).toString());
             }
           }
@@ -416,9 +421,8 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           while (st.hasMoreTokens()) {
                s.addElement(st.nextToken());
           }
-
-          if(s != null) {
-            if( 3 < s.size()) {
+          if(null != s) {
+            if(3 < s.size()) {
               _attributeText.setText((s.get(3)).toString());
             }
           }
@@ -432,6 +436,18 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
  protected void updateModel() {
 
+      if (! _targetString.equals(_targetText.getText())){
+          updateTargetDirect = true;
+          updateTargetIndirect = true;
+      }
+      if (! _scopeString.equals(_scopeText.getText())){
+          updateScopeDirect = true;
+          updateScopeIndirect = true;
+      }
+      if (! _coconTypeString.equals(_coconstypeText.getText())){
+          updateCoconType = true;
+      }
+
       MContextbasedConstraintImpl me = (MContextbasedConstraintImpl) getOwner();
       if (me == null) return;
 
@@ -441,82 +457,100 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       coconString = coconString + " " + _coconstypeText.getText();
       coconString = coconString + " " + _scopeText.getText();
       coconString = convert.finalConvert(coconString);
-      //System.out.println(coconString);
-      SyntaxcheckOfCoconsFromBNF syntaxcheckOfCoconsFromBNF = new SyntaxcheckOfCoconsFromBNF();
+      SyntaxcheckOfCoconsFromBNF scocfBNF = new SyntaxcheckOfCoconsFromBNF();
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
 
-      if (!ccf.isValidTarget(syntaxcheckOfCoconsFromBNF.getTargetSets(coconString))){
+      if (!ccf.isValidTarget(scocfBNF.getTargetSets(coconString))){
         _targetText.setFilled(true);
         _targetText.setFillColor(Color.red);
-        //System.out.println("isValid in Target: " + ccf.isValidTarget());
       }
       else{
         _targetText.setFillColor(Color.white);
         _targetText.setFilled(false);
-        //System.out.println("isValid in Target: " + ccf.isValidTarget());
       }
 
-      if (! ccf.isValidScope(syntaxcheckOfCoconsFromBNF.getScopeSets(coconString))){
+      if (! ccf.isValidScope(scocfBNF.getScopeSets(coconString))){
           _scopeText.setFillColor(Color.red);
           _scopeText.setFilled(true);
-          //System.out.println("isValid in Scope: " + ccf.isValidScope());
       }
       else{
          _scopeText.setFillColor(Color.white);
          _scopeText.setFilled(false);
-         //System.out.println("isValid in Scope: " + ccf.isValidScope());
       }
 
       //THE VALUES OF THE COCON ARE READ FROM THE COCONFACTORY
 
       if (ccf.isValid()){
         String coConType = ccf.getCoConType();
-        //System.out.println(coConType);
 
         Vector targetDirectElements = new Vector();
         targetDirectElements = ccf.getTargetDirectAssoziations();
-        System.out.println(targetDirectElements);
 
         Vector scopeDirectElements = new Vector();
         scopeDirectElements = ccf.getScopeDirectAssoziations();
-        System.out.println(scopeDirectElements);
 
         Vector targetIndirectElements = new Vector();
         targetIndirectElements = ccf.getTargetIndirectAssoziations();
-        System.out.println(targetIndirectElements);
 
         Vector scopeIndirectElements = new Vector();
         scopeIndirectElements = ccf.getScopeIndirectAssoziations();
-        System.out.println(scopeIndirectElements);
 
-        System.out.println("vor setdirect: " + me.getTargetElements());
         if(updateTargetDirect){
           updateTargetDirect = false;
           me.setTargetSetDirectElements(targetDirectElements);
+          _targetString = _targetText.getText();
         }
-        System.out.println("nach setdirect: " + me.getTargetElements());
 
         if(updateScopeDirect){
           updateScopeDirect = false;
           me.setScopeSetDirectElements(scopeDirectElements);
+          _scopeString = _scopeText.getText();
         }
 
         if(updateTargetIndirect){
           updateTargetIndirect = false;
           me.setTargetSetContextConditions(targetIndirectElements);
+          _targetString = _targetText.getText();
         }
 
         if(updateScopeIndirect){
           updateScopeIndirect = false;
           me.setScopeSetContextConditions(scopeIndirectElements);
+          _scopeString = _scopeText.getText();
         }
 
         if(updateCoconType){
           updateCoconType = false;
           me.setCoConType(coConType);
+          _coconTypeString = _coconstypeText.getText();
         }
       }
 
+  }
+  /*
+  protected void updateModel() {
+  MContextbasedConstraintImpl me = (MContextbasedConstraintImpl) getOwner();
+      if (me == null) return;
+      Vector vect1 = new Vector();
+      vect1.add();
+      vect1.add("THE");
+      vect1.add("component");
+      vect1.add("'r'");
+      System.out.println("vor update: " + vect1);
+      me.setTargetSetDirectElements(null);
+      System.out.println("nach update " + me.getTargetElements());
+
+      Vector vect2 = new Vector();
+      vect2.add("THE");
+      vect2.add("component");
+      vect2.add("'t'");
+      System.out.println("vor update: " + vect2);
+      me.setScopeSetDirectElements(null);
+      System.out.println("nach update " + me.getTargetElements());
+      String coConType = "NoTheSameAs";
+      me.setCoConType(coConType);
+      me.setTargetSetContextConditions(null);
+      me.setScopeSetContextConditions(null);
   }
 
   /*
@@ -524,7 +558,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   *function to give the boxes of Scope-Set and Target(Constraint)-Set the right size
   */
   protected void calculateSetBoxes(){
-    //System.out.println("calculateBoxes");
     updateTargetText();
     updateCoConsTypeText();
     updateScopeText();
@@ -548,7 +581,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
 
   protected void modelChanged() {
-    //System.out.println("modelChanged");
     super.modelChanged();
     //calculate the size of targetSetBox and ScopeSetBox
     calculateSetBoxes();
@@ -570,7 +602,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   }
 
   public void setBounds(int x, int y, int w, int h){
-    //System.out.println("setBounds");
     calculateSetBoxes();
     calcBounds();
     Rectangle oldBounds = getBounds();
@@ -607,7 +638,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       Rectangle newBounds = getBounds();
       updateEdges();
       firePropChange("bounds", oldBounds, newBounds);
-      System.out.println("jetzt wird updateModel aufgerufen");
       updateModel();
   }
 
