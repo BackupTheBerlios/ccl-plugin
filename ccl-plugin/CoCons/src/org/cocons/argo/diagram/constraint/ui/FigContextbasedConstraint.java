@@ -349,21 +349,16 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
  protected void updateModel() {
 
-
       MContextbasedConstraintImpl me = (MContextbasedConstraintImpl) getOwner();
       if (me == null) return;
 
-      System.out.println("the test of get cocnstype by updateModel:" + me.getCoConType());
-
-	  String coconString = _targetText.getText();
+      String coconString = _targetText.getText();
       coconString = coconString + " " + _coconstypeText.getText();
       coconString = coconString + " " + _scopeText.getText();
 
       System.out.println(coconString);
 
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
-
-      System.out.println("ContextConditionFactory :" + ccf.isValid());
 
       if (!ccf.isValidTarget(_targetText.getText())){
         _targetText.setFilled(true);
@@ -387,54 +382,61 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
          //System.out.println("isValid in Scope: " + ccf.isValidScope());
       }
 
+      //THE VALUES OF THE COCON ARE READ FROM THE COCONFACTORY
+
       if (ccf.isValid()){
-       // System.out.println("isValid in Fig: " + ccf.isValid());
+        String coConType = ccf.getCoConType();
+        System.out.println(coConType);
 
-        System.out.println("ModelCoconType: " + me.getCoConType());
-        System.out.println("Fig CoconType: " + ccf.getCoConType());
+        Vector targetDirectElements = new Vector();
+        targetDirectElements = ccf.getTargetDirectAssoziations();
+        System.out.println(targetDirectElements);
+
+        Vector scopeDirectElements = new Vector();
+        scopeDirectElements = ccf.getScopeDirectAssoziations();
+        System.out.println(scopeDirectElements);
+
+        Vector targetIndirectElements = new Vector();
+        targetIndirectElements = ccf.getTargetIndirectAssoziations();
+        System.out.println(targetIndirectElements);
+
+        Vector scopeIndirectElements = new Vector();
+        scopeIndirectElements = ccf.getScopeIndirectAssoziations();
+        System.out.println(scopeIndirectElements);
+
+        System.out.println("vor setdirect: " + me.getTargetElements());
+        me.setTargetSetDirectElements(targetDirectElements);
+        System.out.println("nach setdirect: " + me.getTargetElements());
+
+        /*
         if (me.getCoConType() != null){
-          if(! me.getCoConType().equals(ccf.getCoConType())){
+          if(! me.getCoConType().equals(coConType)){
 
-            System.out.println("Wir sihnd im if teil von CoconType");
-            me.setCoConType(ccf.getCoConType());
-            System.out.println("nach setCococnType");
+            me.setCoConType(coConType);
           }
 
         }
         else {
-        System.out.println("vor setCocon");
-        me.setCoConType(ccf.getCoConType());
-        System.out.println("nach setCocon");
+        me.setCoConType(coConType);
         }
-        System.out.println("ModelTargetSetDirect: " + me.getTargetElements());
-        System.out.println("Fig TargetSetDirect: " + ccf.getTargetDirectAssoziations());
+
         if (me.getTargetElements() != null){
-          if(! me.getTargetElements().equals(ccf.getTargetDirectAssoziations())){
-            System.out.println("IF teil vor setTargetDirect");
-            me.setTargetSetDirectElements(ccf.getTargetDirectAssoziations());
-            System.out.println("IF teil nach setTargetDirect");
+          if(! me.getTargetElements().equals(targetDirectElements)){
+            me.setTargetSetDirectElements(targetDirectElements);
           }
         }
         else {
-        System.out.println("vor setTargetDirect" + ccf.getTargetDirectAssoziations());
-        me.setTargetSetDirectElements(ccf.getTargetDirectAssoziations());
-        System.out.println("nach setTargetDirect");
+        me.setTargetSetDirectElements(targetDirectElements);
         }
 
-        System.out.println("MOdel ScopeDirect: " + me.getScopedElements());
-        System.out.println("Fig ScopeDirect: " + ccf.getScopeDirectAssoziations());
         if(me.getScopedElements()!= null){
-          if(! me.getScopedElements().equals(ccf.getScopeDirectAssoziations())){
-            System.out.println("vor setScopeDiekt");
-            me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
-            System.out.println("nach setScopeDiekt");
+          if(! me.getScopedElements().equals(scopeDirectElements)){
+            me.setScopeSetDirectElements(scopeDirectElements);
           }
         }
-        else me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
+        else me.setScopeSetDirectElements(scopeDirectElements);
 
 
-        System.out.println("Model TargetIndirekt: " + me.getTargetSetContextConditions());
-        System.out.println("Fig TargetIndirekt: " + ccf.getTargetIndirectAssoziations());
         if (me.getTargetSetContextConditions()  != null){
           if (! me.getTargetSetContextConditions().equals(ccf.getTargetIndirectAssoziations())){
             me.setTargetSetContextConditions(ccf.getTargetIndirectAssoziations());
@@ -444,8 +446,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           me.setTargetSetContextConditions(ccf.getTargetIndirectAssoziations());
         }
 
-        System.out.println("MOdel ScopeIndirekt: " + me.getScopeSetContextConditions());
-        System.out.println("Fig ScopeIndirekt: " + ccf.getScopeIndirectAssoziations());
         if(me.getScopeSetContextConditions() != null){
           if(! me.getScopeSetContextConditions().equals(ccf.getScopeIndirectAssoziations())){
              me.setScopeSetContextConditions(ccf.getScopeIndirectAssoziations());
@@ -453,7 +453,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         }
         else {
           me.setScopeSetContextConditions(ccf.getScopeIndirectAssoziations());
-        }
+        }*/
       }
 
   }
