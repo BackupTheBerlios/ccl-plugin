@@ -416,7 +416,7 @@ public class Component_SpecDiagramGraphModel extends MutableGraphSupport
 
 
 
-	    ((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface"));
+	    //((MInterface)node).setStereotype((MStereotype)MMUtil.STANDARDS.lookup("interface spec"));
 
 	}
 
