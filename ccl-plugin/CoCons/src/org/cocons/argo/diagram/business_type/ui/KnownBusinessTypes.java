@@ -34,12 +34,41 @@ public class KnownBusinessTypes {
 
   public static JMenu getJMenu() {
     JMenu menu = new JMenu("belongs to");
+    menu.add(new RemoveBelongsToAction());
+    menu.addSeparator();
     for (Iterator it = knownBTs.iterator(); it.hasNext();) {
       MClass c = (MClass)it.next();
       menu.add(new BelongsToAction(c));
     }
 
     return menu;
+  }
+
+  private static class RemoveBelongsToAction extends AbstractAction{
+    public RemoveBelongsToAction(){
+      super("remove belongs to");
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        ProjectBrowser pb = ProjectBrowser.TheInstance;
+        Project p = pb.getProject();
+        Object target = pb.getDetailsTarget();
+        if (target instanceof MClass) {
+          MClass c = (MClass)target;
+          MTaggedValue tv = null;
+          for (Iterator it = c.getTaggedValues().iterator();
+               it.hasNext();) {
+               MTaggedValue tv2 = (MTaggedValue)it.next();
+               if (tv2.getTag().equals("belongs to")) {
+                 tv = tv2;
+                 c.removeTaggedValue(tv);
+               }
+          }
+        }
+        else {
+          System.err.println("!!!!!!! target ist kein MClass,sondern "+target.getClass());
+        }
+      }
   }
 
   private static class BelongsToAction extends AbstractAction {
