@@ -5,6 +5,7 @@ import ru.novosoft.uml.foundation.core.MInterface;
 import ru.novosoft.uml.foundation.core.MClass;
 
 import ru.novosoft.uml.foundation.core.MModelElement;
+
 /**
  * Contains the possible base classes to observe by contextbased
  * constraint and context condition respectivly and provides 
@@ -66,7 +67,7 @@ public class BaseClasses {
 
 		return types;
 	}
-	
+
 	/**
 	* Checks weather the given model element matchs the given base class type.
 	* Creation date: (07.02.2002 18:35:41)
@@ -77,7 +78,7 @@ public class BaseClasses {
 	*/
 	public static boolean objectMatchsType(MModelElement possClass, String baseClassType) {
 
-		try {
+		if (baseClassType != null) {
 			if (baseClassType.compareTo(INTERFACE) == 0) {
 				return possClass instanceof MInterface;
 			}
@@ -86,26 +87,26 @@ public class BaseClasses {
 				return possClass instanceof MElement;
 			}
 
-			if (baseClassType.compareTo(BUSINESS_TYPE) == 0) {
-				if (possClass instanceof MClass) {
-					return CCLConstants.TYPE.compareTo(((MClass) possClass).getStereotype().getName()) == 0
-						|| CCLConstants.INFO_TYPE.compareTo(((MClass) possClass).getStereotype().getName()) == 0; 
-				}
-			}
+			if (possClass instanceof MClass && ((MClass) possClass).getStereotype() != null) {
+				String name = ((MClass) possClass).getStereotype().getName();
 
-			if (baseClassType.compareTo(INFO_TYPE) == 0) {
-				if (possClass instanceof MClass) {
-					return CCLConstants.INFO_TYPE.compareTo(((MClass) possClass).getStereotype().getName()) == 0;
-				}
-			}
+				if (name != null) {
 
-			if (baseClassType.compareTo(COMPONENT) == 0) {
-				if (possClass instanceof MClass) {
-					return CCLConstants.COMP_SPEC.compareTo(((MClass) possClass).getStereotype().getName()) == 0;
+					if (BUSINESS_TYPE.equals(baseClassType)) {
+						return CCLConstants.TYPE.equals(name) || CCLConstants.INFO_TYPE.equals(name);
+					}
+
+					if (INFO_TYPE.equals(baseClassType)) {
+						return CCLConstants.INFO_TYPE.equals(name);
+					}
+
+					if (COMPONENT.equals(baseClassType)) {
+						return CCLConstants.COMP_SPEC.equals(name);
+					}
 				}
 			}
-		} catch (NullPointerException npe) {
 		}
+
 		return false;
 	}
 }
