@@ -16,12 +16,16 @@ import java.beans.*;
 import ru.novosoft.uml.foundation.core.*;
 import ru.novosoft.uml.foundation.extension_mechanisms.*;
 import ru.novosoft.uml.behavior.common_behavior.*;
+
 import org.tigris.gef.base.*;
 import org.tigris.gef.graph.*;
+import org.tigris.gef.presentation.*;
+
 import org.argouml.ui.*;
 import org.argouml.kernel.*;
 import org.argouml.uml.diagram.ui.ActionAddExistingNode;
 import org.argouml.uml.ui.*;
+import org.argouml.uml.diagram.sequence.ui.*;
 
 import org.cocons.argo.diagram.ui.*;
 import org.cocons.argo.diagram.atomic_invocation_path.ui.*;
@@ -72,16 +76,51 @@ public class CreateAtomicPathMenu {
               d.setName("Atomic Invocation Path Diagram of Operation '" + oper.getName()
               +"' in Interface '" + inter.getName() +"'");
 
-              //ActionAddExistingNode addNode = new ActionAddExistingNode("",mi);
-              //addNode.actionPerformed(null);
-              Action actionObject = new CmdCreateNode(MObjectImpl.class, "Object");
-              actionObject.actionPerformed(null);
-              Object o = ProjectBrowser.TheInstance.getDetailsTarget();
-              if(!(o instanceof MObject)){System.out.println("--- CreateAtomicPathMenu.CreateAtomicPathAction.actionPerformed(): Object not found " + o );return;}
-              MObject mo = (MObject) o;
+              GraphModel gm = d.getGraphModel();
+              if (!(gm instanceof MutableGraphModel)) return;
+              MutableGraphModel mgm = (MutableGraphModel) gm;
+
+              //Model und Fig für System anlegen
+              MObjectImpl mo = new MObjectImpl();
+              Layer lay = d.getLayer();
+              FigNode pers = new FigSeqObject(gm, mo);
+              d.add(pers);
+              mgm.addNode(mo);
               mo.setName("System");
-              Action actionObject2 = new CmdCreateNode(MObjectImpl.class, "Object");
-              actionObject2.actionPerformed(null);
+
+              //Model und Fig für Componente anlegen
+              MObjectImpl mo2 = new MObjectImpl();
+              FigNode pers2 = new FigSeqObject(gm, mo2);
+              d.add(pers2);
+              mgm.addNode(mo2);
+              mo2.setName("<<component>>"+inter.getName());
+
+              //Assoziation anlegen
+              MStimulusImpl ms = new MStimulusImpl();
+
+              Object newEdge = mgm.connect(mo,mo2,MLinkImpl.class);
+              MLink mLink = (MLink) newEdge;
+              mLink.addStimulus(ms);
+
+              Fig startPortFig = pers.getPortFig(mo);
+              Fig destPortFig = pers2.getPortFig(mo2);
+              FigEdge fe = (FigEdge) lay.presentationFor(newEdge);
+              d.add(fe);
+              fe.setSourcePortFig(startPortFig);
+              fe.setSourceFigNode(pers);
+              fe.setDestPortFig(destPortFig);
+              fe.setDestFigNode(pers2);
+              if(!(fe instanceof FigSeqLink)){return;}
+              FigSeqLink figSekLink = (FigSeqLink) fe;
+              figSekLink.mouseReleased(null);
+              //Set Action for Stimulus
+              MCallActionImpl mCallAction = new MCallActionImpl();
+              mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
+              ms.setDispatchAction(mCallAction);
+
+              pers.damage();
+              pers2.damage();
+              fe.damage();
 
             }
           }
