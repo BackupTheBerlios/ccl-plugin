@@ -1,6 +1,6 @@
 package org.cocons.uml.ccl.test;
 
-import org.cocons.uml.ccl.ComparisonImpl;
+
 import org.cocons.uml.ccl.logic_operations.LogicFactoryImpl;
 import org.cocons.uml.ccl.logic_operations.LogicFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
@@ -18,7 +18,7 @@ import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl;
 import ru.novosoft.uml.foundation.core.MClassImpl;
 
-import org.cocons.uml.ccl.CCLConstants;import org.cocons.uml.ccl.BaseClasses;/**
+import org.cocons.uml.ccl.CCLConstants;import org.cocons.uml.ccl.ValueComparison;import org.cocons.uml.ccl.BaseClasses;/**
 * Tests the ConditionImpl class from org.cocons.uml.ccl. 
 */
 public class TestCondition extends junit.framework.TestCase {
@@ -69,7 +69,7 @@ public class TestCondition extends junit.framework.TestCase {
 		comparatorFactory = new ComparatorFactoryImpl();
 		logicFactory = new LogicFactoryImpl();
 
-		ComparisonImpl b = new ComparisonImpl();
+		ValueComparison b = new ValueComparison();
 		b.setComparator(comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL));
 		b.setTag("tag");
 		b.setValue("0");
@@ -148,7 +148,7 @@ public class TestCondition extends junit.framework.TestCase {
 		tag.addConstraint(con);
 
 		tag.setTag(cond1.getComparison().getTag());
-		value.setValue(cond1.getComparison().getValue());
+		value.setValue((String)cond1.getComparison().getValue());
 		value.setContextPropertyTag(tag);
 
 		MClassImpl modelElement = new MClassImpl();

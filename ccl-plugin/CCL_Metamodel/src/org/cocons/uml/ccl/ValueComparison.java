@@ -9,11 +9,8 @@ import ru.novosoft.uml.foundation.core.MModelElement;
  * a comparator to compare the variable with that value.
  * Creation date: (26.12.2001 14:20:30)
  * @author: Fadi Chabarek
- * @deprecated A new comparison is need to compare set context property values
- * with sets. So the name changed to ValueComparison to make clear that values and
- * not sets are compared.
  */
-public class ComparisonImpl implements Comparison {
+public class ValueComparison implements Comparison {
 
 	/**
 	 * The comparison's tag.
@@ -33,7 +30,7 @@ public class ComparisonImpl implements Comparison {
 	/**
 	 * Constructs a comparison implementation.
 	 */
-	public ComparisonImpl() {
+	public ValueComparison() {
 		super();
 		this.setNegated(false);
 	}

@@ -12,10 +12,7 @@ public interface Comparison {
 	 */
 	public String getTag();
 
-	/**
-	* Returns the tagged value (constant) from this condition.
-	*/
-	public String getValue();
+
 
 	/**
 	 * Checks whether the given value lies within this comparison.
@@ -31,11 +28,14 @@ public interface Comparison {
 	 * @return org.cocons.uml.ccl.Comparison the comparison.
 	 */
 	public Comparator getComparator(); 
-    
+	
 	/**
 	* Shows if this comparison is negated.
 	* Creation date: (09.02.2002 16:00:49)
 	* @return boolean true if the comparison is negated.
 	*/
 	boolean isNegated();
-}
+	/**
+	* Returns the tagged value (constant) from this condition.
+	*/
+	public Object getValue();}

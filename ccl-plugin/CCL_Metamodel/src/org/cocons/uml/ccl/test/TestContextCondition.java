@@ -21,7 +21,7 @@ import ru.novosoft.uml.foundation.core.MClass;
 
 import java.util.Vector;
 
-/**
+import org.cocons.uml.ccl.ValueComparison;/**
 * TestCase for the class Context Conditions. 
 * Creation date: (07.02.2002 19:34:26)
 * @author: Fadi Chabarek
@@ -67,7 +67,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 		// setup a valid context condition (until B)
 		ContextConditionImpl cc = new ContextConditionImpl();
 		ComparatorFactoryImpl cf = new ComparatorFactoryImpl();
-		ComparisonImpl comp = new ComparisonImpl();
+		ValueComparison comp = new ValueComparison();
 		comp.setTag("tag");
 		comp.setComparator(cf.produceComparatorWithType(cf.EQUAL));
 		comp.setValue("value");
@@ -101,7 +101,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 
 		// init
 		ContextConditionImpl targetSet = new ContextConditionImpl();
-		ComparisonImpl tComp = new ComparisonImpl();
+		ValueComparison tComp = new ValueComparison();
 
 		ComparatorFactory cf = new ComparatorFactoryImpl();
 
@@ -177,7 +177,7 @@ public class TestContextCondition extends junit.framework.TestCase {
 		// setup a valid context condition (until B)
 		ContextConditionImpl cc = new ContextConditionImpl();
 		ComparatorFactoryImpl cf = new ComparatorFactoryImpl();
-		ComparisonImpl comp = new ComparisonImpl();
+		ValueComparison comp = new ValueComparison();
 		comp.setTag(randomWord);
 		comp.setComparator(cf.produceComparatorWithType(cf.EQUAL));
 		comp.setValue(randomInteger);

@@ -4,7 +4,7 @@ import org.cocons.uml.ccl.Comparator;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.Comparison;
-import org.cocons.uml.ccl.ComparisonImpl;
+
 
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
@@ -14,7 +14,7 @@ import org.cocons.uml.ccl.context_property1_3.MContextPropertyTagImpl;
 import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 import ru.novosoft.uml.foundation.core.MConstraintImpl; 
 
-/**
+import org.cocons.uml.ccl.ValueComparison;/**
 * Tests the ComparisonImpl class. 
 * Creation date: (26.12.2001 16:38:43)
 * @author: Fadi Chabarek
@@ -74,7 +74,7 @@ public class TestComparison extends junit.framework.TestCase {
 		value.setValue(elementValue);
 
 		// comparison
-		ComparisonImpl comparison = new ComparisonImpl();
+		ValueComparison comparison = new ValueComparison();
 		comparison.setValue(comparisonValue);
 		comparison.setTag(comparisonTag);
 
@@ -115,7 +115,7 @@ public class TestComparison extends junit.framework.TestCase {
 		
 			*/
 
-		ComparisonImpl comparison = new ComparisonImpl();
+		ValueComparison comparison = new ValueComparison();
 		MContextPropertyValueImpl value = new MContextPropertyValueImpl();
 		MContextPropertyTagImpl tag = new MContextPropertyTagImpl();
 
@@ -210,7 +210,7 @@ public class TestComparison extends junit.framework.TestCase {
 			unequalTag = Math.random();
 		}
 
-		ComparisonImpl comparison = new ComparisonImpl();
+		ValueComparison comparison = new ValueComparison();
 		comparison.setValue(String.valueOf(equalValue));
 		comparison.setTag(String.valueOf(equalTag));
 
