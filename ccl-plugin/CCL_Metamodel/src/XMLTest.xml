@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XMI SYSTEM "org/cocons/uml/ccl/ccl10.dtd">
+<XMI xmi.version="1.0">
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Novosoft UML Library + CoCons CCL Extensions</XMI.exporter>
+      <XMI.exporterVersion>0.4.19 (0.0.1)</XMI.exporterVersion>
+    </XMI.documentation>
+    <XMI.metamodel xmi.name="CCL" xmi.version="1.0"/>
+  </XMI.header>
+  <XMI.content>
+    <Model_Management.Model xmi.id="xmi.1">
+      <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+      <Foundation.Core.GeneralizableElement.isRoot xmi.value="false"/>
+      <Foundation.Core.GeneralizableElement.isLeaf xmi.value="false"/>
+      <Foundation.Core.GeneralizableElement.isAbstract xmi.value="false"/>
+      <Foundation.Core.Namespace.ownedElement>
+        <Foundation.Extension_Mechanisms.Stereotype xmi.id="xmi.2">
+          <Foundation.Core.ModelElement.name>persistant</Foundation.Core.ModelElement.name>
+          <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isRoot xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isLeaf xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isAbstract xmi.value="false"/>
+          <Foundation.Extension_Mechanisms.Stereotype.baseClass>Class</Foundation.Extension_Mechanisms.Stereotype.baseClass>
+          <Foundation.Core.ModelElement.namespace>
+            <Foundation.Core.Namespace xmi.idref="xmi.1"/>
+          </Foundation.Core.ModelElement.namespace>
+          <Foundation.Extension_Mechanisms.Stereotype.extendedElement>
+            <Foundation.Core.ModelElement xmi.idref="xmi.3"/>
+          </Foundation.Extension_Mechanisms.Stereotype.extendedElement>
+          <Foundation.Extension_Mechanisms.Stereotype.stereotypeConstraint>
+            <Foundation.Core.Constraint xmi.id="xmi.4">
+              <Foundation.Core.ModelElement.name>nop</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Core.Constraint.constrainedStereotype>
+                <Foundation.Extension_Mechanisms.Stereotype xmi.idref="xmi.2"/>
+              </Foundation.Core.Constraint.constrainedStereotype>
+            </Foundation.Core.Constraint>
+          </Foundation.Extension_Mechanisms.Stereotype.stereotypeConstraint>
+          <Foundation.Extension_Mechanisms.Stereotype.definedTag>
+            <Foundation.Extension_Mechanisms.TagDefinition xmi.id="xmi.5">
+              <Foundation.Core.ModelElement.name>isPersistant</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Extension_Mechanisms.TagDefinition.tagType>UML::DataTypes::Boolean</Foundation.Extension_Mechanisms.TagDefinition.tagType>
+              <Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+                <Foundation.Data_Types.Multiplicity xmi.id="xmi.6">
+                  <Foundation.Data_Types.Multiplicity.range>
+                    <Foundation.Data_Types.MultiplicityRange xmi.id="xmi.7">
+                      <Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+                      <Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+                    </Foundation.Data_Types.MultiplicityRange>
+                  </Foundation.Data_Types.Multiplicity.range>
+                </Foundation.Data_Types.Multiplicity>
+              </Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+              <Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+                <Foundation.Extension_Mechanisms.TaggedValue xmi.idref="xmi.8"/>
+              </Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+            </Foundation.Extension_Mechanisms.TagDefinition>
+            <Foundation.Extension_Mechanisms.TagDefinition xmi.id="xmi.9">
+              <Foundation.Core.ModelElement.name>primaryKey</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Extension_Mechanisms.TagDefinition.tagType>UML::Foundation::Core::Attribute</Foundation.Extension_Mechanisms.TagDefinition.tagType>
+              <Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+                <Foundation.Data_Types.Multiplicity xmi.id="xmi.10">
+                  <Foundation.Data_Types.Multiplicity.range>
+                    <Foundation.Data_Types.MultiplicityRange xmi.id="xmi.11">
+                      <Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+                      <Foundation.Data_Types.MultiplicityRange.upper>-1</Foundation.Data_Types.MultiplicityRange.upper>
+                    </Foundation.Data_Types.MultiplicityRange>
+                  </Foundation.Data_Types.Multiplicity.range>
+                </Foundation.Data_Types.Multiplicity>
+              </Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+              <Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+                <Foundation.Extension_Mechanisms.TaggedValue xmi.idref="xmi.12"/>
+              </Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+            </Foundation.Extension_Mechanisms.TagDefinition>
+          </Foundation.Extension_Mechanisms.Stereotype.definedTag>
+        </Foundation.Extension_Mechanisms.Stereotype>
+        <Foundation.Core.Classifier xmi.id="xmi.13">
+          <Foundation.Core.ModelElement.name>String</Foundation.Core.ModelElement.name>
+          <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isRoot xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isLeaf xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isAbstract xmi.value="false"/>
+          <Foundation.Core.ModelElement.namespace>
+            <Foundation.Core.Namespace xmi.idref="xmi.1"/>
+          </Foundation.Core.ModelElement.namespace>
+        </Foundation.Core.Classifier>
+        <Foundation.Core.Class xmi.id="xmi.3">
+          <Foundation.Core.ModelElement.name>Employee</Foundation.Core.ModelElement.name>
+          <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isRoot xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isLeaf xmi.value="false"/>
+          <Foundation.Core.GeneralizableElement.isAbstract xmi.value="false"/>
+          <Foundation.Core.Class.isActive xmi.value="false"/>
+          <Foundation.Core.ModelElement.namespace>
+            <Foundation.Core.Namespace xmi.idref="xmi.1"/>
+          </Foundation.Core.ModelElement.namespace>
+          <Foundation.Core.ModelElement.taggedValue>
+            <Foundation.Extension_Mechanisms.TaggedValue xmi.id="xmi.8">
+              <Foundation.Core.ModelElement.name>tv1</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Extension_Mechanisms.TaggedValue.dataValue>True</Foundation.Extension_Mechanisms.TaggedValue.dataValue>
+              <Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+                <Foundation.Core.ModelElement xmi.idref="xmi.3"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+              <Foundation.Extension_Mechanisms.TaggedValue.type>
+                <Foundation.Extension_Mechanisms.TagDefinition xmi.idref="xmi.5"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.type>
+            </Foundation.Extension_Mechanisms.TaggedValue>
+            <Foundation.Extension_Mechanisms.TaggedValue xmi.id="xmi.12">
+              <Foundation.Core.ModelElement.name>tv2</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+                <Foundation.Core.ModelElement xmi.idref="xmi.3"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+              <Foundation.Extension_Mechanisms.TaggedValue.referenceValue>
+                <Foundation.Core.ModelElement xmi.idref="xmi.14"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.referenceValue>
+              <Foundation.Extension_Mechanisms.TaggedValue.type>
+                <Foundation.Extension_Mechanisms.TagDefinition xmi.idref="xmi.9"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.type>
+            </Foundation.Extension_Mechanisms.TaggedValue>
+            <Foundation.Extension_Mechanisms.TaggedValue xmi.id="xmi.15">
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Extension_Mechanisms.TaggedValue.dataValue>1.3</Foundation.Extension_Mechanisms.TaggedValue.dataValue>
+              <Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+                <Foundation.Core.ModelElement xmi.idref="xmi.3"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.modelElement>
+              <Foundation.Extension_Mechanisms.TaggedValue.type>
+                <Foundation.Extension_Mechanisms.TagDefinition xmi.idref="xmi.16"/>
+              </Foundation.Extension_Mechanisms.TaggedValue.type>
+            </Foundation.Extension_Mechanisms.TaggedValue>
+          </Foundation.Core.ModelElement.taggedValue>
+          <Foundation.Core.Classifier.feature>
+            <Foundation.Core.Attribute xmi.id="xmi.14">
+              <Foundation.Core.ModelElement.name>id</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Core.Feature.owner>
+                <Foundation.Core.Classifier xmi.idref="xmi.3"/>
+              </Foundation.Core.Feature.owner>
+              <Foundation.Core.StructuralFeature.type>
+                <Foundation.Core.Classifier xmi.idref="xmi.13"/>
+              </Foundation.Core.StructuralFeature.type>
+              <Foundation.Core.ModelElement.referenceTag>
+                <Foundation.Extension_Mechanisms.TaggedValue xmi.idref="xmi.12"/>
+              </Foundation.Core.ModelElement.referenceTag>
+            </Foundation.Core.Attribute>
+            <Foundation.Core.Attribute xmi.id="xmi.17">
+              <Foundation.Core.ModelElement.name>firstName</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Core.Feature.owner>
+                <Foundation.Core.Classifier xmi.idref="xmi.3"/>
+              </Foundation.Core.Feature.owner>
+              <Foundation.Core.StructuralFeature.type>
+                <Foundation.Core.Classifier xmi.idref="xmi.13"/>
+              </Foundation.Core.StructuralFeature.type>
+            </Foundation.Core.Attribute>
+            <Foundation.Core.Attribute xmi.id="xmi.18">
+              <Foundation.Core.ModelElement.name>lastName</Foundation.Core.ModelElement.name>
+              <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+              <Foundation.Core.Feature.owner>
+                <Foundation.Core.Classifier xmi.idref="xmi.3"/>
+              </Foundation.Core.Feature.owner>
+              <Foundation.Core.StructuralFeature.type>
+                <Foundation.Core.Classifier xmi.idref="xmi.13"/>
+              </Foundation.Core.StructuralFeature.type>
+            </Foundation.Core.Attribute>
+          </Foundation.Core.Classifier.feature>
+        </Foundation.Core.Class>
+        <Foundation.Extension_Mechanisms.TagDefinition xmi.id="xmi.16">
+          <Foundation.Core.ModelElement.name>legacyTag</Foundation.Core.ModelElement.name>
+          <Foundation.Core.ModelElement.isSpecification xmi.value="false"/>
+          <Foundation.Extension_Mechanisms.TagDefinition.tagType>UML::DataTypes::String</Foundation.Extension_Mechanisms.TagDefinition.tagType>
+          <Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+            <Foundation.Data_Types.Multiplicity xmi.idref="xmi.6"/>
+          </Foundation.Extension_Mechanisms.TagDefinition.multiplicity>
+          <Foundation.Core.ModelElement.namespace>
+            <Foundation.Core.Namespace xmi.idref="xmi.1"/>
+          </Foundation.Core.ModelElement.namespace>
+          <Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+            <Foundation.Extension_Mechanisms.TaggedValue xmi.idref="xmi.15"/>
+          </Foundation.Extension_Mechanisms.TagDefinition.typedValue>
+        </Foundation.Extension_Mechanisms.TagDefinition>
+      </Foundation.Core.Namespace.ownedElement>
+    </Model_Management.Model>
+  </XMI.content>
+</XMI>

@@ -1,0 +1,4004 @@
+\sloppy
+\raggedright
+
+\gdef\packagename{}
+\gdef\classname{}
+\clearpage
+
+\def\packagename{org.cocons.testsuite}
+
+\section{Package org.cocons.testsuite}
+
+\hbox to \hsize{\bf Contents\hfil Page}
+\rule{\hsize}{1pt}
+\vskip .13in
+\hbox{\bf Classes}
+\vskip .13in
+\entityintro{MasterTest}{l0}{This class forms the main test suite of the cocons library
+ It should be continuously be extended to call all subtests
+ in the org.cocons package hierarchy}
+\entityintro{MMTestCase}{l1}{This class contains auxillary methods which may be used when
+ creating test cases for metamodels.}
+\clearpage
+\subsection{Classes}
+\startsection{Class}{MasterTest}{l0}
+
+{\tt public
+ class MasterTest extends junit.framework.TestCase}
+
+
+\vskip .09in
+
+
+{This class forms the main test suite of the cocons library
+ It should be continuously be extended to call all subtests
+ in the org.cocons package hierarchy}
+\constructors
+\method{public {\bf MasterTest}({\tt java.lang.String} {\bf p0})\label{l2}\label{l3}}
+\begin{desc}Constructs a test suite with a given name
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf p0}]{name of test suite}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\methods
+\method{public static Test {\bf suite}()\label{l4}\label{l5}}
+\begin{desc}factory method to create a test suite containing all subtests.
+ This method is called by the JUnit framework
+\end{desc}
+
+\startsection{Class}{MMTestCase}{l1}
+
+{\tt public
+ class MMTestCase extends junit.framework.TestCase}
+
+
+\vskip .09in
+
+
+{This class contains auxillary methods which may be used when
+ creating test cases for metamodels.}
+\constructors
+\method{public {\bf MMTestCase}({\tt java.lang.String} {\bf p0})\label{l6}\label{l7}}
+\begin{desc}Constructs a test case with a given name
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf p0}]{name of test suite}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\methods
+\method{protected void {\bf testAssoc\_Bag\_Bag}({\tt java.lang.String} {\bf roleNear}, {\tt ru.novosoft.uml.MBase} {\bf elementNear}, {\tt java.lang.String} {\bf roleFar}, {\tt ru.novosoft.uml.MBase} {\bf elementFar})\label{l8}\label{l9}}
+\begin{desc}Test an association with bag roles at both ends (named {\it near} end
+ and {\it far} end).
+
+ The following test steps are performed:
+ \begin{itemize}
+
+   \item{   association is added to the far end
+   }
+\item{   association is removed from the near end
+   }
+\item{   the remove operation is undone
+   }
+\item{   the remove operation is redone
+   }
+\item{   association is added to the near end
+   }
+\item{   the far end is emptied
+ }
+\end{itemize}
+
+
+ After every step the state of both ends are compared with
+ the pre-computed, correct states.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf roleNear}]{name of the association role at the near end.}
+   \item[{\bf elementNear}]{Model element at the near end}
+   \item[{\bf roleFar}]{name of the association role at the far end.}
+   \item[{\bf elementFar}]{Model element at the far end}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf testAssoc\_Bag\_Ref}({\tt java.lang.String} {\bf roleNear}, {\tt ru.novosoft.uml.MBase} {\bf elementNear}, {\tt java.lang.String} {\bf roleFar}, {\tt ru.novosoft.uml.MBase} {\bf elementFar})\label{l10}\label{l11}}
+\begin{desc}Test an association with a bag role at the near end and a reference role
+ at the far end.
+
+ The following test steps are performed:
+ \begin{itemize}
+
+   \item{   association is added to the far end
+   }
+\item{   association is removed from the near end
+   }
+\item{   the remove operation is undone
+   }
+\item{   the remove operation is redone
+   }
+\item{   association is added to the near end
+   }
+\item{   the far end is emptied
+ }
+\end{itemize}
+
+
+ After every step the state of both ends are compared with
+ the pre-computed, correct states.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf roleNear}]{name of the association role at the near end.}
+   \item[{\bf elementNear}]{Model element at the near end}
+   \item[{\bf roleFar}]{name of the association role at the far end.}
+   \item[{\bf elementFar}]{Model element at the far end}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf testAttrib\_Bag}({\tt ru.novosoft.uml.MBase} {\bf element}, {\tt java.lang.String} {\bf attribute}, {\tt java.lang.Object} {\bf value1}, {\tt java.lang.Object} {\bf value2})\label{l12}\label{l13}}
+\begin{desc}Test a bag attribute by settings and changing its value.
+ Bag attributes are attributes which contain a collection
+ of values (e.g. name[*])
+
+ The following test steps are performed:
+ \begin{itemize}
+
+   \item{   Both values are added to the attribute
+   }
+\item{   the first value is removed from the attribute
+   }
+\item{   the remove operation is undone
+   }
+\item{   all values are emptied from the attribute
+ }
+\end{itemize}
+
+
+ After every step the state of the attribute is compared
+ the pre-computed, correct value.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf element}]{Model element whose attribute is to be tested}
+   \item[{\bf attribute}]{name of the attribute to be tested}
+   \item[{\bf value1}]{first attribute value to be added$/$removed}
+   \item[{\bf value2}]{second attribute value to be added$/$removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf testAttrib}({\tt ru.novosoft.uml.MBase} {\bf element}, {\tt java.lang.String} {\bf attribute}, {\tt java.lang.Object} {\bf value})\label{l14}\label{l15}}
+\begin{desc}Test an attribute by settings and clearing its value
+
+ The following test steps are performed:
+ \begin{itemize}
+
+   \item{   attribute is set to oneValue
+   }
+\item{   attribute is cleared (set to null)
+   }
+\item{   the clear operation is undone
+   }
+\item{   the clear operation is redone
+ }
+\end{itemize}
+
+
+ After every step the state of the attribute is compared
+ the pre-computed, correct value.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf element}]{Model element whose attribute is to be tested}
+   \item[{\bf attribute}]{name of the attribute to be tested}
+   \item[{\bf oneValue}]{attribute value to be set}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf testAttrib}({\tt ru.novosoft.uml.MBase} {\bf element}, {\tt java.lang.String} {\bf attribute}, {\tt java.lang.Object} {\bf oneValue}, {\tt java.lang.Object} {\bf anotherValue})\label{l16}\label{l17}}
+\begin{desc}Test an attribute by settings and changing its value
+
+ The following test steps are performed:
+ \begin{itemize}
+
+   \item{   association is added to the far end
+   }
+\item{   association is removed from the near end
+   }
+\item{   the remove operation is undone
+   }
+\item{   the remove operation is redone
+   }
+\item{   association is added to the near end
+   }
+\item{   the far end is emptied
+ }
+\end{itemize}
+
+
+ After every step the state of the attribute is compared
+ the pre-computed, correct value.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf element}]{Model element whose attribute is to be tested}
+   \item[{\bf attribute}]{name of the attribute to be tested}
+   \item[{\bf oneValue}]{first attribute value to be set}
+   \item[{\bf anotherValue}]{value the attribute should be changed to}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\clearpage
+
+\def\packagename{org.cocons.uml.ccl}
+
+\section{Package org.cocons.uml.ccl}
+
+\hbox to \hsize{\bf Contents\hfil Page}
+\rule{\hsize}{1pt}
+\vskip .13in
+\hbox{\bf Interfaces}
+\vskip .13in
+\entityintro{MContextBasedConstraint}{l18}{Interface to a CCL ContextBasedConstraint metaclass.}
+\entityintro{MContextCondition}{l19}{Interface to a CCL ContextCondition metaclass.}
+\entityintro{MContextPropertyTag}{l20}{Interface to a CCL ContextPropertyTag metaclass.}
+\vskip .13in
+\hbox{\bf Classes}
+\vskip .13in
+\entityintro{CclTest}{l21}{Forms the test suite for the concons ccl package.}
+\entityintro{MContextBasedConstraintImpl}{l22}{Java implementation of the CCL ContextBasedConstraint metaclass.}
+\entityintro{MContextConditionImpl}{l23}{Java implementation of the CCL ContextCondition metaclass.}
+\entityintro{MContextPropertyTagImpl}{l24}{Java implementation of the CCL ContextPropertyTag metaclass.}
+\clearpage
+\subsection{Interfaces}
+\startsection{Interface}{MContextBasedConstraint}{l18}
+
+{\tt public interface
+ MContextBasedConstraint implements org.cocons.uml.CConstraint}
+
+
+\vskip .09in
+
+
+{Interface to a CCL ContextBasedConstraint metaclass.}
+\methods
+\method{public MContextCondition {\bf getConstrainedSet}()\label{l25}\label{l26}}
+\begin{desc}Gets the link in the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns current ConstrainedSet of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public int {\bf getPriority}()\label{l27}\label{l28}}
+\begin{desc}Gets the value of the attribute Priority.
+\begin{itemize}
+\item{Returns current value of the Priority attribute }
+\end{itemize}
+\end{desc}
+
+\method{public MContextCondition {\bf getScopeSet}()\label{l29}\label{l30}}
+\begin{desc}Gets the link in the association scopeSet(ContextCondition)
+ $/$ scopedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns current ScopeSet of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l31}\label{l32}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ConstrainedSet to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l33}\label{l34}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopeSet to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l35}\label{l36}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ConstrainedSet to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l37}\label{l38}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopeSet to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l39}\label{l40}}
+\begin{desc}Sets the link in the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ConstrainedSet of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setPriority}({\tt int} {\bf \_\_arg})\label{l41}\label{l42}}
+\begin{desc}Sets the value of the attribute Priority.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the Priority to}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l43}\label{l44}}
+\begin{desc}Sets the link in the association scopeSet(ContextCondition)
+ $/$ scopedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ScopeSet of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{MContextCondition}{l19}
+
+{\tt public interface
+ MContextCondition implements ru.novosoft.uml.MBase}
+
+
+\vskip .09in
+
+
+{Interface to a CCL ContextCondition metaclass.}
+\methods
+\method{public void {\bf addContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l45}\label{l46}}
+\begin{desc}Adds a link to the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l47}\label{l48}}
+\begin{desc}Adds a link to the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l49}\label{l50}}
+\begin{desc}Adds a link to the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l51}\label{l52}}
+\begin{desc}Adds a link to the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getContextBasedConstraints}()\label{l53}\label{l54}}
+\begin{desc}Gets all the links of the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextBasedConstraints collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getContextPropertyValues}()\label{l55}\label{l56}}
+\begin{desc}Gets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextPropertyValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public MBooleanExpression {\bf getQuery}()\label{l57}\label{l58}}
+\begin{desc}Gets the value of the attribute Query.
+\begin{itemize}
+\item{Returns current value of the Query attribute }
+\end{itemize}
+\end{desc}
+
+\method{public MMultiplicity {\bf getRange}()\label{l59}\label{l60}}
+\begin{desc}Gets the value of the attribute Range.
+\begin{itemize}
+\item{Returns current value of the Range attribute }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRestrictedStereotypes}()\label{l61}\label{l62}}
+\begin{desc}Gets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current RestrictedStereotypes collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getScopedConstraints}()\label{l63}\label{l64}}
+\begin{desc}Gets all the links of the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ScopedConstraints collection }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l65}\label{l66}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l67}\label{l68}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l69}\label{l70}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l71}\label{l72}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l73}\label{l74}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l75}\label{l76}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l77}\label{l78}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l79}\label{l80}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l81}\label{l82}}
+\begin{desc}Removes a link from the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l83}\label{l84}}
+\begin{desc}Removes a link from the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l85}\label{l86}}
+\begin{desc}Removes a link from the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l87}\label{l88}}
+\begin{desc}Removes a link from the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setContextBasedConstraints}({\tt java.util.Collection} {\bf \_\_arg})\label{l89}\label{l90}}
+\begin{desc}Sets all the links of the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextBasedConstraints or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setContextPropertyValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l91}\label{l92}}
+\begin{desc}Sets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextPropertyValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setQuery}({\tt ru.novosoft.uml.foundation.data\_types.MBooleanExpression} {\bf \_arg})\label{l93}\label{l94}}
+\begin{desc}Sets the value of the attribute Query.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf new}]{value of the Query attribute}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRange}({\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {\bf \_arg})\label{l95}\label{l96}}
+\begin{desc}Sets the value of the attribute Range.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf new}]{value of the Range attribute}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRestrictedStereotypes}({\tt java.util.Collection} {\bf \_\_arg})\label{l97}\label{l98}}
+\begin{desc}Sets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of RestrictedStereotypes or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setScopedConstraints}({\tt java.util.Collection} {\bf \_\_arg})\label{l99}\label{l100}}
+\begin{desc}Sets all the links of the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ScopedConstraints or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{MContextPropertyTag}{l20}
+
+{\tt public interface
+ MContextPropertyTag implements org.cocons.uml.CTagDefinition}
+
+
+\vskip .09in
+
+
+{Interface to a CCL ContextPropertyTag metaclass.}
+\methods
+\method{public CConstraint {\bf getValueValidation}()\label{l101}\label{l102}}
+\begin{desc}Gets the link in the association valueValidation(Constraint)
+ $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Returns current ValueValidation of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l103}\label{l104}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ValueValidation to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l105}\label{l106}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ValueValidation to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l107}\label{l108}}
+\begin{desc}Sets the link in the association valueValidation(Constraint)
+ $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ValueValidation of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\subsection{Classes}
+\startsection{Class}{CclTest}{l21}
+
+{\tt public
+ class CclTest extends org.cocons.testsuite.MMTestCase}
+
+
+\vskip .09in
+
+
+{Forms the test suite for the concons ccl package.
+ It tests all java implementation of all the metaclasses, metaattributes
+ and metaassociations in the cocons ccl library.}
+\constructors
+\method{public {\bf CclTest}({\tt java.lang.String} {\bf p0})\label{l109}\label{l110}}
+\begin{desc}Constructs a test suite with a given name
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf p0}]{name of test suite}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\methods
+\method{protected void {\bf setUp}()\label{l111}\label{l112}}
+\begin{desc}Performs test initialization.
+ This method is called by the framework before each individual test.
+\end{desc}
+
+\method{public static Test {\bf suite}()\label{l113}\label{l114}}
+\begin{desc}Factory method to create a test suite containing all
+ individual tests.
+\end{desc}
+
+\method{protected void {\bf tearDown}()\label{l115}\label{l116}}
+\begin{desc}Performs test finalization.
+ This method is called by the framework after each individual test.
+\end{desc}
+
+\method{public void {\bf testAssocValueValidationContextPropertyTag}()\label{l117}\label{l118}}
+\begin{desc}test for association
+ valueValidition(Constraint) $/$ contextPropertyTag(ContextPropertyValue)
+\end{desc}
+
+\method{public void {\bf testConstrainedSetContextBasedConstraint}()\label{l119}\label{l120}}
+\begin{desc}test for association
+ constrainedSet(ContextCondition) $/$ contextBasedConstraint(ContextBasedConstraint)
+\end{desc}
+
+\method{public void {\bf testContextBasedConstraint}()\label{l121}\label{l122}}
+\begin{desc}test for metaclass ContextBasedConstraint
+\end{desc}
+
+\method{public void {\bf testContextCondition}()\label{l123}\label{l124}}
+\begin{desc}test for metaclass ContextCondition
+\end{desc}
+
+\method{public void {\bf testContextPropertyTag}()\label{l125}\label{l126}}
+\begin{desc}test for metaclass ContextPropertyTag
+\end{desc}
+
+\method{public void {\bf testRefConditionContextPropertyValue}()\label{l127}\label{l128}}
+\begin{desc}test for association
+ refCondition(ContextCondition) $/$ contextPropertyValue(TaggedValue)
+\end{desc}
+
+\method{public void {\bf testRestrictedStereotypeRestriction}()\label{l129}\label{l130}}
+\begin{desc}test for association
+ restrictedStereotype(Stereotype) $/$ restriction(ContextCondition)
+\end{desc}
+
+\method{public void {\bf testScopedSetScopedConstraint}()\label{l131}\label{l132}}
+\begin{desc}test for association
+ scopeSet(ContextCondition) $/$ scopedConstraint(ContextBasedConstraint)
+\end{desc}
+
+\startsection{Class}{MContextBasedConstraintImpl}{l22}
+
+{\tt public
+ class MContextBasedConstraintImpl extends org.cocons.uml.CConstraintImpl implements MContextBasedConstraint}
+
+
+\vskip .09in
+
+
+{Java implementation of the CCL ContextBasedConstraint metaclass.}
+\constructors
+\method{public {\bf MContextBasedConstraintImpl}()\label{l133}\label{l134}}
+\begin{desc}Constructs a new ContextBasedConstraint instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ MContextBasedConstraint cbc = new MContextBasedConstraintImpl();
+\end{desc}
+
+\methods
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l135}\label{l136}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final MContextCondition {\bf getConstrainedSet}()\label{l137}\label{l138}}
+\begin{desc}Gets the link in the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns current ConstrainedSet of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public int {\bf getPriority}()\label{l139}\label{l140}}
+\begin{desc}Gets the value of the attribute Priority.
+\begin{itemize}
+\item{Returns current value of the Priority attribute }
+\end{itemize}
+\end{desc}
+
+\method{public final MContextCondition {\bf getScopeSet}()\label{l141}\label{l142}}
+\begin{desc}Gets the link in the association scopeSet(ContextCondition)
+ $/$ scopedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns current ScopeSet of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getUMLClassName}()\label{l143}\label{l144}}
+\begin{desc}returns the UML metaclass name of the instance.
+\begin{itemize}
+\item{Returns the metaclass name "ContextBasedConstraint" }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l145}\label{l146}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ConstrainedSet to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l147}\label{l148}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopeSet to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l149}\label{l150}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ConstrainedSet to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l151}\label{l152}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopeSet to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l153}\label{l154}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l155}\label{l156}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l157}\label{l158}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l159}\label{l160}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setConstrainedSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l161}\label{l162}}
+\begin{desc}Sets the link in the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ConstrainedSet of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setPriority}({\tt int} {\bf \_\_arg})\label{l163}\label{l164}}
+\begin{desc}Sets the value of the attribute Priority.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the Priority to}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setScopeSet}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l165}\label{l166}}
+\begin{desc}Sets the link in the association scopeSet(ContextCondition)
+ $/$ scopedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ScopeSet of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{MContextConditionImpl}{l23}
+
+{\tt public
+ class MContextConditionImpl extends ru.novosoft.uml.MBaseImpl implements MContextCondition}
+
+
+\vskip .09in
+
+
+{Java implementation of the CCL ContextCondition metaclass.}
+\constructors
+\method{public {\bf MContextConditionImpl}()\label{l167}\label{l168}}
+\begin{desc}Constructs a new ContextCondition instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ MContextCondition td = new MContextConditionImpl();
+\end{desc}
+
+\methods
+\method{public final void {\bf addContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l169}\label{l170}}
+\begin{desc}Adds a link to the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l171}\label{l172}}
+\begin{desc}Adds a link to the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l173}\label{l174}}
+\begin{desc}Adds a link to the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l175}\label{l176}}
+\begin{desc}Adds a link to the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l177}\label{l178}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getContextBasedConstraints}()\label{l179}\label{l180}}
+\begin{desc}Gets all the links of the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextBasedConstraints collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getContextPropertyValues}()\label{l181}\label{l182}}
+\begin{desc}Gets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextPropertyValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public MBooleanExpression {\bf getQuery}()\label{l183}\label{l184}}
+\begin{desc}Gets the value of the attribute Query.
+\begin{itemize}
+\item{Returns current value of the Query attribute }
+\end{itemize}
+\end{desc}
+
+\method{public MMultiplicity {\bf getRange}()\label{l185}\label{l186}}
+\begin{desc}Gets the value of the attribute Range.
+\begin{itemize}
+\item{Returns current value of the Range attribute }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRestrictedStereotypes}()\label{l187}\label{l188}}
+\begin{desc}Gets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current RestrictedStereotypes collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getScopedConstraints}()\label{l189}\label{l190}}
+\begin{desc}Gets all the links of the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ScopedConstraints collection }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getUMLClassName}()\label{l191}\label{l192}}
+\begin{desc}Gets the UML metaclass name of the instance.
+\begin{itemize}
+\item{Returns the metaclass name "ContextCondition" }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l193}\label{l194}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l195}\label{l196}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l197}\label{l198}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l199}\label{l200}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l201}\label{l202}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l203}\label{l204}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l205}\label{l206}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l207}\label{l208}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l209}\label{l210}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l211}\label{l212}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l213}\label{l214}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l215}\label{l216}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeContextBasedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l217}\label{l218}}
+\begin{desc}Removes a link from the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextBasedConstraint to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeContextPropertyValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l219}\label{l220}}
+\begin{desc}Removes a link from the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeRestrictedStereotype}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l221}\label{l222}}
+\begin{desc}Removes a link from the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RestrictedStereotype to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeScopedConstraint}({\tt org.cocons.uml.ccl.MContextBasedConstraint} {\bf \_\_arg})\label{l223}\label{l224}}
+\begin{desc}Removes a link from the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ScopedConstraint to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setContextBasedConstraints}({\tt java.util.Collection} {\bf \_\_arg})\label{l225}\label{l226}}
+\begin{desc}Sets all the links of the association constrainedSet(ContextCondition)
+ $/$ contextBasedConstraint(ContextBasedConstraint).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextBasedConstraints or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setContextPropertyValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l227}\label{l228}}
+\begin{desc}Sets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextPropertyValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setQuery}({\tt ru.novosoft.uml.foundation.data\_types.MBooleanExpression} {\bf \_\_arg})\label{l229}\label{l230}}
+\begin{desc}Sets the value of the attribute Query.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf new}]{value of the Query attribute}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRange}({\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {\bf \_\_arg})\label{l231}\label{l232}}
+\begin{desc}Sets the value of the attribute Range.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf new}]{value of the Range attribute}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRestrictedStereotypes}({\tt java.util.Collection} {\bf \_\_arg})\label{l233}\label{l234}}
+\begin{desc}Sets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of RestrictedStereotypes or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setScopedConstraints}({\tt java.util.Collection} {\bf \_\_arg})\label{l235}\label{l236}}
+\begin{desc}Sets all the links of the association scopedConstraint(ContextBasedConstraint)
+ $/$ scopeSet(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ScopedConstraints or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{MContextPropertyTagImpl}{l24}
+
+{\tt public
+ class MContextPropertyTagImpl extends org.cocons.uml.CTagDefinitionImpl implements MContextPropertyTag}
+
+
+\vskip .09in
+
+
+{Java implementation of the CCL ContextPropertyTag metaclass.}
+\constructors
+\method{public {\bf MContextPropertyTagImpl}()\label{l237}\label{l238}}
+\begin{desc}\end{desc}
+
+\methods
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l239}\label{l240}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getUMLClassName}()\label{l241}\label{l242}}
+\begin{desc}Gets the UML metaclass name of the instance.
+\begin{itemize}
+\item{Returns the metaclass name "ContextPropertyTag" }
+\end{itemize}
+\end{desc}
+
+\method{public final CConstraint {\bf getValueValidation}()\label{l243}\label{l244}}
+\begin{desc}Gets the link in the association valueValidation(Constraint)
+ $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Returns current ValueValidation of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l245}\label{l246}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ValueValidation to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l247}\label{l248}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ValueValidation to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l249}\label{l250}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l251}\label{l252}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l253}\label{l254}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l255}\label{l256}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setValueValidation}({\tt org.cocons.uml.CConstraint} {\bf \_\_arg})\label{l257}\label{l258}}
+\begin{desc}Sets the link in the association valueValidation(Constraint)
+ $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ValueValidation of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\clearpage
+
+\def\packagename{org.cocons.uml}
+
+\section{Package org.cocons.uml}
+
+\hbox to \hsize{\bf Contents\hfil Page}
+\rule{\hsize}{1pt}
+\vskip .13in
+\hbox{\bf Interfaces}
+\vskip .13in
+\entityintro{CConstraint}{l259}{Interface to a UML 1.4 Constraint metaclass.}
+\entityintro{CModelElement}{l260}{Interface to a UML 1.4 ModelElement metaclass.}
+\entityintro{CStereotype}{l261}{Interface to a UML 1.4 Stereotype metaclass.}
+\entityintro{CTagDefinition}{l262}{Interface to a UML 1.4 TagDefinition metaclass.}
+\entityintro{CTaggedValue}{l263}{Interface to a UML 1.4 TaggedValue metaclass.}
+\vskip .13in
+\hbox{\bf Classes}
+\vskip .13in
+\entityintro{CConstraintImpl}{l264}{Java implementation of the UML Constraint metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\entityintro{CModelElementImpl}{l265}{Java implementation of the UML ModelElement metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\entityintro{CStereotypeImpl}{l266}{Java implementation of the UML Stereotype metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\entityintro{CTagDefinitionImpl}{l267}{Java implementation of the UML TagDefinition metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\entityintro{CTaggedValueImpl}{l268}{Java implementation of the UML TaggedValue metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\entityintro{UmlTest}{l269}{Forms the test suite for the concons uml package.}
+\clearpage
+\subsection{Interfaces}
+\startsection{Interface}{CConstraint}{l259}
+
+{\tt public interface
+ CConstraint implements ru.novosoft.uml.foundation.core.MConstraint}
+
+
+\vskip .09in
+
+
+{Interface to a UML 1.4 Constraint metaclass.
+ Includes support for a subset of the UML 1.4 specifications as well as the
+ CCL specifications. Should be used instead of MConstraint.}
+\methods
+\method{public void {\bf addContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l270}\label{l271}}
+\begin{desc}Adds a link to the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getContextPropertyTags}()\label{l272}\label{l273}}
+\begin{desc}Gets all current links in the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextPropertyTags }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l274}\label{l275}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l276}\label{l277}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l278}\label{l279}}
+\begin{desc}Removes a link from the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setContextPropertyTags}({\tt java.util.Collection} {\bf \_p0})\label{l280}\label{l281}}
+\begin{desc}Sets all links in the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextPropertyTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{CModelElement}{l260}
+
+{\tt public interface
+ CModelElement implements ru.novosoft.uml.foundation.core.MModelElement}
+
+
+\vskip .09in
+
+
+{Interface to a UML 1.4 ModelElement metaclass.
+ Includes support for a subset of the UML 1.4 specifications as well as the
+ CCL specifications. Should be used instead of MModelElement.}
+\methods
+\method{public void {\bf addReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l282}\label{l283}}
+\begin{desc}Adds a link to the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addTaggedValue}({\tt ru.novosoft.uml.foundation.extension\_mechanisms.MTaggedValue} {\bf \_\_arg})\label{l284}\label{l285}}
+\begin{desc}Adds a link to the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+ This method is necessary because CTaggedValue is not derived
+ from MTaggedValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TaggedValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt org.cocons.uml.CTaggedValue} {
+\refdefined{l263}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getReferenceTags}()\label{l286}\label{l287}}
+\begin{desc}Gets all current links in the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ReferenceTags collection }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l288}\label{l289}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l290}\label{l291}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l292}\label{l293}}
+\begin{desc}Removes a link from the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeTaggedValue}({\tt ru.novosoft.uml.foundation.extension\_mechanisms.MTaggedValue} {\bf \_\_arg})\label{l294}\label{l295}}
+\begin{desc}Removes a link from the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+ This method is necessary because CTaggedValue is not derived
+ from MTaggedValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TaggedValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt org.cocons.uml.CTaggedValue} {
+\refdefined{l263}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setReferenceTags}({\tt java.util.Collection} {\bf \_\_arg})\label{l296}\label{l297}}
+\begin{desc}Sets all links in the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ReferenceTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{CStereotype}{l261}
+
+{\tt public interface
+ CStereotype implements ru.novosoft.uml.foundation.extension\_mechanisms.MStereotype}
+
+
+\vskip .09in
+
+
+{Interface to a UML 1.4 Stereotype metaclass.
+ Includes support for a subset of the UML 1.4 specifications as well as the
+ CCL specifications. Should be used instead of MStereotype.}
+\methods
+\method{public void {\bf addBaseClass}({\tt java.lang.String} {\bf \_\_arg})\label{l298}\label{l299}}
+\begin{desc}Adds a value to the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{BaseClass to be added to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l300}\label{l301}}
+\begin{desc}Adds a link to the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l302}\label{l303}}
+\begin{desc}Adds a link to the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getBaseClasses}()\label{l304}\label{l305}}
+\begin{desc}Gets all current values of the attribute BaseClass.
+\begin{itemize}
+\item{Returns unmodifyable copy of the current BaseClasses collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getDefinedTags}()\label{l306}\label{l307}}
+\begin{desc}Gets all current links of the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current DefinedTags collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRestrictions}()\label{l308}\label{l309}}
+\begin{desc}Gets all current links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current Restrictions collection }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l310}\label{l311}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l312}\label{l313}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l314}\label{l315}}
+\begin{desc}internal use only - should never be called directly
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l316}\label{l317}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeBaseClass}({\tt java.lang.String} {\bf \_\_arg})\label{l318}\label{l319}}
+\begin{desc}Removes a value from the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{BaseClass to be removed from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not a BaseClass of this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l320}\label{l321}}
+\begin{desc}Removes a link from the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l322}\label{l323}}
+\begin{desc}Removes a link from the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setBaseClasses}({\tt java.util.Collection} {\bf \_\_arg})\label{l324}\label{l325}}
+\begin{desc}Sets all values of the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of BaseClasses or Collections.EMPTY\_LIST to
+        remove all BaseClasses.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setDefinedTags}({\tt java.util.Collection} {\bf \_\_arg})\label{l326}\label{l327}}
+\begin{desc}Sets all links of the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of DefinedTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRestrictions}({\tt java.util.Collection} {\bf \_\_arg})\label{l328}\label{l329}}
+\begin{desc}Sets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of Restrictions or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{CTagDefinition}{l262}
+
+{\tt public interface
+ CTagDefinition implements CModelElement}
+
+
+\vskip .09in
+
+
+{Interface to a UML 1.4 TagDefinition metaclass.
+ Includes support for a subset of the UML 1.4 specifications as well as the
+ CCL specifications.}
+\methods
+\method{public void {\bf addTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l330}\label{l331}}
+\begin{desc}Adds a link to the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public MMultiplicity {\bf getMultiplicity}()\label{l332}\label{l333}}
+\begin{desc}Gets the value of the attribute Multiplicity.
+\begin{itemize}
+\item{Returns current value of the Multiplicity attribute }
+\end{itemize}
+\end{desc}
+
+\method{public CStereotype {\bf getOwner}()\label{l334}\label{l335}}
+\begin{desc}Gets the link in the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Returns current owner of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getTagType}()\label{l336}\label{l337}}
+\begin{desc}Gets the value of the attribute TagType.
+\begin{itemize}
+\item{Returns current value of the TagType attribute }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getTypedValues}()\label{l338}\label{l339}}
+\begin{desc}Gets all the links of the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current TypedValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l340}\label{l341}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Owner to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l342}\label{l343}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l344}\label{l345}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Owner to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l346}\label{l347}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l348}\label{l349}}
+\begin{desc}Removes a link from the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setMultiplicity}({\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {\bf \_arg})\label{l350}\label{l351}}
+\begin{desc}Sets the value of the attribute Multiplicity.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the Multiplicity to. May be one of the
+              predefined Multiplicity constants.}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {
+\refdefined{l352}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l353}\label{l354}}
+\begin{desc}Sets the link in the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new owner of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setTagType}({\tt java.lang.String} {\bf \_arg})\label{l355}\label{l356}}
+\begin{desc}Sets the value of the attribute TagType.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the TagType to.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setTypedValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l357}\label{l358}}
+\begin{desc}Sets all the links of the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of TypedValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Interface}{CTaggedValue}{l263}
+
+{\tt public interface
+ CTaggedValue implements CModelElement}
+
+
+\vskip .09in
+
+
+{Interface to a UML 1.4 TaggedValue metaclass.
+ Includes support for a subset of the UML 1.4 specifications as well as the
+ CCL specifications.}
+\methods
+\method{public void {\bf addDataValue}({\tt java.lang.String} {\bf \_\_arg})\label{l359}\label{l360}}
+\begin{desc}Adds a value to the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DataValue to be added to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l361}\label{l362}}
+\begin{desc}Adds a link to the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l363}\label{l364}}
+\begin{desc}Adds a link to the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getDataValues}()\label{l365}\label{l366}}
+\begin{desc}Gets all current values of the attribute DataValue.
+\begin{itemize}
+\item{Returns unmodifyable copy of the current DataValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public MModelElement {\bf getModelElement}()\label{l367}\label{l368}}
+\begin{desc}Gets the link in the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+\begin{itemize}
+\item{Returns current ModelElement of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRefConditions}()\label{l369}\label{l370}}
+\begin{desc}Gets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current RefConditions collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getReferenceValues}()\label{l371}\label{l372}}
+\begin{desc}Gets all links of the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ReferenceValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public CTagDefinition {\bf getType}()\label{l373}\label{l374}}
+\begin{desc}Gets the link in the association type(TagDefinition)
+ $/$ typedValue(TaggedValue)
+\begin{itemize}
+\item{Returns current Type of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l375}\label{l376}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ModelElement to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l377}\label{l378}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l379}\label{l380}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalRefByType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l381}\label{l382}}
+\begin{desc}internal use only - should never be called directly
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Type to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l383}\label{l384}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ModelElement to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l385}\label{l386}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l387}\label{l388}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf internalUnrefByType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l389}\label{l390}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Type to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeDataValue}({\tt java.lang.String} {\bf \_\_arg})\label{l391}\label{l392}}
+\begin{desc}Removes a value from the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DataValue to be removed from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not a DataValue of this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l393}\label{l394}}
+\begin{desc}Removes a link from the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l395}\label{l396}}
+\begin{desc}Removes a link from the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setDataValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l397}\label{l398}}
+\begin{desc}Sets all values of the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of DataValues or Collections.EMPTY\_LIST to
+        remove all BaseClasses.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l399}\label{l400}}
+\begin{desc}Sets the link in the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ModelElement of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRefConditions}({\tt java.util.Collection} {\bf \_\_arg})\label{l401}\label{l402}}
+\begin{desc}Sets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of RefConditions or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setReferenceValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l403}\label{l404}}
+\begin{desc}Sets all links of the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ReferenceValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l405}\label{l406}}
+\begin{desc}Sets the link in the association type(TagDefinition)
+ $/$ typedValue(TaggedValue)
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new Type of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\subsection{Classes}
+\startsection{Class}{CConstraintImpl}{l264}
+
+{\tt public
+ class CConstraintImpl extends ru.novosoft.uml.foundation.core.MConstraintImpl implements CConstraint}
+
+
+\vskip .09in
+
+
+{Java implementation of the UML Constraint metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification. Should be used instead of MConstraintImpl.}
+\constructors
+\method{public {\bf CConstraintImpl}()\label{l407}\label{l408}}
+\begin{desc}Constructs a new Constraint instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ CConstraint c = new CConstraintImpl();
+\end{desc}
+
+\methods
+\method{public final void {\bf addContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l409}\label{l410}}
+\begin{desc}Adds a link to the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l411}\label{l412}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final Collection {\bf getContextPropertyTags}()\label{l413}\label{l414}}
+\begin{desc}Gets all current links in the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ContextPropertyTags }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l415}\label{l416}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l417}\label{l418}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l419}\label{l420}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l421}\label{l422}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l423}\label{l424}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l425}\label{l426}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeContextPropertyTag}({\tt org.cocons.uml.ccl.MContextPropertyTag} {\bf \_\_arg})\label{l427}\label{l428}}
+\begin{desc}Removes a link from the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ContextPropertyTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setContextPropertyTags}({\tt java.util.Collection} {\bf \_\_arg})\label{l429}\label{l430}}
+\begin{desc}Sets all links in the association valueValidation(Constraint)
+             $/$ contextPropertyTag(ContextPropertyTag).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ContextPropertyTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{CModelElementImpl}{l265}
+
+{\tt public
+ class CModelElementImpl extends ru.novosoft.uml.foundation.core.MModelElementImpl implements CModelElement}
+
+
+\vskip .09in
+
+
+{Java implementation of the UML ModelElement metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification. Should be used instead of MModelElementImpl.}
+\constructors
+\method{public {\bf CModelElementImpl}()\label{l431}\label{l432}}
+\begin{desc}Constructs a new ModelElement instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ CModelElement me = new CModelElementImpl();
+\end{desc}
+
+\methods
+\method{public final void {\bf addReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l433}\label{l434}}
+\begin{desc}Adds a link to the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf addTaggedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l435}\label{l436}}
+\begin{desc}Adds a link to the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+ This method is necessary because CTaggedValue is not derived
+ from MTaggedValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TaggedValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt org.cocons.uml.CTaggedValue} {
+\refdefined{l263}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l437}\label{l438}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getReferenceTags}()\label{l439}\label{l440}}
+\begin{desc}Gets all current links in the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ReferenceTags collection }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l441}\label{l442}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l443}\label{l444}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l445}\label{l446}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l447}\label{l448}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l449}\label{l450}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l451}\label{l452}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeReferenceTag}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l453}\label{l454}}
+\begin{desc}Removes a link from the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeTaggedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l455}\label{l456}}
+\begin{desc}Removes a link from the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+ This method is necessary because CTaggedValue is not derived
+ from MTaggedValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TaggedValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt org.cocons.uml.CTaggedValue} {
+\refdefined{l263}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setReferenceTags}({\tt java.util.Collection} {\bf \_\_arg})\label{l457}\label{l458}}
+\begin{desc}Sets all links in the association referenceValue(ModelElement)
+  $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ReferenceTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{CStereotypeImpl}{l266}
+
+{\tt public
+ class CStereotypeImpl extends ru.novosoft.uml.foundation.extension\_mechanisms.MStereotypeImpl implements CStereotype}
+
+
+\vskip .09in
+
+
+{Java implementation of the UML Stereotype metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification. Should be used instead of MStereotypeImpl.}
+\constructors
+\method{public {\bf CStereotypeImpl}()\label{l459}\label{l460}}
+\begin{desc}Constructs a new Stereotype instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ CStereotype st = new CStereotypeImpl();
+\end{desc}
+
+\methods
+\method{public void {\bf addBaseClass}({\tt java.lang.String} {\bf \_\_arg})\label{l461}\label{l462}}
+\begin{desc}Adds a value to the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{BaseClass to be added to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l463}\label{l464}}
+\begin{desc}Adds a link to the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l465}\label{l466}}
+\begin{desc}Adds a link to the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l467}\label{l468}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final Collection {\bf getBaseClasses}()\label{l469}\label{l470}}
+\begin{desc}Gets all current values of the attribute BaseClass.
+\begin{itemize}
+\item{Returns unmodifyable copy of the current BaseClasses collection }
+\end{itemize}
+\end{desc}
+
+\method{public final Collection {\bf getDefinedTags}()\label{l471}\label{l472}}
+\begin{desc}Gets all current links of the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current DefinedTags collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRestrictions}()\label{l473}\label{l474}}
+\begin{desc}Gets all current links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current Restrictions collection }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l475}\label{l476}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l477}\label{l478}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l479}\label{l480}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l481}\label{l482}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l483}\label{l484}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l485}\label{l486}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l487}\label{l488}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l489}\label{l490}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeBaseClass}({\tt java.lang.String} {\bf \_\_arg})\label{l491}\label{l492}}
+\begin{desc}Removes a value from the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{BaseClass to be removed from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not a BaseClass of this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeDefinedTag}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l493}\label{l494}}
+\begin{desc}Removes a link from the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeRestriction}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l495}\label{l496}}
+\begin{desc}Removes a link from the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Restriction to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setBaseClasses}({\tt java.util.Collection} {\bf \_\_arg})\label{l497}\label{l498}}
+\begin{desc}Sets all values of the attribute BaseClass.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of BaseClasses or Collections.EMPTY\_LIST to
+        remove all BaseClasses.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setDefinedTags}({\tt java.util.Collection} {\bf \_\_arg})\label{l499}\label{l500}}
+\begin{desc}Sets all links of the association owner(Stereotype)
+  $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of DefinedTags or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRestrictions}({\tt java.util.Collection} {\bf \_\_arg})\label{l501}\label{l502}}
+\begin{desc}Sets all links of the association restrictedStereotype(Stereotype)
+ $/$ restriction(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of Restrictions or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{CTagDefinitionImpl}{l267}
+
+{\tt public
+ class CTagDefinitionImpl extends org.cocons.uml.CModelElementImpl implements CTagDefinition}
+
+
+\vskip .09in
+
+
+{Java implementation of the UML TagDefinition metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification.}
+\constructors
+\method{public {\bf CTagDefinitionImpl}()\label{l503}\label{l504}}
+\begin{desc}Constructs a new TagDefinition instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ CTagDefinition td = new CTagDefinitionImpl();
+\end{desc}
+
+\methods
+\method{public final void {\bf addTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l505}\label{l506}}
+\begin{desc}Adds a link to the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l507}\label{l508}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final MMultiplicity {\bf getMultiplicity}()\label{l509}\label{l510}}
+\begin{desc}Gets the value of the attribute Multiplicity.
+\begin{itemize}
+\item{Returns current value of the Multiplicity attribute }
+\end{itemize}
+\end{desc}
+
+\method{public final CStereotype {\bf getOwner}()\label{l511}\label{l512}}
+\begin{desc}Gets the link in the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Returns current owner of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public final String {\bf getTagType}()\label{l513}\label{l514}}
+\begin{desc}Gets the value of the attribute TagType.
+\begin{itemize}
+\item{Returns current value of the TagType attribute }
+\end{itemize}
+\end{desc}
+
+\method{public final Collection {\bf getTypedValues}()\label{l515}\label{l516}}
+\begin{desc}Gets all the links of the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current TypedValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getUMLClassName}()\label{l517}\label{l518}}
+\begin{desc}Gets the UML metaclass name of the instance.
+\begin{itemize}
+\item{Returns the metaclass name "TagDefinition" }
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l519}\label{l520}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Owner to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l521}\label{l522}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l523}\label{l524}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Owner to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l525}\label{l526}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DefinedTag to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l527}\label{l528}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l529}\label{l530}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l531}\label{l532}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l533}\label{l534}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeTypedValue}({\tt org.cocons.uml.CTaggedValue} {\bf \_\_arg})\label{l535}\label{l536}}
+\begin{desc}Removes a link from the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{TypedValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setMultiplicity}({\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {\bf \_\_arg})\label{l537}\label{l538}}
+\begin{desc}Sets the value of the attribute Multiplicity.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the Multiplicity to. May be one of the
+              predefined Multiplicity constants.}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{See also}
+  \begin{itemize}
+   \item{{\tt ru.novosoft.uml.foundation.data\_types.MMultiplicity} {
+\refdefined{l352}}
+}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setOwner}({\tt org.cocons.uml.CStereotype} {\bf \_\_arg})\label{l539}\label{l540}}
+\begin{desc}Sets the link in the association owner(Stereotype)
+ $/$ definedTag(TagDefinition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new owner of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setTagType}({\tt java.lang.String} {\bf \_\_arg})\label{l541}\label{l542}}
+\begin{desc}Sets the value of the attribute TagType.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{value to set the TagType to.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setTypedValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l543}\label{l544}}
+\begin{desc}Sets all the links of the association type(TagDefinition)
+ $/$ typedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of TypedValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{CTaggedValueImpl}{l268}
+
+{\tt public
+ class CTaggedValueImpl extends org.cocons.uml.CModelElementImpl implements CTaggedValue, ru.novosoft.uml.foundation.extension\_mechanisms.MTaggedValue}
+
+
+\vskip .09in
+
+
+{Java implementation of the UML TaggedValue metaclass
+ Includes support for a subset of the UML 1.4 specification as well as the
+ CCL specification. Should be used instead of MTaggedValueImpl.
+
+ Due to java's lack of multiple inheritance, this class cannot inherit
+ the implementation of MTaggedValueImpl in addition to CModelElement.
+ The implementation of MTaggedValueImpl was re-implemented in this class.}
+\constructors
+\method{public {\bf CTaggedValueImpl}()\label{l545}\label{l546}}
+\begin{desc}Constructs a new TaggedValue instance.
+ Should never be referenced directly, only through the interface. \mbox{}\newline
+
+ \mbox{}\newline
+
+ CTaggedValue tv = new CTaggedValueImpl();
+\end{desc}
+
+\methods
+\method{public void {\bf addDataValue}({\tt java.lang.String} {\bf \_\_arg})\label{l547}\label{l548}}
+\begin{desc}Adds a value to the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DataValue to be added to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l549}\label{l550}}
+\begin{desc}Adds a link to the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf addReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l551}\label{l552}}
+\begin{desc}Adds a link to the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be linked to this instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{protected void {\bf cleanup}({\tt java.util.Collection} {\bf scheduledForRemove})\label{l553}\label{l554}}
+\begin{desc}internal use only - should never be called directly.
+ Assures that all links are removed before
+ discarding this instance.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf scheduledForRemove}]{collection of objects to be removed}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final Collection {\bf getDataValues}()\label{l555}\label{l556}}
+\begin{desc}Gets all current values of the attribute DataValue.
+\begin{itemize}
+\item{Returns unmodifyable copy of the current DataValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public final MModelElement {\bf getModelElement}()\label{l557}\label{l558}}
+\begin{desc}Gets the link in the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+\begin{itemize}
+\item{Returns current ModelElement of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getRefConditions}()\label{l559}\label{l560}}
+\begin{desc}Gets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current RefConditions collection }
+\end{itemize}
+\end{desc}
+
+\method{public Collection {\bf getReferenceValues}()\label{l561}\label{l562}}
+\begin{desc}Gets all links of the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Returns unmodifyable copy of the current ReferenceValues collection }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getTag}()\label{l563}\label{l564}}
+\begin{desc}Obsolete UML 1.3 attribute. Always throws an NoSuchMethodError.
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt NoSuchMethodError} - }
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final CTagDefinition {\bf getType}()\label{l565}\label{l566}}
+\begin{desc}Gets the link in the association type(TagDefinition)
+ $/$ typedValue(TaggedValue)
+\begin{itemize}
+\item{Returns current Type of the instance }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getUMLClassName}()\label{l567}\label{l568}}
+\begin{desc}Gets the UML metaclass name of the instance.
+\begin{itemize}
+\item{Returns the metaclass name "TaggedValue" }
+\end{itemize}
+\end{desc}
+
+\method{public String {\bf getValue}()\label{l569}\label{l570}}
+\begin{desc}Obsolete UML 1.3 attribute. Always throws an NoSuchMethodError.
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt NoSuchMethodError} - }
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l571}\label{l572}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ModelElement to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l573}\label{l574}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l575}\label{l576}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalRefByType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l577}\label{l578}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Type to be referenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l579}\label{l580}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ModelElement to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l581}\label{l582}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l583}\label{l584}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf internalUnrefByType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l585}\label{l586}}
+\begin{desc}internal use only - should never be called directly.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{Type to be unreferenced}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveAddValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l587}\label{l588}}
+\begin{desc}Adds a value to an attribute or a link to an association using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public Object {\bf reflectiveGetValue}({\tt java.lang.String} {\bf feature})\label{l589}\label{l590}}
+\begin{desc}Gets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then an unmodifiable collection containing all values$/$links will be
+ returned.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{Returns current state of the feature }
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveRemoveValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l591}\label{l592}}
+\begin{desc}Removes a value or link from a (attribute or association) using the
+ reflective API. Only valid for attributes and associations with
+ multiplicity \textgreater  1
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new value$/$link to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf reflectiveSetValue}({\tt java.lang.String} {\bf feature}, {\tt java.lang.Object} {\bf obj})\label{l593}\label{l594}}
+\begin{desc}Sets the value of an attribute or the link of an association using the
+ reflective API. If the multiplicity of the attribute or value is \textgreater  1,
+ then obj must be a collection containing all values$/$links to be set.
+\begin{itemize}
+\item{Parameters
+  \begin{description}
+   \item[{\bf feature}]{name of attribute or association}
+   \item[{\bf obj}]{new state to be set}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.IllegalArgumentException} - when feature is not specified for this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf removeDataValue}({\tt java.lang.String} {\bf \_\_arg})\label{l595}\label{l596}}
+\begin{desc}Removes a value from the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{DataValue to be removed from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not a DataValue of this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeRefCondition}({\tt org.cocons.uml.ccl.MContextCondition} {\bf \_\_arg})\label{l597}\label{l598}}
+\begin{desc}Removes a link from the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{RefCondition to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf removeReferenceValue}({\tt org.cocons.uml.CModelElement} {\bf \_\_arg})\label{l599}\label{l600}}
+\begin{desc}Removes a link from the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{ReferenceValue to be unlinked from this instance}
+  \end{description}}
+\end{itemize}
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt java.lang.RuntimeException} - when \_\_arg is not linked to this instance}
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setDataValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l601}\label{l602}}
+\begin{desc}Sets all values of the attribute DataValue.
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of DataValues or Collections.EMPTY\_LIST to
+        remove all BaseClasses.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setModelElement}({\tt ru.novosoft.uml.foundation.core.MModelElement} {\bf \_\_arg})\label{l603}\label{l604}}
+\begin{desc}Sets the link in the association modelElement(ModelElement)
+ $/$ taggedValue(TaggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new ModelElement of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setRefConditions}({\tt java.util.Collection} {\bf \_\_arg})\label{l605}\label{l606}}
+\begin{desc}Sets all the links in the association contextPropertyValue(TaggedValue)
+ $/$ refCondition(ContextCondition).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of RefConditions or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setReferenceValues}({\tt java.util.Collection} {\bf \_\_arg})\label{l607}\label{l608}}
+\begin{desc}Sets all links of the association referenceValue(ModelElement)
+ $/$ referenceTag(taggedValue).
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new collection of ReferenceValues or Collections.EMPTY\_LIST to
+        remove all links.}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setTag}({\tt java.lang.String} {\bf \_\_arg})\label{l609}\label{l610}}
+\begin{desc}Obsolete UML 1.3 attribute. Always throws an NoSuchMethodError.
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt NoSuchMethodError} - }
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\method{public final void {\bf setType}({\tt org.cocons.uml.CTagDefinition} {\bf \_\_arg})\label{l611}\label{l612}}
+\begin{desc}Sets the link in the association type(TagDefinition)
+ $/$ typedValue(TaggedValue)
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf \_\_arg}]{new Type of the instance}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\method{public void {\bf setValue}({\tt java.lang.String} {\bf \_\_arg})\label{l613}\label{l614}}
+\begin{desc}Obsolete UML 1.3 attribute. Always throws an NoSuchMethodError.
+\begin{itemize}
+\item{{Exceptions}
+  \begin{itemize}
+   \item{\vskip -.6ex{\tt NoSuchMethodError} - }
+  \end{itemize}
+}
+\end{itemize}
+\end{desc}
+
+\startsection{Class}{UmlTest}{l269}
+
+{\tt public
+ class UmlTest extends org.cocons.testsuite.MMTestCase}
+
+
+\vskip .09in
+
+
+{Forms the test suite for the concons uml package.
+ It tests all java implementation of all the metaclasses, metaattributes
+ and metaassociations in the cocons UML extension library.}
+\constructors
+\method{public {\bf UmlTest}({\tt java.lang.String} {\bf p0})\label{l615}\label{l616}}
+\begin{desc}Constructs a test suite with a given name
+\begin{itemize}
+\item{Parameter
+  \begin{description}
+   \item[{\bf p0}]{name of test suite}
+  \end{description}}
+\end{itemize}
+\end{desc}
+
+\methods
+\method{protected void {\bf setUp}()\label{l617}\label{l618}}
+\begin{desc}Performs test initialization.
+ This method is called by the framework before each individual test.
+\end{desc}
+
+\method{public static Test {\bf suite}()\label{l619}\label{l620}}
+\begin{desc}factory method to create a test suite containing all
+ individual tests.
+\end{desc}
+
+\method{protected void {\bf tearDown}()\label{l621}\label{l622}}
+\begin{desc}Performs test finalization.
+ This method is called by the framework after each individual test.
+\end{desc}
+
+\method{public void {\bf testAssocModelElementTaggedValue}()\label{l623}\label{l624}}
+\begin{desc}test for association
+ modelElement(ModelElement) $/$ taggedValue(TaggedValue)
+\end{desc}
+
+\method{public void {\bf testAssocOwnerDefinedTag}()\label{l625}\label{l626}}
+\begin{desc}test for association
+ owner(Stereotype) $/$ definedTag(TagDefinition)
+\end{desc}
+
+\method{public void {\bf testAssocReferenceTagReferenceValue}()\label{l627}\label{l628}}
+\begin{desc}test for association
+ referenceTag(TaggedValue) $/$ referenceValue(ModelElement)
+\end{desc}
+
+\method{public void {\bf testAssocTypeTypedValue}()\label{l629}\label{l630}}
+\begin{desc}test for association
+ type(TagDefinition) $/$ typedValue(TaggedValue)
+\end{desc}
+
+\method{public void {\bf testConstraint}()\label{l631}\label{l632}}
+\begin{desc}test for metaclass Constraint
+\end{desc}
+
+\method{public void {\bf testStereotype}()\label{l633}\label{l634}}
+\begin{desc}test for metaclass Stereotype
+\end{desc}
+
+\method{public void {\bf testTagDefinition}()\label{l635}\label{l636}}
+\begin{desc}test for metaclass TagDefinition
+\end{desc}
+
+\method{public void {\bf testTaggedValue}()\label{l637}\label{l638}}
+\begin{desc}test for metaclass TaggedValue
+\end{desc}
+

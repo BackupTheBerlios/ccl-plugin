@@ -1,0 +1,1 @@
+org.cocons.plugin.CCLPlugin=C:\\dev\\argouml\\build\\classes

@@ -1,0 +1,11 @@
+[PropertyInfo]
+contextPropertyValues,Collection,false,false, , ,true,<default>
+query,MBooleanExpression,false,false, , ,true,<default>
+range,MMultiplicity,false,false, , ,true,<default>
+restrictedStereotypes,Collection,false,false, , ,true,<default>
+UMLClassName,String,false,false, , ,true,<default>
+[IconNames]
+
+
+
+
