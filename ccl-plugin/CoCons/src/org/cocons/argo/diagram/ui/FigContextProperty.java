@@ -95,6 +95,7 @@ public class FigContextProperty
 
   public FigContextProperty(GraphModel gm, Object node) {
     this();
+	 System.out.println("FigContextProperty ctor with node");
     setOwner(node);
     ((MContextPropertyValueImpl)node).internalRefToMyFigure(this);
     _myOwner = (MContextPropertyValueImpl)node;
@@ -132,10 +133,16 @@ public class FigContextProperty
   }
 
   public void setOwner(Object node) {
-    if (!_killed) {
-      super.setOwner(node);
-      bindPort(node, _bigPort);
-    }
+	  if( node == null )
+		  { System.out.println("FigContextProperty.setOwner(null)"); }
+	  else
+		  {
+			  System.out.println("FigContextProperty.setOwner() " + node.getClass() + " // " + node );
+			  if (!_killed) {
+				  super.setOwner(node);
+				  bindPort(node, _bigPort);
+			  }
+		  }
   }
 
   public boolean isResizable() { return false; }

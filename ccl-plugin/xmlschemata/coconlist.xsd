@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CoConList">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element minOccurs="0" maxOccurs="unbounded" ref="CoCon" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoCon">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element minOccurs="2" maxOccurs="2" ref="CoConSet" />
+	<xs:element minOccurs="0" maxOccurs="unbounded" ref="CoConAttribute" />
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+	<xs:element ref="CoConSetCondition" />
+	<xs:element ref="CoConSetDirectReference" />
+      </xs:choice>
+      <xs:attribute name="id" use="required">
+	<xs:simpleType>
+	  <xs:restriction base="xs:string">
+	    <xs:enumeration value="target" />
+	    <xs:enumeration value="scope" />
+	  </xs:restriction>
+	</xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetCondition">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element minOccurs="0" maxOccurs="unbounded" ref="CoConSetConditionRestriction" />
+	<xs:choice minOccurs="0" maxOccurs="1">
+	  <xs:element ref="CoConSetConditionQuerySingleValue" />
+	  <xs:element ref="CoConSetConditionQuerySet" />
+	  <xs:element ref="CoConSetConditionQueryProperty" />
+     <xs:element ref="CoConSetConditionUnion" />
+     <xs:element ref="CoConSetConditionIntersection" />
+	</xs:choice>
+      </xs:sequence>
+      <xs:attribute name="range" type="xs:string" default="all" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionUnion">
+    <xs:complexType>
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+	  <xs:element ref="CoConSetConditionQuerySingleValue" />
+	  <xs:element ref="CoConSetConditionQuerySet" />
+	  <xs:element ref="CoConSetConditionQueryProperty" />
+     <xs:element ref="CoConSetConditionUnion" />
+     <xs:element ref="CoConSetConditionIntersection" />
+	</xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionIntersection">
+    <xs:complexType>
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+	  <xs:element ref="CoConSetConditionQuerySingleValue" />
+	  <xs:element ref="CoConSetConditionQuerySet" />
+	  <xs:element ref="CoConSetConditionQueryProperty" />
+     <xs:element ref="CoConSetConditionUnion" />
+     <xs:element ref="CoConSetConditionIntersection" />
+	</xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionRestriction">
+    <xs:complexType>
+      <xs:attribute name="restriction" use="required">
+	<xs:simpleType>
+	  <xs:restriction base="xs:string">
+	    <xs:enumeration value="Components" />
+	    <xs:enumeration value="BusinessTypes" />
+	    <xs:enumeration value="Interfaces" />
+	    <xs:enumeration value="Computers" />
+	    <xs:enumeration value="Containers" />
+	    <xs:enumeration value="InfoTypes" />
+	    <xs:enumeration value="Elements" />
+	  </xs:restriction>
+	</xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionQuerySingleValue">
+    <xs:complexType>
+      <xs:attribute name="property" type="xs:string" use="required" />
+      <xs:attribute name="singleoperator" use="required">
+	<xs:simpleType>
+	  <xs:restriction base="xs:string">
+	    <xs:enumeration value="equal" />
+	    <xs:enumeration value="notequal" />
+	    <xs:enumeration value="lowerthan" />
+	    <xs:enumeration value="lowerequal" />
+	    <xs:enumeration value="greaterthan" />
+	    <xs:enumeration value="greaterequal" />
+	  </xs:restriction>
+	</xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionQueryProperty">
+    <xs:complexType>
+      <xs:attribute name="property" type="xs:string" use="required" />
+      <xs:attribute name="propertyoperator" use="required">
+	<xs:simpleType>
+	  <xs:restriction base="xs:string">
+	    <xs:enumeration value="equal" />
+	    <xs:enumeration value="notequal" />
+	    <xs:enumeration value="lowerthan" />
+	    <xs:enumeration value="lowerequal" />
+	    <xs:enumeration value="greaterthan" />
+	    <xs:enumeration value="greaterequal" />
+	    <xs:enumeration value="equal" />
+	    <xs:enumeration value="notequal" />
+	    <xs:enumeration value="contains" />
+	    <xs:enumeration value="notcontains" />
+	  </xs:restriction>
+	</xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="targetproperty" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionQuerySet">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element maxOccurs="unbounded" ref="CoConSetConditionQueryForSetValue" />
+      </xs:sequence>
+      <xs:attribute name="property" type="xs:string" use="required" />
+      <xs:attribute name="setoperator" use="required">
+	<xs:simpleType>
+	  <xs:restriction base="xs:string">
+	    <xs:enumeration value="equal" />
+	    <xs:enumeration value="notequal" />
+	    <xs:enumeration value="contains" />
+	    <xs:enumeration value="notcontains" />
+	  </xs:restriction>
+	</xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetConditionQueryForSetValue">
+    <xs:complexType>
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConSetDirectReference">
+    <xs:complexType>
+      <xs:attribute name="element" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CoConAttribute">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+

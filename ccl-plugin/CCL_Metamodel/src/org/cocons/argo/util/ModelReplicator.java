@@ -16,6 +16,7 @@ import java.util.Enumeration;
 
 import ru.novosoft.uml.MBase;
 import ru.novosoft.uml.model_management.MModel;
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
 
 import org.argouml.uml.diagram.ProjectMemberDiagram;
 import org.argouml.uml.diagram.static_structure.ui.FigClass;
@@ -24,12 +25,16 @@ import org.cocons.uml.ccl.context_property1_3.*;
 
 import org.cocons.argo.diagram.ui.CCLDiagram;
 import org.cocons.uml.ccl.MContextbasedConstraint;
+import org.cocons.uml.ccl.MContextbasedConstraintImpl;
 
 import org.cocons.argo.diagram.business_type.ui.CCLBusiness_TypeDiagram;
 import org.cocons.argo.diagram.interface_spec.ui.CCLInterface_SpecDiagram;
 import org.cocons.argo.diagram.component_spec.ui.CCLComponent_SpecDiagram;
 
+import org.cocons.uml.ccl.ccldata.CoCon;
+import org.cocons.uml.ccl.ccldata.CoConList;
 
+import org.cocons.uml.ccl.xml.CoConXMLReader;
 
 public class ModelReplicator
 {
@@ -139,6 +144,9 @@ public class ModelReplicator
 	{
 		replicateReflective( oldd, neww,
 									_reflectiveReplicatableMBase );
+		String uuid = oldd.getUUID();
+		//oldd.setUUID( uuid + "[off]" );
+		neww.setUUID( uuid );
 	}
 
 	public void replicateMElement( MElement oldd,
@@ -174,7 +182,16 @@ public class ModelReplicator
 		replicateReflective( cons, cocon,
 									_reflectiveReplicatableMContextbasedConstrained );
 
-		System.out.println("ALI: PUT PARSE-BODY-INIT-COCON HERE!");
+		MBooleanExpression mb = cocon.getBody();
+		if( MContextbasedConstraintImpl.BODY_LANGUAGE.equals(mb.getLanguage()) )
+			{
+				try {
+					CoConList ccl = CoConXMLReader.SINGLETON.readString(mb.getBody());
+					cocon.initializeFromIMClass( ccl.getCoCon( 0 ) );
+				} catch ( Exception e ) {
+					System.err.println(e);
+				}
+			}
 	}
 
 }

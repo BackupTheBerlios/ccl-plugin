@@ -11,7 +11,10 @@ import org.argouml.ui.ProjectBrowser;
 
 import java.util.Vector;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
+
+import org.cocons.uml.ccl.context_property1_3.xmlembed.*;
 
 /**
 * Wraps a MTaggedValue, but deprecates its set/getTag()-Method, so that a
@@ -56,6 +59,8 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         private Vector _definedFloats;
         private Vector _floatSelection;
         private Vector _floatDependencies;
+
+	private boolean _currentlySaving = false;
 
 	/**
 	 * MContextPropertyTag constructor comment.
@@ -179,6 +184,12 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         }
 
         public void forceTagAndValueConsistency() {
+
+			  // while saving, tag contains some temporary ID
+			  // and is always inconsistent.
+			  if( _currentlySaving )
+				  return;
+
           if (!_objectWithContextProperty.isRemoved()) {
             Collection col = _objectWithContextProperty.getTaggedValues();
             ProjectBrowser pb = ProjectBrowser.TheInstance;
@@ -552,5 +563,72 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         public void resetValueVisibility() {
           _valueVisibility = true;
         }
+	
+	//	public String getTag()
+	// { return super.getTag()+"X"; }
+	public void preSave()
+	{
+		_currentlySaving = true;
+
+		System.out.println("MY TAG : " + getContextPropertyTag().getUUID() );
+		xx("_validStrings"       , _validStrings        );
+		xx("_stringSelection"    , _stringSelection     );
+		xx("_stringDependencies" , _stringDependencies  );
+		xx("_definedIntegers"    , _definedIntegers     );
+		xx("_intSelection"       , _intSelection        );
+		xx("_intDependencies"    , _intDependencies     );
+		xx("_definedFloats"      , _definedFloats       );
+		xx("_floatSelection"     , _floatSelection      );
+		xx("_floatDependencies"  , _floatDependencies   );
+
+		setTag(EMBEDDED_XML_IDENTIFIER);
+
+		EmbeddedContextPropertyValueCreator creator = 
+			new EmbeddedContextPropertyValueCreator();
+
+		if ("List Of Strings".equals(_validValuesType) )			
+			creator.setContent(  _validStrings.iterator(),
+										_stringSelection.iterator(),
+										_stringDependencies.iterator() );
+		else if( "Integer Number".equals(_validValuesType) )			
+			creator.setContent(  _definedIntegers.iterator(),
+										_intSelection.iterator(),
+										_intDependencies.iterator() );
+		else
+			creator.setContent(  _definedFloats.iterator(),
+										_floatSelection.iterator(),
+										_floatDependencies.iterator() );
+
+		creator.setTag( getContextPropertyTag() );
+
+		setValue( creator.create() );
+	}
+
+	public void xx(String n, Vector v )
+	{
+		System.out.println("++++++++++++++++++++ " + n );
+
+		if( v == null )
+			{
+				System.out.println("  vec=null");
+			}
+		else
+			{
+				Iterator it = v.iterator();
+				while( it.hasNext() )
+					{
+						Object o = it.next();
+						System.out.println("  " + o.getClass() + " ==> " + o );
+					}
+			}
+		System.out.println("==================== " + n );
+	}
+
+	public void postSave()
+	{
+		super.setTag( _tagStringBak );
+		super.setValue( _valStringBak );
+		_currentlySaving = false;
+	}
 
 }

@@ -399,7 +399,9 @@ public class MContextbasedConstraintImpl
 	}
 
 	public void initializeFromIMClass( CoCon cocon )
-	{}
+	{
+		System.out.println("MContextbasedConstraintImpl.initializeFromIMClass " + cocon);
+	}
 
 	public static
 		org.cocons.uml.ccl.ccldata.CoCon
@@ -493,7 +495,6 @@ public class MContextbasedConstraintImpl
 		pweins_eins_val.setValue("eins");
 		pweins_query.addCoConSetConditionQueryForSetValue( pweins_eins_val );
 		//CoConSetConditionQuerySet pweins = new CoConSetConditionQuerySet();
-
 
 
 

@@ -28,33 +28,6 @@ public class CoConXMLWriter
 
 
 
-	protected boolean performWriting( CoConList ccl,
-												 Writer out )
-	{
-		try {
-			Marshaller marshaller;
-
-			try {
-				Class.forName("org.apache.xml.serialize.XMLSerializer");
-				OutputFormat format = new OutputFormat("xml","utf-8",true);
-				XMLSerializer prettyPrinter = new XMLSerializer(out, format);
-				marshaller = new Marshaller(prettyPrinter);
-			}
-			catch (ClassNotFoundException e) {
-				marshaller = new Marshaller(out);
-			}
-
-			marshaller.setMarshalAsDocument( true );
-			marshaller.marshal(ccl);
-		}
-		catch( Exception e )
-			{
-				System.err.println("Catched " + e);
-				return false;
-			}
-		return true;
-	}
-
 	public String singleCoConToString( CoCon cocon )
 	{
 		CoConList clist = new CoConList();
@@ -103,5 +76,33 @@ public class CoConXMLWriter
 										"Save",
 										JOptionPane.ERROR_MESSAGE);
 	}
+
+	protected boolean performWriting( CoConList ccl,
+												 Writer out )
+	{
+		try {
+			Marshaller marshaller;
+
+			try {
+				Class.forName("org.apache.xml.serialize.XMLSerializer");
+				OutputFormat format = new OutputFormat("xml","utf-8",true);
+				XMLSerializer prettyPrinter = new XMLSerializer(out, format);
+				marshaller = new Marshaller(prettyPrinter);
+			}
+			catch (ClassNotFoundException e) {
+				marshaller = new Marshaller(out);
+			}
+
+			marshaller.setMarshalAsDocument( true );
+			marshaller.marshal(ccl);
+		}
+		catch( Exception e )
+			{
+				System.err.println("Catched " + e);
+				return false;
+			}
+		return true;
+	}
+
 
 }

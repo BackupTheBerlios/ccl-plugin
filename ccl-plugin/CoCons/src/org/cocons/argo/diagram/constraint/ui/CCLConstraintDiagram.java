@@ -52,6 +52,7 @@ import org.tigris.gef.presentation.Fig;
 
 import org.cocons.argo.util.ModelReplicator;
 
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
 
 public class CCLConstraintDiagram extends CCLDiagram {
 
@@ -286,8 +287,10 @@ public class CCLConstraintDiagram extends CCLDiagram {
 					{
 						Object mel = ((Fig)f).getOwner();
 						if( mel != null )
-							if( mel instanceof MContextbasedConstraint )
-								((MContextbasedConstraint)mel).syncBody();
+							{
+								if( mel instanceof MContextbasedConstraint )
+									((MContextbasedConstraint)mel).syncBody();
+							};
 					}
 			}
 	}

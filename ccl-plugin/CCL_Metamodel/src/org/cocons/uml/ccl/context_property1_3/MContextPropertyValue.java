@@ -11,6 +11,8 @@ import ru.novosoft.uml.foundation.core.MModelElement;
  */
 public interface MContextPropertyValue extends MTaggedValue {
 
+	public static String EMBEDDED_XML_IDENTIFIER = "<MContextPropertyValue>";
+
 	/**
 	 * Returns the related tag for this context based value.
 	 * Creation date: (21.12.2001 18:23:05)
@@ -39,4 +41,7 @@ public interface MContextPropertyValue extends MTaggedValue {
          */
          void logicalRefByModelElement (MModelElement __arg);
          MModelElement getReferencedModelElement();
+
+	void preSave();
+	void postSave();
 }
