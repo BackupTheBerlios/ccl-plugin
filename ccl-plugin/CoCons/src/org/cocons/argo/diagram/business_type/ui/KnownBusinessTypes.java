@@ -35,7 +35,7 @@ public class KnownBusinessTypes {
           Object node = it2.next();
           if (node instanceof MClass) {
             MClass mc = (MClass)node;
-            if (mc.getStereotype().getName().equals("type")) {
+            if (mc.getStereotype().getName().equals("type")||mc.getStereotype().getName().equals("core")) {
               subMenu.add(new BelongsToAction(mc));
             }
           }

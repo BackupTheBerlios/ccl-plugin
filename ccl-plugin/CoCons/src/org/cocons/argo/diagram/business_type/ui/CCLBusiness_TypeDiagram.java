@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.13 2002/02/04 15:34:55 hasihola Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.14 2002/02/06 18:40:07 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -33,6 +33,8 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   // actions for toolbar
 
 	protected static Action _actionBusiness_Type;
+        protected static Action _actionBusiness_CoreType;
+
 //    		new CmdCreateNodeStereotype(MClassImpl.class, "Business Type", new MStereotypeImpl());
 //new CmdCreateNodeStereotype(MClassImpl.class,
 //          "business type", findStereotype("type") );
@@ -70,6 +72,10 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
     _actionBusiness_Type =
       new CmdCreateNodeStereotype(MClassImpl.class,
                "BusinessType", findStereotype("type") );
+    _actionBusiness_CoreType =
+      new CmdCreateNodeStereotype(MClassImpl.class,
+               "BusinessCoreType", findStereotype("core") );
+
     try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
 
@@ -120,6 +126,7 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
     _toolBar.add(_actionPackage);
     _toolBar.add(_actionBusiness_Type);
+    _toolBar.add(_actionBusiness_CoreType);
     // ----- hyshosha@gmx.de -----
     // _toolBar.add(_actionContextP);
     // ---------------------------
