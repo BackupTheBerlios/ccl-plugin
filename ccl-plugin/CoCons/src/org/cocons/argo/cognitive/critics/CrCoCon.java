@@ -32,6 +32,11 @@ public abstract class CrCoCon extends Critic {
   public static final Decision decCONSTRAINT = new
      Decision("Constraint", 5);
 
+  /**
+   *  The more info url
+   */
+  public static final String MORE_INFO_URL = "www.cocons.org";
+
    /** Static initializer for this class. Called when the class is
     *  loaded (which is before any subclass instances are instanciated).
     *  The decision will now be considered by the designer, so that
@@ -47,6 +52,10 @@ public abstract class CrCoCon extends Critic {
    * Constructs a CrCoCon.
    */
   public CrCoCon() {
+    // makes the critique active
+    addSupportedDecision(CrCoCon.decCONSTRAINT);
+
+    setMoreInfoURL(MORE_INFO_URL);
   }
 
   /**

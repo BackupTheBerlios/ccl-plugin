@@ -8,52 +8,61 @@ import org.cocons.uml.ccl.CoConTypes;
  * Criticising modelelements that break rules set up from further defined
  * SetToValueIn-Contextbased constraints.
  * @see org.cocons.uml.ccl.MContextbasedConstraint
+ * @see www.cocons.org
  * Creation date: (15.01.2002 12:56:50)
  * @author: Fadi Chabarek
  */
 public class CrSetToValueIn extends CrCoCon {
-	
+
 	/**
-	 * CrSetToValueIn constructor comment.
+	 * Constructs this Critic.
 	 */
 	public CrSetToValueIn() {
-		super();
-	}
-    
+                super();
+                // set headline
+	        setHeadline("Bruch eines SetToValueIn Cocons");
+
+	        // set description
+	        setDescription("Das von einem SetToValueIn Cocon aufgestellte " +
+                "kontextbasierendes Constraint wurde verletzt.");
+        }
+
 	/**
-	  * Returns true if a SetToValueIn-Contextbased Constraint is violated.
-	  */
+         * Predicate showing weather this critic found a problem in the
+         * argouml-model or not.
+	 * @return boolean true if a SetToValueIn-Contextbased Constraint is violated.
+	 */
 	public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
 
 		if (dm instanceof MContextbasedConstraint) {
 			MContextbasedConstraint cocon = (MContextbasedConstraint) dm;
-			if (cocon.getCoConType().equals(CoConTypes.SET_TO_VALUE_IN_TYPE)) {
-				return predicate(cocon);
-			}
-		}
+			return predicate(cocon);
+                }
 		return NO_PROBLEM;
 	}
-    
+
 	/**
-	 * Insert the method's description here.
+	 * Checks weather the given Contextbased Constraint has the type SetToValueIn
+         * and if that's the case if it is violated within the argouml-model.
 	 * Creation date: (15.01.2002 13:09:34)
-	 * @return boolean
-	 * @param cocon org.cocons.uml.ccl.MContextbasedConstraint
+	 * @return boolean true - if the given cocon is violated.
+	 * @param cocon org.cocons.uml.ccl.MContextbasedConstraint a SetToValueInCocon
 	 */
 	private boolean predicate(MContextbasedConstraint cocon) {
 
-		//the constraint is broken, if a model element of the target set
-		// is not in the scoped set. Fix: setting the model element's 
-		// context property values appropriatly.
+		//the constraint is violated, if a model element of the target set
+		// is not in the scoped set.
 
-		Vector targetSet = cocon.getTargetElements();
-		Vector scopeSet = cocon.getScopedElements();
+                if (cocon.getCoConType().equals(CoConTypes.SET_TO_VALUE_IN_TYPE)) {
+		  Vector targetSet = cocon.getTargetElements();
+		  Vector scopeSet = cocon.getScopedElements();
 
-		for (int t = 0; t < targetSet.size(); t++) {
-			if (!scopeSet.contains(targetSet.elementAt(t))) {
+		  for (int t = 0; t < targetSet.size(); t++) {
+		  	if (!scopeSet.contains(targetSet.elementAt(t))) {
 				return PROBLEM_FOUND;
 			}
-		}
+		  }
+                }
 
 		return NO_PROBLEM;
 	}

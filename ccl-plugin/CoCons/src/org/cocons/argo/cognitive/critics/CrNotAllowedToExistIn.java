@@ -22,7 +22,6 @@ public class CrNotAllowedToExistIn extends CrCoCon {
     setHeadline("NotallowedToExistIn CoCon");
     setDescription("An element in the target set is also in the " +
         "scope set, or vice versa.");
-    setMoreInfoURL("www.cocons.org");
   }
 
   public boolean predicate(Object dm, Designer dsgr) {
