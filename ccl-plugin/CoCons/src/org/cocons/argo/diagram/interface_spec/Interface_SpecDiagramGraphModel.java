@@ -1,7 +1,6 @@
-// Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.7 2001/11/25 20:10:29 shicathy Exp $
+// Author: shicathy
 
-package org.cocons.argo.diagram.business_type;
+package org.cocons.argo.diagram.interface_spec;
 
 import java.util.*;
 import java.beans.*;
@@ -21,7 +20,7 @@ import org.cocons.uml.ccl.*;
  *  representation of the design and the GraphModel interface used by
  *  GEF.  This class handles only UML Class digrams.  */
 
-public class Business_TypeDiagramGraphModel extends MutableGraphSupport
+public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
     implements MutableGraphModel, GraphModel,VetoableChangeListener, MElementListener {
 
   ////////////////////////////////////////////////////////////////
@@ -60,11 +59,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public Vector getPorts(Object nodeOrEdge) {
     Vector res = new Vector();  //wasteful!
     if (nodeOrEdge instanceof MClass) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MPackage) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MTaggedValue) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MAssociation) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MDependency) res.addElement(nodeOrEdge);
-    if (nodeOrEdge instanceof MGeneralization) res.addElement(nodeOrEdge);
     return res;
   }
 
@@ -88,24 +84,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       while (iter.hasNext()) {
 		  MAssociationEnd ae = (MAssociationEnd) iter.next();
 		  res.add(ae.getAssociation());
-      }
-    }
-
-    if (port instanceof MPackage) {
-      MPackage pa = (MPackage) port;
-      Collection sp = pa.getSpecializations();
-      if (sp == null) return res; // empty Vector
-      Iterator spEnum = sp.iterator();
-      while (spEnum.hasNext()) {
-	    MGeneralization spG = (MGeneralization) spEnum.next();
-	    res.addElement(spG);
-      }
-      Collection ge = pa.getGeneralizations();
-      if ( ge == null) return res;
-      Iterator geEnum = ge.iterator();
-      while ( geEnum.hasNext() ) {
-         MGeneralization geG = (MGeneralization) spEnum.next();
-         res.addElement(geG);
       }
     }
 
@@ -144,18 +122,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       return conns.get(0);
     }
 
-    if (edge instanceof MGeneralization) {
-      MGeneralization gen = (MGeneralization) edge;
-      MGeneralizableElement child = gen.getChild();
-      return child;
-    }
-
-    if (edge instanceof MDependency) {
-      MDependency denp = (MDependency) edge;
-      Collection clients = denp.getClients();
-      return ((Object[])clients.toArray())[0];
-    }
-
     //System.out.println("needs-more-work getSourcePort");
     return null;
   }
@@ -169,17 +135,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       return conns.get(1);
     }
 
-    if (edge instanceof MGeneralization) {
-      MGeneralization gen = (MGeneralization) edge;
-      MGeneralizableElement parent = gen.getParent();
-      return parent;
-    }
-
-    if (edge instanceof MDependency) {
-      MDependency denp = (MDependency) edge;
-      Collection supplier = denp.getSuppliers();
-      return ((Object[])supplier.toArray())[0];
-    }
     //System.out.println("needs-more-work getDestPort");
     return null;
   }
@@ -191,7 +146,14 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   /** Return true if the given object is a valid node in this graph */
   public boolean canAddNode(Object node) {
     if (_nodes.contains(node)) return false;
-    return ( (node instanceof MPackage) || (node instanceof MTaggedValue) || (node instanceof MClass));
+    if ( node instanceof MClass ) {
+      MClass nodeClass = (MClass)node;
+      System.out.println("type: "+nodeClass.getStereotype());
+      String stereotype = nodeClass.getStereotype().getName();
+      return ( stereotype.equals("interface spec") || stereotype.equals("type") ||
+            stereotype.equals("info type") );
+    }
+    else return false;
   }
 
 
@@ -237,25 +199,15 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       end0 = ae0.getType();
       end1 = ae1.getType();
     }
-    else if (edge instanceof MGeneralization) {
-      end0 = ((MGeneralization)edge).getChild();
-      end1 = ((MGeneralization)edge).getParent();
-    }
-    else if (edge instanceof MDependency) {
-      Collection clients = ((MDependency)edge).getClients();
-      Collection suppliers = ((MDependency)edge).getSuppliers();
-      if (clients == null || suppliers == null) return false;
-      end0 = ((Object[])clients.toArray())[0];
-      end1 = ((Object[])suppliers.toArray())[0];
-    }
 
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
-    return ( ( end0 instanceof MClass && end1 instanceof MTaggedValue) ||
+    if ( !(( end0 instanceof MClass && end1 instanceof MTaggedValue) ||
 	   ( end0 instanceof MTaggedValue && end1 instanceof MClass) ||
-	   ( end0 instanceof MClass && end1 instanceof MClass)  );
+	   ( end0 instanceof MClass && end1 instanceof MClass))  ) return false;
 
+    return true;
   }
 
 
@@ -296,7 +248,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       }
     }
 
-
     if ( node instanceof MClass ) {
       Collection ends = ((MClass)node).getAssociationEnds();
       Iterator iter = ends.iterator();
@@ -304,52 +255,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
          MAssociationEnd ae = (MAssociationEnd) iter.next();
          if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
       }
-
-      Collection ends2 = ((MClass)node).getClientDependencies();
-      ends2.addAll(((MClass)node).getSupplierDependencies());
-      iter = ends2.iterator();
-      while (iter.hasNext()) {
-         MDependency dep = (MDependency) iter.next();
-         if(canAddEdge(dep))  addEdge(dep);
-      }
     }
 
-
-    if ( node instanceof MPackage ) {
-      Collection gn = ((MPackage)node).getGeneralizations();
-      Iterator iter = gn.iterator();
-      while (iter.hasNext()) {
-         MGeneralization g = (MGeneralization) iter.next();
-         if(canAddEdge(g))  addEdge(g);
-      }
-
-      Collection sp = ((MPackage)node).getSpecializations();
-      iter = sp.iterator();
-      while (iter.hasNext()) {
-         MGeneralization s = (MGeneralization) iter.next();
-         if(canAddEdge(s))  addEdge(s);
-      }
-
-
-      Collection ends = ((MPackage)node).getClientDependencies();
-      ends.addAll(((MPackage)node).getSupplierDependencies());
-      iter = ends.iterator();
-      while (iter.hasNext()) {
-         MDependency dep = (MDependency) iter.next();
-         if(canAddEdge(dep))  addEdge(dep);
-      }
-    }
-
-
-/*    if ( node instanceof MDependency ) {
-      Vector specs = new Vector(((MDependency)node).getClientDependencies());
-      specs.addAll(((MDependency)node).getSupplierDependencies());
-      Iterator iter = specs.iterator();
-      while (iter.hasNext()) {
-         MDependency dep = (MDependency) iter.next();
-         if(canAddEdge(dep))  addEdge(dep);
-      }
-    }*/
   }
 
 
@@ -357,8 +264,6 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   /** Return true if the two given ports can be connected by a
    * kind of edge to be determined by the ports. */
   public boolean canConnect(Object fromP, Object toP) {
-    if ( (fromP instanceof MClass) && (toP instanceof MTaggedValue) ) return true;
-    if ( (fromP instanceof MTaggedValue) && (toP instanceof MClass) ) return true;
     if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
     return false;
   }
@@ -374,30 +279,13 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
   public Object connect(Object fromPort, Object toPort, java.lang.Class edgeClass) {
 	 //    System.out.println("connecting: "+fromPort+toPort+edgeClass);
 
-    if (edgeClass == MGeneralizationImpl.class) {
-         MGeneralizableElement child = (MGeneralizableElement) fromPort;
-         MGeneralizableElement parent = (MGeneralizableElement) toPort;
-			MGeneralization gen = MMUtil.SINGLETON.buildGeneralization(child, parent);
-			addEdge(gen);
-			return gen;
-	 }
-
-    else if (edgeClass == MAssociationImpl.class) {
+   if (edgeClass == MAssociationImpl.class) {
         MClassifier m1 = (MClassifier) fromPort;
         MClassifier m2 = (MClassifier) toPort;
-    	  MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
- 	     addEdge(asc);
-		  return asc;
+		MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
+ 	    addEdge(asc);
+		return asc;
 	 }
-
-    else if (edgeClass == MDependencyImpl.class) {
-			MModelElement client = (MModelElement) fromPort;
-         MModelElement supplier = (MModelElement) toPort;
-			MDependency dep = MMUtil.SINGLETON.buildDependency(client, supplier);
-			addEdge(dep);
-			return dep;
-	 }
-
     else {
         System.out.println("connect: Cannot make a "+ edgeClass.getName() +
             " between a " + fromPort.getClass().getName() +
@@ -422,11 +310,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
       if (oldOwned.contains(eo)) {
         //System.out.println("model removed " + me);
         if (me instanceof MClass) removeNode(me);
-        if (me instanceof MPackage) removeNode(me);
         if (me instanceof MTaggedValue) removeNode(me);
         if (me instanceof MAssociation) removeEdge(me);
-        if (me instanceof MDependency) removeEdge(me);
-        if (me instanceof MGeneralization) removeEdge(me);
       }
       else {
         //System.out.println("model added " + me);

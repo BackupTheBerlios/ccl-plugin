@@ -1,7 +1,6 @@
+// Autor: shicathy
 
-// $Id: Business_TypeDiagramRenderer.java,v 1.7 2001/11/25 20:10:29 shicathy Exp $
-
-package org.cocons.argo.diagram.business_type.ui;
+package org.cocons.argo.diagram.interface_spec.ui;
 
 import java.util.*;
 
@@ -30,24 +29,24 @@ import org.cocons.argo.diagram.ui.*;
  *  UML Object      ---  Fig
  *  ---------------------------------------
  *  MClass              ---  FigClass
- *  MPackage            ---  FigPakcage
  *  MContextProperty    --   FigContextProperty
- *  MGeneralization     ---  FigGeneralization
  *  MAssociation        ---  FigAssociation
- *  MDependency         ---  FigDependency
  *  </pre>
  */
 
-public class Business_TypeDiagramRenderer
+public class Interface_SpecDiagramRenderer
     implements GraphNodeRenderer, GraphEdgeRenderer {
 
   /** Return a Fig that can be used to represent the given node */
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
-        if (node instanceof MClass) return new FigBusiness_Type(gm, node);
-        else if (node instanceof MPackage) return new FigPackage(gm, node);
+
+        if (node instanceof MClass) {
+          System.out.println("Renderer: node "+((MClass)node).getStereotype());
+          return new FigClass(gm,node);//FigInterface_Spec(gm, node);//
+        }
         else if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
 
-        //System.out.println("needs-more-work Business_TypeDiagramRenderer getFigNodeFor "+node);
+        //System.out.println("needs-more-work Interface_SpecDiagramRenderer getFigNodeFor "+node);
         return null;
     }
 
@@ -75,43 +74,7 @@ public class Business_TypeDiagramRenderer
         }
 
 
-        if (edge instanceof MGeneralization) {
-            MGeneralization gen = (MGeneralization) edge;
-            FigGeneralization genFig = new FigGeneralization(gen);
-            MGeneralizableElement subType = gen.getChild();
-            MGeneralizableElement superType = gen.getParent();
-            FigNode subTypeFN = (FigNode) lay.presentationFor(subType);
-            FigNode superTypeFN = (FigNode) lay.presentationFor(superType);
-            genFig.setSourcePortFig(subTypeFN);
-            genFig.setSourceFigNode(subTypeFN);
-            genFig.setDestPortFig(superTypeFN);
-            genFig.setDestFigNode(superTypeFN);
-            genFig.getFig().setLayer(lay);
-            return genFig;
-        }
-
-
-        if (edge instanceof MDependency) {
-            //System.out.println("get fig for "+edge);
-            MDependency dep = (MDependency) edge;
-            FigDependency depFig = new FigDependency(dep);
-
-            MModelElement supplier = (MModelElement)((dep.getSuppliers().toArray())[0]);
-            MModelElement client = (MModelElement)((dep.getClients().toArray())[0]);
-
-            FigNode supFN = (FigNode) lay.presentationFor(supplier);
-            FigNode cliFN = (FigNode) lay.presentationFor(client);
-
-            depFig.setSourcePortFig(cliFN);
-            depFig.setSourceFigNode(cliFN);
-            depFig.setDestPortFig(supFN);
-            depFig.setDestFigNode(supFN);
-            depFig.getFig().setLayer(lay);
-            depFig.getFig().setDashed(true);
-            return depFig;
-        }
-
-        //System.out.println("needs-more-work Business_TypeDiagramRenderer getFigEdgeFor");
+        //System.out.println("needs-more-work Interface_SpecDiagramRenderer getFigEdgeFor");
 
         return null;
     }

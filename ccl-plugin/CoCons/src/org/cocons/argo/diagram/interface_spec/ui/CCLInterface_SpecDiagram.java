@@ -1,7 +1,6 @@
+//Autor: shicathy
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.8 2001/11/25 20:10:29 shicathy Exp $
-
-package org.cocons.argo.diagram.business_type.ui;
+package org.cocons.argo.diagram.interface_spec.ui;
 
 import java.util.*;
 import java.awt.*;
@@ -23,39 +22,22 @@ import org.argouml.uml.diagram.static_structure.*;
 import org.argouml.uml.diagram.static_structure.ui.*;
 
 import org.cocons.argo.diagram.ui.*;
-import org.cocons.argo.diagram.business_type.*;
+import org.cocons.argo.diagram.interface_spec.*;
 import org.cocons.uml.ccl.*;
 
-public class CCLBusiness_TypeDiagram extends CCLDiagram {
+public class CCLInterface_SpecDiagram extends CCLDiagram {
 
 
   ////////////////
   // actions for toolbar
 
-	protected static Action _actionBusiness_Type =
-    		new CmdCreateNodeStereotype(MClassImpl.class, "Business Type", new MStereotypeImpl());
+  protected static Action _actionInterface_Spec;
+  protected static Action _actionType;
+  protected static Action _actionInfo_Type;
+  protected static Action _actionAssoc;
 
-	protected static Action _actionPackage =
-		new CmdCreateNodeStereotype(MPackageImpl.class, "Package",new MStereotypeImpl());
-
-	protected static Action _actionContextP =
-		new CmdCreateNodeStereotype(MTaggedValueImpl.class, "ContextProperty",new MStereotypeImpl());
-
-
-	protected static Action _actionDepend =
-		new CmdSetMode(ModeCreatePolyEdge.class,
-					   "edgeClass", MDependencyImpl.class,
-					   "Dependency");
-
-	protected static Action _actionAssoc =
-		new CmdSetMode(ModeCreatePolyEdge.class,
-					   "edgeClass", MAssociationImpl.class,
-					   "Association");
-
-	protected static Action _actionGeneralize =
-		new CmdSetMode(ModeCreatePolyEdge.class,
-					   "edgeClass", MGeneralizationImpl.class,
-					   "Generalization");
+  /*protected static Action _actionContextP =
+	new CmdCreateNodeStereotype(MTaggedValueImpl.class, "ContextProperty",new MStereotypeImpl());*/
 
 
   ////////////////////////////////////////////////////////////////
@@ -63,28 +45,42 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   protected static int _ClassDiagramSerial = 1;
 
 
-  public CCLBusiness_TypeDiagram() {
-    try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
+  public CCLInterface_SpecDiagram() {
+    try { setName("Interface_Spec diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
 
   }
 
-  public CCLBusiness_TypeDiagram(MNamespace m) {
+  public CCLInterface_SpecDiagram(MNamespace m) {
     this();
     setNamespace(m);
   }
 
   public void setNamespace(MNamespace m) {
     super.setNamespace(m);
-    Business_TypeDiagramGraphModel gm = new Business_TypeDiagramGraphModel();
+    Interface_SpecDiagramGraphModel gm = new Interface_SpecDiagramGraphModel();
     gm.setNamespace(m);
     setGraphModel(gm);
     LayerPerspective lay = new LayerPerspectiveMutable(m.getName(), gm);
     setLayer(lay);
-    Business_TypeDiagramRenderer rend = new Business_TypeDiagramRenderer(); // singleton
+    Interface_SpecDiagramRenderer rend = new Interface_SpecDiagramRenderer(); // singleton
     lay.setGraphNodeRenderer(rend);
     lay.setGraphEdgeRenderer(rend);
   }
+
+
+  protected MStereotype findStereotype(String name) {
+
+    // just create a new one
+    // needs-more-work
+    // should check to see if the stereotype already exists
+
+    MStereotype st = new MStereotypeImpl();
+    st.setNamespace(getNamespace());
+    st.setName(name);
+    return st;
+  }
+
 
   /** initialize the toolbar for this diagram type */
   protected void initToolBar() {
@@ -100,20 +96,33 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
     _toolBar.add(_actionBroom);
     _toolBar.addSeparator();
 
-    _toolBar.add(_actionPackage);
-    _toolBar.add(_actionBusiness_Type);
-    _toolBar.add(_actionContextP);
+    _actionInterface_Spec =	new CmdCreateNodeStereotype(MClassImpl.class,
+          "interface spec", findStereotype("interface spec") );
+
+    _actionType = new CmdCreateNodeStereotype(MClassImpl.class,
+        "type", findStereotype("type") );
+
+    _actionInfo_Type = new CmdCreateNodeStereotype(MClassImpl.class,
+        "info type",findStereotype("info type"));
+
+    _toolBar.add(_actionInterface_Spec);
+    _toolBar.add(_actionType);
+    _toolBar.add(_actionInfo_Type);
+    //_toolBar.add(_actionContextP);
     _toolBar.addSeparator();
 
+    _actionAssoc = new CmdSetMode(ModeCreateEdgeStereotype.class,
+					   "edgeClass", MAssociationImpl.class,
+					   "Association");
+
+
     _toolBar.add(_actionAssoc);
-    _toolBar.add(_actionDepend);
-    _toolBar.add(_actionGeneralize);
+    //????????????? compare _toolBar.add(_actionContextP);
+     _toolBar.add(new ActionAddContextProperty());
     _toolBar.addSeparator();
 
 
     _toolBar.add(ActionAddAttribute.SINGLETON);
-    //????????????? compare _toolBar.add(_actionContextP);
-    _toolBar.add(new ActionAddContextProperty());
     //_toolBar.add(ActionAddOperation.SINGLETON);
     // needs-more-work: remove attribute and operation?
     _toolBar.addSeparator();

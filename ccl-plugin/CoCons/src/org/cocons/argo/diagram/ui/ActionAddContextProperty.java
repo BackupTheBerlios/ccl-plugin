@@ -3,13 +3,13 @@
  *
  * Created on 11. November 2001, 16:31
  */
-
-package org.cocons.argo.diagram.ui;
-
 /**
  * * @author  shicathy
  * @version 0.1
  */
+
+package org.cocons.argo.diagram.ui;
+
 import org.argouml.uml.ui.*;
 import org.argouml.kernel.*;
 import org.argouml.uml.*;
@@ -23,7 +23,7 @@ public class ActionAddContextProperty extends UMLAction {
 
      ////////////////////////////////////////////////////////////////
     // constructors
-    
+
     public ActionAddContextProperty() { super("Add ContextProperty"); }
 
 

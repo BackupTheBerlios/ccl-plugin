@@ -1,9 +1,6 @@
-// File: FigBusiness_Type.java
-// Classes: FigBusiness_Type
-// Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.6 2001/11/25 20:10:29 shicathy Exp $
+// Author: shicathy
 
-package org.cocons.argo.diagram.business_type.ui;
+package org.cocons.argo.diagram.interface_spec.ui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -29,7 +26,7 @@ import org.argouml.uml.diagram.ui.*;
 import org.argouml.ui.*;
 
 
-public class FigBusiness_Type extends FigNodeModelElement {
+public class FigInterface_Spec extends FigNodeModelElement {
 
   ////////////////////////////////////////////////////////////////
   // instance variables
@@ -42,7 +39,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
   ////////////////////////////////////////////////////////////////
   // constructors
 
-  public FigBusiness_Type() {
+  public FigInterface_Spec() {
     _bigPort = new FigRect(10, 10, 90, 30, Color.cyan, Color.cyan);
 
     _name.setLineWidth(1);
@@ -76,15 +73,16 @@ public class FigBusiness_Type extends FigNodeModelElement {
     setBounds(r.x, r.y, r.width, r.height);
   }
 
-  public FigBusiness_Type(GraphModel gm, Object node) {
+  public FigInterface_Spec(GraphModel gm, Object node) {
     this();
     setOwner(node);
     MStereotype stereo = ((MModelElement) node).getStereotype();
     if (stereo == null){
-	stereo = new MStereotypeImpl();
-	((MModelElement) node).setStereotype(stereo);
+	  stereo = new MStereotypeImpl();
+      //stereo.setName("interface spec");
+	  ((MModelElement) node).setStereotype(stereo);
     }
-    ((MModelElement) node).getStereotype().setName("type");
+    ((MModelElement) node).getStereotype().setName("interface spec");
 
     if (node instanceof MClassifier && (((MClassifier)node).getName() != null))
 	_name.setText(((MModelElement)node).getName());
@@ -93,7 +91,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
   public String placeString() { return "new Class"; }
 
   public Object clone() {
-    FigBusiness_Type figClone = (FigBusiness_Type) super.clone();
+    FigInterface_Spec figClone = (FigInterface_Spec) super.clone();
     Vector v = figClone.getFigs();
     figClone._bigPort = (FigRect) v.elementAt(0);
     figClone._name = (FigText) v.elementAt(1);
@@ -105,7 +103,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
   // accessors
 
   public Selection makeSelection() {
-    return new SelectionBusiness_Type(this);
+    return new SelectionInterface_Spec(this);
   }
 
   public Vector getPopUpActions(MouseEvent me) {
@@ -179,8 +177,8 @@ public class FigBusiness_Type extends FigNodeModelElement {
     super.translate(dx, dy);
     Editor ce = Globals.curEditor();
     Selection sel = ce.getSelectionManager().findSelectionFor(this);
-    if (sel instanceof SelectionBusiness_Type)
-      ((SelectionBusiness_Type)sel).hideButtons();
+    if (sel instanceof SelectionInterface_Spec)
+      ((SelectionInterface_Spec)sel).hideButtons();
   }
 
   ////////////////////////////////////////////////////////////////
@@ -190,8 +188,8 @@ public class FigBusiness_Type extends FigNodeModelElement {
     super.mousePressed(me);
     Editor ce = Globals.curEditor();
     Selection sel = ce.getSelectionManager().findSelectionFor(this);
-    if (sel instanceof SelectionBusiness_Type)
-      ((SelectionBusiness_Type)sel).hideButtons();
+    if (sel instanceof SelectionInterface_Spec)
+      ((SelectionInterface_Spec)sel).hideButtons();
   }
 
   public void setEnclosingFig(Fig encloser) {
@@ -381,6 +379,4 @@ public class FigBusiness_Type extends FigNodeModelElement {
 	modelChanged();
     }
 
-
-
-} /* end class FigBusiness_Type */
+}

@@ -26,5 +26,6 @@ public class Init implements Runnable {
     JMenu diagramMenu = mainMenuBar.getMenu(MENU_INDEX_DIAGRAM);
     diagramMenu.add(new ActionCCLConstraintDiagram());
     diagramMenu.add(new ActionCCLBusiness_TypeDiagram());
+    diagramMenu.add(new ActionCCLInterface_SpecDiagram());
   }
 }
