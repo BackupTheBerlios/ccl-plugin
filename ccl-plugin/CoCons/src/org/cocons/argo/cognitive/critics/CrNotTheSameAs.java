@@ -11,6 +11,7 @@ import org.cocons.uml.ccl.ContextCondition;
 import org.cocons.uml.ccl.comparators.ComparatorFactoryImpl;
 import org.cocons.uml.ccl.BaseClasses;
 import org.cocons.uml.ccl.comparators.ComparatorFactory;
+import ru.novosoft.uml.foundation.core.MModelElement;
 
 /**
  * The design critic that supervises the NotTheSameAs Contextbased Constraint.
@@ -21,7 +22,6 @@ import org.cocons.uml.ccl.comparators.ComparatorFactory;
  * @author: Stefan Tang, Fadi Chabarek
  */
 public class CrNotTheSameAs extends CrCoCon {
-
 
   // only for testing purpose
   MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
@@ -135,6 +135,11 @@ public class CrNotTheSameAs extends CrCoCon {
       Vector scopeSet = cocon.getScopedElements();
       for (int t = 0; t < targetSet.size(); t++) {
 	if (!scopeSet.contains(targetSet.elementAt(t))) {
+          // the constraint is violated
+          MModelElement violationElement = (MModelElement)targetSet.elementAt(t);
+          setDescription("The model element " + violationElement.getName() +
+            "is associated both in the target and scope set " +
+            "of a NotTheSameAs Contextbased Constraint.");
 	  return PROBLEM_FOUND;
 	}
       }
