@@ -16,7 +16,8 @@ public class CCLModule implements ArgoModule {
   public CCLModule() {
   }
   public boolean initializeModule() {
-    Agency.register(new CrNotAllowedToExistIn(),CrNotAllowedToExistIn.class);
+    org.cocons.argo.cognitive.critics.Init criticInit = new org.cocons.argo.cognitive.critics.Init();
+    criticInit.run();
     return true;
   }
   public boolean shutdownModule() {
@@ -41,7 +42,7 @@ public class CCLModule implements ArgoModule {
     return "$Revision 1.1$";
   }
   public String getModuleAuthor() {
-    return "Stefan Tang, Technical University of Berlin, Dept. of Computer Science";
+    return "Technical University of Berlin, Dept. of Computer Science";
   }
   public Vector getModulePopUpActions(Vector popUpActions, Object context) {
     /**@todo: Implement this org.argouml.application.api.ArgoModule method*/
