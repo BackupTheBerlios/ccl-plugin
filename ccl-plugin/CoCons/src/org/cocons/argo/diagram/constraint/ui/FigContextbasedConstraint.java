@@ -18,6 +18,7 @@ import org.cocons.uml.ccl.comparators.*;
 import org.cocons.uml.ccl.*;
 import org.cocons.uml.ccl.*;
 import org.cocons.uml.ccl.util.ContextConditionFactory;
+import org.cocons.uml.ccl.util.ConvertCoconsToSyntaxCheck;
 
 
 /**
@@ -421,11 +422,12 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       MContextbasedConstraintImpl me = (MContextbasedConstraintImpl) getOwner();
       if (me == null) return;
 
+      ConvertCoconsToSyntaxCheck convert = new ConvertCoconsToSyntaxCheck();
 
       String coconString = _targetText.getText();
       coconString = coconString + " " + _coconstypeText.getText();
       coconString = coconString + " " + _scopeText.getText();
-
+      coconString = convert(coconString);
       //System.out.println(coconString);
 
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
@@ -433,7 +435,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       if (!ccf.isValidTarget(_targetText.getText())){
         _targetText.setFilled(true);
         _targetText.setFillColor(Color.red);
-      	//System.out.println("isValid in Target: " + ccf.isValidTarget());
+        //System.out.println("isValid in Target: " + ccf.isValidTarget());
       }
       else{
         _targetText.setFillColor(Color.white);
@@ -510,10 +512,10 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   */
   protected void calculateSetBoxes(){
     //System.out.println("calculateBoxes");
-	updateTargetText();
-	updateCoConsTypeText();
-	updateScopeText();
-	updateAttributeText();
+    updateTargetText();
+    updateCoConsTypeText();
+    updateScopeText();
+    updateAttributeText();
 
 
     Dimension targetDim = _targetText.getSize();
