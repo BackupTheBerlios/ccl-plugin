@@ -133,9 +133,9 @@ public class CreateAtomicPathMenu {
               FigSeqLink figSekLink = (FigSeqLink) fe;
               figSekLink.mouseReleased(null);
               //Set Action for Stimulus
-              MCallActionImpl mCallAction = new MCallActionImpl();
+              MCallAction mCallAction = new MCallActionImpl();
               mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
-	      mCallAction.setOperation(oper);
+			  mCallAction.setOperation(oper);
               ms.setDispatchAction(mCallAction);
 
               pers.damage();

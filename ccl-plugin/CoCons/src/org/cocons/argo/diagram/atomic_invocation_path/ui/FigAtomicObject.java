@@ -35,6 +35,7 @@ import org.tigris.gef.base.SelectionManager;
 
 public class FigAtomicObject extends FigSeqObject {
 
+  protected FigRect _lifeline;
   public FigAtomicObject() {
 	super();
   }

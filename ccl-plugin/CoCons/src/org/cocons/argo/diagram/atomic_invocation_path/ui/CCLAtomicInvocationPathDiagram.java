@@ -65,7 +65,7 @@ public class CCLAtomicInvocationPathDiagram extends UMLSequenceDiagram {
     _toolBar.addSeparator();
 
 	_actionAddCall = new ActionAddCall();
-	_toolBar.add(_actionAddCall);
+	//_toolBar.add(_actionAddCall);
     //_toolBar.add(_actionLinkWithStimulusCall);
     //_toolBar.add(_actionLinkWithStimulusCreate);
     //_toolBar.add(_actionLinkWithStimulusDestroy);

@@ -2,6 +2,7 @@ package org.cocons.argo.diagram.atomic_invocation_path.ui;
 
 import java.util.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 import ru.novosoft.uml.foundation.core.*;
@@ -31,7 +32,7 @@ import org.cocons.argo.diagram.atomic_invocation_path.AtomicInvocationPathDiagra
  */
 
 public class CreateCallMenu {
-    
+
     public static JMenu getJMenu() {
 	JMenu menu = new JMenu("add Invocation");
 	AtomicInvocationPathDiagramGraphModel gm =
@@ -57,14 +58,14 @@ public class CreateCallMenu {
 	}
 	return menu;
     }
-    
+
     private static class CreateCallAction extends UMLAction {
 	private MObject src;
 	private MObject dst;
 	private MOperation oper;
 	private MInterface inter;
 	private MClassifier comp;
-	
+
 	public CreateCallAction(MOperation o, MInterface mi) {
 	    super(o.getName());
 	    oper = o;
@@ -73,7 +74,7 @@ public class CreateCallMenu {
 	    Object target = pb.getDetailsTarget();
 	    src = (MObject)target;
 	}
-	
+
 	public void actionPerformed(ActionEvent ae) {
 	    Editor ce = Globals.curEditor();
 	    GraphModel gm = ce.getGraphModel();
@@ -104,7 +105,7 @@ public class CreateCallMenu {
 			dst = obj;
 		}
 	    }
-	    
+
 	    Layer lay = ce.getLayerManager().getActiveLayer();
 	    if (dst == null) {
 				//Model und Fig für Ziel-Komponente anlegen
@@ -116,51 +117,44 @@ public class CreateCallMenu {
 		dst.setName("<<component>>");
 	    }
 	    //Assoziation anlegen
-	    MStimulusImpl ms = new MStimulusImpl();
-	    
-	    FigNode srcFig = (FigNode)lay.presentationFor(src);
-	    FigNode dstFig = (FigNode)lay.presentationFor(dst);
-	    Fig startPortFig = srcFig.getPortFig(src);
-	    Fig destPortFig = dstFig.getPortFig(dst);
+	    MStimulus ms = new MStimulusImpl();
+
+	    FigAtomicObject srcFig = (FigAtomicObject)lay.presentationFor(src);
+	    FigAtomicObject dstFig = (FigAtomicObject)lay.presentationFor(dst);
 	    Object newEdge = mgm.connect(src,dst,MLinkImpl.class);
 	    MLink mLink = (MLink) newEdge;
 	    mLink.addStimulus(ms);
-	    
+
 	    FigPoly edgeShape = new FigPoly();
 	    Point fcCenter = srcFig.center();
-	    int yPos = srcFig._lifeLine.getY();
+	    int yPos = (int)srcFig.getPortFig(src).getBounds().getHeight();
+	    yPos += (int)srcFig.getPortFig(src).getBounds().getY();
 	    edgeShape.addPoint(fcCenter.x,yPos);
-	    
+
 	    Point newFCCenter = dstFig.center();
 	    edgeShape.addPoint(newFCCenter.x, yPos);
-	    
+
 	    FigSeqLink fe = (FigSeqLink) lay.presentationFor(newEdge);
 
 	    edgeShape.setLineColor(Color.black);
 	    edgeShape.setFilled(false);
 	    edgeShape._isComplete = true;
 	    fe.setFig(edgeShape);
-		
-		fe.setSourcePortFig( figObjSrc._lifeline );
-		fe.setDestPortFig( figObjDst._lifeline);
-	    
+
+		fe.setSourcePortFig( srcFig.getPortFig(src) );
+		fe.setDestPortFig( dstFig.getPortFig(dst));
+
 	    fe.addFigSeqStimulusWithAction();
-	    
-	    
+
+
 	    lay.add(fe);
-	    fe.setSourcePortFig(startPortFig);
-	    fe.setSourceFigNode(srcFig);
-	    fe.setDestPortFig(destPortFig);
-	    fe.setDestFigNode(dstFig);
-	    if(!(fe instanceof FigSeqLink)){return;}
-	    FigSeqLink figSekLink = (FigSeqLink) fe;
-	    figSekLink.mouseReleased(null);
 	    //Set Action for Stimulus
 	    MCallActionImpl mCallAction = new MCallActionImpl();
 	    mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
 	    mCallAction.setOperation(oper);
 	    ms.setDispatchAction(mCallAction);
-	    
+		src.getNamespace().addOwnedElement(oper);
+
 	    srcFig.damage();
 	    dstFig.damage();
 	    fe.damage();
