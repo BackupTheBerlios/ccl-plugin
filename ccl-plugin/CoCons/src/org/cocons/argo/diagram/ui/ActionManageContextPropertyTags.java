@@ -326,7 +326,6 @@ public class ActionManageContextPropertyTags extends UMLAction  {
               if (test.charAt(i)=='|') _unitForNumericValues = _unitForNumericValues + "#";
               else _unitForNumericValues = _unitForNumericValues + test.charAt(i);
             }
-            System.out.println(_unitForNumericValues);
             _dialog2.dispose();
           }
         }
