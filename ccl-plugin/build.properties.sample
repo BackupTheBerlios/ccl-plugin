@@ -11,10 +11,7 @@ argouml.src.dir=../argouml/argouml/src_new
 
 cocons.src.dir=CoCons/src
 cmlmapping.src.dir=CoCons/cmlbinding/mapping
-nsuml.src.dir=nsuml/src
-nsuml.gensrc.dir=nsuml/gen
 cclmetamodel.src=CCL_Metamodel/src
-plugin.src.dir=plugin/src
 
 
 #######################

@@ -165,7 +165,7 @@ author: klischat, oetker
     <!-- create directories -->
     <mkdir dir="${build.dest}"/>
 
-    <depend srcdir="${cocons.src.dir}:${cclmetamodel.src}:${plugin.src.dir}"
+    <depend srcdir="${cocons.src.dir}:${cclmetamodel.src}"
             destdir="${build.dest}"
             cache=".depcache"
             closure="true"/>
