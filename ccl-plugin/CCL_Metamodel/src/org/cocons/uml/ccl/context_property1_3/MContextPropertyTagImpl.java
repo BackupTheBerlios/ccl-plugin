@@ -9,6 +9,7 @@ import org.cocons.argo.util.*;
 
 import java.util.Vector;
 
+
 /**
 * //OLD Wraps a MTaggedValue, but deprecats its get/setValue()-Method, so that a
 * change from argouml's nsuml 1.3 to nsuml 1.4 is easily made.
@@ -102,7 +103,7 @@ public String getValidValuesType() {
   return(validValueType);
 }
 
-/*public String getUnit() {
+public String getUnit() {
   VCPLTranslator trans = new VCPLTranslator();
   return(trans.getUnit(this.getConstraintBody()));
 }
@@ -120,7 +121,7 @@ public int[] getIntegerRange() {
 public float[] getFloatRange() {
   VCPLTranslator trans = new VCPLTranslator();
   return(trans.getFloatRange(this.getConstraintBody()));
-}*/
+}
 // ---------------------------------------
 
 }
