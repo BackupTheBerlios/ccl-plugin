@@ -26,7 +26,7 @@ public class ActionCCLConstraintDiagram extends UMLAction {
       Object target = ProjectBrowser.TheInstance.getDetailsTarget();
       MNamespace ns = p.getCurrentNamespace();
       if (target instanceof MPackage) ns = (MNamespace) target;
-      ArgoDiagram d  = new ConstraintDiagram(ns);
+      ArgoDiagram d  = new CCLConstraintDiagram(ns);
       p.addMember(d);
       ProjectBrowser.TheInstance.getNavPane().addToHistory(d);
       ProjectBrowser.TheInstance.setTarget(d);
