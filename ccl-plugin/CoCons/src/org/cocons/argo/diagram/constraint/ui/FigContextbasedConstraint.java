@@ -27,7 +27,7 @@ import org.cocons.uml.ccl.util.ContextConditionFactory;
  * Company:      TU Berlin, CIS
  * @author Martin Skinner
  * @author Nghia Dang Duc
- * @author Rolf Exner
+ * @author Rolf Exner, Soner Dastan
  * @version 1.1
  */
 
@@ -54,7 +54,10 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     protected FigRect _targetPort;
     protected FigText _targetText;
     protected FigText _scopeText;
+    protected FigText _coconstypeText;
+    protected FigText _attributeText;
     public MElementResidence resident = new MElementResidenceImpl();
+
 
     protected Vector mScops = new Vector();
     protected Vector mConsts = new Vector();
@@ -123,13 +126,14 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         _targetText.setWidth(85);
 
         //construction of the text-field for the cocon-type
-        _stereo.setBounds(60, 7, 45, 15);
-        _stereo.setExpandOnly(false);
-        _stereo.setFilled(false);
-        _stereo.setLineWidth(0);
-        _stereo.setEditable(true);
-        _stereo.setHeight(18);
-        _stereo.setDisplayed(false);
+        _coconstypeText = new FigText (60, 7, 45, 15, Color.black, "TimesRoman", 10);
+        _coconstypeText.setText("MUST BE");
+        _coconstypeText.setDisplayed(true);
+        _coconstypeText.setEditable(false);
+        _coconstypeText.setFilled(false);
+        _coconstypeText.setLineWidth(0);
+        _coconstypeText.setHeight(18);
+        _coconstypeText.setExpandOnly(false);
 
         //construction of the text-field for details
         _name.setBounds(60, 30, 45, 15);
@@ -138,6 +142,17 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         _name.setFilled(false);
         _name.setLineWidth(0);
         _name.setExpandOnly(false);
+        _name.setDisplayed(false);
+
+        _attributeText = new FigText (60, 30, 45, 15, Color.black, "TimesRoman", 10);
+        _attributeText.setText("Attribute: ");
+        _attributeText.setDisplayed(true);
+        _attributeText.setEditable(false);
+        _attributeText.setFilled(false);
+        _attributeText.setLineWidth(0);
+        _attributeText.setHeight(18);
+        _attributeText.setExpandOnly(false);
+
         // initialize any other Figs here
 
         // add Figs to the FigNode in back-to-front order
@@ -150,7 +165,8 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         addFig(_letter_i);
         addFig(_targetPort);
         addFig(_name);
-        addFig(_stereo);
+        addFig(_attributeText);
+        addFig(_coconstypeText);
         addFig(_targetText);
         addFig(_scopeText);
         //addFig(_targetVec);
@@ -175,10 +191,9 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         figClone._letter_i = (FigText) v.elementAt(4);
         figClone._targetPort = (FigRect) v.elementAt(5);
         figClone._name = (FigText) v.elementAt(6);
-        figClone._stereo = (FigText) v.elementAt(7);
+        figClone._attributeText = (FigText) v.elementAt(7);
         figClone._targetText = (FigText) v.elementAt(8);
         figClone._scopeText = (FigText) v.elementAt(9);
-
         return figClone;
     }
 
@@ -188,37 +203,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     public Selection makeSelection() {
         return null;
     }
-/*
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        JMenu addMenu = new JMenu("Add");
 
-        addMenu.add(ActionAddAttribute.SINGLETON);
-        addMenu.add(ActionAddOperation.SINGLETON);
-        addMenu.add(ActionAddNote.SINGLETON);
-
-        popUpActions.insertElementAt(addMenu, popUpActions.size() - 1);
-        JMenu showMenu = new JMenu("Show");
-
-        if(_attrVec.isDisplayed() && _operVec.isDisplayed())
-            showMenu.add(ActionCompartmentDisplay.HideAllCompartments);
-        else if(!_attrVec.isDisplayed() && !_operVec.isDisplayed())
-            showMenu.add(ActionCompartmentDisplay.ShowAllCompartments);
-
-        if (_attrVec.isDisplayed())
-            showMenu.add(ActionCompartmentDisplay.HideAttrCompartment);
-        else
-            showMenu.add(ActionCompartmentDisplay.ShowAttrCompartment);
-
-        if (_operVec.isDisplayed())
-            showMenu.add(ActionCompartmentDisplay.HideOperCompartment);
-        else
-            showMenu.add(ActionCompartmentDisplay.ShowOperCompartment);
-
-        popUpActions.insertElementAt(showMenu, popUpActions.size() - 1);
-        return popUpActions;
-    }
-*/
   public void setOwner(Object node) {
     super.setOwner(node);
     bindPort(node, _bigPort);
@@ -254,226 +239,172 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     return new Dimension(w, h);
   }
 
-  protected void updateStereotypeText() {
-    MModelElement me = (MModelElement) getOwner();
-    if (me == null) return;
-    MStereotype stereo = me.getStereotype();
-    if (stereo == null || stereo.getName() == null || stereo.getName().length() == 0)
-    {
-        if (! _stereo.isDisplayed()) return;
-        _stereo.setDisplayed(false);
-        return;
-    }
-    else
-    {
-        String stereoStr = stereo.getName();
-        _stereo.setText("<<" + stereoStr + ">>");
-        if (!_stereo.isDisplayed()) {
-            _stereo.setDisplayed(true);
-        }
-    }
-  }
-
-  protected void updateModel() {
-    MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
-    if (me == null) return;
-    String coconString = _targetText.getText();
-    coconString = coconString + " " + "MUST BE" ;
-    coconString = coconString + " " + "UnreadableBy";
-    coconString = coconString + " " + _scopeText.getText();
-    System.out.println(coconString);
-    ContextConditionFactory ccf = new ContextConditionFactory(coconString);
-    if (ccf.isValid()){
-      me.setCoConType(ccf.getCoConType());
-      me.setTargetSetDirectElements(ccf.getTargetDirectAssoziations());
-      me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
-      me.setTargetSetContextCondition(ccf.getTargetIndirectAssoziations());
-      me.setScopeSetContextCondition(ccf.getScopeIndirectAssoziations());
-    }
-  }
-
-/*
-  protected void updateModel() {
-    MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
-    if (me == null) return;
-
-    me.setCoConType("hier muﬂ noch die Checkbox ausgelesen werden...");
-
-    //
-    //Read the Target-Set Text-Box and commit it to the Owner
-    //
-
-    String targetString = _targetText.getText();
-    Vector compoString = new Vector();
-    StringTokenizer st = new StringTokenizer(targetString);
-    Vector conditionStrings = new Vector();
-    Vector indirectAssoziations = new Vector();
-    Vector directAssoziations = new Vector();
-    int act = 0;
-
-    // fill compoString with the plain text in the targetSet
-    while (st.hasMoreTokens()) {
-	compoString.addElement(st.nextToken());
-    }
-
-    // fill conditionStrings with the Vectors with the conditions
-
-    for (int k = 0; k < compoString.size(); k++){
-      if (compoString.get(k).toString().equals("or") || compoString.get(k).toString().equals("OR")){
-        if(compoString.get(k+1).toString().equals("THE") || compoString.get(k+1).toString().equals("ALL")){
-          act = k;
-          Vector helpString = new Vector();
-          for (int i = act; i < k; i++){
-            helpString.addElement(compoString.get(i));
+  protected void updateTargetText() {
+      MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+      if (me == null) return;
+      String cocons = me.getName();
+      if (cocons == null || me.getName() == null || me.getName().length() == 0)
+      {
+          if (! _targetText.isDisplayed()) return;
+          _targetText.setDisplayed(false);
+          return;
+      }
+      else
+      {
+          String targetText = me.getName();
+          StringTokenizer st = new StringTokenizer(targetText,";");
+          Vector s = new Vector();
+          while (st.hasMoreTokens()) {
+               s.addElement(st.nextToken());
           }
-          conditionStrings.addElement(helpString);
-        }
+
+          _targetText.setText((s.get(0)).toString());
+
+          if (!_targetText.isDisplayed()) {
+              _targetText.setDisplayed(true);
+          }
       }
     }
 
-    //compute the conditions and set the Target-Set
-    for (int i = 0; i < conditionStrings.size(); i++){
-      Vector actVect = (Vector) conditionStrings.get(i);
+    protected void updateCoConsTypeText() {
+        MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+        if (me == null) return;
+        String cocons = me.getName();
+        if (cocons == null || me.getName() == null || me.getName().length() == 0)
+        {
+            if (! _coconstypeText.isDisplayed()) return;
+            _coconstypeText.setDisplayed(false);
+            return;
+        }
+        else
+        {
+            String type = me.getName();
+            StringTokenizer st = new StringTokenizer(type,";");
+            Vector s = new Vector();
+            while (st.hasMoreTokens()) {
+                 s.addElement(st.nextToken());
+            }
 
-      //if indirect assoziation
-      if (actVect.get(0).toString().equals("all") || actVect.get(0).toString().equals("ALL")){
-        ContextCondition indirectConditionTree = buildConditionTree(actVect);
-        indirectAssoziations.addElement(indirectConditionTree);
+            _coconstypeText.setText((s.get(1)).toString());
+
+            if (!_coconstypeText.isDisplayed()) {
+                _coconstypeText.setDisplayed(true);
+            }
+        }
+  }
+  protected void updateScopeText() {
+      MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+      if (me == null) return;
+      String cocons = me.getName();
+      if (cocons == null || me.getName() == null || me.getName().length() == 0)
+      {
+          if (! _scopeText.isDisplayed()) return;
+          _scopeText.setDisplayed(false);
+          return;
       }
-      //if direct assoziation
+      else
+      {
+          String scopeText = me.getName();
+          StringTokenizer st = new StringTokenizer(scopeText,";");
+          Vector s = new Vector();
+          while (st.hasMoreTokens()) {
+               s.addElement(st.nextToken());
+          }
+
+          _scopeText.setText((s.get(2)).toString());
+
+          if (!_scopeText.isDisplayed()) {
+              _scopeText.setDisplayed(true);
+          }
+      }
+  }
+
+  protected void updateAttributeText() {
+      MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+      if (me == null) return;
+      String cocons = me.getName();
+      if (cocons == null || me.getName() == null || me.getName().length() == 0)
+      {
+          if (! _attributeText.isDisplayed()) return;
+          _attributeText.setDisplayed(false);
+          return;
+      }
+      else
+      {
+          String attributeText = me.getName();
+          StringTokenizer st = new StringTokenizer(attributeText,";");
+          Vector s = new Vector();
+          while (st.hasMoreTokens()) {
+               s.addElement(st.nextToken());
+          }
+
+          _attributeText.setText((s.get(3)).toString());
+
+          if (!_attributeText.isDisplayed()) {
+              _attributeText.setDisplayed(true);
+          }
+      }
+  }
+
+
+  protected void updateModel() {
+
+
+      MContextbasedConstraint me = (MContextbasedConstraint) getOwner();
+      if (me == null) return;
+      String coconString = _targetText.getText();
+//      coconString = coconString + " " + "MUSTBE" ;
+      coconString = coconString + " " + _coconstypeText.getText();
+      coconString = coconString + " " + _scopeText.getText();
+      ContextConditionFactory ccf = new ContextConditionFactory(coconString);
+
+      if (!ccf.isValidTarget(_targetText.getText())){
+        _targetText.setFilled(true);
+        _targetText.setFillColor(Color.red);
+      }
       else{
-        //me.setTargetSetDirectElements(actVect);
-        if(actVect.get(0).toString().equals("the") || actVect.get(0).toString().equals("THE")){
-          directAssoziations.addElement(actVect.getClass(2));
-        }
+        _targetText.setFillColor(Color.white);
+        _targetText.setFilled(false);
       }
-    }
-    //Now all Assoziations lay in the Vectors directAssoziations and indirectAssoziations
 
-    //The direct Assoziations are ready for commit:
-    me.setTargetSetDirectElements(directAssoziations);
-    //The indirect Assoziations must be a Tree of the type ContextCondition:
-
-    //if there are no indirect assoziations, setTargetSetDirectElements has the parameter null
-    if (indirectAssoziations.size()<1){
-      me.setTargetSetDirectElements(null);
-    }
-    if (indirectAssoziations.size()==1){
-      me.setTargetSetDirectElements(((ContextCondition)indirectAssoziations.get(0)));
-    }
-    if (indirectAssoziations.size()>1){
-      ContextCondition target = (ContextCondition) indirectAssoziations.get(0);
-      indirectAssoziations.removeElementAt(0);
-      target = concatenateContextCondition(target, indirectAssoziations);
-      me.setTargetSetDirectElements(target);
-    }
-
-
-    //
-    // Read the Scope-Set Text-Box and commit it to the Owner
-    //
-
-    //Needs more work
-
-  }
-
-  //build a ContextCondition Tree out of a description like:
-  //ALL components WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
-  protected ContextCondition buildConditionTree(Vector compoString){
-
-    ContextConditionImpl target = new ContextConditionImpl();
-    ComparatorFactoryImpl comparatorFactory = new ComparatorFactoryImpl();
-    Vector theComparisons = new Vector();
-
-    MMultiplicity range = new MMultiplicity( (compoString.get(0)).toString());
-    String baseClass = (compoString.get(1)).toString();
-    int i = 3;
-    for (int l = 3; (compoString.get(l)).toString.equals("OR")|| l < compoString.size(); l++){
-      Vector firstVect = new Vector();
-      for(; i < l; i++){
-        firstVect.addElement(compoString.get(i));
+      if (! ccf.isValidScope(_scopeText.getText())){
+          _scopeText.setFillColor(Color.red);
+          _scopeText.setFilled(true);
       }
-      Comparison comparison = simpleComparison(firstVect);
-      theComparisons.addElement(comparison);
-      i = l + 1;
-    }
-    target = buildTreeRecursive(target,theComparisons, range, baseClass);
-    return target;
-  }
-
-  //helps the method buildConditionTree to compute a ContextConditionTree
-  protected ContextConditionImpl buildTreeRecursive (ContextCondition target, Vector theComparisons, MMultiplicity range, String baseClass){
-
-      LogicFactoryImpl lf = new LogicFactoryImpl();
-      LogicOperation logOp = lf.produceLogicOperationWithType(LogicFactory.OR);
-
-      if(theComparisons.size()>1){
-        ContextCondition firstChild = new ContextConditionImpl();
-        firstChild.setRange(range);
-        firstChild.setBaseClass(baseClass);
-        firstChild.setComparison(theComparisons.get(0));
-        theComparisons.removeElementAt(0);
-        target.setFirstChild(firstChild);
-        Condition secondChild = buildTreeRecursive (secondChild, theComparisons, range, baseClass);
-        target.setSecondChild(secondChild);
+      else{
+         _scopeText.setFillColor(Color.white);
+         _scopeText.setFilled(false);
       }
-      if(theComparisons.size()==1){
-        target.setRange(range);
-        target.setBaseClass(baseClass);
-        target.setComparison(theComparisons.get(0));
-        return target;
+
+      if (ccf.isValid()){
+        me.setCoConType(ccf.getCoConType());
+        //System.out.println("CoConType: " + ccf.getCoConType());
+
+       // me.setTargetSetDirectElements(ccf.getTargetDirectAssoziations());
+        //System.out.println("DirectTarget " + ccf.getTargetDirectAssoziations());
+
+        //me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
+
+        me.setTargetSetContextCondition(ccf.getTargetIndirectAssoziations());
+        //System.out.println("InDirectTarget " + ccf.getTargetIndirectAssoziations());
+
+        me.setScopeSetContextCondition(ccf.getScopeIndirectAssoziations());
+        //System.out.println("InDirectScope " + ccf.getScopeIndirectAssoziations());
+
       }
-      if(theComparisons.size()==0){
-        return target;
-        }
-      else System.out.println("Function buildTreeRecursive: theComparisons.size() < 0");
   }
-
-  //builds a ContextConditionTree out of several ContextConditionTrees
-  //the original description was like the following:
-  //ALL type1 WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
-  //OR
-  //ALL type2 WHERE tag1=val1 OR tag2=val2 OR tag3=val3 ...
-  //OR....
-  protected ContextConditionImpl concatenateContextCondition(ContextConditionImpl target, Vector vect){
-    if (vect.size()>0){
-      ContextCondition newRoot = new ContextConditionImpl();
-      newRoot.setFirstChild(target);
-      newRoot.setSecondChild(vect.get(0);
-      vect.removeElementAt(0);
-      concatenateContextCondition(newRoot, vect);
-    }
-    else return target;
-  }
-
-  //Vector vect has the form: tag comparator value
-  protected  Comparison simpleComparison(Vector vect){
-    ComparisonImpl comparison = new ComparisonImpl();
-    String condition = "";
-    String value = "";
-    for (int i = 0; i < vect.size(); i++) {
-      if (((vect.get(i)).toString()).equals("=") ||((vect.get(i)).toString()).equals("EQUALS")) {
-        comparison.setComparator(comparatorFactory.produceComparatorWithType(ComparatorFactory.EQUAL));
-        for(j=0; j < i; j++){
-          condition = condition + compoString.get(j) + " ";
-        }
-        for(int h = i+1; h < vect.size(); h++){
-           value =value + compoString.get(h) + " ";
-        }
-      }
-    }
-    comparison.setTag(condition);
-    comparison.setValue(value);
-    return comparison;
-  }
-
-  */
 
   /*
   *CalculateSetBoxes()
   *function to give the boxes of Scope-Set and Target(Constraint)-Set the right size
   */
   protected void calculateSetBoxes(){
+    System.out.println("calculateBoxes");
+	updateTargetText();
+	updateCoConsTypeText();
+	updateScopeText();
+	updateAttributeText();
+
 
     Dimension targetDim = _targetText.getSize();
     Dimension scopeDim = _scopeText.getSize();
@@ -492,7 +423,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
 
   protected void modelChanged() {
-
+    System.out.println("modelChanged");
     super.modelChanged();
     //calculate the size of targetSetBox and ScopeSetBox
     calculateSetBoxes();
@@ -503,10 +434,10 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
     int new_height = _targetPort.getHeight();
     // calculate new width
     int new_width = 41; // width of constant figs
-    if (_stereo.isDisplayed() )
-      new_width = new_width+ Math.max(_name.getWidth(),_stereo.getWidth());
+    if (_coconstypeText.isDisplayed() )
+      new_width = new_width+ Math.max(_attributeText.getWidth(),_coconstypeText.getWidth());
     else
-      new_width = new_width+_name.getWidth();
+      new_width = new_width+_attributeText.getWidth();
     new_width = new_width + (2 * _targetPort.getWidth());
 
     //figure will be resized and rearanged
@@ -514,6 +445,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
   }
 
   public void setBounds(int x, int y, int w, int h){
+    System.out.println("setBounds");
     calculateSetBoxes();
     calcBounds();
     Rectangle oldBounds = getBounds();
@@ -522,24 +454,24 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
     // calculate new width
     int new_width = 41; // width of constant figs
-    if (_stereo.isDisplayed() )
-      new_width = new_width+ Math.max(_name.getWidth(),_stereo.getWidth());
+    if (_coconstypeText.isDisplayed() )
+      new_width = new_width+ Math.max(_attributeText.getWidth(),_coconstypeText.getWidth());
     else
-      new_width = new_width+_name.getWidth();
+      new_width = new_width+_attributeText.getWidth();
 
       w = new_width + (2 * _targetPort.getWidth());
 
       int textBoxWidth = _targetPort.getWidth(); //By "CalculateTextBoxes" it is sure that size of _targetPort and _scopePort is equal
 
-      int coconTypeWidth = _name.getWidth();
+      int coconTypeWidth = _attributeText.getWidth();
 
       _targetPort.setLocation(x, y);
       _targetText.setLocation(x, y);
       _triangle.setLocation(x+textBoxWidth, y + _targetPort.getHalfHeight()-8);
       _letter_i.setLocation(x+textBoxWidth, y + _targetPort.getHalfHeight()-8);
-      _name.setLocation(x+ w / 2 - _name.getWidth() / 2, y + _targetPort.getHalfHeight() + 5);
-      if (_stereo.isDisplayed() )
-        _stereo.setLocation(x+ w / 2 - _stereo.getWidth()/2, y + _targetPort.getHalfHeight() - 18);
+      _attributeText.setLocation(x+ w / 2 - _attributeText.getWidth() / 2, y + _targetPort.getHalfHeight() + 5);
+      if (_coconstypeText.isDisplayed() )
+        _coconstypeText.setLocation(x+ w / 2 - _coconstypeText.getWidth()/2, y + _targetPort.getHalfHeight() - 18);
       _arrow.setPoints(0, x + textBoxWidth + 16, y + _targetPort.getHalfHeight() );
       _arrow.setPoints(1, x + w - textBoxWidth - 10, y + _targetPort.getHalfHeight() );
       _arrowhead.setLocation(x + w - textBoxWidth - 10,  y + _targetPort.getHalfHeight() - 3);
@@ -551,7 +483,6 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       updateEdges();
       firePropChange("bounds", oldBounds, newBounds);
       updateModel();
-
   }
 
   public void calcBounds() {

@@ -1,4 +1,5 @@
 package org.cocons.uml.ccl.util;
+
 import java.util.*;
 import java.text.*;
 import java.lang.*;
@@ -17,7 +18,7 @@ import java.lang.*;
  * Range of ContextCondition from indirect Element
  */
 /*
-    CoCon ::= ElementSelection+OR `MUST BE ...'
+    CoCon ::= ElementSelection+OR `MUST BE ...' + WITH ' ' = ' ' AND
     ElementSelection+OR [`WITH'
     Attribute+AND]
     ElementSelection ::= ContextCondition | DirectSelection | `THIS'
@@ -120,7 +121,7 @@ public class SyntaxcheckOfCoconsFromBNF {
         }
         int i = 0;
         while (i < elements.size() -1) {
-            if(!((elements.get(i)).toString()).equals("MUST") && !((elements.get(i+1)).toString()).equals("BY")) {
+            if(!((elements.get(i)).toString()).equals("MUST") && !((elements.get(i+1)).toString()).equals("BE")) {
                 exited = false;
             }
             else {
@@ -157,6 +158,33 @@ public class SyntaxcheckOfCoconsFromBNF {
             i++;
         }
         return exited;
+    }
+
+    /**
+	 * @methode: exitedWITH
+	 * @param cocons java.lang.String
+	 * @return exited java.lang.Boolean.
+	 */
+
+	public boolean exitedWITH( String cocons) {
+		boolean exited = false;
+		Vector elements = new Vector();
+		StringTokenizer st = new StringTokenizer(cocons);
+		while (st.hasMoreTokens()) {
+			 elements.addElement(st.nextToken());
+		}
+		int i = 0;
+		while (i < elements.size() -1) {
+			if(!((elements.get(i)).toString()).equals("WITH")) {
+				exited = false;
+			}
+			else {
+				exited = true;
+				break;
+			}
+			i++;
+		}
+		return exited;
     }
 
     /**
@@ -352,12 +380,12 @@ public class SyntaxcheckOfCoconsFromBNF {
 
 
     /**
-     * @methode: getTargetSetsCoConsTypeAndScopeSets
+     * @methode: getTargetSetsCoConsTypeScopeSetsAttributes
      * Gets the TargetSets, CoConsType, ScopeSets
      * @param cocons java.lang.String
      * @return components java.util.Vector.
      */
-    public Vector getTargetSetsCoConsTypeAndScopeSets( String cocons) {
+    public Vector getTargetSetsCoConsTypeScopeSetsAttributes( String cocons) {
 
         Vector components = new Vector();
         Vector elements = new Vector();
@@ -369,7 +397,7 @@ public class SyntaxcheckOfCoconsFromBNF {
 
 
         int targetSetCounter = 0;
-        while (!((elements.get(targetSetCounter)).toString()).equals("MUST") && !((elements.get(targetSetCounter+1)).toString()).equals("BY")) {
+        while (!((elements.get(targetSetCounter)).toString()).equals("MUST") && !((elements.get(targetSetCounter+1)).toString()).equals("BE")) {
             targetSetCounter++;
         }
 
@@ -380,14 +408,43 @@ public class SyntaxcheckOfCoconsFromBNF {
 
         String coconstype = "";
         coconstype = (elements.get(targetSetCounter + 2)).toString();
-
-        String scopessets = "";
-        for (int i = targetSetCounter + 3; i < elements.size(); i++ ) {
-            scopessets = scopessets + (elements.get(i)).toString() + " ";
-        }
-        components.addElement(targetsets);
+		components.addElement(targetsets);
         components.addElement(coconstype);
-        components.addElement(scopessets);
+
+        String scopessetAndAttribute = "";
+        for (int i = targetSetCounter + 3; i < elements.size(); i++ ) {
+            scopessetAndAttribute = scopessetAndAttribute + (elements.get(i)).toString() + " ";
+        }
+        if (!exitedWITH(cocons)) {
+			String scopesets = "";
+			scopesets = scopessetAndAttribute;
+			components.addElement(scopesets);
+			components.addElement("isEmpty");
+		}
+		else {
+			Vector elementSSA = new Vector();
+			StringTokenizer t = new StringTokenizer(scopessetAndAttribute);
+			while (t.hasMoreTokens()) {
+				 elementSSA.addElement(t.nextToken());
+        	}
+			int scopeSetCounter = 0;
+        	while (!((elementSSA.get(scopeSetCounter)).toString()).equals("WITH")) {
+            	scopeSetCounter++;
+        	}
+        	String scopesets = "";
+			for (int i = 0; i < scopeSetCounter; i++ ) {
+				scopesets = scopesets + elementSSA.get(i).toString() + " ";
+        	}
+        	components.addElement(scopesets);
+        	String attribute = "";
+			for (int i = scopeSetCounter + 1; i < elementSSA.size(); i++ ) {
+				attribute = attribute + (elementSSA.get(i)).toString() + " ";
+        	}
+        	components.addElement(attribute);
+
+		}
+
+
         return components;
 
     }
@@ -400,7 +457,7 @@ public class SyntaxcheckOfCoconsFromBNF {
      */
     public String getTargetSets (String cocons) {
         String targetsets = "";
-        targetsets = (getTargetSetsCoConsTypeAndScopeSets(cocons).get(0)).toString();
+        targetsets = (getTargetSetsCoConsTypeScopeSetsAttributes(cocons).get(0)).toString();
         return targetsets;
     }
 
@@ -412,7 +469,7 @@ public class SyntaxcheckOfCoconsFromBNF {
      */
     public String getCoConsType (String cocons) {
         String coconstype = "";
-        coconstype = (getTargetSetsCoConsTypeAndScopeSets(cocons).get(1)).toString();
+        coconstype = (getTargetSetsCoConsTypeScopeSetsAttributes(cocons).get(1)).toString();
         return coconstype;
     }
 
@@ -424,7 +481,7 @@ public class SyntaxcheckOfCoconsFromBNF {
      */
     public String getScopeSets (String cocons) {
         String scopesets = "";
-        scopesets = (getTargetSetsCoConsTypeAndScopeSets(cocons).get(2)).toString();
+        scopesets = (getTargetSetsCoConsTypeScopeSetsAttributes(cocons).get(2)).toString();
         return scopesets;
     }
 
@@ -636,11 +693,38 @@ public class SyntaxcheckOfCoconsFromBNF {
         scopeset = getElementSelection(scopesets);
         return scopeset;
      }
+
+
+
+
+     /**
+	  * @methode: getComparisonType
+	  * @param: String of a simple Comparison
+	  * @return int
+	  * @author: rolf exner
+	  */
+  	public int getComparisonType(String contextQuery){
+		String comparator = getCondition(contextQuery);
+		if (comparator.toString().equals("=")||comparator.toString().equals("EQUALS")){
+		 return org.cocons.uml.ccl.comparators.ComparatorFactory.EQUAL;
+		}
+		if (comparator.toString().equals("<")||comparator.toString().equals("LESS")){
+		 return org.cocons.uml.ccl.comparators.ComparatorFactory.LESS;
+		}
+		if (comparator.toString().equals("CONTAINS")){
+		 return org.cocons.uml.ccl.comparators.ComparatorFactory.CONTAINS;
+		}
+		return 0;
+	}
+
+
+
     /**
      * @methode: getIndirectElement
      * @param ElementSelections (TargetSets or ScopeSets) java.util.Vector
      * @return indirectElement java.util.Vector.
      */
+
     public Vector getIndirectElement (Vector elementSelection) {
         if(elementSelection == null) {
             return null;
@@ -846,39 +930,39 @@ public class SyntaxcheckOfCoconsFromBNF {
     }
 
     /**
-         * @methode: getRange
-         * @param elementset (targetset or scopeset) java.lang.Object
-         * @return range java.lang.String.
-         */
-        public String getRange (Object elementset) {
-            String range = "";
-            int counter = 0;
-            String element = elementset.toString();
-            StringTokenizer st = new StringTokenizer(element);
-            while (st.hasMoreTokens()) {
-                st.nextToken();
-                counter++;
-            }
-            String[] e = new String[counter];
-            int i = 0;
-            StringTokenizer ste = new StringTokenizer(element);
-            while (ste.hasMoreTokens()) {
-                e[i] = ste.nextToken();
-                i++;
-            }
-            if (isIndirect(element)) {
-                range = e[0];
-                return range;
-            }
-            else {
-                if (isDirect(element)) {
-                    range = e[0];
-                    return range;
-                }
-                else {
-                    return "Warning: input error";
-                }
-            }
+	 * @methode: getRange
+	 * @param elementset (targetset or scopeset) java.lang.Object
+	 * @return range java.lang.String.
+	 */
+	public String getRange (Object elementset) {
+		String range = "";
+		int counter = 0;
+		String element = elementset.toString();
+		StringTokenizer st = new StringTokenizer(element);
+		while (st.hasMoreTokens()) {
+			st.nextToken();
+			counter++;
+		}
+		String[] e = new String[counter];
+		int i = 0;
+		StringTokenizer ste = new StringTokenizer(element);
+		while (ste.hasMoreTokens()) {
+			e[i] = ste.nextToken();
+			i++;
+		}
+		if (isIndirect(element)) {
+			range = e[0];
+			return range;
+		}
+		else {
+			if (isDirect(element)) {
+				range = e[0];
+				return range;
+			}
+			else {
+				return "Warning: input error";
+			}
+		}
     }
 
     /**
@@ -1078,26 +1162,6 @@ public class SyntaxcheckOfCoconsFromBNF {
 
         return contextPropertyName;
     }
-
-    /**
-     * @methode: getComparisonType
-     * @param: String of a simple Comparison
-     * @return int
-     * @author: rolf exner
-     */
-     public int getComparisonType(String contextQuery){
-      String comparator = getCondition(contextQuery);
-      if (comparator.toString().equals("=")||comparator.toString().equals("EQUALS")){
-        return org.cocons.uml.ccl.comparators.ComparatorFactory.EQUAL;
-      }
-      if (comparator.toString().equals("<")||comparator.toString().equals("LESS")){
-        return org.cocons.uml.ccl.comparators.ComparatorFactory.LESS;
-      }
-      if (comparator.toString().equals("CONTAINS")){
-        return org.cocons.uml.ccl.comparators.ComparatorFactory.CONTAINS;
-      }
-      return 0;
-     }
 
     /**
     * @methode: getValue
@@ -1907,6 +1971,7 @@ public class SyntaxcheckOfCoconsFromBNF {
     * @return valid java.lang.Boolean.
     */
     public boolean isValid (String cocons){
+		//System.out.println("SyntaxChecker: " + cocons);
         boolean valid = false;
         boolean ts = true;
         if ( getTargetSet(cocons) == null || getTargetSet(cocons).equals("")) {
@@ -2058,15 +2123,313 @@ public class SyntaxcheckOfCoconsFromBNF {
                 valid = true;
             }
         }
+        //System.out.println("SyntaxChecker: Ergebnis: " + valid);
         return valid;
     }
+
+
+	/**
+	* @methode: isValidTarget check cocons
+	* @param cocons java.lang.String.
+	* @return valid java.lang.Boolean.
+	*/
+	public boolean isValidTarget (String cocons){
+		boolean valid = false;
+		boolean ts = true;
+		if ( getTargetSet(cocons) == null || getTargetSet(cocons).equals("")) {
+			ts = false;
+        }
+		if (ts) {
+			boolean [] level = new boolean [9];
+			for (int i = 0; i < level.length; i++) {
+				level[i] = false;
+			}
+			level[0] = checkLevel0(cocons);
+			level[1] = checkLevel1(cocons);
+			if (level[0] && level[1]) {
+			  if(checkLevel2(getTargetSets(cocons))) {
+				  level[2] = true;
+			  }
+			  else {
+				  level[2] = false;
+			  }
+			}
+			if (level[0] && level[1]) {
+			  if(checkLevel3(getTargetSets(cocons))) {
+				  level[3] = true;
+			  }
+			  else {
+				  level[3] = false;
+			  }
+			}
+			if (level[3]) {
+			  if(checkLevel4(getTargetSets(cocons))) {
+				  level[4] = true;
+			  }
+			  else {
+				  level[4] = false;
+			  }
+			}
+
+			if (level[2] && level[4]) {
+			  if(checkLevel5(getTargetSets(cocons))) {
+				  level[5] = true;
+			  }
+			  else {
+				  level[5] = false;
+			  }
+			}
+			level[7] = checkClip (cocons);
+			level[8] = checkMarkValue (cocons);
+			if(level[0] && level[1] && level[2] && level[3] && level[4] && level[5] && level[7] && level[8]) {
+				valid = true;
+			}
+		}
+		else {
+			valid = true;
+		}
+		return valid;
+	}
+
+	/**
+	* @methode: isValidScope check cocons
+	* @param cocons java.lang.String.
+	* @return valid java.lang.Boolean.
+	*/
+	public boolean isValidScope (String cocons){
+		boolean valid = false;
+		boolean ss = true;
+		if ( getScopeSet(cocons) == null || getScopeSet(cocons).equals("")) {
+			ss = false;
+        }
+        if (ss) {
+			boolean [] level = new boolean [9];
+			for (int i = 0; i < level.length; i++) {
+				level[i] = false;
+			}
+			level[0] = checkLevel0(cocons);
+			level[1] = checkLevel1(cocons);
+			if (level[0] && level[1]) {
+			  if(checkLevel2(getScopeSets(cocons))) {
+				  level[2] = true;
+			  }
+			  else {
+				  level[2] = false;
+			  }
+			}
+			if (level[0] && level[1]) {
+			  if(checkLevel3(getScopeSets(cocons))) {
+				  level[3] = true;
+			  }
+			  else {
+				  level[3] = false;
+			  }
+			}
+			if (level[3]) {
+			  if(checkLevel4(getScopeSets(cocons))) {
+				  level[4] = true;
+			  }
+			  else {
+				  level[4] = false;
+			  }
+			}
+
+			if (level[2] && level[4]) {
+			  if(checkLevel5(getScopeSets(cocons))) {
+				  level[5] = true;
+			  }
+			  else {
+				  level[5] = false;
+			  }
+			}
+			level[7] = checkClip (cocons);
+			level[8] = checkMarkValue (cocons);
+			if(level[0] && level[1] && level[2] && level[3] && level[4] && level[5] && level[7] && level[8]) {
+				valid = true;
+			}
+		}
+		else {
+			valid = true;
+		}
+		return valid;
+	}
+
+
+    public Vector getFirstComparison(String object) {
+
+		Vector result = new Vector();
+
+		if (!exitedString( object, "AND") && !exitedString( object, "OR")) {
+			Vector temp = new Vector();
+			StringTokenizer st = new StringTokenizer(object);
+			while (st.hasMoreTokens()) {
+				temp.addElement(st.nextToken());
+			}
+			String range = "";
+			range = (temp.get(0)).toString();
+			String baseClass = "";
+			baseClass = (temp.get(1)).toString();
+			result.addElement(object);
+			result.addElement("empty");
+			result.addElement("empty");
+			result.addElement(range);
+			result.addElement(baseClass);
+		}
+
+		if (exitedString( object, "AND") && exitedString( object, "OR")) {
+			Vector temp = new Vector();
+			StringTokenizer ste = new StringTokenizer(object);
+			while (ste.hasMoreTokens()) {
+				temp.addElement(ste.nextToken());
+
+			}
+
+			String range = "";
+			range = (temp.get(0)).toString();
+			String baseClass = "";
+			baseClass = (temp.get(1)).toString();
+
+			Vector contextQuery = new Vector();
+
+			String element = object;
+			if ( element.equals("") || element == null) {
+				contextQuery.addElement("isEmpty");
+			} else {
+				int index = 0;
+				int maxIndex = 0;
+				maxIndex = orCounterOfContextQuerys(element);
+				String[] elements = new String [maxIndex+1];
+				for (int i = 0; i < maxIndex+1; i++) {
+					elements[i] = "";
+				}
+				StringTokenizer st = new StringTokenizer(element);
+				while (st.hasMoreTokens()) {
+					String e = st.nextToken();
+					if (!e.equals("OR")) {
+						elements[index] = elements[index] + e + " ";
+						index = index;
+					} else {
+						index++;
+					}
+				}
+				for(int i = 0; i < elements.length; i++){
+					contextQuery.addElement(elements[i]);
+				}
+
+				Vector first = new Vector();
+				StringTokenizer e = new StringTokenizer((contextQuery.get(0)).toString());
+				while (e.hasMoreTokens()) {
+					first.addElement(e.nextToken());
+				}
+				String firstElement = "";
+				for (int k = 3; k < first.size(); k++ ) {
+					firstElement = firstElement + first.get(k) + " " ;
+				}
+				result.addElement(firstElement);
+				String rest = "";
+				if ( contextQuery.size() > 1) {
+					for (int i = 1; i < contextQuery.size() -1 ; i++) {
+						rest = rest + (contextQuery.get(i)).toString() + " OR ";
+					}
+				}
+				rest = rest + (contextQuery.get(contextQuery.size()-1)).toString();
+				result.addElement(range + " " + baseClass + " WHERE " + rest);
+				result.addElement("OR");
+				result.addElement(range);
+				result.addElement(baseClass);
+			}
+		}
+
+		if (exitedString( object, "AND") && !exitedString( object, "OR")) {
+			Vector temp = new Vector();
+			StringTokenizer st = new StringTokenizer(object);
+			while (st.hasMoreTokens()) {
+				temp.addElement(st.nextToken());
+			}
+			String range = "";
+			range = (temp.get(0)).toString();
+			String baseClass = "";
+			baseClass = (temp.get(1)).toString();
+			result.addElement((temp.get(3)).toString());
+			result.addElement((temp.get(5)).toString());
+			result.addElement("AND");
+			result.addElement(range);
+			result.addElement(baseClass);
+		}
+
+		if (!exitedString( object, "AND") && exitedString( object, "OR")) {
+			Vector temp = new Vector();
+			StringTokenizer ste = new StringTokenizer(object);
+			while (ste.hasMoreTokens()) {
+				temp.addElement(ste.nextToken());
+
+			}
+			String range = "";
+			range = (temp.get(0)).toString();
+			String baseClass = "";
+			baseClass = (temp.get(1)).toString();
+
+			Vector contextQuery = new Vector();
+			String element = object;
+			if ( element.equals("") || element == null) {
+				contextQuery.addElement("isEmpty");
+			} else {
+				int index = 0;
+				int maxIndex = 0;
+				maxIndex = orCounterOfContextQuerys(element);
+				String[] elements = new String [maxIndex+1];
+				for (int i = 0; i < maxIndex+1; i++) {
+					elements[i] = "";
+				}
+				StringTokenizer st = new StringTokenizer(element);
+				while (st.hasMoreTokens()) {
+					String e = st.nextToken();
+					if (!e.equals("OR")) {
+						elements[index] = elements[index] + e + " ";
+						index = index;
+					} else {
+						index++;
+					}
+				}
+				for(int i = 0; i < elements.length; i++){
+					contextQuery.addElement(elements[i]);
+				}
+
+				Vector first = new Vector();
+				StringTokenizer e = new StringTokenizer((contextQuery.get(0)).toString());
+				while (e.hasMoreTokens()) {
+					first.addElement(e.nextToken());
+				}
+				String firstElement = "";
+				for (int k = 3; k < first.size(); k++ ) {
+					firstElement = firstElement + first.get(k) + " " ;
+				}
+				result.addElement(firstElement);
+				String rest = "";
+				if ( contextQuery.size() > 1) {
+					for (int i = 1; i < contextQuery.size() - 1; i++) {
+						rest = rest + (contextQuery.get(i)).toString() + " OR ";
+					}
+				}
+				rest = rest + (contextQuery.get(contextQuery.size()-1)).toString();
+				result.addElement(range + " " + baseClass + " WHERE " + rest);
+				result.addElement("OR");
+				result.addElement(range);
+				result.addElement(baseClass);
+			}
+		}
+		return result;
+	}
+
+
 
     /*
      * main methode for test
      */
+
     public static void main(String args[]) {
-        //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UNREADABLEBY THE component 'Datawarehouse'";
-        //String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse'";
+        //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UNREADABLEBY THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
+        String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse'";
         //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Controlling'";
         //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ";
         //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UNWRITEABLEBY ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y' = 'x') OR 'dfgss' = 'wwwww'";
@@ -2075,14 +2438,17 @@ public class SyntaxcheckOfCoconsFromBNF {
         //String cocons ="THE component 'Systemcheck' MUST BE UNREADABLEBY THE component 'Datawarehouse' OR THE component 'Datawarehouse'";
         //String cocons ="MUST BE UNWRITEABLEBY THE component 'Systemcheck'";
 
-        //SyntaxcheckOfCoconsFromBNF coconsBNF = new SyntaxcheckOfCoconsFromBNF();
-        //coconsBNF.printNoEmptyElementHashtable(coconsBNF.parserCoCons(cocons));
+        SyntaxcheckOfCoconsFromBNF coconsBNF = new SyntaxcheckOfCoconsFromBNF();
+        coconsBNF.printNoEmptyElementHashtable(coconsBNF.parserCoCons(cocons));
         //
         //
         //checklevel1
-        //System.out.println("###### final ######"+ coconsBNF.isValid(cocons));
+        System.out.println("###### final ######"+ coconsBNF.isValid(cocons));
+		System.out.println("-------------------------------------------------");
+		System.out.println(coconsBNF.getFirstComparison("ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer'"));
 
     }
+
+
+
 }
-
-
