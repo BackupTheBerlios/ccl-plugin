@@ -41,7 +41,7 @@ public class ComparisonImpl implements Comparison {
 
 		boolean covers = true;
 
-		if (elementValue == null) {
+		if (elementValue == null || elementValue.getContextPropertyTag() == null) {
 			return false;
 		}
 
