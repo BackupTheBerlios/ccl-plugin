@@ -2,7 +2,7 @@
 // File: SelectionBusiness_Type.java
 // Classes: SelectionClass
 // Original Author: jgusulde@cs.tu-berlin.de
-// $Id: SelectionBusiness_Type.java,v 1.2 2001/11/13 16:25:58 oetker Exp $
+// $Id: SelectionBusiness_Type.java,v 1.3 2001/11/20 10:59:06 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -131,7 +131,7 @@ public class SelectionBusiness_Type extends SelectionWButtons {
     Dimension minSize = _content.getMinimumSize();
     int minWidth = minSize.width, minHeight = minSize.height;
     Class edgeClass = null;
-    Class nodeClass = MBusiness_TypeImpl.class;
+    Class nodeClass = MClassImpl.class;
     int bx = mX, by = mY;
     boolean reverse = false;
     switch (hand.index) {
@@ -175,9 +175,9 @@ public class SelectionBusiness_Type extends SelectionWButtons {
 // needs a lot of work
   public void buttonClicked(int buttonCode) {
     super.buttonClicked(buttonCode);
-    MBusiness_Type newNode = new MBusiness_TypeImpl();
+    MClass newNode = new MClassImpl();
     FigBusiness_Type fc = (FigBusiness_Type) _content;
-    MBusiness_Type cls = (MBusiness_Type) fc.getOwner();
+    MClass cls = (MClass) fc.getOwner();
 
     Editor ce = Globals.curEditor();
     GraphModel gm = ce.getGraphModel();
@@ -238,23 +238,23 @@ public class SelectionBusiness_Type extends SelectionWButtons {
     ce.getSelectionManager().select(fc);
   }
 
-  public Object addSuperClass(MutableGraphModel mgm, MBusiness_Type cls,
-			    MBusiness_Type newCls) {
+  public Object addSuperClass(MutableGraphModel mgm, MClass cls,
+			    MClass newCls) {
     return mgm.connect(cls, newCls, MGeneralizationImpl.class);
   }
 
-  public Object addSubClass(MutableGraphModel mgm, MBusiness_Type cls,
-			    MBusiness_Type newCls) {
+  public Object addSubClass(MutableGraphModel mgm, MClass cls,
+			    MClass newCls) {
     return mgm.connect(newCls, cls, MGeneralizationImpl.class);
   }
 
-  public Object addAssocClassRight(MutableGraphModel mgm, MBusiness_Type cls,
-			    MBusiness_Type newCls) {
+  public Object addAssocClassRight(MutableGraphModel mgm, MClass cls,
+			    MClass newCls) {
     return mgm.connect(cls, newCls, MAssociationImpl.class);
   }
 
-  public Object addAssocClassLeft(MutableGraphModel mgm, MBusiness_Type cls,
-			    MBusiness_Type newCls) {
+  public Object addAssocClassLeft(MutableGraphModel mgm, MClass cls,
+			    MClass newCls) {
     return mgm.connect(newCls, cls, MAssociationImpl.class);
   }
 

@@ -42,6 +42,6 @@ public class ActionAddContextProperty extends UMLAction {
     public boolean shouldBeEnabled() {
         ProjectBrowser pb = ProjectBrowser.TheInstance;
         Object target = pb.getDetailsTarget();
-        return super.shouldBeEnabled() && target instanceof MBusiness_Type;
+        return super.shouldBeEnabled() && target instanceof MClass;
     }
 } /* end class ActionAddContextProperty */

@@ -1,7 +1,7 @@
 // File: FigBusiness_Type.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: FigBusiness_Type.java,v 1.4 2001/11/15 23:31:44 jgusulde Exp $
+// $Id: FigBusiness_Type.java,v 1.5 2001/11/20 10:59:06 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -27,8 +27,6 @@ import org.argouml.uml.ui.*;
 import org.argouml.uml.generator.*;
 import org.argouml.uml.diagram.ui.*;
 import org.argouml.ui.*;
-
-import org.cocons.uml.ccl.MBusiness_Type;
 
 public class FigBusiness_Type extends FigNodeModelElement {
 
@@ -220,7 +218,7 @@ public class FigBusiness_Type extends FigNodeModelElement {
     // the ImplementationLocation will be set for the owning MClass
     if (encloser != null && (encloser.getOwner() instanceof MComponentImpl)) {
       MComponent component = (MComponent) encloser.getOwner();
-      MBusiness_Type cl = (MBusiness_Type) getOwner();
+      MClass cl = (MClass) getOwner();
       resident.setImplementationLocation(component);
       resident.setResident(cl);
     }

@@ -1,5 +1,5 @@
 
-// $Id: Business_TypeDiagramRenderer.java,v 1.5 2001/11/16 12:51:16 oetker Exp $
+// $Id: Business_TypeDiagramRenderer.java,v 1.6 2001/11/20 10:59:06 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -43,7 +43,7 @@ public class Business_TypeDiagramRenderer
 
   /** Return a Fig that can be used to represent the given node */
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
-        if (node instanceof MBusiness_Type) return new FigBusiness_Type(gm, node);
+        if (node instanceof MClass) return new FigBusiness_Type(gm, node);
         else if (node instanceof MPackage) return new FigPackage(gm, node);         
         else if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
         
