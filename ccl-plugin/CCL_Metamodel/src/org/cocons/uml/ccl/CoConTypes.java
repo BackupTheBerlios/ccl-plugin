@@ -24,4 +24,10 @@ public interface CoConTypes {
 
 
 
+	/**
+	 * Describing the TheSameAs CoCon type.
+	 */
+	public static final String THE_SAME_AS = "TheSameAs";
+
+
 }
