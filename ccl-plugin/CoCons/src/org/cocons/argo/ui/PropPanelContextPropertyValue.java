@@ -616,7 +616,7 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
 
         }
         else {}
-        pb.getDetailsPane().selectTabNamed("Properties");
+        pb.selectTabNamed("Properties");
       }
       _locked = false; // actionPerformed() von _nameBox wieder frei
     }

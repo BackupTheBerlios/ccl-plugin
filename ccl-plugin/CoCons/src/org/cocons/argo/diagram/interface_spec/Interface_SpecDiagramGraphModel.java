@@ -13,7 +13,7 @@ import ru.novosoft.uml.foundation.extension_mechanisms.*;
 
 import org.tigris.gef.graph.*;
 
-import org.argouml.uml.MMUtil;
+import org.argouml.model.uml.foundation.core.CoreFactory;
 import org.cocons.uml.ccl.*;
 
 /** This class defines a bridge between the UML meta-model
@@ -289,7 +289,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
    if (edgeClass == MAssociationImpl.class) {
 	MClassifier m1 = (MClassifier) fromPort;
 	MClassifier m2 = (MClassifier) toPort;
-		MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
+		MAssociation asc = CoreFactory.getFactory().buildAssociation(m1, m2);
 	    addEdge(asc);
 		return asc;
 	 }

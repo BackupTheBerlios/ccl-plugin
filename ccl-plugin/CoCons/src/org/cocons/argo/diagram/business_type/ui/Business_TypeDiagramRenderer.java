@@ -1,5 +1,5 @@
 
-// $Id: Business_TypeDiagramRenderer.java,v 1.7 2001/11/25 20:10:29 shicathy Exp $
+// $Id: Business_TypeDiagramRenderer.java,v 1.8 2002/10/10 14:06:01 oetker Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -56,7 +56,7 @@ public class Business_TypeDiagramRenderer
         //System.out.println("making figedge for " + edge);
         if (edge instanceof MAssociation) {
             MAssociation asc = (MAssociation) edge;
-            FigAssociation ascFig = new FigAssociation(asc);
+            FigAssociation ascFig = new FigAssociation(asc,lay);
             Collection connections = asc.getConnections();
             if (connections == null) System.out.println("null connections....");
             Object[] connArray = connections.toArray();

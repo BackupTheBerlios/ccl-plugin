@@ -3,7 +3,7 @@ package org.cocons.argo.diagram.business_type.ui.test;
 // File: TestKnownBusinessTypes.java
 // Classes: TestKnownBusinessTypes
 // Original Author: klischat@cs.tu-berlin.de
-// $Id: TestKnownBusinessTypes.java,v 1.3 2002/01/17 13:17:07 oetker Exp $
+// $Id: TestKnownBusinessTypes.java,v 1.4 2002/10/10 14:06:01 oetker Exp $
 
 
 import org.cocons.argo.diagram.business_type.ui.*;
@@ -41,7 +41,7 @@ public class TestKnownBusinessTypes extends TestCase {
         org.tigris.gef.base.Globals.setLastDirectory(directory);
         //org.argouml.util.Tools.logVersionInfo();
 
-        new ProjectBrowser("JUnitFakeApp", new StatusBar()); //puts itself into ProjectBrowser.TheInstance
+        new ProjectBrowser("JUnitFakeApp", new StatusBar(),0); //puts itself into ProjectBrowser.TheInstance
         /*Project project = */ProjectBrowser.TheInstance.getProject();  //creates a new project
         targetMClass = new MClassImpl();
         targetMClass.setName("TargetClass");

@@ -1,5 +1,5 @@
 // Original Author: jgusulde
-// $Id: Business_TypeDiagramGraphModel.java,v 1.10 2002/01/22 16:37:07 jgusulde Exp $
+// $Id: Business_TypeDiagramGraphModel.java,v 1.11 2002/10/10 14:06:01 oetker Exp $
 
 package org.cocons.argo.diagram.business_type;
 
@@ -14,7 +14,7 @@ import ru.novosoft.uml.foundation.extension_mechanisms.*;
 
 import org.tigris.gef.graph.*;
 
-import org.argouml.uml.MMUtil;
+import org.argouml.model.uml.foundation.core.CoreFactory;
 import org.cocons.uml.ccl.*;
 import org.cocons.argo.diagram.business_type.ui.*;
 /** This class defines a bridge between the UML meta-model
@@ -378,7 +378,8 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     if (edgeClass == MGeneralizationImpl.class) {
          MGeneralizableElement child = (MGeneralizableElement) fromPort;
          MGeneralizableElement parent = (MGeneralizableElement) toPort;
-			MGeneralization gen = MMUtil.SINGLETON.buildGeneralization(child, parent);
+			MGeneralization gen = CoreFactory.getFactory().
+				buildGeneralization(child, parent);
 			addEdge(gen);
 			return gen;
 	 }
@@ -386,7 +387,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     else if (edgeClass == MAssociationImpl.class) {
         MClassifier m1 = (MClassifier) fromPort;
         MClassifier m2 = (MClassifier) toPort;
-    	  MAssociation asc = MMUtil.SINGLETON.buildAssociation(m1, m2);
+    	  MAssociation asc = CoreFactory.getFactory().buildAssociation(m1, m2);
  	     addEdge(asc);
 		  return asc;
 	 }
@@ -394,7 +395,7 @@ public class Business_TypeDiagramGraphModel extends MutableGraphSupport
     else if (edgeClass == MDependencyImpl.class) {
 			MModelElement client = (MModelElement) fromPort;
          MModelElement supplier = (MModelElement) toPort;
-			MDependency dep = MMUtil.SINGLETON.buildDependency(client, supplier);
+			MDependency dep = CoreFactory.getFactory().buildDependency(client, supplier);
 			addEdge(dep);
 			return dep;
 	 }

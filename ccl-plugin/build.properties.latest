@@ -1,0 +1,39 @@
+# build.properties
+#
+# environment-specific configuration of the build process
+
+#######################
+# source directories 
+
+cocons.src.dir=CoCons/src
+cmlmapping.src.dir=CoCons/cmlbinding/mapping
+cclmetamodel.src=CCL_Metamodel/src
+plugin.src.dir=plugin/src
+
+
+#######################
+# ArgoUML-classes
+
+argouml.classes.dir=../argouml/build/classes
+
+
+#######################
+# lib directories - have to include: 
+# 
+# castor
+# gef
+# junit
+# nsuml
+# xerces
+
+argo.lib.dir=../argouml/lib
+ccl.lib.dir=../lib
+
+
+#######################
+# build directory
+# "ant compile" will put the classes into ${build.dir}/classes;
+# "ant package" will put the ready-made .jar into ${build.dir}/
+
+build.dir=build
+

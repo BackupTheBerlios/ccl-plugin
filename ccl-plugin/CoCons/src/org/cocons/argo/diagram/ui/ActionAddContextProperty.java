@@ -167,8 +167,8 @@ public class ActionAddContextProperty extends UMLAction {
             //super.actionPerformed(ae);
             pb.getNavPane().forceUpdate();
             pb.getDetailsPane().updateUI();
-            pb.getDetailsPane().selectTabNamed("Properties");
-            pb.getDetailsPane().selectTabNamed("TaggedValues");
+            pb.selectTabNamed("Properties");
+            pb.selectTabNamed("TaggedValues");
             contextProperty.startKiller();
             figureOwner.actualizeFigure();
           }

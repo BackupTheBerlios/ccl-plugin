@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: TypeDeclaring.java,v 1.1 2002/03/19 18:56:06 ali Exp $
+ * $Id: TypeDeclaring.java,v 1.2 2002/10/10 14:05:59 oetker Exp $
  */
 
 package de.fhg.isst.ComponentML;
@@ -25,7 +25,7 @@ import org.xml.sax.DocumentHandler;
  * as a 
  *     component which declares only types.
  *    
- * @version $Revision: 1.1 $ $Date: 2002/03/19 18:56:06 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/10 14:05:59 $
 **/
 public class TypeDeclaring implements java.io.Serializable {
 

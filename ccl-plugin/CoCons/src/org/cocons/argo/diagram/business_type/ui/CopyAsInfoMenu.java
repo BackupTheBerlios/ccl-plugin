@@ -34,7 +34,7 @@ public class CopyAsInfoMenu {
 	return menu;
     }
 
-    private static class CopyAsInfoAction extends CmdCreateNode {
+    private static class CopyAsInfoAction extends org.argouml.ui.CmdCreateNode {
 	private CCLInterface_SpecDiagram diagram;
 	private MClass orig;
 

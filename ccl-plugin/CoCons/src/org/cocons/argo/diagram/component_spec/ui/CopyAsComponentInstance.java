@@ -44,7 +44,7 @@ public class CopyAsComponentInstance {
 	return menu;
     }
 
-    private static class CopyAction extends CmdCreateNode {
+    private static class CopyAction extends org.argouml.ui.CmdCreateNode {
 	private UMLDeploymentDiagram diagram; //
         private MClass orig; // MClass
 

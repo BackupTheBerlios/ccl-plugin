@@ -38,7 +38,7 @@ public class CopyToDeploymentDiagram {
 	return menu;
     }
 
-    private static class CopyAsCompSpecAction   extends CmdCreateNode { //
+    private static class CopyAsCompSpecAction extends org.argouml.ui.CmdCreateNode { //
 	private UMLDeploymentDiagram diagram; //UMLDeploymentDiagram diagram;
 	private MClass orig; //MClass
 

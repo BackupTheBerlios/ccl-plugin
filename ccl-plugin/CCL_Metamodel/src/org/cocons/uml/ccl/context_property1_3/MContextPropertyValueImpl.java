@@ -451,13 +451,13 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
               if ((getTag().equals(_tagStringBak))&&(getValue().equals(_valStringBak))) return;
               else {
                 if  (!(getTag().equals(_tagStringBak))) {
-                  this.setTag(_tagStringBak);
-                  pb.getDetailsPane().updateUI();
-                  pb.getNavPane().forceUpdate();
+					this.setTag(_tagStringBak);
+					pb.getDetailsPane().updateUI();
+					pb.getNavPane().forceUpdate();
                 }
                 if  (!(getValue().equals(_valStringBak))) {
-                  this.setValue(_valStringBak);
-                  pb.getDetailsPane().updateUI();
+					this.setValue(_valStringBak);
+					pb.getDetailsPane().updateUI();
                 }
                 JOptionPane.showMessageDialog(null,"You tried to modify a Context Property.\nThis is not possible in the TaggedValues-Panel.\nUse instead the ContextProperty-PropertiesPanel !");
               }
@@ -466,10 +466,11 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
               this.setTag(_tagStringBak);
               this.setValue(_valStringBak);
               _objectWithContextProperty.addTaggedValue(this);
-              pb.getDetailsPane().updateUI();
+			  // pb.getDetailsPane().updateUI();
+			  System.out.println("updateUI()");
               pb.getNavPane().forceUpdate();
-              pb.getDetailsPane().selectTabNamed("Properties");
-              pb.getDetailsPane().selectTabNamed("TaggedValues");
+              pb.selectTabNamed("Properties");
+              pb.selectTabNamed("TaggedValues");
               pb.getNavPane().forceUpdate();
               JOptionPane.showMessageDialog(null,"You tried to modify a Context Property.\nThis is not possible in the TaggedValues-Panel.\nUse instead the ContextProperty-PropertiesPanel !");
             }

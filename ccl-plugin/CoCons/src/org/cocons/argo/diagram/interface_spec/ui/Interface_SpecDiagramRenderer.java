@@ -56,7 +56,7 @@ public class Interface_SpecDiagramRenderer
         //System.out.println("making figedge for " + edge);
         if (edge instanceof MAssociation) {
             MAssociation asc = (MAssociation) edge;
-            FigAssociation ascFig = new FigAssociation(asc);
+            FigAssociation ascFig = new FigAssociation(asc,lay);
             Collection connections = asc.getConnections();
             if (connections == null) System.out.println("null connections....");
             Object[] connArray = connections.toArray();

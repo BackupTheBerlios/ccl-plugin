@@ -18,6 +18,7 @@ import org.tigris.gef.graph.*;
 import org.tigris.gef.*;
 
 import org.argouml.uml.MMUtil;
+import org.argouml.model.uml.foundation.core.CoreFactory;
 
 import org.cocons.uml.ccl.*;
 
@@ -298,19 +299,20 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 	    MClass toCls = (MClass) toPort;
 
 	    if (edgeClass == MGeneralizationImpl.class) {
-			MGeneralization gen = MMUtil.SINGLETON.buildGeneralization(fromCls, toCls);
+			MGeneralization gen = CoreFactory.getFactory().buildGeneralization(fromCls, 
+																			   toCls);
 			addEdge(gen);
 			return gen;
 	    }
 	    else if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromCls, toCls);
+		  MAssociation asc = CoreFactory.getFactory().buildAssociation(fromCls, toCls);
  	      addEdge(asc);
 		  return asc;
 		  //return asc;
 	    }
 	    else if (edgeClass == MDependencyImpl.class) {
 			// nsuml: using Binding as default
-			MDependency dep = MMUtil.SINGLETON.buildDependency(fromCls, toCls);
+			MDependency dep = CoreFactory.getFactory().buildDependency(fromCls, toCls);
 			addEdge(dep);
 			return dep;
 	    }
@@ -328,7 +330,7 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 	//do I have to check the namespace here? (Toby)
 		  if (edgeClass == MDependencyImpl.class) {
 			  // nsuml: using Usage as default
-			  MDependency dep = MMUtil.SINGLETON.buildDependency(fromPack, toPack);
+			  MDependency dep = CoreFactory.getFactory().buildDependency(fromPack, toPack);
 			  addEdge(dep);
 			  return dep;
 		  }
@@ -340,13 +342,13 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 	MInterface toIntf = (MInterface) toPort;
 	 
 	if (edgeClass == MAbstractionImpl.class) {
-		MAbstraction real = MMUtil.SINGLETON.buildRealization(fromCls, toIntf);
+		MAbstraction real = CoreFactory.getFactory().buildRealization(fromCls, toIntf);
 		addEdge(real);
 		return real;
 	}
 	
 	  else  if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromCls, toIntf);
+		  MAssociation asc = CoreFactory.getFactory().buildAssociation(fromCls, toIntf);
  	      addEdge(asc);
 		  return asc;
 	}
@@ -365,7 +367,8 @@ implements MutableGraphModel, VetoableChangeListener, MElementListener {
 
 
 	if (edgeClass == MAssociationImpl.class) {
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromIntf, false, toCls, true);
+		  MAssociation asc = CoreFactory.getFactory().buildAssociation(fromIntf, false, 
+																	   toCls, true);
  	      addEdge(asc);
 		  return asc;
 	}

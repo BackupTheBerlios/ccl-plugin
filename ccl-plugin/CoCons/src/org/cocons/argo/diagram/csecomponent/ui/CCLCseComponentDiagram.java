@@ -32,10 +32,10 @@ import org.cocons.uml.ccl.*;
 public class CCLCseComponentDiagram extends CCLDiagram{
 
     protected static Action _actionCseComponent =
-		new CmdCreateNode(MClassImpl.class, "CseComponent");
+		new org.argouml.ui.CmdCreateNode(MClassImpl.class, "CseComponent");
     
     protected static Action _actionConnector =
-		new CmdCreateNode(MInterfaceImpl.class, "Connector");
+		new org.argouml.ui.CmdCreateNode(MInterfaceImpl.class, "Connector");
     
     
     protected static Action _actionDep =

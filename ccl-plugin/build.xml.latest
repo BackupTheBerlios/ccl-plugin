@@ -110,7 +110,7 @@ author: klischat, oetker
     <echo message=" available targets are:"/>
     <echo message=""/>
     <echo message="   compile      --> compiles the plugin."/>
-    <echo message="   package      --> packages everything into ${name}.jar"/>
+    <echo message="   run          --> compiles the plugin & runs ArgoUML"/>
     <echo message="   clean        --> cleans up the ${build.dir} directory"/>
     <echo message="   usage        --> show this message (default)"/>
     <echo message=""/>
@@ -217,24 +217,6 @@ author: klischat, oetker
 			<pathelement location="${build.dest}"/>
 		</classpath>
     </java>
-  </target>
-
-
-  <!-- =================================================================== -->
-  <!-- Creates the class package                                           -->
-  <!-- =================================================================== -->
-  <target name="package" depends="compile">
-    <filter token="version" value="${version}"/>
-    <copy file="${manifest}" tofile="${build.dest}/${manifest}" filtering="on" overwrite="on" />
-    <jar jarfile="${build.dir}/${name}.jar"
-         basedir="${build.dest}"
-         includes="*/**"
-         excludes="*.txt,*.bat,*.xml,*.sh,${manifest}"
-         manifest="${build.dest}/${manifest}"/>
-    <copy todir="${build.dir}">
-      <fileset dir="${argouml.lib.dir}" />
-    </copy>
-    <copy file="${argouml.src.dir}/README.txt" tofile="${build.dir}/README.txt" />
   </target>
 
   <!-- =================================================================== -->

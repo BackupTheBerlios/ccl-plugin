@@ -33,7 +33,7 @@ public class ShowInterface{
 	return menu;
     }
     
-    private static class ShowInterfaceAction extends CmdCreateNode {
+    private static class ShowInterfaceAction extends org.argouml.ui.CmdCreateNode {
 	private CCLInterface_SpecDiagram diagram;
 	private MClass orig;
 	

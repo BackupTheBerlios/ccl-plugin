@@ -68,7 +68,8 @@ public class CCLConstraintDiagram extends CCLDiagram {
 
   protected static Action _actionContextbasedConstraint =
 
-    new CmdCreateNode(MContextbasedConstraintImpl.class, "ContextbasedConstraint");
+    new org.argouml.ui.CmdCreateNode(MContextbasedConstraintImpl.class, 
+									 "ContextbasedConstraint");
 
 
 

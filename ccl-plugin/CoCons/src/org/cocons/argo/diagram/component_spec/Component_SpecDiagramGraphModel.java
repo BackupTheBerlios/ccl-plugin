@@ -26,7 +26,7 @@ import org.tigris.gef.*;
 
 
 
-import org.argouml.uml.MMUtil;
+import org.argouml.model.uml.foundation.core.CoreFactory;
 
 
 
@@ -608,7 +608,7 @@ public class Component_SpecDiagramGraphModel extends MutableGraphSupport
 
 		  // nsuml: using Binding as default
 
-		  MDependency dep = MMUtil.SINGLETON.buildDependency(fromCls, toCls);
+		  MDependency dep = CoreFactory.getFactory().buildDependency(fromCls, toCls);
 
 		  addEdge(dep);
 
@@ -648,7 +648,7 @@ public class Component_SpecDiagramGraphModel extends MutableGraphSupport
 
 		  // nsuml: using Binding as default
 
-		  MDependency dep = MMUtil.SINGLETON.buildDependency(fromCls, toIntf);
+		  MDependency dep = CoreFactory.getFactory().buildDependency(fromCls, toIntf);
 
 		  addEdge(dep);
 
@@ -660,7 +660,7 @@ public class Component_SpecDiagramGraphModel extends MutableGraphSupport
 
 	      else if (edgeClass == MAssociationImpl.class) {
 
-		  MAssociation asc = MMUtil.SINGLETON.buildAssociation(fromCls, toIntf);
+		  MAssociation asc = CoreFactory.getFactory().buildAssociation(fromCls, toIntf);
 
 		  addEdge(asc);
 
