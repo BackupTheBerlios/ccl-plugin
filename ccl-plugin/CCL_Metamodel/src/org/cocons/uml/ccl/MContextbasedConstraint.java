@@ -72,8 +72,6 @@ public interface MContextbasedConstraint extends MConstraint {
    */
   void internalUnrefByConstrainedSet(MContextCondition __arg);
 
-  public Vector getScopedModelElements();
-  public Vector getConstrainedModelElements();
   public void updateScopedModelElements();
   public void updateConstrainedModelElements();
 }
