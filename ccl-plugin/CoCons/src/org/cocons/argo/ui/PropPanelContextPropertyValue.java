@@ -553,6 +553,7 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       if (pb.getDetailsTarget() instanceof MContextPropertyValueImpl) {
 			//System.out.println("HALLO?  2\n");
         MContextPropertyValueImpl target = (MContextPropertyValueImpl)messCon.getObject();
+        target.resetFigureColor();
         MContextPropertyTagImpl refTag = (MContextPropertyTagImpl)_modelIterator.getContextPropertyTag(messCon.getString());
 
         _nameBox.setSelectedItem(messCon.getString()); // throws ActionEvent !!!
