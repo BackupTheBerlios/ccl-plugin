@@ -410,7 +410,9 @@ public class Parser {
   private static Comparison calculateComparison(CoConSetConditionQuerySet set) {
     SetComparison comp = new SetComparison();
     comp.setTag(set.getProperty());
-    comp.setValue(set.getCoConSetConditionQueryForSetValue(0).getValue());
+    Vector newValue = new Vector();
+    newValue.addElement(set.getCoConSetConditionQueryForSetValue(0).getValue());
+    comp.setValue(newValue);
     ComparatorFactory compFac = new ComparatorFactoryImpl();
     if(set.getSetoperator().getType() == SetoperatorType.CONTAINS_TYPE) {
       comp.setComparator(compFac.produceComparatorWithType(compFac.CONTAINS));
@@ -437,7 +439,9 @@ public class Parser {
   private static Comparison calculateComparison(CoConSetConditionQueryProperty prop) {
     SetComparison comp = new SetComparison();
     comp.setTag(prop.getProperty());
-    comp.setValue(prop.getTargetproperty());
+    Vector newValue = new Vector();
+    newValue.addElement(prop.getTargetproperty());
+    comp.setValue(newValue);
     ComparatorFactory compFac = new ComparatorFactoryImpl();
     if(prop.getPropertyoperator().getType() == PropertyoperatorType.CONTAINS_TYPE) {
       comp.setComparator(compFac.produceComparatorWithType(compFac.CONTAINS));
@@ -478,7 +482,7 @@ public class Parser {
    * evaluates a unionItem and creates a corresponding Condition
    */
   private static Condition getCondition(CoConSetConditionUnionItem unionItem) {
-    Condition cond = new ConditionImpl();
+    ConditionImpl cond = new ConditionImpl();
     //if this unioItem contains only one singleValue/set/propertySet
     if (unionItem.getCoConSetConditionQuerySingleValue() != null ||
         unionItem.getCoConSetConditionQuerySet() != null ||
@@ -506,14 +510,14 @@ public class Parser {
         cond.setSecondChild(getCondition(unionItem.getCoConSetConditionIntersection().getCoConSetConditionIntersectionItem(1)));
       }
     }
-    return cond;
+    return (Condition)cond;
   }
 
   /**
    * evaluates a intersectionItem and creates a corresponding Condition
    */
   private static Condition getCondition(CoConSetConditionIntersectionItem itersectionItem) {
-    Condition cond = new ConditionImpl();
+    ConditionImpl cond = new ConditionImpl();
 //if this intersectionItem contains only one singleValue/set/propertySet
     if (itersectionItem.getCoConSetConditionQuerySingleValue() != null ||
         itersectionItem.getCoConSetConditionQuerySet() != null ||
@@ -541,7 +545,7 @@ public class Parser {
         cond.setSecondChild(getCondition(itersectionItem.getCoConSetConditionIntersection().getCoConSetConditionIntersectionItem(1)));
       }
     }
-    return cond;
+    return (Condition)cond;
   }
 
 }
