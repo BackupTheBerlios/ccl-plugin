@@ -1,7 +1,7 @@
 // File: ContextViewPopUpMenue.java
 // Classes: FigBusiness_Type
 // Original Author: jgusulde
-// $Id: ContextViewPopUpMenu.java,v 1.2 2001/12/07 16:22:25 jgusulde Exp $
+// $Id: ContextViewPopUpMenu.java,v 1.3 2001/12/18 19:21:40 jgusulde Exp $
 
 package org.cocons.argo.diagram.ui;
 
@@ -47,7 +47,6 @@ public class ContextViewPopUpMenu{
     CCLMenu.addSeparator();
 
     // die Strings sollen nach und nach durch Action Elemente ersetzt werden!!
-    CCLMenu.add("Add Context Property to this Model Element");
     CCLMenu.add("Define CoCon for this Model Element");
     CCLMenu.add("Auto Layout The Context Properties of this Model Element");
     CCLMenu.add("Context Specific View");

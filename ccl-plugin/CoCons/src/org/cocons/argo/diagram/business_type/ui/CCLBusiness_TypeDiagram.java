@@ -1,5 +1,5 @@
 
-// $Id: CCLBusiness_TypeDiagram.java,v 1.9 2001/12/06 09:49:33 hyshosha Exp $
+// $Id: CCLBusiness_TypeDiagram.java,v 1.10 2001/12/18 19:21:40 jgusulde Exp $
 
 package org.cocons.argo.diagram.business_type.ui;
 
@@ -32,8 +32,10 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   ////////////////
   // actions for toolbar
 
-	protected static Action _actionBusiness_Type =
-    		new CmdCreateNodeStereotype(MClassImpl.class, "Business Type", new MStereotypeImpl());
+	protected static Action _actionBusiness_Type;
+//    		new CmdCreateNodeStereotype(MClassImpl.class, "Business Type", new MStereotypeImpl());
+//new CmdCreateNodeStereotype(MClassImpl.class,
+//          "business type", findStereotype("type") );
 
 	protected static Action _actionPackage =
 		new CmdCreateNodeStereotype(MPackageImpl.class, "Package",new MStereotypeImpl());
@@ -65,6 +67,9 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
 
 
   public CCLBusiness_TypeDiagram() {
+    _actionBusiness_Type =
+      new CmdCreateNodeStereotype(MClassImpl.class,
+               "business type", findStereotype("type") );
     try { setName("Business_Type diagram " + _ClassDiagramSerial++); }
     catch (PropertyVetoException pve) { }
 
@@ -73,6 +78,18 @@ public class CCLBusiness_TypeDiagram extends CCLDiagram {
   public CCLBusiness_TypeDiagram(MNamespace m) {
     this();
     setNamespace(m);
+  }
+
+  protected MStereotype findStereotype(String name) {
+
+    // just create a new one
+    // needs-more-work
+    // should check to see if the stereotype already exists
+
+    MStereotype st = new MStereotypeImpl();
+    st.setNamespace(getNamespace());
+    st.setName(name);
+    return st;
   }
 
   public void setNamespace(MNamespace m) {

@@ -18,29 +18,38 @@ import org.argouml.kernel.*;
 
 public class KnownBusinessTypes {
 
-
-  private static Vector knownBTs = new Vector();
-  //private static JMenu menu = new JMenu("belongs to");
-
-  public static void add(MClass c) {
-    knownBTs.add(c);
-    System.err.println("added known BT");
-  }
-
-  public static void remove(MClass c) {
-    knownBTs.remove(c);
-    System.err.println("removed known BT");
-  }
-
   public static JMenu getJMenu() {
     JMenu menu = new JMenu("belongs to");
+
     menu.add(new RemoveBelongsToAction());
+    menu.addSeparator();
+
+    Project p = ProjectBrowser.TheInstance.getProject();
+    for (Iterator it = p.getDiagrams().iterator(); it.hasNext();) {
+      Object d = it.next();
+      if (d instanceof CCLBusiness_TypeDiagram) {
+        CCLBusiness_TypeDiagram dia = (CCLBusiness_TypeDiagram)d;
+        JMenu subMenu = new JMenu(dia.getName());
+        menu.add(subMenu);
+        for (Iterator it2 = dia.getGraphModel().getNodes().iterator(); it2.hasNext();) {
+          Object node = it2.next();
+          if (node instanceof MClass) {
+            MClass mc = (MClass)node;
+            if (mc.getStereotype().getName().equals("type")) {
+              subMenu.add(new BelongsToAction(mc));
+            }
+          }
+        }
+      }
+    }
+
+   /* menu.add(new RemoveBelongsToAction());
     menu.addSeparator();
     for (Iterator it = knownBTs.iterator(); it.hasNext();) {
       MClass c = (MClass)it.next();
       menu.add(new BelongsToAction(c));
     }
-
+  */
     return menu;
   }
 
