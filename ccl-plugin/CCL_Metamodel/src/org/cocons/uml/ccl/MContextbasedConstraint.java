@@ -74,4 +74,7 @@ public interface MContextbasedConstraint extends MConstraint {
 
   public void updateScopedModelElements();
   public void updateConstrainedModelElements();
+
+  public int getCoConType();
+  public void setCoConType(int newType);
 }
