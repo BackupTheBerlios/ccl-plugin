@@ -1,4 +1,8 @@
-
+/*
+ * FigClassSpec.java
+ * @author  bassem
+ * @version 1.0
+ */
 package org.cocons.argo.diagram.component_spec.ui;
 
 import java.awt.*;
@@ -115,7 +119,7 @@ public class FigClassSpec extends FigNodeModelElement{
 	ContextViewPopUpMenu.getPopUpActions(popUpActions);
 	return popUpActions;
     }
-    
+     
     public void setLineColor(Color col) { _cover.setLineColor(col); }
     public Color getLineColor() { return _cover.getLineColor(); }
     
@@ -127,6 +131,14 @@ public class FigClassSpec extends FigNodeModelElement{
     
     public void setLineWidth(int w) { _cover.setLineWidth(w); }
     public int getLineWidth() { return _cover.getLineWidth(); }
+   
+    public void translate(int dx, int dy) {
+    super.translate(dx, dy);
+    Editor ce = Globals.curEditor();
+    Selection sel = ce.getSelectionManager().findSelectionFor(this);
+    if (sel instanceof SelectionClass)
+      ((SelectionClass)sel).hideButtons();
+  }
     
     public void setOwner(Object node) {
 	super.setOwner(node);
@@ -134,10 +146,6 @@ public class FigClassSpec extends FigNodeModelElement{
 	bindPort(onlyPort, _bigPort);
 	modelChanged();
     }
-    
-    
-    
-    
     public Dimension getMinimumSize() {
 	Dimension aSize = _name.getMinimumSize();
 	int h = aSize.height;
@@ -150,18 +158,6 @@ public class FigClassSpec extends FigNodeModelElement{
 	}
 	return aSize;
     }
-    
-    public void translate(int dx, int dy) {
-	super.translate(dx, dy);
-	Editor ce = Globals.curEditor();
-	Selection sel = ce.getSelectionManager().findSelectionFor(this);
-	if (sel instanceof SelectionClassSpec)
-	    ((SelectionClassSpec)sel).hideButtons();
-  }
-    
-    ////////////////////////////////////////////////////////////////
-    // user interaction methods
-    
     public void mousePressed(MouseEvent me) {
 	super.mousePressed(me);
 	boolean targetIsSet = false;
@@ -208,6 +204,10 @@ public class FigClassSpec extends FigNodeModelElement{
 	}
     }
 
+    ////////////////////////////////////////////////////////////////
+    // internal methods
+    
+    
     ////////////////////////////////////////////////////////////////
     // internal methods
     
@@ -337,7 +337,7 @@ public class FigClassSpec extends FigNodeModelElement{
 	return new Dimension(newW,newH);
     }
     
-    private class MyFigText extends FigText
+    /*private class MyFigText extends FigText
     {
 	private Fig refFig;
 	public MyFigText(int x, int y, int w, int h, Fig aFig) {super(x,y,w,h,true); refFig=aFig;}
@@ -346,7 +346,8 @@ public class FigClassSpec extends FigNodeModelElement{
 	public boolean getFilled() {return true;}
 	public Color getFillColor() {return refFig.getFillColor();}
 	public Color getLineColor() {return refFig.getLineColor();}
-    }
+    }*/
+    
 } /* end class FigClassSpec */
 
 

@@ -25,7 +25,7 @@ public class Init implements Runnable {
 	pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
 	pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
 	pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelContextPropertyTag());
-	pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelComponent_Spec());
+	//pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelComponent_Spec());
     }
 }
 

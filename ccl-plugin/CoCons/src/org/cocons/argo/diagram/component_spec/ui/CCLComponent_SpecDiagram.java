@@ -1,4 +1,8 @@
-
+/*
+ * CCLComponent_SpecDiagram.java
+ * @author  bassem
+ * @version 1.0
+ */
 package org.cocons.argo.diagram.component_spec.ui;
 
 import java.util.*;
@@ -30,8 +34,8 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
     // actions for toolbar
     
     protected static Action _actionClassSpec;
-    protected static Action _actionInterfaceDep = 
-	new CmdCreateNode(MInterfaceImpl.class, "InterfaceSpec");
+    protected static Action _actionInterfaceDep= 
+        new CmdCreateNode(MInterfaceImpl.class, "InterfaceSpec");
     
     protected static Action _actionDepend =
 	new CmdSetMode(ModeCreatePolyEdge.class,
@@ -86,8 +90,9 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
 	_toolBar.addSeparator();
 	
 	_actionClassSpec = new CmdCreateNodeStereotype(MClassImpl.class,"CompSpec", 
-						       findStereotype("Comp Spec") );
-	  
+						       findStereotype("comp spec") );
+        //_actionInterfaceDep =new CmdCreateNodeStereotype(MClassImpl.interface,"InterfaceSpec",
+         //                                              findStereotype("interface spec")); 
 	_toolBar.add(_actionClassSpec);
 	_toolBar.add(_actionInterfaceDep);
 	_toolBar.add(_actionDepend);
@@ -109,15 +114,3 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
     }
     
 } /* end class CCLComponent_SpecDiagram */
-
-
-	
-	
-	
-
-
-
-
-
-
-
