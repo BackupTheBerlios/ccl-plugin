@@ -1,0 +1,23 @@
+package org.cocons.uml.ccl.util;
+
+import org.cocons.uml.ccl.ccldata.CoConSetData;
+import org.cocons.uml.ccl.MContextCondition;
+
+/**
+ * Interface to the Parser who parses the XML Data Object
+ * into the ContextCondition trees.
+ *
+ * @author Stefan Tang, Fadi Chabarek, Philip Schumacher
+ * @version $Revision 1.1$
+ */
+public interface XMLDataToContextConditionParser {
+
+  /**
+   * Parses a set from the XML Data Object into the
+   * ContextCondition tree.
+   *
+   * @param target the ContextCondition in XML Data
+   */
+  public MContextCondition generateContextCondition(CoConSetData set);
+
+}
