@@ -19,6 +19,7 @@ import org.cocons.uml.ccl.*;
 import org.cocons.uml.ccl.*;
 import org.cocons.uml.ccl.util.ContextConditionFactory;
 import org.cocons.uml.ccl.util.ConvertCoconsToSyntaxCheck;
+import org.cocons.uml.ccl.util.SyntaxcheckOfCoconsFromBNF;
 
 
 /**
@@ -288,9 +289,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           while (st.hasMoreTokens()) {
                s.addElement(st.nextToken());
           }
-
-          _targetText.setText((s.get(0)).toString());
-
+          if(s != null) {
+            if( 0 < s.size()) {
+              _targetText.setText((s.get(0)).toString());
+            }
+          }
           if (!_targetText.isDisplayed()) {
               _targetText.setDisplayed(true);
           }
@@ -332,8 +335,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
             while (st.hasMoreTokens()) {
                  s.addElement(st.nextToken());
             }
-
-            _coconstypeText.setText((s.get(1)).toString());
+            if(s != null) {
+              if( 1 < s.size()) {
+                _coconstypeText.setText((s.get(1)).toString());
+              }
+            }
 
             if (!_coconstypeText.isDisplayed()) {
                 _coconstypeText.setDisplayed(true);
@@ -380,8 +386,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
           while (st.hasMoreTokens()) {
                s.addElement(st.nextToken());
           }
-
-          _scopeText.setText((s.get(2)).toString());
+          if(s != null) {
+            if( 2 < s.size()) {
+              _scopeText.setText((s.get(2)).toString());
+            }
+          }
 
           if (!_scopeText.isDisplayed()) {
               _scopeText.setDisplayed(true);
@@ -408,7 +417,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
                s.addElement(st.nextToken());
           }
 
-          _attributeText.setText((s.get(3)).toString());
+          if(s != null) {
+            if( 3 < s.size()) {
+              _attributeText.setText((s.get(3)).toString());
+            }
+          }
 
           if (!_attributeText.isDisplayed()) {
               _attributeText.setDisplayed(true);
@@ -429,10 +442,10 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       coconString = coconString + " " + _scopeText.getText();
       coconString = convert.finalConvert(coconString);
       //System.out.println(coconString);
-
+      SyntaxcheckOfCoconsFromBNF syntaxcheckOfCoconsFromBNF = new SyntaxcheckOfCoconsFromBNF();
       ContextConditionFactory ccf = new ContextConditionFactory(coconString);
 
-      if (!ccf.isValidTarget(_targetText.getText())){
+      if (!ccf.isValidTarget(syntaxcheckOfCoconsFromBNF.getTargetSets(coconString))){
         _targetText.setFilled(true);
         _targetText.setFillColor(Color.red);
         //System.out.println("isValid in Target: " + ccf.isValidTarget());
@@ -443,7 +456,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         //System.out.println("isValid in Target: " + ccf.isValidTarget());
       }
 
-      if (! ccf.isValidScope(_scopeText.getText())){
+      if (! ccf.isValidScope(syntaxcheckOfCoconsFromBNF.getScopeSets(coconString))){
           _scopeText.setFillColor(Color.red);
           _scopeText.setFilled(true);
           //System.out.println("isValid in Scope: " + ccf.isValidScope());
@@ -457,9 +470,8 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
       //THE VALUES OF THE COCON ARE READ FROM THE COCONFACTORY
 
       if (ccf.isValid()){
-        System.out.println("Wir sind drin...");
-        /*String coConType = ccf.getCoConType();
-        System.out.println(coConType);
+        String coConType = ccf.getCoConType();
+        //System.out.println(coConType);
 
         Vector targetDirectElements = new Vector();
         targetDirectElements = ccf.getTargetDirectAssoziations();
@@ -468,11 +480,11 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         Vector scopeDirectElements = new Vector();
         scopeDirectElements = ccf.getScopeDirectAssoziations();
         System.out.println(scopeDirectElements);
-  */
+
         Vector targetIndirectElements = new Vector();
         targetIndirectElements = ccf.getTargetIndirectAssoziations();
         System.out.println(targetIndirectElements);
-/*
+
         Vector scopeIndirectElements = new Vector();
         scopeIndirectElements = ccf.getScopeIndirectAssoziations();
         System.out.println(scopeIndirectElements);
@@ -502,7 +514,7 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         if(updateCoconType){
           updateCoconType = false;
           me.setCoConType(coConType);
-        }*/
+        }
       }
 
   }
