@@ -99,23 +99,23 @@ public class CreateAtomicPathMenu {
               MutableGraphModel mgm = (MutableGraphModel) gm;
 
               //Model und Fig für System anlegen
-              MObjectImpl mo = new MObjectImpl();
+              MObject mo = new MObjectImpl();
               Layer lay = d.getLayer();
-              FigNode pers = new FigSeqObject(gm, mo);
+              FigNode pers = new FigAtomicObject(gm, mo);
               d.add(pers);
               mgm.addNode(mo);
               mo.setName("System");
 
               //Model und Fig für Componente anlegen
-              MObjectImpl mo2 = new MObjectImpl();
+              MObject mo2 = new MObjectImpl();
               component.addInstance(mo2);
-              FigNode pers2 = new FigSeqObject(gm, mo2);
+              FigNode pers2 = new FigAtomicObject(gm, mo2);
               d.add(pers2);
               mgm.addNode(mo2);
               mo2.setName("<<component>>");
 
               //Assoziation anlegen
-              MStimulusImpl ms = new MStimulusImpl();
+              MStimulus ms = new MStimulusImpl();
 
               Object newEdge = mgm.connect(mo,mo2,MLinkImpl.class);
               MLink mLink = (MLink) newEdge;
@@ -135,6 +135,7 @@ public class CreateAtomicPathMenu {
               //Set Action for Stimulus
               MCallActionImpl mCallAction = new MCallActionImpl();
               mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
+	      mCallAction.setOperation(oper);
               ms.setDispatchAction(mCallAction);
 
               pers.damage();

@@ -31,121 +31,142 @@ import org.cocons.argo.diagram.atomic_invocation_path.AtomicInvocationPathDiagra
  */
 
 public class CreateCallMenu {
-
+    
     public static JMenu getJMenu() {
-		JMenu menu = new JMenu("add Invocation");
-		AtomicInvocationPathDiagramGraphModel gm =
-		    (AtomicInvocationPathDiagramGraphModel) Globals.curEditor().getGraphModel();
-		MNamespace ns = gm.getNamespace();
-		Collection models = ns.getOwnedElements();
-		for (Iterator it = models.iterator(); it.hasNext();) {
-			Object o = it.next();
-			if (o instanceof MInterface) {
-				MInterface mi = (MInterface)o;
-				if (mi.getStereotype().getName().equals("interface spec")) {
-				   JMenu subMenu = new JMenu(mi.getName());
-				   menu.add(subMenu);
-				   for (Iterator ops = mi.getFeatures().iterator(); ops.hasNext(); ) {
-					   Object tmp = ops.next();
-					   if (tmp instanceof MOperation) {
-						  MOperation oper = (MOperation) tmp;
-						  subMenu.add(new CreateCallAction(oper, mi));
-					   }
-				   }
-				}
+	JMenu menu = new JMenu("add Invocation");
+	AtomicInvocationPathDiagramGraphModel gm =
+	    (AtomicInvocationPathDiagramGraphModel) Globals.curEditor().getGraphModel();
+	MNamespace ns = gm.getNamespace();
+	Collection models = ns.getOwnedElements();
+	for (Iterator it = models.iterator(); it.hasNext();) {
+	    Object o = it.next();
+	    if (o instanceof MInterface) {
+		MInterface mi = (MInterface)o;
+		if (mi.getStereotype().getName().equals("interface spec")) {
+		    JMenu subMenu = new JMenu(mi.getName());
+		    menu.add(subMenu);
+		    for (Iterator ops = mi.getFeatures().iterator(); ops.hasNext(); ) {
+			Object tmp = ops.next();
+			if (tmp instanceof MOperation) {
+			    MOperation oper = (MOperation) tmp;
+			    subMenu.add(new CreateCallAction(oper, mi));
 			}
+		    }
 		}
-		return menu;
+	    }
+	}
+	return menu;
     }
-
+    
     private static class CreateCallAction extends UMLAction {
-		private MObject src;
-		private MObject dst;
-		private MOperation oper;
-		private MInterface inter;
-		private MClassifier comp;
-
-		public CreateCallAction(MOperation o, MInterface mi) {
-			super(o.getName());
-			oper = o;
-			inter = mi;
-			ProjectBrowser pb = ProjectBrowser.TheInstance;
-			Object target = pb.getDetailsTarget();
-			src = (MObject)target;
-		}
-
-		public void actionPerformed(ActionEvent ae) {
-		    GraphModel gm = Globals.curEditor().getGraphModel();
-			if (!(gm instanceof MutableGraphModel)) return;
-			MutableGraphModel mgm = (MutableGraphModel) gm;
+	private MObject src;
+	private MObject dst;
+	private MOperation oper;
+	private MInterface inter;
+	private MClassifier comp;
+	
+	public CreateCallAction(MOperation o, MInterface mi) {
+	    super(o.getName());
+	    oper = o;
+	    inter = mi;
+	    ProjectBrowser pb = ProjectBrowser.TheInstance;
+	    Object target = pb.getDetailsTarget();
+	    src = (MObject)target;
+	}
+	
+	public void actionPerformed(ActionEvent ae) {
+	    Editor ce = Globals.curEditor();
+	    GraphModel gm = ce.getGraphModel();
+	    if (!(gm instanceof MutableGraphModel)) return;
+	    MutableGraphModel mgm = (MutableGraphModel) gm;
             comp = null;
             for(Iterator it = inter.getAssociationEnds().iterator();it.hasNext();){
                 MAssociationEnd mae = (MAssociationEnd) it.next();
                 comp = (MClassifier)mae.getOppositeEnd().getType();
-				if((comp instanceof MClass) &&
-						 comp.getStereotype().getName().equals("comp spec"))
-					break;
-				else
-					comp = null;
+		if((comp instanceof MClass) &&
+		   comp.getStereotype().getName().equals("comp spec"))
+		    break;
+		else
+		    comp = null;
             }
-			if (comp == null) {
-			    System.out.println("Error: no Component found for Interface '" +
-									inter.getName() + "'");
-				super.actionPerformed(ae);
-				return;
-			}
-			dst = null;
-			for (Iterator it = mgm.getNodes().iterator(); it.hasNext();) {
-				Object o = it.next();
-				if (o instanceof MObject) {
-				   MObject obj = (MObject)o;
-				   if (obj.getClassifiers().contains(comp))
-				       dst = obj;
-				}
-			}
-
-			Layer lay = Globals.curEditor().getLayerManager().getActiveLayer();
-			if (dst == null) {
-				//Model und Fig für Ziel-Komponente anlegen
-				dst = new MObjectImpl();
-				comp.addInstance(dst);
-				FigNode dstFig = new FigAtomicObject(gm, dst);
-				lay.add(dstFig);
-				mgm.addNode(dst);
-				dst.setName("<<component>>");
-			}
-			//Assoziation anlegen
-			MStimulusImpl ms = new MStimulusImpl();
-
-			FigNode srcFig = (FigNode)lay.presentationFor(src);
-			FigNode dstFig = (FigNode)lay.presentationFor(dst);
-			Fig startPortFig = srcFig.getPortFig(src);
-			Fig destPortFig = dstFig.getPortFig(dst);
-			Object newEdge = mgm.connect(src,dst,MLinkImpl.class);
-			MLink mLink = (MLink) newEdge;
-			mLink.addStimulus(ms);
-
-			FigEdge fe = (FigEdge) lay.presentationFor(newEdge);
-			lay.add(fe);
-			fe.setSourcePortFig(startPortFig);
-			fe.setSourceFigNode(srcFig);
-			fe.setDestPortFig(destPortFig);
-			fe.setDestFigNode(dstFig);
-			if(!(fe instanceof FigSeqLink)){return;}
-			FigSeqLink figSekLink = (FigSeqLink) fe;
-			figSekLink.mouseReleased(null);
-			//Set Action for Stimulus
-			MCallActionImpl mCallAction = new MCallActionImpl();
-			mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
-			mCallAction.setOperation(oper);
-			ms.setDispatchAction(mCallAction);
-
-			srcFig.damage();
-			dstFig.damage();
-			fe.damage();
-	        markNeedsSave();
-	        Actions.updateAllEnabled();
-	        super.actionPerformed(ae);
+	    if (comp == null) {
+		System.out.println("Error: no Component found for Interface '" +
+				   inter.getName() + "'");
+		super.actionPerformed(ae);
+		return;
+	    }
+	    dst = null;
+	    for (Iterator it = mgm.getNodes().iterator(); it.hasNext();) {
+		Object o = it.next();
+		if (o instanceof MObject) {
+		    MObject obj = (MObject)o;
+		    if (obj.getClassifiers().contains(comp))
+			dst = obj;
 		}
+	    }
+	    
+	    Layer lay = ce.getLayerManager().getActiveLayer();
+	    if (dst == null) {
+				//Model und Fig für Ziel-Komponente anlegen
+		dst = new MObjectImpl();
+		comp.addInstance(dst);
+		FigNode dstFig = new FigAtomicObject(gm, dst);
+		lay.add(dstFig);
+		mgm.addNode(dst);
+		dst.setName("<<component>>");
+	    }
+	    //Assoziation anlegen
+	    MStimulusImpl ms = new MStimulusImpl();
+	    
+	    FigNode srcFig = (FigNode)lay.presentationFor(src);
+	    FigNode dstFig = (FigNode)lay.presentationFor(dst);
+	    Fig startPortFig = srcFig.getPortFig(src);
+	    Fig destPortFig = dstFig.getPortFig(dst);
+	    Object newEdge = mgm.connect(src,dst,MLinkImpl.class);
+	    MLink mLink = (MLink) newEdge;
+	    mLink.addStimulus(ms);
+	    
+	    FigPoly edgeShape = new FigPoly();
+	    Point fcCenter = srcFig.center();
+	    int yPos = srcFig._lifeLine.getY();
+	    edgeShape.addPoint(fcCenter.x,yPos);
+	    
+	    Point newFCCenter = dstFig.center();
+	    edgeShape.addPoint(newFCCenter.x, yPos);
+	    
+	    FigSeqLink fe = (FigSeqLink) lay.presentationFor(newEdge);
+
+	    edgeShape.setLineColor(Color.black);
+	    edgeShape.setFilled(false);
+	    edgeShape._isComplete = true;
+	    fe.setFig(edgeShape);
+		
+		fe.setSourcePortFig( figObjSrc._lifeline );
+		fe.setDestPortFig( figObjDst._lifeline);
+	    
+	    fe.addFigSeqStimulusWithAction();
+	    
+	    
+	    lay.add(fe);
+	    fe.setSourcePortFig(startPortFig);
+	    fe.setSourceFigNode(srcFig);
+	    fe.setDestPortFig(destPortFig);
+	    fe.setDestFigNode(dstFig);
+	    if(!(fe instanceof FigSeqLink)){return;}
+	    FigSeqLink figSekLink = (FigSeqLink) fe;
+	    figSekLink.mouseReleased(null);
+	    //Set Action for Stimulus
+	    MCallActionImpl mCallAction = new MCallActionImpl();
+	    mCallAction.setName(inter.getName()+"."+oper.getName()+"()");
+	    mCallAction.setOperation(oper);
+	    ms.setDispatchAction(mCallAction);
+	    
+	    srcFig.damage();
+	    dstFig.damage();
+	    fe.damage();
+	    markNeedsSave();
+	    Actions.updateAllEnabled();
+	    super.actionPerformed(ae);
 	}
+    }
 }

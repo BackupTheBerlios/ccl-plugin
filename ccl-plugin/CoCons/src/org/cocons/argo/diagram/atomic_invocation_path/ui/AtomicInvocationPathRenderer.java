@@ -11,7 +11,7 @@ import org.tigris.gef.presentation.*;
 import org.tigris.gef.graph.*;
 
 import org.argouml.uml.diagram.ui.*;
-import org.argouml.uml.diagram.sequence.ui.*;
+import org.argouml.uml.diagram.sequence.ui.FigSeqLink;
 
 public class AtomicInvocationPathRenderer
 implements GraphNodeRenderer, GraphEdgeRenderer {
@@ -19,7 +19,7 @@ implements GraphNodeRenderer, GraphEdgeRenderer {
   /** Return a Fig that can be used to represent the given node */
   public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
     if (node instanceof MObject) return new FigAtomicObject(gm, node);
-    if (node instanceof MStimulus) return new FigSeqStimulus(gm, node);
+    if (node instanceof MStimulus) return new FigAtomicStimulus(gm, node);
 	return null;
   }
   /** Return a Fig that can be used to represent the given edge */
