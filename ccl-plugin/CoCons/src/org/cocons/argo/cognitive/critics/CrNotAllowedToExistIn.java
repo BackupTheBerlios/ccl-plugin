@@ -9,7 +9,6 @@ import ru.novosoft.uml.foundation.core.*;
 import org.argouml.ui.ProjectBrowser;
 import org.argouml.kernel.Project;
 import org.cocons.uml.ccl.CoConTypes;
-import org.argouml.uml.cognitive.critics.CrUML;
 
 /**
  * The design critique that checks the NotAllowedToExistIn CoCon.
@@ -20,6 +19,10 @@ import org.argouml.uml.cognitive.critics.CrUML;
 public class CrNotAllowedToExistIn extends CrCoCon {
 
   public CrNotAllowedToExistIn() {
+    setHeadline("NotallowedToExistIn CoCon");
+    setDescription("An element in the target set is also in the " +
+        "scope set, or vice versa.");
+    setMoreInfoURL("www.cocons.org");
   }
 
   public boolean predicate(Object dm, Designer dsgr) {
