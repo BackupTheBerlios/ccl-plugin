@@ -51,7 +51,7 @@ public interface MContextbasedConstraint extends MConstraint {
 	 * @param conditions the ContextConditions, a vector containing
          *        elements of type ContextCondition
 	 */
-	public void setTargetSetContextCondition(Vector conditions);
+	public void setTargetSetContextConditions(Vector conditions);
 
 	/**
 	 * Sets the context condition(s) for the scope set. Calling
@@ -60,7 +60,7 @@ public interface MContextbasedConstraint extends MConstraint {
 	 * @param conditions the ContextConditions, a vector containing
          *        elements of type ContextCondition
 	 */
-	public void setScopeSetContextCondition(Vector conditions);
+	public void setScopeSetContextConditions(Vector conditions);
 
 	/**
 	 * Returns the scope' context condition(s).

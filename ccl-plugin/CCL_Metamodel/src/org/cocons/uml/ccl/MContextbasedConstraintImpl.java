@@ -162,7 +162,7 @@ public class MContextbasedConstraintImpl
 	 * @param conditions the ContextConditions, a vector containing
          *        elements of type ContextCondition
 	 */
-	public void setScopeSetContextCondition(Vector conditions) {
+	public void setScopeSetContextConditions(Vector conditions) {
 	  if (conditions==null) {
             _scopeSetIndirectElements = null;
             _scopeSet = null;
@@ -192,7 +192,7 @@ public class MContextbasedConstraintImpl
 	 * @param conditions the ContextConditions, a vector containing
          *        elements of type ContextCondition
          */
-	public void setTargetSetContextCondition(Vector conditions) {
+	public void setTargetSetContextConditions(Vector conditions) {
 	  if (conditions==null) {
             _targetSetIndirectElements = null;
             _targetSet = null;
