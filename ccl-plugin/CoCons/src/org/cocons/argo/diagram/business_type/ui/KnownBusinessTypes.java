@@ -55,12 +55,10 @@ public class KnownBusinessTypes {
         Object target = pb.getDetailsTarget();
         if (target instanceof MClass) {
           MClass c = (MClass)target;
-          MTaggedValue tv = null;
           for (Iterator it = c.getTaggedValues().iterator();
                it.hasNext();) {
-               MTaggedValue tv2 = (MTaggedValue)it.next();
-               if (tv2.getTag().equals("belongs to")) {
-                 tv = tv2;
+               MTaggedValue tv = (MTaggedValue)it.next();
+               if (tv.getTag().equals("belongs to")) {
                  c.removeTaggedValue(tv);
                }
           }

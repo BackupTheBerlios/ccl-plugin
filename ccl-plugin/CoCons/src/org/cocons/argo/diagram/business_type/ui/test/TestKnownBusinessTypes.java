@@ -3,7 +3,7 @@ package org.cocons.argo.diagram.business_type.ui.test;
 // File: TestKnownBusinessTypes.java
 // Classes: TestKnownBusinessTypes
 // Original Author: klischat@cs.tu-berlin.de
-// $Id: TestKnownBusinessTypes.java,v 1.1 2001/12/15 17:26:21 klischat Exp $
+// $Id: TestKnownBusinessTypes.java,v 1.2 2001/12/16 18:08:50 klischat Exp $
 
 
 import org.cocons.argo.diagram.business_type.ui.*;
@@ -21,7 +21,7 @@ import org.argouml.util.*;
 //TODO: beware: doesn't work yet:
 //NullPointerException in
 //org.argouml.uml.ui.UMLComboBoxNavigator.<init>(UMLComboBoxNavigator.java:60)
-//somehow, GEF doesn't seem to find it resources/images?
+//somehow, GEF doesn't seem to find its resources/images?
 public class TestKnownBusinessTypes extends TestCase {
 
     public TestKnownBusinessTypes(String name) {
@@ -41,7 +41,7 @@ public class TestKnownBusinessTypes extends TestCase {
         org.tigris.gef.base.Globals.setLastDirectory(directory);
         //org.argouml.util.Tools.logVersionInfo();
 
-        ProjectBrowser.TheInstance = new ProjectBrowser("JUnitFakeApp", new StatusBar());
+        new ProjectBrowser("JUnitFakeApp", new StatusBar()); //puts itself into ProjectBrowser.TheInstance
         /*Project project = */ProjectBrowser.TheInstance.getProject();  //creates a new project
         targetMClass = new MClassImpl();
         targetMClass.setName("TargetClass");
