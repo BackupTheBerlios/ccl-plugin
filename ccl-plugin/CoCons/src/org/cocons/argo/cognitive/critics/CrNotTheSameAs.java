@@ -49,7 +49,7 @@ public class CrNotTheSameAs extends CrCoCon {
     // target tree
     tComp.setTag("Workflow");
     tComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
-    tComp.setValue("PayWages");
+    tComp.setValue("PayWage");
 
     targetSet.setBaseClass(BaseClasses.COMPONENT);
     targetSet.setComparison(tComp);
@@ -138,7 +138,7 @@ public class CrNotTheSameAs extends CrCoCon {
           // the constraint is violated
           MModelElement violationElement = (MModelElement)targetSet.elementAt(t);
           setDescription("The model element " + violationElement.getName() +
-            " tis associated both in the target and scope set " +
+            " is associated both in the target and scope set " +
             "of a NotTheSameAs Contextbased Constraint.");
 	  return PROBLEM_FOUND;
 	}
