@@ -2569,13 +2569,13 @@ public class SyntaxcheckOfCoconsFromBNF {
     /*
      * main methode for test
      */
-    /*
+	/*
     public static void main(String args[]) {
         //String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
         //String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5' AND 'n' = '3' ";
         //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Controlling'";
         //String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ";
-        String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y' = 'x') or 'dfgss' = 'wwwww'";
+        String cocons ="ALL COMPONENTS WHERE \"Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y'='x') or 'dfgss'='wwwww'";
         //String cocons ="all COMPONENTS where 'Personal Data' equals 'Yes' MUST BE UnreadableBy All COMPONENTS Where ('Personal Data' EQUALS 'Yes' and 'y' = 'x')";
         //String cocons ="THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse'";
         //String cocons =" the component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' OR THE component 'Datawarehouse'";
@@ -2583,7 +2583,7 @@ public class SyntaxcheckOfCoconsFromBNF {
 
         SyntaxcheckOfCoconsFromBNF coconsBNF = new SyntaxcheckOfCoconsFromBNF();
         //coconsBNF.printNoEmptyElementHashtable(coconsBNF.parserCoCons(cocons));
-        coconsBNF.printAllElementHashtable(coconsBNF.parserCoCons(cocons));
+
         //
         //
         //checklevel1
@@ -2591,9 +2591,11 @@ public class SyntaxcheckOfCoconsFromBNF {
         System.out.println("-------------------------------------------------");
         ConvertCoconsToSyntaxCheck convert2 = new ConvertCoconsToSyntaxCheck();
         System.out.println("###### final2 ######"+ coconsBNF.isValid(convert2.finalConvert(cocons)));
+        System.out.println("-------------------------------------------------");
+        coconsBNF.printAllElementHashtable(coconsBNF.parserCoCons(convert2.finalConvert(cocons)));
         //System.out.println(coconsBNF.getFirstComparison("ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer'"));
    }
-   */
+	*/
 
 
 }

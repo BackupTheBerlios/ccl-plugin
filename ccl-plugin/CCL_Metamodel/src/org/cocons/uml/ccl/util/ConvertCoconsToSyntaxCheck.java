@@ -34,7 +34,13 @@ import java.lang.*;
                                          "Or",
                                          "or"
                                         };
-
+     private String [] condition= {"=",
+								   "!=",
+								   "<",
+								   ">",
+								   "<=",
+								   ">="
+	 							  };
      /**
       * SyntaxcheckOfCoconsFromBNF constructor comment.
       */
@@ -134,6 +140,75 @@ import java.lang.*;
 
     }
 
+    public String apostropheConvert (String cocons) {
+		String result = "";
+		int counter = 0;
+		Vector fetchString = new Vector();
+		if (cocons.equals("") || cocons != null) {
+			StringTokenizer st = new StringTokenizer(cocons, "\"", true);
+			while (st.hasMoreTokens()) {
+				 fetchString.addElement(st.nextToken());
+			}
+		}
+		else {
+			fetchString.addElement("null");
+        }
+
+		if (! ((fetchString.get(0)).toString()).equals("\"")) {
+			result = (fetchString.get(0)).toString();
+		}
+		else {
+			result = "'";
+		}
+
+		for (int i = 1; i < fetchString.size(); i++) {
+			if (! ((fetchString.get(i)).toString()).equals("\"")) {
+				if (counter%2 == 0) {
+					result = result + " "+(fetchString.get(i)).toString();
+				}
+				else {
+					result = result + (fetchString.get(i)).toString();
+				}
+			}
+			else {
+				counter++;
+				result = result + "'";
+			}
+		}
+		return result;
+	}
+
+	public String conditionConvert (String cocons, String condition) {
+		String result = "";
+		int counter = 0;
+		Vector fetchString = new Vector();
+		if (cocons.equals("") || cocons != null) {
+			StringTokenizer st = new StringTokenizer(cocons, condition, true);
+			while (st.hasMoreTokens()) {
+				 fetchString.addElement(st.nextToken());
+			}
+		}
+		else {
+			fetchString.addElement("null");
+		}
+
+		if (1 < fetchString.size()) {
+			result = (fetchString.get(0)).toString();
+			for (int i = 1; i < fetchString.size(); i++) {
+				if (! ((fetchString.get(i)).toString()).equals(condition)) {
+					result = result + " "+(fetchString.get(i)).toString();
+				}
+				else {
+					result = result + " " + condition + " ";
+				}
+			}
+			return result;
+		}
+		else {
+			return cocons;
+		}
+	}
+
     public Vector newConvert (String [] search,Vector elements) {
         Vector convert = new Vector();
         convert = elements;
@@ -154,9 +229,14 @@ import java.lang.*;
     }
 
     public String finalConvert (String cocons) {
+        String _cocons = "";
         String finalString = "";
+        _cocons = apostropheConvert(cocons);
+        for (int cCounter = 0; cCounter < condition.length; cCounter++) {
+			_cocons = conditionConvert(_cocons, condition[cCounter]);
+		}
         Vector elements = new Vector();
-        elements = fetchStringDetail(cocons);
+        elements = fetchStringDetail(_cocons);
         Vector convert = new Vector();
         convert = newConvert(toConvertString, elements);
         for (int i = 0; i < convert.size() - 1; i++) {
@@ -165,4 +245,35 @@ import java.lang.*;
         finalString = finalString + (convert.lastElement()).toString();
         return finalString;
     }
+
+    /*
+	 * main methode for test
+	 */
+
+	public static void main(String args[]) {
+		//String cocons = "ALL CLASSES WHERE personal 'data' = 'yes' OR THE componets 'test runtime' OR THE componets 'test upload'  MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5'";
+		//String cocons = "ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer' OR ALL componets WHERE 'test time' EQUALS 'systemruntime' OR THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' WITH 'PRIORITY' = '5' AND 'n' = '3' ";
+		//String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Operational Area' CONTAINS 'Controlling'";
+		//String cocons ="ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' MUST BE UnreadableBy ";
+		String cocons ="all COMPONENTS WHERE \"Personal Data\" EQUALS \"Yes' MUST BE UnreadableBy ALL COMPONENTS WHERE 'Personal Data' EQUALS 'Yes' OR ALL COMPONENTS WHERE ('Personal Data' EQUALS 'Yes' AND 'y'='x') or 'dfgss'='wwwww\"";
+		//String cocons ="all COMPONENTS where 'Personal Data' equals 'Yes' MUST BE UnreadableBy All COMPONENTS Where ('Personal Data' EQUALS 'Yes' and 'y' = 'x')";
+		//String cocons ="THE component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse'";
+		//String cocons =" the component 'Systemcheck' MUST BE UnreadableBy THE component 'Datawarehouse' OR THE component 'Datawarehouse'";
+		//String cocons ="MUST BE UnreadableBy THE component 'Systemcheck'";
+
+		//SyntaxcheckOfCoconsFromBNF coconsBNF = new SyntaxcheckOfCoconsFromBNF();
+		//coconsBNF.printNoEmptyElementHashtable(coconsBNF.parserCoCons(cocons));
+		//coconsBNF.printAllElementHashtable(coconsBNF.parserCoCons(cocons));
+		//
+		//
+		//checklevel1
+		//System.out.println("###### final ######"+ coconsBNF.isValid(cocons));
+		//System.out.println("-------------------------------------------------");
+		ConvertCoconsToSyntaxCheck convert2 = new ConvertCoconsToSyntaxCheck();
+		System.out.println(cocons);
+		System.out.println("-------------------------------------------------");
+		System.out.println(convert2.finalConvert(cocons));
+		//System.out.println(coconsBNF.getFirstComparison("ALL COMPONENTS WHERE ('personal data' = 'yes' AND 'public' = 'false' AND 'value1' = 'const1') OR 'Operatinal Area' = 'Headquartes' OR 'Workflow' CONTAINS 'New Customer'"));
+   }
+
 }
