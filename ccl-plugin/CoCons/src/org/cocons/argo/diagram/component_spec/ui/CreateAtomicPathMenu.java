@@ -72,7 +72,7 @@ public class CreateAtomicPathMenu {
         private MClass component;
 
 	public CreateAtomicPathAction(MInterface mi,MOperation mo,MClass mc) {
-	    super(mo.getName());
+	    super(mo.getName(),false);
             inter = mi;
             oper = mo;
             component = mc;

@@ -32,7 +32,7 @@ public class CCLInterface_SpecDiagram extends CCLDiagram {
   // actions for toolbar
 
   protected static Action _actionInterface_Spec;
-  protected static Action _actionType;
+  //protected static Action _actionType;
   protected static Action _actionInfo_Type;
   protected static Action _actionAssoc;
 
@@ -96,17 +96,18 @@ public class CCLInterface_SpecDiagram extends CCLDiagram {
     _toolBar.add(_actionBroom);
     _toolBar.addSeparator();
 
-    _actionInterface_Spec =	new CmdCreateNodeStereotype(MClassImpl.class,
-          "interface spec", findStereotype("interface spec") );
+    _actionInterface_Spec = new ActionAddInterfaceSpec(_toolBar,getNamespace());
 
-    _actionType = new CmdCreateNodeStereotype(MClassImpl.class,
+    //	new CmdCreateNodeStereotype(MInterfaceImpl.class, "interface spec", findStereotype("interface spec") );
+
+/*    _actionType = new CmdCreateNodeStereotype(MClassImpl.class,
         "type", findStereotype("type") );
-
+*/
     _actionInfo_Type = new CmdCreateNodeStereotype(MClassImpl.class,
         "info type",findStereotype("info type"));
 
     _toolBar.add(_actionInterface_Spec);
-    _toolBar.add(_actionType);
+//    _toolBar.add(_actionType);
     _toolBar.add(_actionInfo_Type);
     //_toolBar.add(_actionContextP);
     _toolBar.addSeparator();

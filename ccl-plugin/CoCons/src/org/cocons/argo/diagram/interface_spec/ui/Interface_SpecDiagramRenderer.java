@@ -40,8 +40,10 @@ public class Interface_SpecDiagramRenderer
   /** Return a Fig that can be used to represent the given node */
     public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node) {
 
-        if (node instanceof MClass) {
+        if (node instanceof MInterface) {
           return new FigInterface_Spec(gm,node);//FigClass(gm, node);
+        }else if(node instanceof MClass){
+          return new FigInfoType(gm,node);
         }
         else if (node instanceof MTaggedValue) return new FigContextProperty(gm, node);
 

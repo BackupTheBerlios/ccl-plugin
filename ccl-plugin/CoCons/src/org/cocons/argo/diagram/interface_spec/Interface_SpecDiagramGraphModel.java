@@ -59,6 +59,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
   public Vector getPorts(Object nodeOrEdge) {
     Vector res = new Vector();  //wasteful!
     if (nodeOrEdge instanceof MClass) res.addElement(nodeOrEdge);
+    if (nodeOrEdge instanceof MInterface) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MTaggedValue) res.addElement(nodeOrEdge);
     if (nodeOrEdge instanceof MAssociation) res.addElement(nodeOrEdge);
     return res;
@@ -74,19 +75,18 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 
     Vector res = new Vector(); //wasteful!
 
-    if (port instanceof MClass) {
-      MClass cls = (MClass) port;
+    if (port instanceof MClass || port instanceof MInterface) {
+      MClassifier cls = (MClassifier) port;
       Collection ends = cls.getAssociationEnds();
 
       if (ends == null) return res; // empty Vector
-      //java.util.Enumeration endEnum = ends.elements();
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
 		  MAssociationEnd ae = (MAssociationEnd) iter.next();
 		  res.add(ae.getAssociation());
       }
     }
-/*  Achtung  Jan
+/*  Achtung  ContextProp-Gruppe hier weiter arbeiten !!!!
     if (port instanceof MTaggedValue) {
       MTaggedValue tv = (MTaggedValue) port;
       Collection sd = tv.getSupplierDependencies();
@@ -146,18 +146,19 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
   /** Return true if the given object is a valid node in this graph */
   public boolean canAddNode(Object node) {
     if (_nodes.contains(node)) return false;
-    if ( node instanceof MClass ) {
-      MClass nodeClass = (MClass)node;
-      MStereotype stereotype = nodeClass.getStereotype();
+    if ( node instanceof MInterface || node instanceof MClass) {
+      MClassifier nodeClass = (MClassifier)node;
+      /*MStereotype stereotype = nodeClass.getStereotype();
       if ( stereotype == null ) {
 	stereotype = new MStereotypeImpl();
 	stereotype.setName("interface spec");
 	nodeClass.setStereotype(stereotype);
-      }
+      }*/
       String stereotypeN = nodeClass.getStereotype().getName();
-      return ( stereotypeN.equals("interface spec") || stereotypeN.equals("type") ||
+      return ( stereotypeN.equals("interface spec") ||
 	    stereotypeN.equals("info type") );
     }
+
     else return false;
   }
 
@@ -209,9 +210,10 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
     if (end0 == null || end1 == null) return false;
     if (!_nodes.contains(end0)) return false;
     if (!_nodes.contains(end1)) return false;
-    if ( !(( end0 instanceof MClass && end1 instanceof MTaggedValue) ||
-	   ( end0 instanceof MTaggedValue && end1 instanceof MClass) ||
-	   ( end0 instanceof MClass && end1 instanceof MClass))  ) return false;
+    if ( !(( end0 instanceof MClass && end1 instanceof MInterface) ||
+	   ( end0 instanceof MInterface && end1 instanceof MClass) ||
+	   ( end0 instanceof MClass && end1 instanceof MClass) ||
+           ( end0 instanceof MInterface && end1 instanceof MInterface)  )) return false;
 
     return true;
   }
@@ -243,7 +245,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
 
 
   public void addNodeRelatedEdges(Object node) {
-/*  Achtung Jan
+/*  Achtung ContextProp-Gruppe hier ist euer Part ;)
     if ( node instanceof MTaggedValue ) {
       Collection ends = ((MTaggedValue)node).getClientDependencies();
       ends.addAll(((MTaggedValue)node).getSupplierDependencies());
@@ -254,15 +256,14 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       }
     }
 */
-    if ( node instanceof MClass ) {
-      Collection ends = ((MClass)node).getAssociationEnds();
+    if ( node instanceof MClassifier ) {
+      Collection ends = ((MClassifier)node).getAssociationEnds();
       Iterator iter = ends.iterator();
       while (iter.hasNext()) {
 	 MAssociationEnd ae = (MAssociationEnd) iter.next();
 	 if(canAddEdge(ae.getAssociation()))  addEdge(ae.getAssociation());
       }
     }
-
   }
 
 
@@ -270,7 +271,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
   /** Return true if the two given ports can be connected by a
    * kind of edge to be determined by the ports. */
   public boolean canConnect(Object fromP, Object toP) {
-    if ( (fromP instanceof MClass) && (toP instanceof MClass) ) return true;
+    if ( (fromP instanceof MClassifier) && (toP instanceof MClassifier) ) return true;
     return false;
   }
 
@@ -316,6 +317,7 @@ public class Interface_SpecDiagramGraphModel extends MutableGraphSupport
       if (oldOwned.contains(eo)) {
 	//System.out.println("model removed " + me);
 	if (me instanceof MClass) removeNode(me);
+        if (me instanceof MInterface) removeNode(me);
 	if (me instanceof MTaggedValue) removeNode(me);
 	if (me instanceof MAssociation) removeEdge(me);
       }
