@@ -1,4 +1,4 @@
-package org.cocons.argo.critics;
+package org.cocons.argo.cognitive.critics;
 
 import org.argouml.cognitive.critics.Agency;
 import org.argouml.cognitive.critics.Critic;
