@@ -19,11 +19,6 @@ import ru.novosoft.uml.foundation.core.MModelElementImpl;
 
 public class Init implements Runnable {
 
-  public static Critic unReadableByCritic = new CrUnReadableBy();
-  public static Critic onlyReadableByCritic = new CrOnlyReadableBy();
-  public static Critic notAllowedToExistInCritic = new CrNotAllowedToExistIn();
-
-
   /*
    * Constructs an Initilizer
    */
@@ -36,9 +31,8 @@ public class Init implements Runnable {
    * Registers the Critics to the Argo Agency singelton.
    */
   public void run() {
-    java.lang.Class modelElementCls = MModelElementImpl.class;
-    Agency.register(unReadableByCritic, modelElementCls);
-    Agency.register(onlyReadableByCritic, modelElementCls);
-    Agency.register(notAllowedToExistInCritic,modelElementCls);
+
+    Agency.register(new CrSetToValueIn(), CrSetToValueIn.class);
+    Agency.register(new CrNotAllowedToExistIn(), CrNotAllowedToExistIn.class);
   }
 }
