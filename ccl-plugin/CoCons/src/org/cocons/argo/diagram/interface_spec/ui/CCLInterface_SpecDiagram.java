@@ -111,7 +111,14 @@ public class CCLInterface_SpecDiagram extends CCLDiagram {
     //_toolBar.add(_actionContextP);
     _toolBar.addSeparator();
 
+    /*
     _actionAssoc = new CmdSetMode(ModeCreateEdgeStereotype.class,
+					   "edgeClass", MAssociationImpl.class,
+        			   "Association");
+                       */
+
+	_actionAssoc =
+		new CmdSetMode(ModeCreatePolyEdge.class,
 					   "edgeClass", MAssociationImpl.class,
 					   "Association");
 

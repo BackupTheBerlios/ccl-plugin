@@ -34,15 +34,26 @@ public class FigInterface_Spec extends FigClass {
 
   public FigInterface_Spec() {
     super();
-    _stereo.setEditable(true);
+
+
+    _stereo.setEditable(false);
     _stereo.setDisplayed(true);
+
+    //_stereoLineBlinder = new FigRect(10, 15, 2, 60, Color.white, Color.white);
+    //_stereoLineBlinder.setLineWidth(2);
+    //_stereoLineBlinder.setDisplayed(true);
+
   }
 
   public FigInterface_Spec(GraphModel gm, Object node) {
-    this();
+    //this();
+    super(gm,node);
+
+    /*
     setOwner(node);
     if (node instanceof MClassifier && (((MClassifier)node).getName() != null))
 	  _name.setText(((MModelElement)node).getName());
+*/
 
     /*MStereotype stereo = ((MModelElement) node).getStereotype();
     if (stereo == null){
@@ -57,10 +68,11 @@ public class FigInterface_Spec extends FigClass {
   // accessors
 
   public Selection makeSelection() {
-    return new SelectionInterface_Spec(this);
+     return null;
+//    return new SelectionInterface_Spec(this);
   }
 
-
+/*
   // internal Methods
   protected void textEdited(FigText ft) throws PropertyVetoException {
     super.textEdited(ft);
