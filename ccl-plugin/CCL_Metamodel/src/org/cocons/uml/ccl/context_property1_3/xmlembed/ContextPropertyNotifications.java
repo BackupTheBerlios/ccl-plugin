@@ -6,6 +6,7 @@ import java.util.Vector;
 import java.util.Collection;
 import org.tigris.gef.base.Diagram;
 import org.cocons.uml.ccl.context_property1_3.MContextPropertyValue;
+import org.cocons.uml.ccl.context_property1_3.MContextPropertyValueImpl;
 import org.tigris.gef.presentation.Fig;
 import org.cocons.argo.diagram.ui.FigContextProperty;
 import ru.novosoft.uml.foundation.extension_mechanisms.MTaggedValue;
@@ -47,7 +48,7 @@ public class ContextPropertyNotifications
 
 	public void postLoad( Diagram caller )
 	{
-		System.out.println("postLoad()");
+		//System.out.println("postLoad()");
 		ModelIterator.SINGLETON.restoreSmuggledTags();
 		Enumeration elems = caller.elements();
 
@@ -59,7 +60,7 @@ public class ContextPropertyNotifications
 						{
 							fixBadLoadedTaggedValue( ((FigContextProperty)f),
 															 ((FigContextProperty)f).getBadLoadedOwner() );
-							System.out.println("FOUND A BADLOADEDOWNER: " + ((FigContextProperty)f).getBadLoadedOwner());
+							//System.out.println("FOUND A BADLOADEDOWNER: " + ((FigContextProperty)f).getBadLoadedOwner());
 
 						}
 			}
@@ -72,16 +73,18 @@ public class ContextPropertyNotifications
 		String content = taggedv.getValue();
 		elem.removeTaggedValue( taggedv );
 
-		// ali-todo: create MContextPropertyValue, initiate from content,
-		// put into fig.
 		MContextPropertyValue newprop = 
 			EmbeddedContextPropertyValueDecoder.SINGLETON.decode( content );
-		
-		System.out.println("DECODED " + content + "    AND GOT " + newprop);
-		System.out.println("DECODED " + content + "    AND GOT " + newprop.getClass());
+
+		newprop.logicalRefByModelElement( elem );
+		elem.addTaggedValue( newprop );
+
+// 		System.out.println("DECODED " + content + "    AND GOT " + newprop);
+// 		System.out.println("DECODED " + content + "    AND GOT " + newprop.getClass());
 		if( newprop != null )
 			{ 
 				fig.setOwner( newprop );
+				((MContextPropertyValueImpl)newprop).internalRefToMyFigure( fig );
 				fig.actualizeEntries();
 			}
 	}

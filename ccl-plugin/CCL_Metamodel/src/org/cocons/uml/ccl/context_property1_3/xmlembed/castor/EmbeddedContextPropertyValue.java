@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: EmbeddedContextPropertyValue.java,v 1.1 2002/02/10 16:07:15 ali Exp $
+ * $Id: EmbeddedContextPropertyValue.java,v 1.2 2002/02/11 23:55:45 ali Exp $
  */
 
 package org.cocons.uml.ccl.context_property1_3.xmlembed.castor;
@@ -24,7 +24,7 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/10 16:07:15 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/11 23:55:45 $
 **/
 public class EmbeddedContextPropertyValue implements java.io.Serializable {
 
@@ -34,6 +34,8 @@ public class EmbeddedContextPropertyValue implements java.io.Serializable {
     //--------------------------/
 
     private java.lang.String _tag;
+
+    private java.lang.String _stereotype;
 
     private org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType _type;
 
@@ -115,6 +117,13 @@ public class EmbeddedContextPropertyValue implements java.io.Serializable {
     {
         return _ECPVEntryList.size();
     } //-- int getECPVEntryCount() 
+
+    /**
+    **/
+    public java.lang.String getStereotype()
+    {
+        return this._stereotype;
+    } //-- java.lang.String getStereotype() 
 
     /**
     **/
@@ -210,6 +219,15 @@ public class EmbeddedContextPropertyValue implements java.io.Serializable {
             _ECPVEntryList.addElement(ECPVEntryArray[i]);
         }
     } //-- void setECPVEntry(ECPVEntry) 
+
+    /**
+     * 
+     * @param stereotype
+    **/
+    public void setStereotype(java.lang.String stereotype)
+    {
+        this._stereotype = stereotype;
+    } //-- void setStereotype(java.lang.String) 
 
     /**
      * 

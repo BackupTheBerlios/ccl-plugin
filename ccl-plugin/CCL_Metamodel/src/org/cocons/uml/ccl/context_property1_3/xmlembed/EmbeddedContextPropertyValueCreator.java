@@ -19,6 +19,7 @@ public class EmbeddedContextPropertyValueCreator
 	private Iterator _dependencies   = null;
 	private MContextPropertyTag _tag = null;
 	private String _type = null;
+	private String _stereo = null;
 
 	public EmbeddedContextPropertyValueCreator()
 	{}
@@ -28,6 +29,9 @@ public class EmbeddedContextPropertyValueCreator
 
 	public void setType( String type )
 	{ _type = type; }
+
+	public void setStereotype( String s )
+	{ _stereo = s; }
 
 	public void setContent( Iterator v,
 									Iterator s,
@@ -44,13 +48,17 @@ public class EmbeddedContextPropertyValueCreator
 			new EmbeddedContextPropertyValue();
 
 		prop.setTag( _tag.getName() );
+		prop.setStereotype( _stereo );
 
 		if( "Integer Number".equals(_type ) )
 			prop.setType( org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType.INTEGERS );
 		else if( "List Of Strings".equals(_type) )
 			prop.setType( org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType.STRINGS );
-		else
+		else if( "Float Number".equals(_type) )
 			prop.setType( org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType.FLOATS );
+		else
+			{ System.out.println("_type == "+_type); }
+
 
 		while( _values.hasNext() )
 			{

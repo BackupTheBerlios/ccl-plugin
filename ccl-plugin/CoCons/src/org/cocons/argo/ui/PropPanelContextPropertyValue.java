@@ -394,12 +394,14 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
       _nameBox.removeItemAt(messCon.getInt());
     }
     else if (message.equals("focus gained")) {
+		 //System.out.println("HALLO?  1\n");
       // natürlich springen zeitgleich die ActionListener von
       // _nameBox und _stereoBox an und machen Blödsinn; das unterbinden wir mit der
       // _locked-Variable -> nicht schön, tut's aber prima ...
       _locked = true; // actionPerformed() von _nameBox blockiert
       ProjectBrowser pb = ProjectBrowser.TheInstance;
       if (pb.getDetailsTarget() instanceof MContextPropertyValueImpl) {
+			//System.out.println("HALLO?  2\n");
         MContextPropertyValueImpl target = (MContextPropertyValueImpl)messCon.getObject();
         MContextPropertyTagImpl refTag = (MContextPropertyTagImpl)_modelIterator.getContextPropertyTag(messCon.getString());
 
@@ -411,6 +413,7 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
         ((ValueTableModel)_valueTable.getModel()).removeAllRows();
 
         if (_validValuesType.equals("List Of Strings")) {
+			  //System.out.println("HALLO?  3  // \n"+refTag.getValidStrings().size());
           _validStrings = refTag.getValidStrings();
           _typeLabel.setText("\"List Of Strings\"   [ "+Integer.toString(_validStrings.size())+" defined strings ] )");
           _unitLabel.setText("N/A )");
@@ -418,6 +421,10 @@ public class PropPanelContextPropertyValue extends PropPanelModelElement impleme
           ((ValueTableModel)_valueTable.getModel()).isListOfStrings(true);
           ValueTableModel tableModel = (ValueTableModel)_valueTable.getModel();
           for (int i = 0; i < _validStrings.size(); i++) {
+				 //System.out.println("addTableRow(" +
+				 //						  (String)_validStrings.elementAt(i)+ ", " +
+				 //						  target.getStringSelectionAt(i)+ ", " +
+				 //						  target.getStringDependencyAt(i)+ ")");
             tableModel.addTableRow((String)_validStrings.elementAt(i),target.getStringSelectionAt(i),target.getStringDependencyAt(i));
           }
           _valueTable.getModel().addTableModelListener(getTableModelListener());

@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: EmbeddedContextPropertyValueDescriptor.java,v 1.1 2002/02/10 16:07:15 ali Exp $
+ * $Id: EmbeddedContextPropertyValueDescriptor.java,v 1.2 2002/02/11 23:55:45 ali Exp $
  */
 
 package org.cocons.uml.ccl.context_property1_3.xmlembed.castor;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/10 16:07:15 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/11 23:55:45 $
 **/
 public class EmbeddedContextPropertyValueDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -87,6 +87,45 @@ public class EmbeddedContextPropertyValueDescriptor extends org.exolab.castor.xm
         addFieldDescriptor(desc);
         
         //-- validation code for: _tag
+        fieldValidator = new FieldValidator();
+        fieldValidator.setMinOccurs(1);
+        { //-- local scope
+            StringValidator sv = new StringValidator();
+            sv.setWhiteSpace("preserve");
+            fieldValidator.setValidator(sv);
+        }
+        desc.setValidator(fieldValidator);
+        
+        //-- _stereotype
+        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_stereotype", "stereotype", NodeType.Attribute);
+        desc.setImmutable(true);
+        handler = (new XMLFieldHandler() {
+            public Object getValue( Object object ) 
+                throws IllegalStateException
+            {
+                EmbeddedContextPropertyValue target = (EmbeddedContextPropertyValue) object;
+                return target.getStereotype();
+            }
+            public void setValue( Object object, Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    EmbeddedContextPropertyValue target = (EmbeddedContextPropertyValue) object;
+                    target.setStereotype( (java.lang.String) value);
+                }
+                catch (Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public Object newInstance( Object parent ) {
+                return null;
+            }
+        } );
+        desc.setHandler(handler);
+        desc.setRequired(true);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _stereotype
         fieldValidator = new FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope

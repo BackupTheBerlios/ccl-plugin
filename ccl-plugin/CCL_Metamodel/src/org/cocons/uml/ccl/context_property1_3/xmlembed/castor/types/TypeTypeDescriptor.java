@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: TypeTypeDescriptor.java,v 1.1 2002/02/10 16:07:15 ali Exp $
+ * $Id: TypeTypeDescriptor.java,v 1.2 2002/02/11 23:55:45 ali Exp $
  */
 
 package org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/10 16:07:15 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/11 23:55:45 $
 **/
 public class TypeTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

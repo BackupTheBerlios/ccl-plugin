@@ -62,7 +62,8 @@ public class EmbeddedContextPropertyValueDecoder
 
 		if( ! res.initializeFromEmbeddedXML( tag,
 														 xmlval.getType(),
-														 xmlval.enumerateECPVEntry() ) )
+														 xmlval.enumerateECPVEntry(),
+														 xmlval.getStereotype() ) )
 {		System.out.println("EMBEDDEDCONTEXTPROPERTYVALUE 5");
 			return null;
 }

@@ -97,7 +97,8 @@ public class ActionImportCoCons
 		FigContextbasedConstraint fig = new FigContextbasedConstraint( gm, mcocon );
 		diag.getLayer().add( fig );
 
-		mcocon.update();
+		//mcocon.update();
+		fig.updateVisState();
 
 		Rectangle bound = fig.getBounds();
 		

@@ -80,49 +80,64 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 
 	public boolean initializeFromEmbeddedXML( MContextPropertyTag tag,
 															TypeType type,
-															Enumeration entries )
+															Enumeration entries,
+															String stereo )
 	{
 		Vector values     = new Vector();
 		Vector selections = new Vector();
 		Vector deps       = new Vector();
 
-		_contextTag = tag;
-		setCPTag( tag.getName() );
-		_valuesCount=0;
 		setCPValue("hello?");
-		_stereoString="m,mm";
+
+		setCPTag( tag.getName() );
+		internalRefByContextPropertyTag( tag );
+		setStereoString( stereo );
+
+		_valuesCount=0;
+
 		switch( type.getType() ) {
 		case TypeType.STRINGS_TYPE:
+			//System.out.println("STRINGS_TYPE");
 			_validValuesType    = LIST_OF_STRINGS_ID;
-			_validStrings       = values;
-			_stringSelection    = selections;
-			_stringDependencies = deps;
+			_validStrings       = values     = new Vector();
+			_stringSelection    = selections = new Vector();
+			_stringDependencies = deps       = new Vector();
 			break;
 		case TypeType.FLOATS_TYPE:
+			//System.out.println("FLOATS_TYPE");
 			_validValuesType   = FLOAT_NUMBER_ID;
-			_definedFloats     = values;
-			_floatSelection    = selections;
-			_floatDependencies = deps;
+			_definedFloats     = values     = new Vector();
+			_floatSelection    = selections = new Vector();
+			_floatDependencies = deps       = new Vector();
 			break;
 		case TypeType.INTEGERS_TYPE:
+			//System.out.println("INTEGERS_TYPE");
 			_validValuesType = INTEGER_NUMBER_ID;
-			_definedIntegers = values;
-			_intSelection    = selections;
-			_intDependencies = deps;
+			_definedIntegers = values       = new Vector();
+			_intSelection    = selections   = new Vector();
+			_intDependencies = deps         = new Vector();
 			break;
 		default:
+			//System.out.println("DEFAULT");
 			return false;
 		}
+		//System.out.println("PRE0::" + _stringSelection + " " + selections);
 
 		while( entries.hasMoreElements() )
 			{
 				ECPVEntry ent = (ECPVEntry)entries.nextElement();
 				_valuesCount ++;
 				values.add( ent.getValue() );
-				selections.add( new Boolean(ent.getSelected()) );
+				Boolean b = new Boolean(ent.getSelected());
+				selections.add( b );
+				//System.out.println("ADDED " + b );
 				deps.add( ent.getDependency() );
 			}
 
+// 		Iterator it = selections.iterator();
+// 		while( it.hasNext() )
+// 			System.out.println(" PRE " + it.next() );
+// 		System.out.println("PRE::" + _stringSelection + " " + selections);
 
 		switch( type.getType() ) {
 		case TypeType.STRINGS_TYPE:
@@ -135,6 +150,10 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 			checkValueSelection_Integer();
 		}
 
+// 		it = selections.iterator();
+// 		while( it.hasNext() )
+// 			System.out.println(" POST " + it.next() );
+// 		System.out.println("POST::" + _stringSelection);
 		return true;
 	}
 
@@ -174,6 +193,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         }
 
         public void removeScopedTag(){
+			  //System.out.println("removeScopedTag()");
           _contextTag = null;
           _validValuesType = null;
           _validStrings = null;
@@ -192,6 +212,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	* @param contextTag MContextPropertyTag The related context based property tag.
 	*/
 	public void setContextPropertyTag(MContextPropertyTag contextTag) {
+		//System.out.println("setContextPropertyTag()");
           _contextTag = contextTag;
           _valuesSelected = false;
           try {
@@ -365,6 +386,11 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         /////////////////////////////////////////////////////
         // List of Strings
         public Boolean getStringSelectionAt(int index) {
+			  //System.out.println("getStringSelectionAt("+index+") : " +_stringSelection.elementAt(index));
+// 			  Iterator vals=_stringSelection.iterator();
+// 			  while( vals.hasNext() )
+// 				  System.out.println(" >> " + vals.next() );
+// 			  System.out.println(">>>>>> " + _stringSelection);
           return((Boolean)_stringSelection.elementAt(index));
         }
 
@@ -378,6 +404,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         }
 
         public void negateStringSelectionAt(int index) {
+			  //System.out.println("negateStringSelectionAt " + index);
           boolean old = ((Boolean)_stringSelection.elementAt(index)).booleanValue();
           Boolean newSelection = new Boolean(!old);
           _stringSelection.setElementAt(newSelection,index);
@@ -385,6 +412,7 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
         }
 
         public void checkValueSelection_ListOfString() {
+			  //System.out.println("checkValueSelection_ListOfString");
           boolean valuesSelected = false;
           boolean actual = false;
           _valString_horizontal = "";
@@ -639,30 +667,31 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	{
 		_currentlySaving = true;
 		ensureUUIDAssigned();
-
 		
-		System.out.println("MY UUID : " + getUUID());
-		System.out.println("MY TAG : " + getContextPropertyTag().getUUID() );
-		xx("_validStrings"       , _validStrings        );
-		xx("_stringSelection"    , _stringSelection     );
-		xx("_stringDependencies" , _stringDependencies  );
-		xx("_definedIntegers"    , _definedIntegers     );
-		xx("_intSelection"       , _intSelection        );
-		xx("_intDependencies"    , _intDependencies     );
-		xx("_definedFloats"      , _definedFloats       );
-		xx("_floatSelection"     , _floatSelection      );
-		xx("_floatDependencies"  , _floatDependencies   );
+// 		System.out.println("MY UUID : " + getUUID());
+// 		System.out.println("MY TAG : " + getContextPropertyTag().getUUID() );
+// 		xx("_validStrings"       , _validStrings        );
+// 		xx("_stringSelection"    , _stringSelection     );
+// 		xx("_stringDependencies" , _stringDependencies  );
+// 		xx("_definedIntegers"    , _definedIntegers     );
+// 		xx("_intSelection"       , _intSelection        );
+// 		xx("_intDependencies"    , _intDependencies     );
+// 		xx("_definedFloats"      , _definedFloats       );
+// 		xx("_floatSelection"     , _floatSelection      );
+// 		xx("_floatDependencies"  , _floatDependencies   );
 
 		setTag(EMBEDDED_XML_IDENTIFIER);
 
 		EmbeddedContextPropertyValueCreator creator = 
 			new EmbeddedContextPropertyValueCreator();
 
-		if ("List Of Strings".equals(_validValuesType) )			
+		creator.setType( _validValuesType );
+		creator.setStereotype( getStereoString() );
+		if ( LIST_OF_STRINGS_ID.equals(_validValuesType) )			
 			creator.setContent(  _validStrings.iterator(),
 										_stringSelection.iterator(),
 										_stringDependencies.iterator() );
-		else if( "Integer Number".equals(_validValuesType) )			
+		else if( INTEGER_NUMBER_ID.equals(_validValuesType) )			
 			creator.setContent(  _definedIntegers.iterator(),
 										_intSelection.iterator(),
 										_intDependencies.iterator() );
@@ -682,25 +711,25 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 			setUUID(UUIDManager.SINGLETON.getNewUUID());
 	}
 
-	public void xx(String n, Vector v )
-	{
-		System.out.println("++++++++++++++++++++ " + n );
+// 	public void xx(String n, Vector v )
+// 	{
+// 		System.out.println("++++++++++++++++++++ " + n );
 
-		if( v == null )
-			{
-				System.out.println("  vec=null");
-			}
-		else
-			{
-				Iterator it = v.iterator();
-				while( it.hasNext() )
-					{
-						Object o = it.next();
-						System.out.println("  " + o.getClass() + " ==> " + o );
-					}
-			}
-		System.out.println("==================== " + n );
-	}
+// 		if( v == null )
+// 			{
+// 				System.out.println("  vec=null");
+// 			}
+// 		else
+// 			{
+// 				Iterator it = v.iterator();
+// 				while( it.hasNext() )
+// 					{
+// 						Object o = it.next();
+// 						System.out.println("  " + o.getClass() + " ==> " + o );
+// 					}
+// 			}
+// 		System.out.println("==================== " + n );
+// 	}
 
 	public void postSave()
 	{
