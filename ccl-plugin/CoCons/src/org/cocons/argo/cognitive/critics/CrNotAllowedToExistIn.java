@@ -9,6 +9,7 @@ import ru.novosoft.uml.foundation.core.*;
 import org.argouml.ui.ProjectBrowser;
 import org.argouml.kernel.Project;
 import org.cocons.uml.ccl.CoConTypes;
+import org.argouml.uml.cognitive.critics.CrUML;
 
 /**
  * The design critique that checks the NotAllowedToExistIn CoCon.
@@ -16,12 +17,12 @@ import org.cocons.uml.ccl.CoConTypes;
  * @author Stefan Tang
  * @version $Revision 1.1$
  */
-public class CrNotAllowedToExistIn extends CrCoCon {
+public class CrNotAllowedToExistIn extends CrUML {
 
   public CrNotAllowedToExistIn() {
   }
 
-  public boolean predicate(Object dm, Designer dsgr) {
+  public boolean predicate2(Object dm, Designer dsgr) {
     //check if the given object is a context based constraint
     if (!(dm instanceof MContextbasedConstraintImpl)) {
       return NO_PROBLEM;
