@@ -28,7 +28,7 @@ public class ContextConditionFactory{
   public ContextConditionFactory(String s){
 	cocon = s;
 	syntaxChecker = new SyntaxcheckOfCoconsFromBNF(cocon);
-  }  
+  }
 
   public Vector getTargetDirectAssoziations(){
 	Vector vect = new Vector();
@@ -37,7 +37,7 @@ public class ContextConditionFactory{
 	  return null;
 	else
 	return vect;
-  }  
+  }
 
   public Vector getScopeDirectAssoziations(){
 	Vector vect = new Vector();
@@ -46,66 +46,87 @@ public class ContextConditionFactory{
 	  return null;
 	else
 	return vect;
-  }  
+  }
 
   public Vector getTargetIndirectAssoziations(){
-	Vector targetSet = new Vector();
-	targetSet = syntaxChecker.getIndirectElementOfTargetSet(cocon);
-	Vector theTrees = new Vector();
-	for (int i = 0; i<targetSet.size(); i++){
-	  Vector vect = new Vector();
-	  vect = syntaxChecker.getFirstComparison((targetSet.get(i)).toString());
-	  System.out.println("Factory: " + vect);
-	  ContextConditionImpl tree = buildTree(vect);
-	  theTrees.addElement(tree);
-	}
-	return theTrees;
-	//ContextConditionImpl target = unionTrees(theTrees);
-	//return target;
 
-  }  
+    Vector targetSet = new Vector();
+    targetSet = syntaxChecker.getIndirectElementOfTargetSet(cocon);
+    if (targetSet == null) {
+      return null;
+    }
+    else {
+      if (targetSet.get(0).toString().equals("isEmpty")){
+        return null;
+      }
+    }
+    Vector theTrees = new Vector();
+    for (int i = 0; i<targetSet.size(); i++){
+      Vector vect = new Vector();
+      vect = syntaxChecker.getFirstComparison((targetSet.get(i)).toString());
+      System.out.println("Factory: " + vect);
+      ContextConditionImpl tree = buildTree(vect);
+      theTrees.addElement(tree);
+    }
+    return theTrees;
+    //ContextConditionImpl target = unionTrees(theTrees);
+    //return target;
+  }
 
 
   public Vector getScopeIndirectAssoziations(){
-	Vector scopeSet = new Vector();
-	scopeSet = syntaxChecker.getIndirectElementOfScopeSet(cocon);
-	Vector theTrees = new Vector();
-	for (int i = 0; i<scopeSet.size(); i++){
-	  Vector vect = new Vector();
-	  vect = syntaxChecker.getFirstComparison((scopeSet.get(i)).toString());
-	  ContextConditionImpl tree = buildTree(vect);
-	  theTrees.addElement(tree);
-	}
-	return theTrees;
-	//ContextConditionImpl scope = unionTrees(theTrees);
-	//return scope;
-  }  
+    Vector scopeSet = new Vector();
+    scopeSet = syntaxChecker.getIndirectElementOfScopeSet(cocon);
+    if (scopeSet == null) {
+      return null;
+    }
+    else {
+      if (scopeSet.get(0).toString().equals("isEmpty")){
+        return null;
+      }
+    }
+
+    Vector theTrees = new Vector();
+    for (int i = 0; i<scopeSet.size(); i++){
+      Vector vect = new Vector();
+      vect = syntaxChecker.getFirstComparison((scopeSet.get(i)).toString());
+      ContextConditionImpl tree = buildTree(vect);
+      theTrees.addElement(tree);
+    }
+    return theTrees;
+    //ContextConditionImpl scope = unionTrees(theTrees);
+    //return scope;
+  }
 
   public String getCoConType(){
 	return syntaxChecker.getCoConsType(cocon);
-  }  
+  }
+
+  public Vector getAttributes() {
+        return syntaxChecker.getAttributeElements(cocon);
+  }
 
   public boolean isValid(){
 	if ( syntaxChecker != null){
 		return syntaxChecker.isValid(cocon);
 	}
 	else {
-	System.out.println("Error at initializing SyntaxChecker");
+	System.out.println("Class ContextConditionFactory: Error at initializing SyntaxChecker");
 		  return false;
 	}
-  }  
+  }
 
   public boolean isValidTarget(String s){
 	  String target = "";
-	  target = s + " MUST BE READABLEBY THE component 'a'";
+	  target = s + " MUST BE InaccessibleBy THE component 'a'";
 	  return syntaxChecker.isValid(target);
-  }  
+  }
 
   public boolean isValidScope(String s){
 	  String cocons = "";
-	  cocons = "THE component 'a' MUST BE READABLEBY " + s;
+	  cocons = "THE component 'a' MUST BE InaccessibleBy " + s;
   	  return syntaxChecker.isValidScope(cocons);
-  }  
+  }
 
   protected ContextConditionImpl unionTrees(Vector vect){
 	  System.out.println("Factory: " + vect.size());
@@ -126,7 +147,7 @@ public class ContextConditionFactory{
 	  return newRoot;
 	}
 	else return null;
-  }  
+  }
 
 
   protected ContextConditionImpl buildTree(Vector vect){
@@ -163,11 +184,14 @@ public class ContextConditionFactory{
 	  }
 	  else {
 	  	  ContextConditionImpl newRoot = new ContextConditionImpl();
-				  Vector vector1 = new Vector();
-				  Vector vector2 = new Vector();
 
-				  vector1 = syntaxChecker.getFirstComparison(string1);
-				  vector2 = syntaxChecker.getFirstComparison(string2);
+                  Vector vector1 = new Vector();
+                  Vector vector2 = new Vector();
+
+                  String string3 = rangeString + " " + baseClass + " WHERE " + string1;
+
+                  vector1 = syntaxChecker.getFirstComparison(string3);
+                  vector2 = syntaxChecker.getFirstComparison(string2);
 
 	  	  newRoot.setFirstChild(buildTree(vector1));
 	  	  newRoot.setSecondChild(buildTree(vector2));
@@ -186,5 +210,5 @@ public class ContextConditionFactory{
 
 	  	  return newRoot;
 	  }
-  }    
+  }
 }

@@ -404,9 +404,9 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
         scopeIndirectElements = ccf.getScopeIndirectAssoziations();
         System.out.println(scopeIndirectElements);
 
-        System.out.println("vor setdirect: " + me.getTargetElements());
-        me.setTargetSetDirectElements(targetDirectElements);
-        System.out.println("nach setdirect: " + me.getTargetElements());
+        //System.out.println("vor setdirect: " + me.getTargetElements());
+        //me.setTargetSetDirectElements(targetDirectElements);
+        //System.out.println("nach setdirect: " + me.getTargetElements());
 
         /*
         if (me.getCoConType() != null){

@@ -61,12 +61,26 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
     protected JTextField scopesetField;
     protected JTextField attributeField;
     protected JComboBox coconTypeList;
-    private String[] coconTypeName = {"UNWRITEABLEBY",
-                                      "WRITEABLEBY",
-                                      "UNREADABLEBY",
-                                      "READABLEBY",
-                                      "ONLYWRITEABLEBY",
-                                      "ONLYREADABLEBY"};
+    private String[] coconTypeName = {"InaccessibleBy",
+                                      "AccessibleBy",
+                                      "OnlyAccessibleBy",
+                                      "UnreadableBy",
+                                      "ReadableBy",
+                                      "OnlyReadableBy",
+                                      "WriteableBy",
+                                      "UnwriteableBy",
+                                      "OnlyWriteableBy",
+                                      "AllocatedTo",
+                                      "NotAllocatedTo",
+                                      "OnlyAllocatedTo",
+                                      "ReplicatedTo",
+                                      "ComplyingWithRational",
+                                      "TheSameAs",
+                                      "NotTheSameAs",
+                                      "Logged",
+                                      "Encrypted",
+                                      "Errorhandled"
+                                      };
     private Hashtable cocons;
     ////////////////////////////////////////////////////////////////
     // constructors
@@ -87,7 +101,7 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
         cocons = new Hashtable();
         cocons.put("targetset","TargetSet");
         cocons.put("scopeset","ScopeSet");
-        cocons.put("cocontype","MUST BE ");
+        cocons.put("cocontype","MUST BE");
         cocons.put("attribute","Attribute");
         for (int i =0; i<coconTypeName.length; i++){
             coconTypeList.addItem(coconTypeName[i]);
@@ -139,8 +153,6 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
 
             }
         });
-
-
    }
 
     public void navigateUp() {
@@ -207,3 +219,4 @@ abstract public class PropPanelModelElementCoCons extends PropPanel {
     public void setModuleEnabled(boolean enabled) { }
     public boolean inContext(Object[] o) { return true; }
 }
+
