@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionQuerySingleValueDescriptor.java,v 1.2 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionQuerySingleValueDescriptor.java,v 1.3 2002/02/09 18:47:49 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/02/09 18:47:49 $
 **/
 public class CoConSetConditionQuerySingleValueDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -93,21 +93,21 @@ public class CoConSetConditionQuerySingleValueDescriptor extends org.exolab.cast
         }
         desc.setValidator(fieldValidator);
         
-        //-- _operator
-        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.types.OperatorType.class, "_operator", "operator", NodeType.Attribute);
+        //-- _singleoperator
+        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.types.SingleoperatorType.class, "_singleoperator", "singleoperator", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
                 CoConSetConditionQuerySingleValue target = (CoConSetConditionQuerySingleValue) object;
-                return target.getOperator();
+                return target.getSingleoperator();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     CoConSetConditionQuerySingleValue target = (CoConSetConditionQuerySingleValue) object;
-                    target.setOperator( (org.cocons.uml.ccl.ccldata.types.OperatorType) value);
+                    target.setSingleoperator( (org.cocons.uml.ccl.ccldata.types.SingleoperatorType) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -117,12 +117,12 @@ public class CoConSetConditionQuerySingleValueDescriptor extends org.exolab.cast
                 return null;
             }
         } );
-        desc.setHandler( new EnumFieldHandler(org.cocons.uml.ccl.ccldata.types.OperatorType.class, handler));
+        desc.setHandler( new EnumFieldHandler(org.cocons.uml.ccl.ccldata.types.SingleoperatorType.class, handler));
         desc.setImmutable(true);
         desc.setRequired(true);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _operator
+        //-- validation code for: _singleoperator
         fieldValidator = new FieldValidator();
         fieldValidator.setMinOccurs(1);
         desc.setValidator(fieldValidator);

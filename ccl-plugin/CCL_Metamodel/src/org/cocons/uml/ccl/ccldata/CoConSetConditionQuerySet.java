@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionQuerySet.java,v 1.2 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionQuerySet.java,v 1.3 2002/02/09 18:47:49 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.io.Writer;
 import java.util.Enumeration;
 import java.util.Vector;
-import org.cocons.uml.ccl.ccldata.types.OperatorType;
+import org.cocons.uml.ccl.ccldata.types.SetoperatorType;
 import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
@@ -24,7 +24,7 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/02/09 18:47:49 $
 **/
 public class CoConSetConditionQuerySet implements java.io.Serializable {
 
@@ -35,7 +35,7 @@ public class CoConSetConditionQuerySet implements java.io.Serializable {
 
     private java.lang.String _property;
 
-    private org.cocons.uml.ccl.ccldata.types.OperatorType _operator;
+    private org.cocons.uml.ccl.ccldata.types.SetoperatorType _setoperator;
 
     private java.util.Vector _coConSetConditionQueryForSetValueList;
 
@@ -118,17 +118,17 @@ public class CoConSetConditionQuerySet implements java.io.Serializable {
 
     /**
     **/
-    public org.cocons.uml.ccl.ccldata.types.OperatorType getOperator()
-    {
-        return this._operator;
-    } //-- org.cocons.uml.ccl.ccldata.types.OperatorType getOperator() 
-
-    /**
-    **/
     public java.lang.String getProperty()
     {
         return this._property;
     } //-- java.lang.String getProperty() 
+
+    /**
+    **/
+    public org.cocons.uml.ccl.ccldata.types.SetoperatorType getSetoperator()
+    {
+        return this._setoperator;
+    } //-- org.cocons.uml.ccl.ccldata.types.SetoperatorType getSetoperator() 
 
     /**
     **/
@@ -213,21 +213,21 @@ public class CoConSetConditionQuerySet implements java.io.Serializable {
 
     /**
      * 
-     * @param operator
-    **/
-    public void setOperator(org.cocons.uml.ccl.ccldata.types.OperatorType operator)
-    {
-        this._operator = operator;
-    } //-- void setOperator(org.cocons.uml.ccl.ccldata.types.OperatorType) 
-
-    /**
-     * 
      * @param property
     **/
     public void setProperty(java.lang.String property)
     {
         this._property = property;
     } //-- void setProperty(java.lang.String) 
+
+    /**
+     * 
+     * @param setoperator
+    **/
+    public void setSetoperator(org.cocons.uml.ccl.ccldata.types.SetoperatorType setoperator)
+    {
+        this._setoperator = setoperator;
+    } //-- void setSetoperator(org.cocons.uml.ccl.ccldata.types.SetoperatorType) 
 
     /**
      * 

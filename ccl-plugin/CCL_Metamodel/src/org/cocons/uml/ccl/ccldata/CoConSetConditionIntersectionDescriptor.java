@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionIntersectionDescriptor.java,v 1.1 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionIntersectionDescriptor.java,v 1.2 2002/02/09 18:47:49 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/09 18:47:49 $
 **/
 public class CoConSetConditionIntersectionDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -52,181 +52,41 @@ public class CoConSetConditionIntersectionDescriptor extends org.exolab.castor.x
         XMLFieldDescriptorImpl  desc           = null;
         XMLFieldHandler         handler        = null;
         FieldValidator          fieldValidator = null;
-        
-        //-- set grouping compositor
-        setCompositorAsChoice();
         //-- initialize attribute descriptors
         
         //-- initialize element descriptors
         
-        //-- _coConSetConditionQuerySingleValue
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionQuerySingleValue.class, "_coConSetConditionQuerySingleValue", "CoConSetConditionQuerySingleValue", NodeType.Element);
+        //-- _items
+        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.CoConSetConditionIntersectionItem.class, "_items", (String)null, NodeType.Element);
         handler = (new XMLFieldHandler() {
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
                 CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                return target.getCoConSetConditionQuerySingleValue();
+                return target.getCoConSetConditionIntersectionItem();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                    target.setCoConSetConditionQuerySingleValue( (CoConSetConditionQuerySingleValue) value);
+                    target.addCoConSetConditionIntersectionItem( (org.cocons.uml.ccl.ccldata.CoConSetConditionIntersectionItem) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public Object newInstance( Object parent ) {
-                return new CoConSetConditionQuerySingleValue();
+                return new org.cocons.uml.ccl.ccldata.CoConSetConditionIntersectionItem();
             }
         } );
         desc.setHandler(handler);
-        desc.setRequired(true);
-        desc.setMultivalued(false);
+        desc.setContainer(true);
+        desc.setMultivalued(true);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _coConSetConditionQuerySingleValue
+        //-- validation code for: _items
         fieldValidator = new FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        desc.setValidator(fieldValidator);
-        
-        //-- _coConSetConditionQuerySet
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionQuerySet.class, "_coConSetConditionQuerySet", "CoConSetConditionQuerySet", NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
-                CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                return target.getCoConSetConditionQuerySet();
-            }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                    target.setCoConSetConditionQuerySet( (CoConSetConditionQuerySet) value);
-                }
-                catch (Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public Object newInstance( Object parent ) {
-                return new CoConSetConditionQuerySet();
-            }
-        } );
-        desc.setHandler(handler);
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _coConSetConditionQuerySet
-        fieldValidator = new FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        desc.setValidator(fieldValidator);
-        
-        //-- _coConSetConditionQueryProperty
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionQueryProperty.class, "_coConSetConditionQueryProperty", "CoConSetConditionQueryProperty", NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
-                CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                return target.getCoConSetConditionQueryProperty();
-            }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                    target.setCoConSetConditionQueryProperty( (CoConSetConditionQueryProperty) value);
-                }
-                catch (Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public Object newInstance( Object parent ) {
-                return new CoConSetConditionQueryProperty();
-            }
-        } );
-        desc.setHandler(handler);
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _coConSetConditionQueryProperty
-        fieldValidator = new FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        desc.setValidator(fieldValidator);
-        
-        //-- _coConSetConditionUnion
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionUnion.class, "_coConSetConditionUnion", "CoConSetConditionUnion", NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
-                CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                return target.getCoConSetConditionUnion();
-            }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                    target.setCoConSetConditionUnion( (CoConSetConditionUnion) value);
-                }
-                catch (Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public Object newInstance( Object parent ) {
-                return new CoConSetConditionUnion();
-            }
-        } );
-        desc.setHandler(handler);
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _coConSetConditionUnion
-        fieldValidator = new FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        desc.setValidator(fieldValidator);
-        
-        //-- _coConSetConditionIntersection
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionIntersection.class, "_coConSetConditionIntersection", "CoConSetConditionIntersection", NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
-                CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                return target.getCoConSetConditionIntersection();
-            }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    CoConSetConditionIntersection target = (CoConSetConditionIntersection) object;
-                    target.setCoConSetConditionIntersection( (CoConSetConditionIntersection) value);
-                }
-                catch (Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public Object newInstance( Object parent ) {
-                return new CoConSetConditionIntersection();
-            }
-        } );
-        desc.setHandler(handler);
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _coConSetConditionIntersection
-        fieldValidator = new FieldValidator();
-        fieldValidator.setMinOccurs(1);
         desc.setValidator(fieldValidator);
         
     } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionIntersectionDescriptor()

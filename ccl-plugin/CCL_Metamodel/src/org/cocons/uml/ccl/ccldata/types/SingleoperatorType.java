@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: OperatorType.java,v 1.3 2002/02/09 18:47:50 ali Exp $
+ * $Id: SingleoperatorType.java,v 1.1 2002/02/09 18:47:50 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata.types;
@@ -18,9 +18,9 @@ import org.exolab.castor.xml.*;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2002/02/09 18:47:50 $
+ * @version $Revision: 1.1 $ $Date: 2002/02/09 18:47:50 $
 **/
-public class OperatorType implements java.io.Serializable {
+public class SingleoperatorType implements java.io.Serializable {
 
 
       //--------------------------/
@@ -35,7 +35,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the equal type
     **/
-    public static final OperatorType EQUAL = new OperatorType(EQUAL_TYPE, "equal");
+    public static final SingleoperatorType EQUAL = new SingleoperatorType(EQUAL_TYPE, "equal");
 
     /**
      * The notequal type
@@ -45,7 +45,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the notequal type
     **/
-    public static final OperatorType NOTEQUAL = new OperatorType(NOTEQUAL_TYPE, "notequal");
+    public static final SingleoperatorType NOTEQUAL = new SingleoperatorType(NOTEQUAL_TYPE, "notequal");
 
     /**
      * The lowerthan type
@@ -55,7 +55,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the lowerthan type
     **/
-    public static final OperatorType LOWERTHAN = new OperatorType(LOWERTHAN_TYPE, "lowerthan");
+    public static final SingleoperatorType LOWERTHAN = new SingleoperatorType(LOWERTHAN_TYPE, "lowerthan");
 
     /**
      * The lowerequal type
@@ -65,7 +65,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the lowerequal type
     **/
-    public static final OperatorType LOWEREQUAL = new OperatorType(LOWEREQUAL_TYPE, "lowerequal");
+    public static final SingleoperatorType LOWEREQUAL = new SingleoperatorType(LOWEREQUAL_TYPE, "lowerequal");
 
     /**
      * The greaterthan type
@@ -75,7 +75,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the greaterthan type
     **/
-    public static final OperatorType GREATERTHAN = new OperatorType(GREATERTHAN_TYPE, "greaterthan");
+    public static final SingleoperatorType GREATERTHAN = new SingleoperatorType(GREATERTHAN_TYPE, "greaterthan");
 
     /**
      * The greaterequal type
@@ -85,7 +85,7 @@ public class OperatorType implements java.io.Serializable {
     /**
      * The instance of the greaterequal type
     **/
-    public static final OperatorType GREATEREQUAL = new OperatorType(GREATEREQUAL_TYPE, "greaterequal");
+    public static final SingleoperatorType GREATEREQUAL = new SingleoperatorType(GREATEREQUAL_TYPE, "greaterequal");
 
     private static java.util.Hashtable _memberTable = init();
 
@@ -98,11 +98,11 @@ public class OperatorType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private OperatorType(int type, java.lang.String value) {
+    private SingleoperatorType(int type, java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
-    } //-- org.cocons.uml.ccl.ccldata.types.OperatorType(int, java.lang.String)
+    } //-- org.cocons.uml.ccl.ccldata.types.SingleoperatorType(int, java.lang.String)
 
 
       //-----------/
@@ -111,7 +111,7 @@ public class OperatorType implements java.io.Serializable {
 
     /**
      * Returns an enumeration of all possible instances of
-     * OperatorType
+     * SingleoperatorType
     **/
     public static java.util.Enumeration enumerate()
     {
@@ -119,7 +119,7 @@ public class OperatorType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Returns the type of this OperatorType
+     * Returns the type of this SingleoperatorType
     **/
     public int getType()
     {
@@ -141,7 +141,7 @@ public class OperatorType implements java.io.Serializable {
     } //-- java.util.Hashtable init() 
 
     /**
-     * Returns the String representation of this OperatorType
+     * Returns the String representation of this SingleoperatorType
     **/
     public java.lang.String toString()
     {
@@ -149,18 +149,19 @@ public class OperatorType implements java.io.Serializable {
     } //-- java.lang.String toString() 
 
     /**
-     * Returns a new OperatorType based on the given String value.
+     * Returns a new SingleoperatorType based on the given String
+     * value.
      * @param string
     **/
-    public static org.cocons.uml.ccl.ccldata.types.OperatorType valueOf(java.lang.String string)
+    public static org.cocons.uml.ccl.ccldata.types.SingleoperatorType valueOf(java.lang.String string)
     {
         Object obj = null;
         if (string != null) obj = _memberTable.get(string);
         if (obj == null) {
-            String err = "'" + string + "' is not a valid OperatorType";
+            String err = "'" + string + "' is not a valid SingleoperatorType";
             throw new IllegalArgumentException(err);
         }
-        return (OperatorType) obj;
-    } //-- org.cocons.uml.ccl.ccldata.types.OperatorType valueOf(java.lang.String) 
+        return (SingleoperatorType) obj;
+    } //-- org.cocons.uml.ccl.ccldata.types.SingleoperatorType valueOf(java.lang.String) 
 
 }

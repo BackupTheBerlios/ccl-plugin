@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: RestrictionType.java,v 1.2 2002/02/08 16:08:27 ali Exp $
+ * $Id: RestrictionType.java,v 1.3 2002/02/09 18:47:50 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata.types;
@@ -18,7 +18,7 @@ import org.exolab.castor.xml.*;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/02/09 18:47:50 $
 **/
 public class RestrictionType implements java.io.Serializable {
 
@@ -87,6 +87,16 @@ public class RestrictionType implements java.io.Serializable {
     **/
     public static final RestrictionType INFOTYPES = new RestrictionType(INFOTYPES_TYPE, "InfoTypes");
 
+    /**
+     * The Elements type
+    **/
+    public static final int ELEMENTS_TYPE = 6;
+
+    /**
+     * The instance of the Elements type
+    **/
+    public static final RestrictionType ELEMENTS = new RestrictionType(ELEMENTS_TYPE, "Elements");
+
     private static java.util.Hashtable _memberTable = init();
 
     private int type = -1;
@@ -137,6 +147,7 @@ public class RestrictionType implements java.io.Serializable {
         members.put("Computers", COMPUTERS);
         members.put("Containers", CONTAINERS);
         members.put("InfoTypes", INFOTYPES);
+        members.put("Elements", ELEMENTS);
         return members;
     } //-- java.util.Hashtable init() 
 

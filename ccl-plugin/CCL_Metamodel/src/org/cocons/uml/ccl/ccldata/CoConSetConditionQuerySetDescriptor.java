@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionQuerySetDescriptor.java,v 1.2 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionQuerySetDescriptor.java,v 1.3 2002/02/09 18:47:49 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/02/09 18:47:49 $
 **/
 public class CoConSetConditionQuerySetDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -96,21 +96,21 @@ public class CoConSetConditionQuerySetDescriptor extends org.exolab.castor.xml.u
         }
         desc.setValidator(fieldValidator);
         
-        //-- _operator
-        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.types.OperatorType.class, "_operator", "operator", NodeType.Attribute);
+        //-- _setoperator
+        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.types.SetoperatorType.class, "_setoperator", "setoperator", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
                 CoConSetConditionQuerySet target = (CoConSetConditionQuerySet) object;
-                return target.getOperator();
+                return target.getSetoperator();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     CoConSetConditionQuerySet target = (CoConSetConditionQuerySet) object;
-                    target.setOperator( (org.cocons.uml.ccl.ccldata.types.OperatorType) value);
+                    target.setSetoperator( (org.cocons.uml.ccl.ccldata.types.SetoperatorType) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -120,12 +120,12 @@ public class CoConSetConditionQuerySetDescriptor extends org.exolab.castor.xml.u
                 return null;
             }
         } );
-        desc.setHandler( new EnumFieldHandler(org.cocons.uml.ccl.ccldata.types.OperatorType.class, handler));
+        desc.setHandler( new EnumFieldHandler(org.cocons.uml.ccl.ccldata.types.SetoperatorType.class, handler));
         desc.setImmutable(true);
         desc.setRequired(true);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _operator
+        //-- validation code for: _setoperator
         fieldValidator = new FieldValidator();
         fieldValidator.setMinOccurs(1);
         desc.setValidator(fieldValidator);

@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionUnion.java,v 1.1 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionUnion.java,v 1.2 2002/02/09 18:47:49 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -14,6 +14,8 @@ package org.cocons.uml.ccl.ccldata;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
+import java.util.Enumeration;
+import java.util.Vector;
 import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
@@ -21,7 +23,7 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/09 18:47:49 $
 **/
 public class CoConSetConditionUnion implements java.io.Serializable {
 
@@ -30,15 +32,7 @@ public class CoConSetConditionUnion implements java.io.Serializable {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private CoConSetConditionQuerySingleValue _coConSetConditionQuerySingleValue;
-
-    private CoConSetConditionQuerySet _coConSetConditionQuerySet;
-
-    private CoConSetConditionQueryProperty _coConSetConditionQueryProperty;
-
-    private CoConSetConditionUnion _coConSetConditionUnion;
-
-    private CoConSetConditionIntersection _coConSetConditionIntersection;
+    private java.util.Vector _items;
 
 
       //----------------/
@@ -47,6 +41,7 @@ public class CoConSetConditionUnion implements java.io.Serializable {
 
     public CoConSetConditionUnion() {
         super();
+        _items = new Vector();
     } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnion()
 
 
@@ -55,39 +50,66 @@ public class CoConSetConditionUnion implements java.io.Serializable {
     //-----------/
 
     /**
+     * 
+     * @param vCoConSetConditionUnionItem
     **/
-    public CoConSetConditionIntersection getCoConSetConditionIntersection()
+    public void addCoConSetConditionUnionItem(org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem vCoConSetConditionUnionItem)
+        throws java.lang.IndexOutOfBoundsException
     {
-        return this._coConSetConditionIntersection;
-    } //-- CoConSetConditionIntersection getCoConSetConditionIntersection() 
+        _items.addElement(vCoConSetConditionUnionItem);
+    } //-- void addCoConSetConditionUnionItem(org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) 
+
+    /**
+     * 
+     * @param index
+     * @param vCoConSetConditionUnionItem
+    **/
+    public void addCoConSetConditionUnionItem(int index, org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem vCoConSetConditionUnionItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        _items.insertElementAt(vCoConSetConditionUnionItem, index);
+    } //-- void addCoConSetConditionUnionItem(int, org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) 
 
     /**
     **/
-    public CoConSetConditionQueryProperty getCoConSetConditionQueryProperty()
+    public java.util.Enumeration enumerateCoConSetConditionUnionItem()
     {
-        return this._coConSetConditionQueryProperty;
-    } //-- CoConSetConditionQueryProperty getCoConSetConditionQueryProperty() 
+        return _items.elements();
+    } //-- java.util.Enumeration enumerateCoConSetConditionUnionItem() 
+
+    /**
+     * 
+     * @param index
+    **/
+    public org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem getCoConSetConditionUnionItem(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        //-- check bounds for index
+        if ((index < 0) || (index > _items.size())) {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        return (org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) _items.elementAt(index);
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem getCoConSetConditionUnionItem(int) 
 
     /**
     **/
-    public CoConSetConditionQuerySet getCoConSetConditionQuerySet()
+    public org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem[] getCoConSetConditionUnionItem()
     {
-        return this._coConSetConditionQuerySet;
-    } //-- CoConSetConditionQuerySet getCoConSetConditionQuerySet() 
+        int size = _items.size();
+        org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem[] mArray = new org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem[size];
+        for (int index = 0; index < size; index++) {
+            mArray[index] = (CoConSetConditionUnionItem) _items.elementAt(index);
+        }
+        return mArray;
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem[] getCoConSetConditionUnionItem() 
 
     /**
     **/
-    public CoConSetConditionQuerySingleValue getCoConSetConditionQuerySingleValue()
+    public int getCoConSetConditionUnionItemCount()
     {
-        return this._coConSetConditionQuerySingleValue;
-    } //-- CoConSetConditionQuerySingleValue getCoConSetConditionQuerySingleValue() 
-
-    /**
-    **/
-    public CoConSetConditionUnion getCoConSetConditionUnion()
-    {
-        return this._coConSetConditionUnion;
-    } //-- CoConSetConditionUnion getCoConSetConditionUnion() 
+        return _items.size();
+    } //-- int getCoConSetConditionUnionItemCount() 
 
     /**
     **/
@@ -125,49 +147,50 @@ public class CoConSetConditionUnion implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.DocumentHandler) 
 
     /**
-     * 
-     * @param coConSetConditionIntersection
     **/
-    public void setCoConSetConditionIntersection(CoConSetConditionIntersection coConSetConditionIntersection)
+    public void removeAllCoConSetConditionUnionItem()
     {
-        this._coConSetConditionIntersection = coConSetConditionIntersection;
-    } //-- void setCoConSetConditionIntersection(CoConSetConditionIntersection) 
+        _items.removeAllElements();
+    } //-- void removeAllCoConSetConditionUnionItem() 
 
     /**
      * 
-     * @param coConSetConditionQueryProperty
+     * @param index
     **/
-    public void setCoConSetConditionQueryProperty(CoConSetConditionQueryProperty coConSetConditionQueryProperty)
+    public org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem removeCoConSetConditionUnionItem(int index)
     {
-        this._coConSetConditionQueryProperty = coConSetConditionQueryProperty;
-    } //-- void setCoConSetConditionQueryProperty(CoConSetConditionQueryProperty) 
+        Object obj = _items.elementAt(index);
+        _items.removeElementAt(index);
+        return (org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) obj;
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem removeCoConSetConditionUnionItem(int) 
 
     /**
      * 
-     * @param coConSetConditionQuerySet
+     * @param index
+     * @param vCoConSetConditionUnionItem
     **/
-    public void setCoConSetConditionQuerySet(CoConSetConditionQuerySet coConSetConditionQuerySet)
+    public void setCoConSetConditionUnionItem(int index, org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem vCoConSetConditionUnionItem)
+        throws java.lang.IndexOutOfBoundsException
     {
-        this._coConSetConditionQuerySet = coConSetConditionQuerySet;
-    } //-- void setCoConSetConditionQuerySet(CoConSetConditionQuerySet) 
+        //-- check bounds for index
+        if ((index < 0) || (index > _items.size())) {
+            throw new IndexOutOfBoundsException();
+        }
+        _items.setElementAt(vCoConSetConditionUnionItem, index);
+    } //-- void setCoConSetConditionUnionItem(int, org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) 
 
     /**
      * 
-     * @param coConSetConditionQuerySingleValue
+     * @param coConSetConditionUnionItemArray
     **/
-    public void setCoConSetConditionQuerySingleValue(CoConSetConditionQuerySingleValue coConSetConditionQuerySingleValue)
+    public void setCoConSetConditionUnionItem(org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem[] coConSetConditionUnionItemArray)
     {
-        this._coConSetConditionQuerySingleValue = coConSetConditionQuerySingleValue;
-    } //-- void setCoConSetConditionQuerySingleValue(CoConSetConditionQuerySingleValue) 
-
-    /**
-     * 
-     * @param coConSetConditionUnion
-    **/
-    public void setCoConSetConditionUnion(CoConSetConditionUnion coConSetConditionUnion)
-    {
-        this._coConSetConditionUnion = coConSetConditionUnion;
-    } //-- void setCoConSetConditionUnion(CoConSetConditionUnion) 
+        //-- copy array
+        _items.removeAllElements();
+        for (int i = 0; i < coConSetConditionUnionItemArray.length; i++) {
+            _items.addElement(coConSetConditionUnionItemArray[i]);
+        }
+    } //-- void setCoConSetConditionUnionItem(org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) 
 
     /**
      * 

@@ -2,10 +2,10 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionUnionDescriptor.java,v 1.2 2002/02/09 18:47:49 ali Exp $
+ * $Id: PropertyoperatorTypeDescriptor.java,v 1.1 2002/02/09 18:47:50 ali Exp $
  */
 
-package org.cocons.uml.ccl.ccldata;
+package org.cocons.uml.ccl.ccldata.types;
 
   //---------------------------------/
  //- Imported classes and packages -/
@@ -24,9 +24,9 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/09 18:47:49 $
+ * @version $Revision: 1.1 $ $Date: 2002/02/09 18:47:50 $
 **/
-public class CoConSetConditionUnionDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class PropertyoperatorTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -46,9 +46,9 @@ public class CoConSetConditionUnionDescriptor extends org.exolab.castor.xml.util
      //- Constructors -/
     //----------------/
 
-    public CoConSetConditionUnionDescriptor() {
+    public PropertyoperatorTypeDescriptor() {
         super();
-        xmlName = "CoConSetConditionUnion";
+        xmlName = "propertyoperatorType";
         XMLFieldDescriptorImpl  desc           = null;
         XMLFieldHandler         handler        = null;
         FieldValidator          fieldValidator = null;
@@ -56,40 +56,7 @@ public class CoConSetConditionUnionDescriptor extends org.exolab.castor.xml.util
         
         //-- initialize element descriptors
         
-        //-- _items
-        desc = new XMLFieldDescriptorImpl(org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem.class, "_items", (String)null, NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object ) 
-                throws IllegalStateException
-            {
-                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
-                return target.getCoConSetConditionUnionItem();
-            }
-            public void setValue( Object object, Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
-                    target.addCoConSetConditionUnionItem( (org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem) value);
-                }
-                catch (Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public Object newInstance( Object parent ) {
-                return new org.cocons.uml.ccl.ccldata.CoConSetConditionUnionItem();
-            }
-        } );
-        desc.setHandler(handler);
-        desc.setContainer(true);
-        desc.setMultivalued(true);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _items
-        fieldValidator = new FieldValidator();
-        desc.setValidator(fieldValidator);
-        
-    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnionDescriptor()
+    } //-- org.cocons.uml.ccl.ccldata.types.PropertyoperatorTypeDescriptor()
 
 
       //-----------/
@@ -121,7 +88,7 @@ public class CoConSetConditionUnionDescriptor extends org.exolab.castor.xml.util
     **/
     public java.lang.Class getJavaClass()
     {
-        return org.cocons.uml.ccl.ccldata.CoConSetConditionUnion.class;
+        return org.cocons.uml.ccl.ccldata.types.PropertyoperatorType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**
