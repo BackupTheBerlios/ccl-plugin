@@ -38,13 +38,13 @@ public class FigInfoType extends FigClass {
   public FigInfoType() {
     super();
     _stereo.setEditable(false);
-    getOperationsFig().setDisplayed(false);
+    //getOperationsFig().setDisplayed(false);
   }
 
   public FigInfoType(GraphModel gm, Object node) {
     super(gm,node);
     _stereo.setEditable(false);
-    getOperationsFig().setDisplayed(false);
+    //getOperationsFig().setDisplayed(false);
   }
 
   public Vector getPopUpActions(MouseEvent me) {

@@ -19,14 +19,22 @@ public class Init implements Runnable {
 
     public Init() {
     }
-    public void run() {
-	// add property pages
 
-	ProjectBrowser pb = ProjectBrowser.TheInstance;
-	pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
-	pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
-	pb.getDetailsPane().addToPropTab(MContextPropertyValueImpl.class, new PropPanelContextPropertyValue());
-	pb.getDetailsPane().addToPropTab(MClassImpl.class, new PropPanelComponent_Spec());
+    public void run() {
+		 addPropertyPages();
+		 addImportExport();
+	 }
+
+	public void addPropertyPages()
+	{
+		ProjectBrowser pb = ProjectBrowser.TheInstance;
+		pb.getDetailsPane().addToPropTab(MContextbasedConstraintImpl.class, new PropPanelContextbasedConstraint());
+		pb.getDetailsPane().addToPropTab(MStereotypeImpl.class, new PropPanelStereotype());
+		pb.getDetailsPane().addToPropTab(MContextPropertyValueImpl.class, new PropPanelContextPropertyValue());
+	}
+
+	public void addImportExport()
+	{
     }
 }
 

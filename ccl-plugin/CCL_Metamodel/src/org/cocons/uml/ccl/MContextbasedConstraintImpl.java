@@ -7,6 +7,11 @@ import ru.novosoft.uml.foundation.core.*;
 import org.cocons.uml.ccl.util.*;
 import org.cocons.argo.util.ModelIterator;
 
+import org.cocons.uml.ccl.ccldata.*;
+import org.cocons.uml.ccl.xml.CoConXMLWriter;
+
+import ru.novosoft.uml.foundation.data_types.MBooleanExpression;
+
 /**
  * The implementation of a Contextbased Constraint (CoCon).
  * This is the base class for the UML extension. If adding a CoCon to
@@ -19,6 +24,7 @@ public class MContextbasedConstraintImpl
 	extends MConstraintImpl
 	implements MContextbasedConstraint {
 
+	static public String BODY_LANGUAGE = "CCLXML";
 
         /**
          * The type of this CoCon.
@@ -69,6 +75,8 @@ public class MContextbasedConstraintImpl
 	 * Constructor that creates a new Contextbased Constraint.
 	 */
 	public MContextbasedConstraintImpl() {
+		System.out.println("MContextbasedConstraintImpl ctor");
+		setBody(new ru.novosoft.uml.foundation.data_types.MBooleanExpression("CCLXML", "<hallo>Hallo!</hallo>"));
 	}
 
 	/**
@@ -320,4 +328,69 @@ public class MContextbasedConstraintImpl
             }
           }
         }
+
+	/** Ensures XML-Body is in sync with modelled CoCon */
+	public void syncBody()
+	{
+		System.out.println("MContextbasedConstraintImpl.syncBody()");
+
+		// todo: replace next line with correct data
+		CoCon myself = getIMClassRepresentation();
+
+		String xmlstring = 
+			CoConXMLWriter.SINGLETON.singleCoConToString( myself );
+		super.setBody( new MBooleanExpression(BODY_LANGUAGE, xmlstring) );
+	}
+
+	/** Returns XML representation for this CoCon's contents */
+	public String getXMLRepresentation()
+	{
+		syncBody();
+		MBooleanExpression body = super.getBody();
+		if( (body == null) ||
+			 (!BODY_LANGUAGE.equals(body.getLanguage())) )
+			{ System.err.println("Weird CoCon-Body contents"); }
+
+		return body.getBody();
+	}
+
+	public CoCon getIMClassRepresentation()
+	{
+		return newSampleCoCon();
+	}
+
+	public void initializeFromIMClass( CoCon cocon )
+	{}
+
+	public static 
+		org.cocons.uml.ccl.ccldata.CoCon 
+		newSampleCoCon()
+	{
+		CoCon cocon = new CoCon();
+
+		// type
+		cocon.setType("SomethingBy");
+
+
+		// scope
+		CoConSet scope = new CoConSet();
+		scope.setId( org.cocons.uml.ccl.ccldata.types.IdType.SCOPE );
+		cocon.addCoConSet(scope);
+
+
+		// target
+		CoConSet target = new CoConSet();
+		target.setId( org.cocons.uml.ccl.ccldata.types.IdType.TARGET );
+
+		cocon.addCoConSet(target);
+
+
+		// attrib
+		CoConAttribute attrib = new CoConAttribute();
+		attrib.setName("attribute name");
+		attrib.setValue("attribute value");
+		cocon.addCoConAttribute( attrib );
+
+		return cocon;
+	}
 }

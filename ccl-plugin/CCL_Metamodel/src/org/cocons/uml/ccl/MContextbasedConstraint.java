@@ -1,8 +1,8 @@
 package org.cocons.uml.ccl;
 
 import java.util.Vector;
-
 import ru.novosoft.uml.foundation.core.MConstraint;
+import org.cocons.uml.ccl.ccldata.CoCon;
 
 /**
  * The interface that defines a Contextbased Constraint (CoCon).
@@ -111,4 +111,19 @@ public interface MContextbasedConstraint extends MConstraint {
 		 * @return the CCL String that defines the scope set.
 		 */
 		public String getScopeSetCCLString();
+
+	/** Ensures XML-Body is in sync with modelled CoCon */
+	public void syncBody();
+
+	/** Returns XML representation for this CoCon's contents */
+	public String getXMLRepresentation();
+
+	/** Returns intermediate class representation */
+	public CoCon getIMClassRepresentation();
+
+	/** Initializes cocon from intermediate classes  */
+	public void initializeFromIMClass( CoCon cocon );
+
+
 }
+
