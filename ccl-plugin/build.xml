@@ -56,7 +56,6 @@ author: klischat, oetker
       	</fileset>
       	<fileset dir="${argo.lib.dir}">
         	<include name="**/*.jar"/>
-			<exclude name="**/saxon*.jar"/>
       	</fileset>
 		<pathelement path="${argouml.classes.dir}"/>
 	</path>
@@ -67,7 +66,6 @@ author: klischat, oetker
       	</fileset>
       	<fileset dir="${argo.lib.dir}">
         	<include name="**/*.jar"/>
-			<exclude name="**/saxon*.jar"/>
       	</fileset>
 		<pathelement path="${argouml.classes.dir}"/>
 	</path>

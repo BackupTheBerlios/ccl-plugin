@@ -499,9 +499,10 @@ public class ModelIterator {
 		if( _smuggledComment != null )
 			return;
 
-		Vector models = ProjectBrowser.TheInstance.getProject().getModels();
+		Iterator modelsIt = ProjectBrowser.TheInstance.getProject().
+			getModels().iterator();
 
-		_smuggledCommentModel = (MModel)models.elementAt(0);
+		_smuggledCommentModel = (MModel)modelsIt.next();
 		_smuggledComment = new MCommentImpl();
 		_smuggledComment.setName( EMBEDDED_TAG_XML_PREFIX +
 										  EmbeddedContextPropertyTagCreator.SINGLETON.
