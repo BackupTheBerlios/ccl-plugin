@@ -28,6 +28,8 @@ import org.cocons.argo.diagram.ui.*;
 import org.cocons.argo.diagram.component_spec.*;
 import org.cocons.uml.ccl.*;
 
+import org.tigris.gef.presentation.Fig;
+
 public class CCLComponent_SpecDiagram extends CCLDiagram {
 
     ////////////////
@@ -129,5 +131,8 @@ public class CCLComponent_SpecDiagram extends CCLDiagram {
 
 	_toolBar.add(_diagramName);
     }
+
+
+
 
 } /* end class CCLComponent_SpecDiagram */

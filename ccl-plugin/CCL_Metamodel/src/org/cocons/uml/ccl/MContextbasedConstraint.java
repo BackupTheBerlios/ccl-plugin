@@ -129,7 +129,5 @@ public interface MContextbasedConstraint extends MConstraint {
 
 	/** Initializes cocon from intermediate classes  */
 	public void initializeFromIMClass( CoCon cocon );
-
-
 }
 

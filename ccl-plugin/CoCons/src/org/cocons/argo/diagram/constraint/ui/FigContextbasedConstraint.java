@@ -385,10 +385,10 @@ public class FigContextbasedConstraint extends FigNodeModelElement {
 
         //me.setScopeSetDirectElements(ccf.getScopeDirectAssoziations());
 
-        me.setTargetSetContextCondition(ccf.getTargetIndirectAssoziations());
+        //me.setTargetSetContextCondition(ccf.getTargetIndirectAssoziations());
         //System.out.println("InDirectTarget " + ccf.getTargetIndirectAssoziations());
 
-        me.setScopeSetContextCondition(ccf.getScopeIndirectAssoziations());
+        //me.setScopeSetContextCondition(ccf.getScopeIndirectAssoziations());
         //System.out.println("InDirectScope " + ccf.getScopeIndirectAssoziations());
 
       }

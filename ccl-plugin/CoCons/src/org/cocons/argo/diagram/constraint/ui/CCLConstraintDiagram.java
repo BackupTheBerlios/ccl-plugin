@@ -50,6 +50,9 @@ import org.cocons.argo.diagram.ui.*;
 
 import org.tigris.gef.presentation.Fig;
 
+import org.cocons.argo.util.ModelReplicator;
+
+
 public class CCLConstraintDiagram extends CCLDiagram {
 
 
@@ -204,20 +207,77 @@ public class CCLConstraintDiagram extends CCLDiagram {
 
 
 
+	////////////////
+	// persistence-related stuff
+
+	/** Searches for MContextbasedConstraints which were loaded as
+	 *  MConstraint instances and converts them */
 	public void postLoad()
 	{
-		//ali-to-do: convert MConstraint to MContextbasedConstraint
-		System.out.println("CCLConstraintDiagram.postLoad()");
+		convertLoadedConstraints();
+		super.postLoad();
 	}
 
-	public void postSave()
+	/** Ensures all MContextbasedConstraints have their XML-Body
+	 *  in sync */
+	public void preSave()
 	{
-		//ali-to-do: nothing
-		System.out.println("CCLConstraintDiagram.postSave()");
+		syncCoConBodies();
+		super.preSave();
 	}
 
-	public void syncCoConBodies()
+
+
+	protected void convertLoadedConstraints()
 	{
+		//System.out.println("CCLConstraintDiagram.postLoad() -- 1");
+ 		//org.cocons.uml.xmi.PostLoadProjectUpdate.SINGLETON.dumpDiagrams();
+
+		Iterator it = collectBadFigs().iterator();
+		while( it.hasNext() )
+			{
+				Fig f = (Fig)it.next();
+				fixBadConstraint( (MConstraint)f.getOwner(), f );
+			}
+	}
+
+	protected Collection collectBadFigs()
+	{
+		Collection figs  = new Vector();
+		Enumeration elems = elements();
+
+		while( elems.hasMoreElements() )
+		 	{
+				Object f = elems.nextElement();
+				if( f instanceof Fig )
+					{
+						Object mel = ((Fig)f).getOwner();
+						if( mel != null )
+							if( mel instanceof MConstraint )
+								if( MContextbasedConstraintImpl.BODY_LANGUAGE.
+									 equals(((MConstraint)mel).getBody().getLanguage()) )
+									figs.add(f);
+					}
+			}
+		return figs;
+	}
+
+	protected void fixBadConstraint( MConstraint cons,
+													Fig fig )
+	{
+		MContextbasedConstraint newCoCon = 
+			new MContextbasedConstraintImpl();
+
+		ModelReplicator.SINGLETON.
+			replicateMConstraintToMContextbasedConstraint( cons, newCoCon );
+
+		fig.setOwner( newCoCon );
+	}
+
+	protected void syncCoConBodies()
+	{
+		//System.out.println("CCLConstraintDiagram.preSave()");
+ 		//org.cocons.uml.xmi.PostLoadProjectUpdate.SINGLETON.dumpDiagrams();
 		Enumeration elems = elements();
 		while( elems.hasMoreElements() )
 		 	{
@@ -232,33 +292,6 @@ public class CCLConstraintDiagram extends CCLDiagram {
 			}
 	}
 
-	public void preSave()
-	{
-		syncCoConBodies();
-
-
-
-		//ali-to-do: ensure all cocons write their contents *now* to the body
-//		System.out.println("CCLConstraintDiagram.preSave()");
-//		org.cocons.uml.xmi.PostLoadProjectUpdate.SINGLETON.dumpDiagrams();
-//
-//		System.out.println("MY ELEMENTS:");
-//		java.util.Enumeration enum = elements();
-//		while( enum.hasMoreElements() )
-//		 	{
-// 				Object o = enum.nextElement();
-// 				System.out.println("  " + o.getClass() + ": " + o );
-// 				if( o instanceof Fig )
-// 					{ 
-// 						Object o2 = ((Fig)o).getOwner();
-// 						if( o2 == null )
-// 							System.out.println("  Owner: null");
-// 						else
-// 							System.out.println("  Owner:" + o2.getClass() );
-// 					}
-				
-// 			}
-	}
 	
 
 } /* end class UMLUseCaseDiagram */
