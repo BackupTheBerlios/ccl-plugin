@@ -95,7 +95,6 @@ public class ActionAddContextProperty extends UMLAction {
             figureOwner.setCPTag(choosenTag);
             figureOwner.setCPValue("no values selected or defined");
             ((MModelElement)target).addTaggedValue(figureOwner);
-
             FigContextProperty contextProperty = new FigContextProperty(gm,figureOwner);
 
             // place the note a few pixels right of the selected figure

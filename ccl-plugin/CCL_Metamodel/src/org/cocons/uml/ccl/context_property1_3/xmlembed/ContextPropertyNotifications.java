@@ -74,6 +74,16 @@ public class ContextPropertyNotifications
 
 		// ali-todo: create MContextPropertyValue, initiate from content,
 		// put into fig.
+		MContextPropertyValue newprop = 
+			EmbeddedContextPropertyValueDecoder.SINGLETON.decode( content );
+		
+		System.out.println("DECODED " + content + "    AND GOT " + newprop);
+		System.out.println("DECODED " + content + "    AND GOT " + newprop.getClass());
+		if( newprop != null )
+			{ 
+				fig.setOwner( newprop );
+				fig.actualizeEntries();
+			}
 	}
 
 	protected Iterator propsInDiagram( Diagram diag )

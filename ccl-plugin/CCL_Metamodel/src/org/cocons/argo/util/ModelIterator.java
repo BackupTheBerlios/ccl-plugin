@@ -381,9 +381,17 @@ public class ModelIterator {
 
 
 
+
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  //  Persistence of ContextPropertyTags
+
 	private MComment _smuggledComment      = null;
 	private MModel   _smuggledCommentModel = null;
 
+	/** Puts a dummy MComment containing all ContextPropertyTags into the model,
+	 *  unless there is already one. */
 	public void ensureTagsAreModelled()
 	{
 		System.out.println("ensureTagsAreModelled()");
@@ -403,9 +411,10 @@ public class ModelIterator {
 		_smuggledCommentModel.addOwnedElement(_smuggledComment);
 	}
 
+	/** Removes the ContextPropertyTags-Dummy-MComment from the model,
+	 *  unless there is none. */
 	public void ensureTagsAreNotModelled()
 	{
-		//System.out.println("ensureTagsAreNotModelled()");
 		if( _smuggledComment != null )
 			{
 				_smuggledCommentModel.removeOwnedElement(_smuggledComment);
@@ -414,21 +423,20 @@ public class ModelIterator {
 			}
 	}
 
+	/** Searches the loaded-but-not-yet-installed model for
+	 *  ContextPropertyTags-Dummy-MComments, intiates ContextPropertyTags from
+	 *  them, and discards them. */
 	public void restoreSmuggledTags()
 	{
-		//Iterator models = ProjectBrowser.TheInstance.getProject().getModels().iterator();
 		Iterator models = ArgoParser.SINGLETON.getProject().getModels().iterator();
-		//System.out.println("restoreSmuggledTags()");
 		while( models.hasNext() )
 			{
 				Collection doomedElems = new Vector();
 				MModel model = (MModel)models.next();
 				Iterator elems = model.getOwnedElements().iterator();
-				//System.out.println("  check Model");
 				while( elems.hasNext() )
 					{
 						Object o = elems.next();
-						//System.out.println("    " + o.getClass() );
 						if( o instanceof MComment )
 							if( perhapsReadSmuggledTag((MComment)o) )
 								doomedElems.add( o );
@@ -440,13 +448,13 @@ public class ModelIterator {
 			};
 	}
 
+	/** Checks whether a MComment is really a ContextPropertyTags-Dummy-MComment,
+	 *  initiates ContextPropertyTags from it. */
 	protected boolean perhapsReadSmuggledTag( MComment com )
 	{
 		String name = com.getName();
 		if( name == null )
 			return false;
-
-		System.out.println("      >>" + name );
 
 		int headlgt = EMBEDDED_TAG_XML_PREFIX.length();
 
@@ -468,8 +476,6 @@ public class ModelIterator {
 				dumbDelCPTag( tag.getName() );
 				addCPTag( tag );
 			}
-
-		System.out.println("FOUND " + xml);
 
 		return true;
 	}

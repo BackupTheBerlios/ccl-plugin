@@ -13,9 +13,12 @@ import org.argouml.uml.UUIDManager;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Enumeration;
 import javax.swing.JOptionPane;
 
 import org.cocons.uml.ccl.context_property1_3.xmlembed.*;
+import org.cocons.uml.ccl.context_property1_3.xmlembed.castor.ECPVEntry;
+import org.cocons.uml.ccl.context_property1_3.xmlembed.castor.types.TypeType;
 
 /**
 * Wraps a MTaggedValue, but deprecates its set/getTag()-Method, so that a
@@ -68,6 +71,67 @@ public class MContextPropertyValueImpl extends MTaggedValueImpl implements MCont
 	 */
 	public MContextPropertyValueImpl() {
           // _taggedValue = new MTaggedValueImpl(); // ??? wozu ??? (hyshosha@gmx.de)
+	}
+
+
+	public boolean initializeFromEmbeddedXML( MContextPropertyTag tag,
+															TypeType type,
+															Enumeration entries )
+	{
+		Vector values     = new Vector();
+		Vector selections = new Vector();
+		Vector deps       = new Vector();
+
+		_contextTag = tag;
+		setCPTag( tag.getName() );
+		_valuesCount=0;
+		setCPValue("hello?");
+		_stereoString="m,mm";
+		switch( type.getType() ) {
+		case TypeType.STRINGS_TYPE:
+			_validValuesType    = "List Of Strings";
+			_validStrings       = values;
+			_stringSelection    = selections;
+			_stringDependencies = deps;
+			break;
+		case TypeType.FLOATS_TYPE:
+			_validValuesType   = "Float Number";
+			_definedFloats     = values;
+			_floatSelection    = selections;
+			_floatDependencies = deps;
+			break;
+		case TypeType.INTEGERS_TYPE:
+			_validValuesType = "Integer Number";
+			_definedIntegers = values;
+			_intSelection    = selections;
+			_intDependencies = deps;
+			break;
+		default:
+			return false;
+		}
+
+		while( entries.hasMoreElements() )
+			{
+				ECPVEntry ent = (ECPVEntry)entries.nextElement();
+				_valuesCount ++;
+				values.add( ent.getValue() );
+				selections.add( new Boolean(ent.getSelected()) );
+				deps.add( ent.getDependency() );
+			}
+
+
+		switch( type.getType() ) {
+		case TypeType.STRINGS_TYPE:
+			checkValueSelection_ListOfString();
+			break;
+		case TypeType.FLOATS_TYPE:
+			checkValueSelection_Float();
+			break;
+		case TypeType.INTEGERS_TYPE:
+			checkValueSelection_Integer();
+		}
+
+		return true;
 	}
 
 	/**

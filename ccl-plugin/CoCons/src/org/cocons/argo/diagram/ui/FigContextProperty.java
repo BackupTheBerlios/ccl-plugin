@@ -111,6 +111,13 @@ public class FigContextProperty
   // Fig accessors
 
   public void actualizeEntries() {
+// 	  System.out.println("actualizeEntries:1 "+_myOwner);
+// 	  System.out.println("actualizeEntries:2 "+_myOwner.getValueVisibility());
+// 	  System.out.println("actualizeEntries:3 "+_myOwner.getStereoString());
+// 	  System.out.println("actualizeEntries:4 "+_myOwner.getFigureOrientation());
+// 	  System.out.println("actualizeEntries:5 "+_myOwner.getContextPropertyTag().getTag());
+// 	  System.out.println("actualizeEntries:6 "+_myOwner.getValueString_Horizontal());
+// 	  System.out.println("actualizeEntries:7 "+_myOwner.getValueString_Vertical());
     if (_myOwner.getValueVisibility()) {
       String stereo = _myOwner.getStereoString();
       if (!_myOwner.getFigureOrientation()) {
@@ -138,6 +145,15 @@ public class FigContextProperty
   public void setOwner(Object node) {
 	  if( node == null )
 		  { System.out.println("FigContextProperty.setOwner(null)"); }
+	  else if( node instanceof MContextPropertyValueImpl )
+		  {
+			  _myOwner = (MContextPropertyValueImpl)node;
+			  _badLoadedOwner = null;
+			  if (!_killed) {
+				  super.setOwner(node);
+				  bindPort(node, _bigPort);
+			  }
+		  }
 	  else if( node instanceof MTaggedValue )
 		  {
 			  System.out.println("FigContextProperty.setOwner() with MTaggedValue!");
