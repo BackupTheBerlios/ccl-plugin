@@ -4,11 +4,7 @@ import org.cocons.uml.ccl.*;
 
 import org.cocons.uml.ccl.logic_operations.*;
 
-import org.cocons.uml.ccl.comparators.*;/**
- * Generates limited random conditional tree.
- * Creation date: (28.12.2001 16:09:01)
- * @author: Fadi Chabarek
- */
+import org.cocons.uml.ccl.comparators.*;
 public class ConditionalTreeGenerator {
 	/**
 	 * ConditionalTreeGenerator constructor comment.
@@ -43,7 +39,7 @@ public class ConditionalTreeGenerator {
 	 */
 	public static Comparison generateComparison() {
 
-		ComparisonImpl Comparison = new ComparisonImpl();
+		ValueComparison Comparison = new ValueComparison();
 
 		Comparison.setTag(generateTag(10));
 		Comparison.setValue(String.valueOf(Math.random()));
@@ -58,7 +54,7 @@ public class ConditionalTreeGenerator {
 	 */
 	public static Comparison generateComparison(int tagLength) {
 
-		ComparisonImpl Comparison = new ComparisonImpl();
+		ValueComparison Comparison = new ValueComparison();
 
 		Comparison.setTag(generateTag(tagLength));
 		Comparison.setValue(String.valueOf(Math.random()));

@@ -26,107 +26,107 @@ public class ContextConditionFactory{
   private SyntaxcheckOfCoconsFromBNF syntaxChecker;
 
   public ContextConditionFactory(String s){
-    cocon = s;
-    syntaxChecker = new SyntaxcheckOfCoconsFromBNF(cocon);
-  }
+	cocon = s;
+	syntaxChecker = new SyntaxcheckOfCoconsFromBNF(cocon);
+  }  
 
   public Vector getTargetDirectAssoziations(){
-    Vector vect = new Vector();
-    vect = syntaxChecker.getDirectElementOfTargetSet(cocon);
-    if (vect.size()== 0)
-      return null;
-    else
-    return vect;
-  }
+	Vector vect = new Vector();
+	vect = syntaxChecker.getDirectElementOfTargetSet(cocon);
+	if (vect.size()== 0)
+	  return null;
+	else
+	return vect;
+  }  
 
   public Vector getScopeDirectAssoziations(){
-    Vector vect = new Vector();
-    vect = syntaxChecker.getDirectElementOfScopeSet(cocon);
-    if (vect.size()== 0)
-      return null;
-    else
-    return vect;
-  }
+	Vector vect = new Vector();
+	vect = syntaxChecker.getDirectElementOfScopeSet(cocon);
+	if (vect.size()== 0)
+	  return null;
+	else
+	return vect;
+  }  
 
   public Vector getTargetIndirectAssoziations(){
-    Vector targetSet = new Vector();
-    targetSet = syntaxChecker.getIndirectElementOfTargetSet(cocon);
-    Vector theTrees = new Vector();
-    for (int i = 0; i<targetSet.size(); i++){
-      Vector vect = new Vector();
-      vect = syntaxChecker.getFirstComparison((targetSet.get(i)).toString());
-      System.out.println("Factory: " + vect);
-      ContextConditionImpl tree = buildTree(vect);
-      theTrees.addElement(tree);
-    }
-    return theTrees;
-    //ContextConditionImpl target = unionTrees(theTrees);
-    //return target;
+	Vector targetSet = new Vector();
+	targetSet = syntaxChecker.getIndirectElementOfTargetSet(cocon);
+	Vector theTrees = new Vector();
+	for (int i = 0; i<targetSet.size(); i++){
+	  Vector vect = new Vector();
+	  vect = syntaxChecker.getFirstComparison((targetSet.get(i)).toString());
+	  System.out.println("Factory: " + vect);
+	  ContextConditionImpl tree = buildTree(vect);
+	  theTrees.addElement(tree);
+	}
+	return theTrees;
+	//ContextConditionImpl target = unionTrees(theTrees);
+	//return target;
 
-  }
+  }  
 
 
   public Vector getScopeIndirectAssoziations(){
-    Vector scopeSet = new Vector();
-    scopeSet = syntaxChecker.getIndirectElementOfScopeSet(cocon);
-    Vector theTrees = new Vector();
-    for (int i = 0; i<scopeSet.size(); i++){
-      Vector vect = new Vector();
-      vect = syntaxChecker.getFirstComparison((scopeSet.get(i)).toString());
-      ContextConditionImpl tree = buildTree(vect);
-      theTrees.addElement(tree);
-    }
-    return theTrees;
-    //ContextConditionImpl scope = unionTrees(theTrees);
-    //return scope;
-  }
+	Vector scopeSet = new Vector();
+	scopeSet = syntaxChecker.getIndirectElementOfScopeSet(cocon);
+	Vector theTrees = new Vector();
+	for (int i = 0; i<scopeSet.size(); i++){
+	  Vector vect = new Vector();
+	  vect = syntaxChecker.getFirstComparison((scopeSet.get(i)).toString());
+	  ContextConditionImpl tree = buildTree(vect);
+	  theTrees.addElement(tree);
+	}
+	return theTrees;
+	//ContextConditionImpl scope = unionTrees(theTrees);
+	//return scope;
+  }  
 
   public String getCoConType(){
-    return syntaxChecker.getCoConsType(cocon);
-  }
+	return syntaxChecker.getCoConsType(cocon);
+  }  
 
   public boolean isValid(){
-    if ( syntaxChecker != null){
-        return syntaxChecker.isValid(cocon);
-    }
-    else {
-	System.out.println("Error at initializing SyntaxChecker");
-          return false;
+	if ( syntaxChecker != null){
+		return syntaxChecker.isValid(cocon);
 	}
-  }
+	else {
+	System.out.println("Error at initializing SyntaxChecker");
+		  return false;
+	}
+  }  
 
   public boolean isValidTarget(String s){
 	  String target = "";
 	  target = s + " MUST BE READABLEBY THE component 'a'";
 	  return syntaxChecker.isValid(target);
-  }
+  }  
 
   public boolean isValidScope(String s){
 	  String cocons = "";
 	  cocons = "THE component 'a' MUST BE READABLEBY " + s;
   	  return syntaxChecker.isValidScope(cocons);
-  }
+  }  
 
   protected ContextConditionImpl unionTrees(Vector vect){
-      System.out.println("Factory: " + vect.size());
-    if (vect.size()==1){
-      return (ContextConditionImpl) vect.get(0);
-    }
-    if(vect.size()> 1){
-      ContextConditionImpl newRoot = new ContextConditionImpl();
-      newRoot.setFirstChild((ContextConditionImpl) vect.get(0));
-      vect.removeElementAt(0);
-      ContextConditionImpl secondChild = new ContextConditionImpl();
-      secondChild = unionTrees(vect);
-      newRoot.setSecondChild(secondChild);
-      LogicFactoryImpl lf = new LogicFactoryImpl();
-      LogicOperation logOp;
-      logOp = lf.produceLogicOperationWithType(LogicFactory.OR);
-      newRoot.setLogicOperation(logOp);
-      return newRoot;
-    }
-    else return null;
-  }
+	  System.out.println("Factory: " + vect.size());
+	if (vect.size()==1){
+	  return (ContextConditionImpl) vect.get(0);
+	}
+	if(vect.size()> 1){
+	  ContextConditionImpl newRoot = new ContextConditionImpl();
+	  newRoot.setFirstChild((ContextConditionImpl) vect.get(0));
+	  vect.removeElementAt(0);
+	  ContextConditionImpl secondChild = new ContextConditionImpl();
+	  secondChild = unionTrees(vect);
+	  newRoot.setSecondChild(secondChild);
+	  LogicFactoryImpl lf = new LogicFactoryImpl();
+	  LogicOperation logOp;
+	  logOp = lf.produceLogicOperationWithType(LogicFactory.OR);
+	  newRoot.setLogicOperation(logOp);
+	  return newRoot;
+	}
+	else return null;
+  }  
 
 
   protected ContextConditionImpl buildTree(Vector vect){
@@ -138,47 +138,47 @@ public class ContextConditionFactory{
 
 	  if (string2.equals("empty")){//in string1 is a condition like "tag = val"
 
-            //build comparison
-            ComparisonImpl comparison = new ComparisonImpl();
-            ComparatorFactoryImpl comparatorFactory = new ComparatorFactoryImpl();
-            int comparisonType;
-            String tag;
-            String value;
-            comparisonType = syntaxChecker.getComparisonType(string1);
-            tag = syntaxChecker.getContextPropertyName(string1);
-            value = syntaxChecker.getValue(string1);
+			//build comparison
+			ValueComparison comparison = new ValueComparison();
+			ComparatorFactoryImpl comparatorFactory = new ComparatorFactoryImpl();
+			int comparisonType;
+			String tag;
+			String value;
+			comparisonType = syntaxChecker.getComparisonType(string1);
+			tag = syntaxChecker.getContextPropertyName(string1);
+			value = syntaxChecker.getValue(string1);
 
-            comparison.setComparator(comparatorFactory.produceComparatorWithType(comparisonType));
-            comparison.setTag(tag);
-            comparison.setValue(value);
+			comparison.setComparator(comparatorFactory.produceComparatorWithType(comparisonType));
+			comparison.setTag(tag);
+			comparison.setValue(value);
 
-            ContextConditionImpl leaf = new ContextConditionImpl();
-            leaf.setComparison(comparison);
+			ContextConditionImpl leaf = new ContextConditionImpl();
+			leaf.setComparison(comparison);
 	    // leaf.setBaseClass(baseClass);
-            //System.out.println(rangeString);
-            //MMultiplicity range = new MMultiplicity(rangeString);
-            //leaf.setRange(rangeString);
-            return leaf;
+			//System.out.println(rangeString);
+			//MMultiplicity range = new MMultiplicity(rangeString);
+			//leaf.setRange(rangeString);
+			return leaf;
 
 	  }
 	  else {
 	  	  ContextConditionImpl newRoot = new ContextConditionImpl();
-                  Vector vector1 = new Vector();
-                  Vector vector2 = new Vector();
+				  Vector vector1 = new Vector();
+				  Vector vector2 = new Vector();
 
-                  vector1 = syntaxChecker.getFirstComparison(string1);
-                  vector2 = syntaxChecker.getFirstComparison(string2);
+				  vector1 = syntaxChecker.getFirstComparison(string1);
+				  vector2 = syntaxChecker.getFirstComparison(string2);
 
 	  	  newRoot.setFirstChild(buildTree(vector1));
 	  	  newRoot.setSecondChild(buildTree(vector2));
 
 	  	  LogicFactoryImpl lf = new LogicFactoryImpl();
-                  LogicOperation logOp;
+				  LogicOperation logOp;
 		  if (logic.equals("OR")){
 		  	   logOp = lf.produceLogicOperationWithType(LogicFactory.OR);
 		  }
 		  else {
-                          logOp = lf.produceLogicOperationWithType(LogicFactory.AND);
+						  logOp = lf.produceLogicOperationWithType(LogicFactory.AND);
 		  }
 	  	  newRoot.setLogicOperation(logOp);
 		  newRoot.setRange(rangeString);
@@ -186,5 +186,5 @@ public class ContextConditionFactory{
 
 	  	  return newRoot;
 	  }
-  }
+  }    
 }
