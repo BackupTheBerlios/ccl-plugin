@@ -29,27 +29,27 @@ import org.argouml.kernel.Project;
  * @author: Fadi Chabarek
  */
 public class TestCrSetToValueIn extends junit.framework.TestCase {
-	
+
 	/**
-	 * A context based constraint, describing: 
+	 * A context based constraint, describing:
 	 * ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
 	 * MUST BE SetToValueIn IN
 	 * ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
 	 */
 	MContextbasedConstraintImpl cocon = new MContextbasedConstraintImpl();
-	
+
 	/**
 	 * The cocon's target context condition, describing
 	 * ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
 	 */
 	ContextConditionImpl targetSet = new ContextConditionImpl();
-	
+
 	/**
 	 * The cocon's scope context condition, describing
 	 * ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
 	 */
 	ContextConditionImpl scopeSet = new ContextConditionImpl();
-	
+
 	/**
 	 * A comparison of the target context condition, describing
 	 * `Workflow' CONTAINS `Integrate Two Contracts'
@@ -72,7 +72,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 	 * `Workflow' CONTAINS `Integrate Two Contracts'.
 	 */
 	MContextPropertyValueImpl twoContract = new MContextPropertyValueImpl();
-	
+
 	/**
 	 * A context property value, marking an object as
 	 * `<<Configure>> Historization' = `To Local Logfile'
@@ -83,27 +83,27 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 	 * The context property tag belonging the context property value twoContract.
 	 */
 	MContextPropertyTagImpl workflow = new MContextPropertyTagImpl();
-	
+
 	/**
 	 * The context property tag belonging the context property value logfile.
-	 */	
+	 */
 	MContextPropertyTagImpl history = new MContextPropertyTagImpl();
 
 	/**
 	 * Another context property value different from twoContract and logfile
 	 */
 	MContextPropertyValueImpl anotherValue = new MContextPropertyValueImpl();
-	
+
 	/**
 	 * The tag belonging to anotherValue
 	 */
 	MContextPropertyTagImpl anotherTag = new MContextPropertyTagImpl();
-	
+
 	/**
 	 * An example argo project.
 	 */
 	Project project = new Project();
-	
+
 	/**
 	 * Constructs this test case.
 	 * @param name java.lang.String the name of the test case.
@@ -111,7 +111,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 	public TestCrSetToValueIn(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * Starts the application.
 	 * @param args an array of command-line arguments
@@ -119,7 +119,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 	public static void main(java.lang.String[] args) {
 		junit.swingui.TestRunner.run(AllTest.class);
 	}
-	
+
 	/**
 	 * Sets the test up.
 	 * Creation date: (15.01.2002 18:04:12)
@@ -130,7 +130,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 		setUpProject();
 
 	}
-	
+
 	/**
 	 * Sets the CoCon up for this test.
 	 * Creation date: (15.01.2002 18:08:56)
@@ -175,7 +175,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 		logfile.setValue("`To Local Logfile'");
 		logfile.setContextPropertyTag(history);
 
-		sComp.setTag(logfile.getTag());
+		sComp.setTag(history.getTag());
 		sComp.setComparator(cf.produceComparatorWithType(cf.EQUAL));
 		sComp.setValue(logfile.getValue());
 
@@ -186,7 +186,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 		cocon.setCoConType(CoConTypes.SET_TO_VALUE_IN_TYPE);
 		cocon.setScopeSetContextCondition(scopeSet);
 	}
-	
+
 	/**
 	 * Sets the project up for this test.
 	 * Creation date: (15.01.2002 18:09:18)
@@ -221,7 +221,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 			fail("Failure while building up the example project. Reason: " + pve);
 		}
 	}
-	
+
 	/**
 	 * Tests the critic with an example expressing:
 	 * Every remote procedure call (RPC) belonging to the
