@@ -3,7 +3,7 @@ package org.cocons.argo.cognitive.critics;
 import org.argouml.uml.cognitive.critics.CrUML;
 import org.argouml.cognitive.Designer;
 import org.cocons.uml.ccl.MContextbasedConstraintImpl;
-import org.cocons.uml.ccl.MContextCondition;
+import org.cocons.uml.ccl.ContextCondition;
 import java.util.Vector;
 import org.argouml.ui.ProjectBrowser;
 import org.argouml.kernel.Project;
@@ -46,9 +46,9 @@ public class CrOnlyReadableBy extends CrCoCon {
 
     //get ContextBasedConstraint and check if the type is correct
     MContextbasedConstraintImpl CoCon = (MContextbasedConstraintImpl)dm;
-    if (CoCon.getCoConType()!=MContextbasedConstraintImpl.TYPE_ONLY_READABLE_BY) {
-      return NO_PROBLEM;
-    }
+    //if (CoCon.getCoConType()!=MContextbasedConstraintImpl.TYPE_ONLY_READABLE_BY) {
+    //  return NO_PROBLEM;
+    //}
 
     //get ConstrainedElements
   //  MContextCondition constrainedCondition = CoCon.getConstrainedSet();

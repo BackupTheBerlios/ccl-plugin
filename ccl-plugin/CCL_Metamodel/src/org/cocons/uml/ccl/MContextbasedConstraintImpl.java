@@ -7,7 +7,6 @@ import ru.novosoft.uml.foundation.core.*;
 import org.cocons.uml.ccl.ccldata.*;
 import org.cocons.uml.ccl.util.*;
 import org.cocons.argo.util.ModelIterator;
-import org.cocons.uml.ccl.xml.CCLXMLParserImpl;
 
 /**
  * The implementation of a Contextbased Constraint (CoCon).
