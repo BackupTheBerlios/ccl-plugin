@@ -35,7 +35,7 @@ public class TestCrSetToValueIn extends junit.framework.TestCase {
 	ComparisonImpl sComp = new ComparisonImpl();
 
 	ComparatorFactory cf = new ComparatorFactoryImpl();
-	
+
 	MContextPropertyValueImpl twoContract = new MContextPropertyValueImpl();
 	MContextPropertyValueImpl logfile = new MContextPropertyValueImpl();
 	MContextPropertyTag workflow = new MContextPropertyTagImpl();
@@ -65,7 +65,7 @@ public static void main(java.lang.String[] args) {
 public void setUp() {
 
 	setUpCoCon();
-	setUpProject();	
+	setUpProject();
 
 }
 /**
@@ -81,7 +81,7 @@ private void setUpCoCon() {
 	sComp = new ComparisonImpl();
 
 	cf = new ComparatorFactoryImpl();
-	
+
 	twoContract = new MContextPropertyValueImpl();
 	logfile = new MContextPropertyValueImpl();
 	workflow = new MContextPropertyTagImpl();
@@ -95,19 +95,19 @@ private void setUpCoCon() {
 	anotherValue.setValue("'X'");
 	anotherValue.setContextPropertyTag(anotherTag);
 
-	
+
 	// target tree
 	workflow.setTag("`Workflow'");
 	twoContract.setValue("`Integrate Two Contracts'");
-	twoContract.setContextPropertyTag(workflow);	
-	
+	twoContract.setContextPropertyTag(workflow);
+
 	tComp.setTag(workflow.getTag());
 	tComp.setComparator(cf.produceComparatorWithType(cf.CONTAINS));
 	tComp.setValue(twoContract.getValue());
 
 	targetSet.setBaseClass(BaseClasses.INTERFACE);
 	targetSet.setComparison(tComp);
-	
+
 	// scope tree
 	history.setTag("`<<Configure>> Historization'");
 	logfile.setValue("`To Local Logfile'");
@@ -120,28 +120,28 @@ private void setUpCoCon() {
 	scopeSet.setBaseClass(BaseClasses.ELEMENT);
 	scopeSet.setComparison(sComp);
 
-	cocon.setTargetContextCondition(targetSet);
+	cocon.setTargetSetContextCondition(targetSet);
 	cocon.setCoConType(CoConTypes.SET_TO_VALUE_IN_TYPE);
-	cocon.setScopeContextCondition(scopeSet);
+	cocon.setScopeSetContextCondition(scopeSet);
 }
 /**
  * Sets the project up for this test.
  * Creation date: (15.01.2002 18:09:18)
  */
 private void setUpProject() {
-	
+
 	project = new Project();
 	MNamespaceImpl model = new MNamespaceImpl();
-			
+
 	// generate four model elements that follow the constraint rules.
 	MFactory factory = new MFactoryImpl();
 	MModelElement[] elements = new MModelElement[4];
-	
+
 	// two elements with the given context property value:
 	elements[0] = factory.createInterface();
 	elements[1] = factory.createInterface();
 
-	
+
 	elements[0].addTaggedValue(workflow);
 	elements[0].addTaggedValue(logfile);
 
@@ -157,12 +157,12 @@ private void setUpProject() {
 	try {
 		project.addModel(model);
 	} catch (PropertyVetoException pve) {
-		fail("Failure while building up the example project. Reason: " + pve); 	
-	}			
+		fail("Failure while building up the example project. Reason: " + pve);
+	}
 }
 /**
  * Tests the critic with an example expressing:
- * Every remote procedure call (RPC) belonging to the 
+ * Every remote procedure call (RPC) belonging to the
  * workflow `Integrate Two Contracts' must be recorded in a log-file"
  * Creation date: (15.01.2002 15:26:29)
  */
@@ -171,18 +171,18 @@ public void testWithExamples() {
 
 	// The example expressed in ccl:
 	// ALL INTERFACES WHERE `Workflow' CONTAINS `Integrate Two Contracts'
-	// MUST BE SetToValueIn IN 
+	// MUST BE SetToValueIn IN
 	// ALL ELEMENTS WITH `<<Configure>> Historization' = `To Local Logfile'
 
-	
-	// tests the predicate method with all elements of the project.	
+
+	// tests the predicate method with all elements of the project.
 
 	CrSetToValueIn critic = new CrSetToValueIn();
-	Vector iterator = new ModelIterator().getAllModelElements(project);
+	Vector iterator = new ModelIterator().getAllModelElements();
 
 	for (int i = 0; i < iterator.size(); i++){
 		assertTrue(! critic.predicate(iterator, null));
 	}
-	
+
 }
 }
