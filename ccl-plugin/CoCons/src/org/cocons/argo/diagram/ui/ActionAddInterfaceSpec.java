@@ -57,7 +57,7 @@ public class ActionAddInterfaceSpec extends UMLAction {
         }
       }
     }
-    _jp.show(_c,0,0);
+    _jp.show(_c,100,100);
   }
 
   protected MStereotype findStereotype(String name) {
