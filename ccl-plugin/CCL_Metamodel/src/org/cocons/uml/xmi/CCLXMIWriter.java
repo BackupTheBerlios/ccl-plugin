@@ -399,12 +399,13 @@ public class CCLXMIWriter extends XMIWriter {
       print(arg.getBody(), false, "Foundation.Data_Types.BooleanExpression");
       dh.endElement("Foundation.Core.Constraint.body");
     }
-    if (null != arg.getPriority())
-    {
-      dh.startElement("CoCons.Uml.Ccl.ContextbasedConstraint.priority", al);
-      characters( arg.getPriority().toString() );
-      dh.endElement("CoCons.Uml.Ccl.ContextbasedConstraint.priority");
-    }
+//  Disabled: Priority attribute doesn't exist any longer.
+//     if (null != arg.getPriority())
+//     {
+//       dh.startElement("CoCons.Uml.Ccl.ContextbasedConstraint.priority", al);
+//       characters( arg.getPriority().toString() );
+//       dh.endElement("CoCons.Uml.Ccl.ContextbasedConstraint.priority");
+//     }
     printXMIExtension(arg);
     if (null != arg.getNamespace())
     {

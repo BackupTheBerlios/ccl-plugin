@@ -1,4 +1,5 @@
 package org.cocons.uml.ccl;
+import java.util.Collection;
 
 import ru.novosoft.uml.foundation.core.*;
 import java.util.Vector;
@@ -11,25 +12,37 @@ import java.util.Vector;
  */
 public interface MContextbasedConstraint extends MConstraint {
   // Fields
-  /**
-   * Gets the value of the attribute Priority.
-   *
-   * @return current value of the Priority attribute
-   */
-  public Integer getPriority();
-  /**
-   * Sets the value of the attribute Priority.
-   *
-   * @param __arg value to set the Priority to
-   */
-  public void setPriority(Integer __arg);
+	/** Gets the collection containing the meta-attributes
+	 *  (of class MAttribute) of association "Detail"
+	 *
+	 * @return Detail attribute
+	 */
+	Collection getDetails();
+	/**
+	 * Sets the "Detail" meta-attribute
+	 *
+	 * @param __arg new Detail of the instance
+	 */	
+	void setDetails(Collection __arg);
+	/**
+	 * Adds one detail attribute
+	 *
+	 * @param __arg meta-attribute to get added
+	 */
+	void addDetail(MAttribute __arg);
+	/**
+	 * Removes one detail attribute
+	 *
+	 * @param __arg meta-attribute to get removed
+	 */	
+	void removeDetail(MAttribute __arg);
   /**
    * Gets the link of the association scopeSet(ContextCondition)
    * / scopedConstraint(ContextbasedConstraint).
    *
    * @return current ScopeSet of the instance
    */
-  MContextCondition getScopeSet();
+	MContextCondition getScopeSet();
   /**
    * Sets the link of the association scopeSet(ContextCondition)
    * / scopedConstraint(ContextbasedConstraint).

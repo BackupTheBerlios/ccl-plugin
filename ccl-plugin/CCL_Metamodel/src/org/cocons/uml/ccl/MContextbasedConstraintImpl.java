@@ -24,44 +24,146 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
  */
   public MContextbasedConstraintImpl() {
   }
-  // ///////////////////////////
-  //
-  //   Attribute Priority
-  //
-  // ///////////////////////////
-  Integer _priority=null;
-  private final static Method _priority_setMethod = getMethod1(MContextbasedConstraintImpl.class, "setPriority", Integer.class);
+	// ///////////////////////////
+	//
+	// association detail(MAttribute)
+	//             / NONE(ContextbasedConstraint)
+	//
+	// ///////////////////////////
+	
 
-  /**
-   * Gets the value of the attribute Priority.
-   *
-   * @return current value of the Priority attribute
-   */
-  public Integer getPriority()
-  {
-    checkExists();
-    return _priority;
-  }
-  /**
-   * Sets the value of the attribute Priority.
-   *
-   * @param __arg value to set the Priority to
-   */
-  public void setPriority(Integer __arg)
-  {
-    operationStarted();
-    try
-    {
-      checkExists();
-      logAttrSet(_priority_setMethod, _priority, __arg);
-      fireAttrSet("priority", _priority, __arg);
-      _priority = __arg;
-    }
-    finally
-    {
-      operationFinished();
-    }
-  }
+	// reflective method fields (Detail)
+	private final static Method
+		_details_setMethod = 
+		getMethod1(MContextbasedConstraintImpl.class, "setDetails", Collection.class);
+	private final static Method
+		_details_addMethod =
+		getMethod1(MContextbasedConstraintImpl.class, "addDetail", MAttribute.class);
+	private final static Method
+		_details_removeMethod = 
+		getMethod1(MModelElementImpl.class, "removeDetail", MAttribute.class);
+	
+	// data fields (Detail)
+	Collection _details       = Collections.EMPTY_LIST;
+	Collection _details_ucopy = Collections.EMPTY_LIST;
+
+	// methods (Detail)
+	public final Collection getDetails()
+	{
+		checkExists();
+		if (null == _details_ucopy)
+			{
+				_details_ucopy = ucopy(_details);
+			}
+		return _details_ucopy;
+	}
+	public final void setDetails(Collection __arg)
+	{
+		// no need for the usual bag-diff-checks
+		// and internalRefByX stuff, because "detail"
+		// has no opposite role
+		operationStarted();
+		try
+			{
+				checkExists();
+				if (__arg == null)
+					{
+						throw new NullPointerException();
+					}
+				final boolean sendEvent = needEvent();
+				final boolean logForUndo = needUndo();
+				Collection old = null;
+				if (sendEvent || logForUndo)
+					{
+						old = getDetails();
+					}
+				_details_ucopy = null;
+				_details = new ArrayList(__arg);
+				if (logForUndo)
+					{
+						logBagSet(_details_setMethod, old, getDetails());
+					}
+				if (sendEvent)
+					{
+						fireBagSet("detail", old, getDetails());
+					}
+			}
+		finally
+			{
+				operationFinished();
+			}
+	}
+	public final void addDetail(MAttribute __arg)
+	{
+		operationStarted();
+		try
+			{
+				checkExists();
+				if (__arg == null)
+					{
+						throw new NullPointerException();
+					}
+				final boolean sendEvent = needEvent();
+				Collection old = null;
+				if (sendEvent)
+					{
+						old = getDetails();
+					}
+				if (null != _details_ucopy)
+					{
+						_details = new ArrayList(_details);
+						_details_ucopy = null;
+					}
+				_details.add(__arg);
+				logBagAdd(_details_addMethod, _details_removeMethod, __arg);
+				if (sendEvent)
+					{
+						fireBagAdd("details", old, getDetails(), __arg);
+					}
+			}
+		finally
+			{
+				operationFinished();
+			}
+	}
+	public final void removeDetail(MAttribute __arg)
+	{
+		operationStarted();
+		try
+			{
+				checkExists();
+				if (__arg == null)
+					{
+						throw new NullPointerException();
+					}
+				final boolean sendEvent = needEvent();
+				Collection old = null;
+				if (sendEvent)
+					{
+						old = getDetails();
+					}
+				if (null != _details_ucopy)
+					{
+						_details = new ArrayList(_details);
+						_details_ucopy = null;
+					}
+				if (!_details.remove(__arg))
+					{
+						throw new RuntimeException("removing not added object");
+					}
+				logBagRemove(_details_removeMethod, _details_addMethod, __arg);
+				if (sendEvent)
+					{
+						fireBagRemove("details", old, getDetails(), __arg);
+					}
+			}
+		finally
+			{
+				operationFinished();
+			}
+	}
+
+
 
   // ///////////////////////////
   //
@@ -236,10 +338,14 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
    */
   public Object reflectiveGetValue(String feature)
   {
-    if ("priority".equals(feature))
-    {
-      return getPriority();
-    }
+//     if ("priority".equals(feature))
+//     {
+//       return getPriority();
+//     }
+	  if ( "detail".equals(feature))
+		  {
+			  return getDetails();
+		  }
     if ("scopeSet".equals(feature))
     {
       return getScopeSet();
@@ -262,11 +368,16 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
    */
   public void reflectiveSetValue(String feature, Object obj)
   {
-    if ("priority".equals(feature))
-    {
-      setPriority((Integer)obj);
-      return;
-    }
+//     if ("priority".equals(feature))
+//     {
+//       setPriority((Integer)obj);
+//       return;
+//     }
+	  if( "detail".equals(feature))
+		  {
+			  setDetails((Collection)obj);
+			  return;
+		  }
     if ("scopeSet".equals(feature))
     {
       setScopeSet((MContextCondition)obj);
@@ -291,6 +402,11 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
    */
   public void reflectiveAddValue(String feature, Object obj)
   {
+	  if( "detail".equals(feature) )
+		  {
+			  addDetail((MAttribute)obj);
+			  return;
+		  }
     super.reflectiveAddValue(feature, obj);
   }
 
@@ -305,6 +421,11 @@ public class MContextbasedConstraintImpl extends MConstraintImpl
    */
   public void reflectiveRemoveValue(String feature, Object obj)
   {
+	  if( "detail".equals(feature) )
+		  {
+			  removeDetail((MAttribute)obj);
+			  return;
+		  }
     super.reflectiveRemoveValue(feature, obj);
   }
 

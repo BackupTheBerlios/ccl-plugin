@@ -371,8 +371,9 @@ public class CCLXMIReader extends XMIReader {
       String lastName = p_name.substring(38);
       if (lastName.equals("priority"))
       {
-        o.setPriority(new Integer(lastString.toString()));
-        return true;
+			System.out.println("WARNING: CCLXMIReader.java: DISABLED PRIORITY READING.\n");
+			//o.setPriority(new Integer(lastString.toString()));
+			return true;
       }
     }
     return false;
