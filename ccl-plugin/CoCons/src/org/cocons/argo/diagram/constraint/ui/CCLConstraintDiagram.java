@@ -239,25 +239,25 @@ public class CCLConstraintDiagram extends CCLDiagram {
 
 
 		//ali-to-do: ensure all cocons write their contents *now* to the body
-		System.out.println("CCLConstraintDiagram.preSave()");
-		org.cocons.uml.xmi.PostLoadProjectUpdate.SINGLETON.dumpDiagrams();
-
-		System.out.println("MY ELEMENTS:");
-		java.util.Enumeration enum = elements();
-		while( enum.hasMoreElements() )
-		 	{
-				Object o = enum.nextElement();
-				System.out.println("  " + o.getClass() + ": " + o );
-				if( o instanceof Fig )
-					{ 
-						Object o2 = ((Fig)o).getOwner();
-						if( o2 == null )
-							System.out.println("  Owner: null");
-						else
-							System.out.println("  Owner:" + o2.getClass() );
-					}
+//		System.out.println("CCLConstraintDiagram.preSave()");
+//		org.cocons.uml.xmi.PostLoadProjectUpdate.SINGLETON.dumpDiagrams();
+//
+//		System.out.println("MY ELEMENTS:");
+//		java.util.Enumeration enum = elements();
+//		while( enum.hasMoreElements() )
+//		 	{
+// 				Object o = enum.nextElement();
+// 				System.out.println("  " + o.getClass() + ": " + o );
+// 				if( o instanceof Fig )
+// 					{ 
+// 						Object o2 = ((Fig)o).getOwner();
+// 						if( o2 == null )
+// 							System.out.println("  Owner: null");
+// 						else
+// 							System.out.println("  Owner:" + o2.getClass() );
+// 					}
 				
-			}
+// 			}
 	}
 	
 
