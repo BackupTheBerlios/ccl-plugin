@@ -285,7 +285,11 @@ public class MContextbasedConstraintImpl
          * @return the CCL String that defines the target set.
          */
         public String getTargetSetCCLString() {
-          return _targetSet.toString();
+          if (_targetSet==null) {
+            return null;
+          } else {
+            return _targetSet.toString();
+          }
         }
 
         /**
@@ -294,7 +298,11 @@ public class MContextbasedConstraintImpl
          * @return the CCL String that defines the scope set.
          */
         public String getScopeSetCCLString() {
-          return _scopeSet.toString();
+          if (_scopeSet==null) {
+            return null;
+          } else {
+            return _scopeSet.toString();
+          }
         }
 
         /**
