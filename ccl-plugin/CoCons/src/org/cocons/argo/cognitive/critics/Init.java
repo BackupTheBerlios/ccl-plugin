@@ -34,5 +34,6 @@ public class Init implements Runnable {
   java.lang.Class cls = MModelElementImpl.class;
     Agency.register(new CrSetToValueIn(), cls);
     Agency.register(new CrNotAllowedToExistIn(), cls);
+    Agency.register(new CrNotTheSameAs(), cls);
   }
 }
