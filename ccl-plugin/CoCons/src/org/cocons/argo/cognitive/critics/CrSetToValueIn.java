@@ -18,18 +18,18 @@ public class CrSetToValueIn extends CrCoCon {
 	 * Constructs this Critic.
 	 */
 	public CrSetToValueIn() {
-                super();
-                // set headline
-	        setHeadline("Bruch eines SetToValueIn Cocons");
+		super();
+		// set headline
+		setHeadline("Bruch eines SetToValueIn Cocons");
 
-	        // set description
-	        setDescription("Das von einem SetToValueIn Cocon aufgestellte " +
-                "kontextbasierendes Constraint wurde verletzt.");
-        }
+		// set description
+		setDescription(
+			"Das von einem SetToValueIn Cocon aufgestellte " + "kontextbasierendes Constraint wurde verletzt."); 
+	}
 
 	/**
-         * Predicate showing weather this critic found a problem in the
-         * argouml-model or not.
+	 * Predicate showing weather this critic found a problem in the
+	 * argouml-model or not.
 	 * @return boolean true if a SetToValueIn-Contextbased Constraint is violated.
 	 */
 	public boolean predicate(Object dm, org.argouml.cognitive.Designer dsgr) {
@@ -37,13 +37,13 @@ public class CrSetToValueIn extends CrCoCon {
 		if (dm instanceof MContextbasedConstraint) {
 			MContextbasedConstraint cocon = (MContextbasedConstraint) dm;
 			return predicate(cocon);
-                }
+		}
 		return NO_PROBLEM;
 	}
 
 	/**
 	 * Checks weather the given Contextbased Constraint has the type SetToValueIn
-         * and if that's the case if it is violated within the argouml-model.
+	 * and if that's the case if it is violated within the argouml-model.
 	 * Creation date: (15.01.2002 13:09:34)
 	 * @return boolean true - if the given cocon is violated.
 	 * @param cocon org.cocons.uml.ccl.MContextbasedConstraint a SetToValueInCocon
@@ -53,16 +53,29 @@ public class CrSetToValueIn extends CrCoCon {
 		//the constraint is violated, if a model element of the target set
 		// is not in the scoped set.
 
-                if (cocon.getCoConType().equals(CoConTypes.SET_TO_VALUE_IN_TYPE)) {
-		  Vector targetSet = cocon.getTargetElements();
-		  Vector scopeSet = cocon.getScopedElements();
+		if (cocon.getCoConType().equals(CoConTypes.SET_TO_VALUE_IN_TYPE)) {
+			Vector targetSet = cocon.getTargetElements();
+			Vector scopeSet = cocon.getScopedElements();
 
-		  for (int t = 0; t < targetSet.size(); t++) {
-		  	if (!scopeSet.contains(targetSet.elementAt(t))) {
-				return PROBLEM_FOUND;
+			// to avoid nullpointers
+			if(targetSet == null) {
+				return NO_PROBLEM;
+			} 
+			if(scopeSet == null) {
+				if(targetSet.size() > 0) {
+					return PROBLEM_FOUND;
+				} else {
+					return NO_PROBLEM;
+				}
 			}
-		  }
-                }
+
+			// the check
+			for (int t = 0; t < targetSet.size(); t++) {
+				if (!scopeSet.contains(targetSet.elementAt(t))) {
+					return PROBLEM_FOUND;
+				}
+			}
+		}
 
 		return NO_PROBLEM;
 	}
