@@ -338,7 +338,9 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
 
     <!-- create directories -->
     <mkdir dir="${build.dest}"/>
-
+    <copy todir="${build.dest}/org/cocons/argo/Images">
+      <fileset dir="${cocons.src.dir}/org/cocons/argo/Images" includes="**/**" excludes="CVS/**" />
+    </copy>
     <javac 
            destdir="${build.dest}"
            classpath="${classpath}"
@@ -388,6 +390,9 @@ value="${JAVA_HOME}/lib/tools.jar:${argouml.lib.dir}/ocl-argo.jar:${argouml.lib.
   <target name="compile-onestep" depends="argobase-prepare, argobase-prerequisites, make-dependencies,assert-castor-available,assert-cmlmapping-available">
 
     <echo message="Compiling all the sources at once"/>
+    <copy todir="${build.dest}/org/cocons/argo/Images">
+      <fileset dir="${cocons.src.dir}/org/cocons/argo/Images" includes="**/**" excludes="CVS/**" />
+    </copy>
 
     <javac 
            destdir="${build.dest}"
