@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionChoiceItemDescriptor.java,v 1.1 2002/02/06 12:11:20 ali Exp $
+ * $Id: CoConSetConditionUnionDescriptor.java,v 1.1 2002/02/08 16:08:27 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,9 +24,9 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/06 12:11:20 $
+ * @version $Revision: 1.1 $ $Date: 2002/02/08 16:08:27 $
 **/
-public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class CoConSetConditionUnionDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -46,8 +46,9 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
      //- Constructors -/
     //----------------/
 
-    public CoConSetConditionChoiceItemDescriptor() {
+    public CoConSetConditionUnionDescriptor() {
         super();
+        xmlName = "CoConSetConditionUnion";
         XMLFieldDescriptorImpl  desc           = null;
         XMLFieldHandler         handler        = null;
         FieldValidator          fieldValidator = null;
@@ -64,14 +65,14 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
-                CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                 return target.getCoConSetConditionQuerySingleValue();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                     target.setCoConSetConditionQuerySingleValue( (CoConSetConditionQuerySingleValue) value);
                 }
                 catch (Exception ex) {
@@ -98,14 +99,14 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
-                CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                 return target.getCoConSetConditionQuerySet();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                     target.setCoConSetConditionQuerySet( (CoConSetConditionQuerySet) value);
                 }
                 catch (Exception ex) {
@@ -132,14 +133,14 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
             public Object getValue( Object object ) 
                 throws IllegalStateException
             {
-                CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                 return target.getCoConSetConditionQueryProperty();
             }
             public void setValue( Object object, Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    CoConSetConditionChoiceItem target = (CoConSetConditionChoiceItem) object;
+                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
                     target.setCoConSetConditionQueryProperty( (CoConSetConditionQueryProperty) value);
                 }
                 catch (Exception ex) {
@@ -160,7 +161,75 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
         fieldValidator.setMinOccurs(1);
         desc.setValidator(fieldValidator);
         
-    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionChoiceItemDescriptor()
+        //-- _coConSetConditionUnion
+        desc = new XMLFieldDescriptorImpl(CoConSetConditionUnion.class, "_coConSetConditionUnion", "CoConSetConditionUnion", NodeType.Element);
+        handler = (new XMLFieldHandler() {
+            public Object getValue( Object object ) 
+                throws IllegalStateException
+            {
+                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
+                return target.getCoConSetConditionUnion();
+            }
+            public void setValue( Object object, Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
+                    target.setCoConSetConditionUnion( (CoConSetConditionUnion) value);
+                }
+                catch (Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public Object newInstance( Object parent ) {
+                return new CoConSetConditionUnion();
+            }
+        } );
+        desc.setHandler(handler);
+        desc.setRequired(true);
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _coConSetConditionUnion
+        fieldValidator = new FieldValidator();
+        fieldValidator.setMinOccurs(1);
+        desc.setValidator(fieldValidator);
+        
+        //-- _coConSetConditionIntersection
+        desc = new XMLFieldDescriptorImpl(CoConSetConditionIntersection.class, "_coConSetConditionIntersection", "CoConSetConditionIntersection", NodeType.Element);
+        handler = (new XMLFieldHandler() {
+            public Object getValue( Object object ) 
+                throws IllegalStateException
+            {
+                CoConSetConditionUnion target = (CoConSetConditionUnion) object;
+                return target.getCoConSetConditionIntersection();
+            }
+            public void setValue( Object object, Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    CoConSetConditionUnion target = (CoConSetConditionUnion) object;
+                    target.setCoConSetConditionIntersection( (CoConSetConditionIntersection) value);
+                }
+                catch (Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public Object newInstance( Object parent ) {
+                return new CoConSetConditionIntersection();
+            }
+        } );
+        desc.setHandler(handler);
+        desc.setRequired(true);
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _coConSetConditionIntersection
+        fieldValidator = new FieldValidator();
+        fieldValidator.setMinOccurs(1);
+        desc.setValidator(fieldValidator);
+        
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnionDescriptor()
 
 
       //-----------/
@@ -192,7 +261,7 @@ public class CoConSetConditionChoiceItemDescriptor extends org.exolab.castor.xml
     **/
     public java.lang.Class getJavaClass()
     {
-        return org.cocons.uml.ccl.ccldata.CoConSetConditionChoiceItem.class;
+        return org.cocons.uml.ccl.ccldata.CoConSetConditionUnion.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**

@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetCondition.java,v 1.1 2002/02/06 12:11:20 ali Exp $
+ * $Id: CoConSetCondition.java,v 1.2 2002/02/08 16:08:27 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -23,7 +23,7 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/06 12:11:20 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
 **/
 public class CoConSetCondition implements java.io.Serializable {
 
@@ -36,7 +36,7 @@ public class CoConSetCondition implements java.io.Serializable {
 
     private java.util.Vector _coConSetConditionRestrictionList;
 
-    private java.util.Vector _coConSetConditionChoiceList;
+    private CoConSetConditionChoice _coConSetConditionChoice;
 
 
       //----------------/
@@ -46,34 +46,12 @@ public class CoConSetCondition implements java.io.Serializable {
     public CoConSetCondition() {
         super();
         _coConSetConditionRestrictionList = new Vector();
-        _coConSetConditionChoiceList = new Vector();
     } //-- org.cocons.uml.ccl.ccldata.CoConSetCondition()
 
 
       //-----------/
      //- Methods -/
     //-----------/
-
-    /**
-     * 
-     * @param vCoConSetConditionChoice
-    **/
-    public void addCoConSetConditionChoice(CoConSetConditionChoice vCoConSetConditionChoice)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _coConSetConditionChoiceList.addElement(vCoConSetConditionChoice);
-    } //-- void addCoConSetConditionChoice(CoConSetConditionChoice) 
-
-    /**
-     * 
-     * @param index
-     * @param vCoConSetConditionChoice
-    **/
-    public void addCoConSetConditionChoice(int index, CoConSetConditionChoice vCoConSetConditionChoice)
-        throws java.lang.IndexOutOfBoundsException
-    {
-        _coConSetConditionChoiceList.insertElementAt(vCoConSetConditionChoice, index);
-    } //-- void addCoConSetConditionChoice(int, CoConSetConditionChoice) 
 
     /**
      * 
@@ -98,51 +76,17 @@ public class CoConSetCondition implements java.io.Serializable {
 
     /**
     **/
-    public java.util.Enumeration enumerateCoConSetConditionChoice()
-    {
-        return _coConSetConditionChoiceList.elements();
-    } //-- java.util.Enumeration enumerateCoConSetConditionChoice() 
-
-    /**
-    **/
     public java.util.Enumeration enumerateCoConSetConditionRestriction()
     {
         return _coConSetConditionRestrictionList.elements();
     } //-- java.util.Enumeration enumerateCoConSetConditionRestriction() 
 
     /**
-     * 
-     * @param index
     **/
-    public CoConSetConditionChoice getCoConSetConditionChoice(int index)
-        throws java.lang.IndexOutOfBoundsException
+    public CoConSetConditionChoice getCoConSetConditionChoice()
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _coConSetConditionChoiceList.size())) {
-            throw new IndexOutOfBoundsException();
-        }
-        
-        return (CoConSetConditionChoice) _coConSetConditionChoiceList.elementAt(index);
-    } //-- CoConSetConditionChoice getCoConSetConditionChoice(int) 
-
-    /**
-    **/
-    public CoConSetConditionChoice[] getCoConSetConditionChoice()
-    {
-        int size = _coConSetConditionChoiceList.size();
-        CoConSetConditionChoice[] mArray = new CoConSetConditionChoice[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (CoConSetConditionChoice) _coConSetConditionChoiceList.elementAt(index);
-        }
-        return mArray;
-    } //-- CoConSetConditionChoice[] getCoConSetConditionChoice() 
-
-    /**
-    **/
-    public int getCoConSetConditionChoiceCount()
-    {
-        return _coConSetConditionChoiceList.size();
-    } //-- int getCoConSetConditionChoiceCount() 
+        return this._coConSetConditionChoice;
+    } //-- CoConSetConditionChoice getCoConSetConditionChoice() 
 
     /**
      * 
@@ -222,28 +166,10 @@ public class CoConSetCondition implements java.io.Serializable {
 
     /**
     **/
-    public void removeAllCoConSetConditionChoice()
-    {
-        _coConSetConditionChoiceList.removeAllElements();
-    } //-- void removeAllCoConSetConditionChoice() 
-
-    /**
-    **/
     public void removeAllCoConSetConditionRestriction()
     {
         _coConSetConditionRestrictionList.removeAllElements();
     } //-- void removeAllCoConSetConditionRestriction() 
-
-    /**
-     * 
-     * @param index
-    **/
-    public CoConSetConditionChoice removeCoConSetConditionChoice(int index)
-    {
-        Object obj = _coConSetConditionChoiceList.elementAt(index);
-        _coConSetConditionChoiceList.removeElementAt(index);
-        return (CoConSetConditionChoice) obj;
-    } //-- CoConSetConditionChoice removeCoConSetConditionChoice(int) 
 
     /**
      * 
@@ -258,30 +184,11 @@ public class CoConSetCondition implements java.io.Serializable {
 
     /**
      * 
-     * @param index
-     * @param vCoConSetConditionChoice
+     * @param coConSetConditionChoice
     **/
-    public void setCoConSetConditionChoice(int index, CoConSetConditionChoice vCoConSetConditionChoice)
-        throws java.lang.IndexOutOfBoundsException
+    public void setCoConSetConditionChoice(CoConSetConditionChoice coConSetConditionChoice)
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _coConSetConditionChoiceList.size())) {
-            throw new IndexOutOfBoundsException();
-        }
-        _coConSetConditionChoiceList.setElementAt(vCoConSetConditionChoice, index);
-    } //-- void setCoConSetConditionChoice(int, CoConSetConditionChoice) 
-
-    /**
-     * 
-     * @param coConSetConditionChoiceArray
-    **/
-    public void setCoConSetConditionChoice(CoConSetConditionChoice[] coConSetConditionChoiceArray)
-    {
-        //-- copy array
-        _coConSetConditionChoiceList.removeAllElements();
-        for (int i = 0; i < coConSetConditionChoiceArray.length; i++) {
-            _coConSetConditionChoiceList.addElement(coConSetConditionChoiceArray[i]);
-        }
+        this._coConSetConditionChoice = coConSetConditionChoice;
     } //-- void setCoConSetConditionChoice(CoConSetConditionChoice) 
 
     /**

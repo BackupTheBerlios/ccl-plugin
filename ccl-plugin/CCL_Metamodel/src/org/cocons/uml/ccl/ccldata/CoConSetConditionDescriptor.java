@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionDescriptor.java,v 1.1 2002/02/06 12:11:20 ali Exp $
+ * $Id: CoConSetConditionDescriptor.java,v 1.2 2002/02/08 16:08:27 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/06 12:11:20 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
 **/
 public class CoConSetConditionDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -128,8 +128,8 @@ public class CoConSetConditionDescriptor extends org.exolab.castor.xml.util.XMLC
         fieldValidator = new FieldValidator();
         desc.setValidator(fieldValidator);
         
-        //-- _coConSetConditionChoiceList
-        desc = new XMLFieldDescriptorImpl(CoConSetConditionChoice.class, "_coConSetConditionChoiceList", "-error-if-this-is-used-", NodeType.Element);
+        //-- _coConSetConditionChoice
+        desc = new XMLFieldDescriptorImpl(CoConSetConditionChoice.class, "_coConSetConditionChoice", "-error-if-this-is-used-", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public Object getValue( Object object ) 
                 throws IllegalStateException
@@ -142,7 +142,7 @@ public class CoConSetConditionDescriptor extends org.exolab.castor.xml.util.XMLC
             {
                 try {
                     CoConSetCondition target = (CoConSetCondition) object;
-                    target.addCoConSetConditionChoice( (CoConSetConditionChoice) value);
+                    target.setCoConSetConditionChoice( (CoConSetConditionChoice) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -154,10 +154,10 @@ public class CoConSetConditionDescriptor extends org.exolab.castor.xml.util.XMLC
         } );
         desc.setHandler(handler);
         desc.setContainer(true);
-        desc.setMultivalued(true);
+        desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _coConSetConditionChoiceList
+        //-- validation code for: _coConSetConditionChoice
         fieldValidator = new FieldValidator();
         desc.setValidator(fieldValidator);
         

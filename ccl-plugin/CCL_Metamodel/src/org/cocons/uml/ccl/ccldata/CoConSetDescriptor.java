@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetDescriptor.java,v 1.1 2002/02/06 12:11:20 ali Exp $
+ * $Id: CoConSetDescriptor.java,v 1.2 2002/02/08 16:08:27 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -24,7 +24,7 @@ import org.exolab.castor.xml.validators.*;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2002/02/06 12:11:20 $
+ * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
 **/
 public class CoConSetDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

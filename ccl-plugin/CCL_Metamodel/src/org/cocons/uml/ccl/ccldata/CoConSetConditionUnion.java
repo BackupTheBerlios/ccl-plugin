@@ -2,7 +2,7 @@
  * This class was automatically generated with 
  * <a href="http://castor.exolab.org">Castor 0.9.3</a>, using an
  * XML Schema.
- * $Id: CoConSetConditionChoice.java,v 1.2 2002/02/08 16:08:27 ali Exp $
+ * $Id: CoConSetConditionUnion.java,v 1.1 2002/02/08 16:08:27 ali Exp $
  */
 
 package org.cocons.uml.ccl.ccldata;
@@ -21,9 +21,9 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * 
- * @version $Revision: 1.2 $ $Date: 2002/02/08 16:08:27 $
+ * @version $Revision: 1.1 $ $Date: 2002/02/08 16:08:27 $
 **/
-public class CoConSetConditionChoice implements java.io.Serializable {
+public class CoConSetConditionUnion implements java.io.Serializable {
 
 
       //--------------------------/
@@ -45,9 +45,9 @@ public class CoConSetConditionChoice implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public CoConSetConditionChoice() {
+    public CoConSetConditionUnion() {
         super();
-    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionChoice()
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnion()
 
 
       //-----------/
@@ -173,11 +173,11 @@ public class CoConSetConditionChoice implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.cocons.uml.ccl.ccldata.CoConSetConditionChoice unmarshal(java.io.Reader reader)
+    public static org.cocons.uml.ccl.ccldata.CoConSetConditionUnion unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
-        return (org.cocons.uml.ccl.ccldata.CoConSetConditionChoice) Unmarshaller.unmarshal(org.cocons.uml.ccl.ccldata.CoConSetConditionChoice.class, reader);
-    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionChoice unmarshal(java.io.Reader) 
+        return (org.cocons.uml.ccl.ccldata.CoConSetConditionUnion) Unmarshaller.unmarshal(org.cocons.uml.ccl.ccldata.CoConSetConditionUnion.class, reader);
+    } //-- org.cocons.uml.ccl.ccldata.CoConSetConditionUnion unmarshal(java.io.Reader) 
 
     /**
     **/
